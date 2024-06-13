@@ -1,3 +1,11 @@
+#Password Vault v3.1
+#
+#Change log:
+#- As outlined in PEP 506, use of the random module has been replaced with the secrets module
+# as it is more cryptographically sound due to its less predicable nature.
+#- Redesigned the password generation process to use the String module, the use of unicode 
+# integer point values in selecting possible values worked but was a very crude solution.
+
 import base64
 from cryptography.fernet import Fernet
 from datetime import datetime
