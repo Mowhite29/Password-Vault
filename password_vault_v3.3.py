@@ -1,11 +1,12 @@
-import random
 import base64
+from cryptography.fernet import Fernet
 from datetime import datetime
 from datetime import timedelta
 import time
 import tkinter as tk
 from tkinter import messagebox
-from cryptography.fernet import Fernet
+import secrets
+import string
     
 class Display:
     def __init__(self, display):
@@ -285,33 +286,32 @@ class Display:
         tk.Label(self.about_window, text="moses.white@outlook.com").grid(
                                                 column=0, row=2, sticky='w')
 
-    def new_password(self, length, case, num, symbols, non, name, day,
-                        vault_file, url=None):
+    def new_password(self, length, case, num, symbols, disallowed_symbols,
+                     name, day, vault_file, url=None):
         try:
             self.__chars = []
             self.__passw = []
             self.__first = ""
             self.__last = ""
-            self.gen(length, 97, 122)
+            self.gen(length, string.ascii_lowercase)
             if case:
-                self.gen(length, 65, 90)
+                self.gen(length, string.ascii_uppercase)
             if num:
-                self.gen(length, 48, 57)
+                self.gen(length, string.digits)
             if symbols:
-                self.gen((length//4), 33, 47)
-                self.gen((length//4), 58, 64)
-                self.gen((length//4), 91, 96)
-                self.gen((length//4), 123, 126)
-            if non != '':
-                self.__non = list(non)
-                for i in range((len(self.__non))-1):
-                    if self.__non[i] == " ":
-                        del(self.__non[i])
-                self.bad_char(self.__non)
-            random.shuffle(self.__chars)
+                self.gen(length, string.punctuation)
+                
+            if disallowed_symbols != '':
+                disallowed_symbols.replace(' ', '')
+                for i in range(len(self.__chars)):
+                    if self.__chars [i] in list(disallowed_symbols):
+                        del(self.__chars[i])
+
+            self.__chars = ''.join(self.__chars)
             for i in range(length):
-                self.__passw.append(chr(random.choice(self.__chars)))
+                self.__passw.append(secrets.choice(str(self.__chars)))
             self.out = "".join(self.__passw)
+            
             if messagebox.askyesno("New Password", "New password is "
                     + self.out + "\n Would you like to save to vault?"):
                 file_open = open(vault_file, 'rb')
@@ -330,15 +330,9 @@ class Display:
             messagebox.showerror("Error",
                             "Must open a vault before \n creating a password!")
                            
-    def gen(self, num, first, last):
-        self.num = num
-        for i in range(self.num):
-            self.__chars.append(random.randint(first, last))
-    
-    def bad_char(self, non):
-        for i in range((len(self.__chars))-1):
-            if self.__chars[i] in non:
-                del(self.__chars[i])
+    def gen(self, num, pool):
+        for i in range(num):
+            self.__chars.append(secrets.choice(pool))
 
     def expiry(self, day):
         self.expire = datetime.now() + timedelta(days=int(day))
@@ -415,12 +409,3 @@ class Display:
 root= tk.Tk()
 output = Display(root)
 root.mainloop()
-
-
-
-
-
-
-
-
-
