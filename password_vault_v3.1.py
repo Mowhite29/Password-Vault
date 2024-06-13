@@ -1,10 +1,12 @@
 #Password Vault v3.1
 #
 #Change log:
-#- As outlined in PEP 506, use of the random module has been replaced with the secrets module
-# as it is more cryptographically sound due to its less predicable nature.
-#- Redesigned the password generation process to use the String module, the use of unicode 
-# integer point values in selecting possible values worked but was a very crude solution.
+#-As outlined in PEP 506, use of the random module has been replaced with the
+# secrets module as it is more cryptographically sound due to its less
+# predicable nature.
+#-Redesigned the password generation process to use the String module, the use
+# of unicode integer point values in selecting possible values worked but was a
+# very crude solution.
 
 import base64
 from cryptography.fernet import Fernet
@@ -28,23 +30,19 @@ class Display:
         self.sub_menu_file = tk.Menu(self.main_menu, tearoff=0)
         self.main_menu.add_cascade(label="File", menu=self.sub_menu_file,
                                     underline=0)
-        self.sub_menu_file.add_command(label="New Vault", accelerator="Ctrl+N", underline=0,
-                                        command=self.new_vault_pop_out)
+        self.sub_menu_file.add_command(label="New Vault",
+            accelerator="Ctrl+N", underline=0, command=self.new_vault_pop_out)
         self.sub_menu_file.add_separator()
-        self.sub_menu_file.add_command(label="Open Vault", accelerator="Ctrl+O", underline=0,
-                                        command=self.open_vault_pop_out)
+        self.sub_menu_file.add_command(label="Open Vault",
+            accelerator="Ctrl+O", underline=0, command=self.open_vault_pop_out)
         self.sub_menu_file.add_separator()
         self.sub_menu_file.add_command(label="Quit", accelerator="Ctrl+Q",
-                                        underline=0,
-                                       command=lambda : self.are_you_sure())
+                            underline=0, command=lambda : self.are_you_sure())
         self.sub_menu_help = tk.Menu(self.main_menu, tearoff=0)
         self.main_menu.add_cascade(label="Help", menu=self.sub_menu_help,
-                                    underline=0)
-        self.sub_menu_help.add_command(label="How-To", underline=0,
-                                        command=self.how_to)
-        self.sub_menu_help.add_separator()
+                                                                underline=0)
         self.sub_menu_help.add_command(label="About", underline=0,
-                                        command=self.about)
+                                                            command=self.about)
         #Label frames
         self.label_frame_0 = tk.LabelFrame(display, text="Vault Manager",
                                         labelanchor='n', width=512, height=200)
@@ -55,7 +53,7 @@ class Display:
         #Password manager options
         self.vault_file = tk.StringVar()
         self.vault_entry_label = tk.Label(self.label_frame_0,
-                                          text="Enter vault file name")
+                                                text="Enter vault file name")
         self.vault_file_var = tk.StringVar()
         self.vault_entry = tk.Entry(self.label_frame_0,
                                     textvariable=self.vault_file_var, width=20)
@@ -64,24 +62,24 @@ class Display:
         self.vault_new = tk.Button(self.label_frame_0, text="Create Vault",
                     command=lambda : self.new_vault(self.vault_file_var.get()))
         self.encryption_key_entry_label = tk.Label(self.label_frame_0,
-                                                   text="Enter vault encryption key")
+                                            text="Enter vault encryption key")
         self.encryption_key = tk.StringVar()
         self.encryption_key_entry = tk.Entry(self.label_frame_0,
                                     textvariable=self.encryption_key, width=20)
 
         #User enters username and url to generate new password for.
         self.url_label = tk.Label(self.label_frame_1,
-                                    text="URL/Website that password \n is to be used for")
+                        text="URL/Website that password \n is to be used for")
         self.url_var = tk.StringVar()
         self.url_entry = tk.Entry(self.label_frame_1,
-                                    textvariable=self.url_var, width=50)
+                                        textvariable=self.url_var, width=50)
         self.account_label = tk.Label(self.label_frame_1, text="Username used")
         self.account_var = tk.StringVar() 
         self.account_entry = tk.Entry(self.label_frame_1,
                                     textvariable=self.account_var, width=32)
         #Password generator options.
         self.length_label = tk.Label(self.label_frame_1,
-                                        text="Enter password length")
+                                                text="Enter password length")
         self.length_var = tk.IntVar()
         self.length_entry = tk.Entry(self.label_frame_1,
                                         textvariable=self.length_var, width=10)
@@ -98,30 +96,30 @@ class Display:
         self.numbers_var = tk.BooleanVar()
         self.numbers_var.set(True)
         self.numbers_button_1 = tk.Radiobutton(self.label_frame_1, text="Yes",
-                                          variable=self.numbers_var,
-                                               value=True)
+                                                    variable=self.numbers_var,
+                                                                    value=True)
         self.numbers_button_2 = tk.Radiobutton(self.label_frame_1, text="No",
                                       variable=self.numbers_var, value=False)
         self.symbols_label = tk.Label(self.label_frame_1,
-                                        text="Include symbols?")
+                                                    text="Include symbols?")
         self.symbols_var = tk.BooleanVar()
         self.symbols_var.set(True)
         self.symbols_button_1 = tk.Radiobutton(self.label_frame_1, text="Yes",
-                                    variable=self.symbols_var, value=True)
+                                        variable=self.symbols_var, value=True)
         self.symbols_button_2 = tk.Radiobutton(self.label_frame_1, text="No",
-                                    variable=self.symbols_var, value=False)
+                                        variable=self.symbols_var, value=False)
         self.neg_symbols_label = tk.Label(self.label_frame_1,
-                        text="If yes to symbols, \n are any unable to be used?")
+                    text="If yes to symbols, \n are any unable to be used?")
         self.neg_symbols_var = tk.StringVar()
         self.neg_symbols_entry = tk.Entry(self.label_frame_1,
                                             textvariable=self.neg_symbols_var)        
         self.expiry_label = tk.Label(self.label_frame_1,
-                            text="After how may days \n should password expire?")
+                        text="After how may days \n should password expire?")
         self.expiry_var = tk.IntVar()
         self.expiry_entry = tk.Entry(self.label_frame_1,
                                         textvariable=self.expiry_var, width=10)
         self.generate_button = tk.Button(self.label_frame_1, text="Generate",
-                        command=lambda : self.new_password(
+                            command=lambda : self.new_password(
                             self.length_var.get(), self.upper_case_var.get(),
                             self.numbers_var.get(), self.symbols_var.get(),
                             self.neg_symbols_var.get(), self.account_var.get(),
@@ -133,8 +131,8 @@ class Display:
         self.password_lookup_entry = tk.Entry(self.label_frame_2,
                             textvariable=self.password_lookup_var, width=50)
         self.password_lookup_button = tk.Button(self.label_frame_2,
-                        text="Search", command=lambda : self.retrieve_password(
-                                                        self.vault_file.get(),
+                text="Search", command=lambda : self.retrieve_password(
+                                                self.vault_file.get(),
                                                 self.password_lookup_var.get()
                                                                             ))
         self.expired_password = tk.BooleanVar()
@@ -254,7 +252,7 @@ class Display:
             file_open.close()
             self.vault_file.set(vault_name)
             messagebox.showinfo("Vault opened",
-                                "Password Vault opened successfully")
+                                        "Password Vault opened successfully")
 
         except FileNotFoundError:
             messagebox.showerror("Vault not found",
@@ -266,22 +264,18 @@ class Display:
         self.open_vault_window = tk.Toplevel(root)
         self.open_vault_window.title('Create new Vault')
         self.open_vault_window.geometry('200x200')
-        self.open_vault_window_label = tk.Label(self.open_vault_window, text="Enter vault name").grid(
-                                                            column=0, row=0)
+        self.open_vault_window_label = tk.Label(self.open_vault_window,
+                                text="Enter vault name").grid(column=0, row=0)
         self.open_vault_window_entry = tk.Entry(self.open_vault_window,
                         textvariable=self.vault_file_var).grid(column=0, row=1)
-        self.open_vault_window_button = tk.Button(self.open_vault_window, text="Open Vault",
-            command=lambda : self.open_vault(self.vault_file_var.get())).grid(
-                                                column=0, row=2)
-
+        self.open_vault_window_button = tk.Button(self.open_vault_window,
+                    text="Open Vault", command=lambda : self.open_vault(
+                            self.vault_file_var.get())).grid(column=0, row=2)
 
     def are_you_sure(self, event=None):
         if messagebox.askyesno("",
                 "Are you sure that you want \n to close the password vault?"):
             root.destroy()
-
-    def how_to(self):
-        pass
 
     def about(self):
         self.about_window = tk.Toplevel(root)
@@ -291,11 +285,9 @@ class Display:
                                                 column=0, row=0, sticky='w')
         tk.Label(self.about_window, text="https://github.com/Mowhite29").grid(
                                                 column=0, row=1, sticky='w')
-        tk.Label(self.about_window, text="moses.white@outlook.com").grid(
-                                                column=0, row=2, sticky='w')
 
     def new_password(self, length, case, num, symbols, disallowed_symbols,
-                     name, day, vault_file, url=None):
+                                        name, day, vault_file, url=None):
         try:
             self.__chars = []
             self.__passw = []
@@ -321,7 +313,7 @@ class Display:
             self.out = "".join(self.__passw)
             
             if messagebox.askyesno("New Password", "New password is "
-                    + self.out + "\n Would you like to save to vault?"):
+                        + self.out + "\n Would you like to save to vault?"):
                 file_open = open(vault_file, 'rb')
                 file_decrypted = str(self.decryption(file_open.read()))
                 file_decrypted += (url.upper() + ' ' + name + ' '
