@@ -1,0 +1,6 @@
+/backend/vault/.env
+/.venv
+/backend/tests
+/frontend/node_modules
+/mobile/node_modules
+/mobile/.vscode

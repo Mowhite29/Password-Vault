@@ -1,0 +1,157 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs: 
+  backend:
+      name: Backend CI (Django)
+      runs-on: ubuntu-latest
+
+      services:
+        postgres:
+          image: postgres:15
+          env:
+            POSTGRES_DB: ${{ secrets.POSTGRES_NAME }}
+            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_HOST: postgres
+            POSTGRES_PORT: 5432
+          ports: ['5432:5432']
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+      
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Python
+          uses: actions/setup-python@v5
+
+        - name: Install dependancies
+          run: |
+            cd backend
+            python -m pip install --upgrade pip
+            pip install -r requirements-dev.txt
+
+        - name: Run Bandit (security static code analysis)
+          run: |
+            cd backend
+            bandit -r vault
+
+        - name: Run Flake8 (formatting linter)
+          run: |
+            cd backend
+            flake8 vaultapi --exclude=migrations,__pycache__,templates \
+                            --extend-ignore=E127,E128,E501
+
+
+        - name: Run Django Tests
+          env:
+            DJANGO_SETTINGS_MODULE: vault.settings
+            POSTGRES_DB: ${{ secrets.POSTGRES_NAME }}
+            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_HOST: postgres
+            POSTGRES_PORT: 5432
+          run: |
+            cd backend
+            python manage.py migrate
+            python manage.py test
+
+  frontend:
+    name: Frontend CI (React)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install frontend dependancies
+        run: |
+          cd frontend
+          npm install
+
+      # - name: Run Semgrep
+      #   uses: returntocorp/semgrep-action@v1
+      #   with:
+      #     config: "p/javascript"
+          
+      - name: Run ESLint with security rules (Formatting and security)
+        run: |
+          cd frontend
+          npm run lint src
+
+      - name: Run Prettier (Formatting)
+        run: |
+          cd frontend
+          npx prettier . --check
+
+      - name: Run npm audit (Dependancy vulnerability Scanning)
+        run: |
+          cd frontend
+          npm audit --audit-level=high
+
+      - name: Run Retire.js (JS library vulnerability detection)
+        run: |
+          npm install -g retire
+          cd frontend
+          retire --exitwith 13
+
+
+  mobile:
+    name: Mobile CI (React Native)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd mobile
+          npm install
+
+      - name: Run ESLint with security rules (Formatting and security)
+        run: |
+          cd mobile
+          npx eslint .
+
+      # - name: Run Semgrep
+      #   uses: returntocorp/semgrep-action@v1
+      #   with:
+      #     config: "p/javascript"
+
+      - name: Run npm audit (Dependancy vulnerability Scanning)
+        run: |
+          cd mobile
+          npm audit --audit-level=high
+
+      - name: Run Retire.js (JS library vulnerability detection)
+        run: |
+          npm install -g retire
+          cd mobile
+          retire --exitwith 13
+
+      # - name: Run Jest Tests
+      #   run: |
+      #     cd mobile
+      #     npm test
+
+
