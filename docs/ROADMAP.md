@@ -5,17 +5,19 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 ---
 
 ## Phase 1: MVP Completion
+
 - [x] User registration & login with JWT
 - [x] Vault CRUD operations
 - [ ] AES encryption for stored passwords
-- [ ] PostgreSQL integration
-- [x] Responsive React UI
+- [x] PostgreSQL integration
+- [ ] Responsive React UI
 - [ ] Basic password strength checker
-- [x] GitHub documentation and initial deployment
+- [ ] GitHub documentation and initial deployment
 
 ---
 
 ## Phase 2: Security & UX Enhancements
+
 - [ ] Auto-logout on inactivity
 - [ ] Add Two-Factor Authentication (2FA) using TOTP or email
 - [ ] Add user activity logging (e.g., last login, IP address)
@@ -26,6 +28,7 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 ---
 
 ## Phase 3: Mobile & Cross-Platform
+
 - [ ] Build **React Native** version of the app for iOS and Android
 - [ ] Add biometric login via Face ID / fingerprint (React Native only)
 - [ ] Sync vaults between devices using encrypted cloud storage
@@ -35,6 +38,7 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 ---
 
 ## Phase 4: Advanced Features
+
 - [ ] Tagging and categorization (e.g., Work, Banking, Social)
 - [ ] Advanced search and filtering by tag, keyword, or date
 - [ ] Vault item history & versioning (audit trail)
@@ -43,6 +47,7 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 ---
 
 ## Phase 5: Infrastructure & DevOps
+
 - [ ] Add CI/CD pipelines with GitHub Actions for automated testing and deployment
 - [ ] Integrate unit and integration testing (Pytest + React Testing Library)
 - [ ] Add database migrations tracking with Alembic or Django Migrations
