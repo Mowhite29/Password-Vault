@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
@@ -19,6 +20,7 @@ from .serializers import (
 
 
 class RegisterView(APIView):
+    throttle_classes = [AnonRateThrottle]
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -75,6 +77,7 @@ class RegisterView(APIView):
 
 
 class EmailVerifyView(APIView):
+    throttle_classes = [AnonRateThrottle]
     def get(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
@@ -96,6 +99,7 @@ class EmailVerifyView(APIView):
 
 class VaultView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def get(self, request):
         # Retrieve password list
@@ -174,6 +178,7 @@ class VaultView(APIView):
 
 class PasswordChange(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def post(self, request):
         serializer = PasswordChangeSerializer(data=request.data)
@@ -227,6 +232,7 @@ class PasswordChange(APIView):
 
 
 class PasswordReset(APIView):
+    throttle_classes = [AnonRateThrottle]
 
     def post(self, request):
         serializer = PasswordChangeSerializer(data=request.data)
@@ -286,6 +292,8 @@ class PasswordReset(APIView):
 
 
 class PasswordChangeConfirm(APIView):
+    throttle_classes = [AnonRateThrottle]
+    
     def post(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
