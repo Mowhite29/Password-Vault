@@ -7,7 +7,7 @@ This is the frontend React application for the Password Vault project. It provid
 - User authentication (login, registration)
 - Password vault display and management
 - Client-side encryption of sensitive data
-- Responsive UI built with React and Tailwind CSS
+- Responsive UI built with React and Sass
 - API integration with backend services
 
 ## Tech Stack
@@ -30,8 +30,8 @@ This is the frontend React application for the Password Vault project. It provid
 1. Clone the repository and navigate to the frontend directory:
 
 ```bash
-git clone https://github.com/Mowhite29/Password-Vault-Project.git
-cd password-vault-project/frontend
+git clone https://github.com/Mowhite29/Password-Vault.git
+cd password-vault/frontend
 ```
 
 2. Install dependencies:
@@ -97,12 +97,11 @@ src/
 
 ## API Endpoints
 
-The mobile application communicates with the backend API to manage passwords. Here are the key endpoints:
+The application communicates with the backend API to manage passwords. Here are the key endpoints:
 
-- **GET** `/api/passwords` – Fetch all passwords.
-- **POST** `/api/passwords` – Add a new password.
-- **GET** `/api/passwords/{id}` – Fetch a password by ID.
-- **PUT** `/api/passwords/{id}` – Update a password by ID.
-- **DELETE** `/api/passwords/{id}` – Delete a password by ID.
+- **GET** `/vault` – Fetch all passwords.
+- **POST** `/vault` – Add a new password.
+- **PUT** `/vault` – Update a password.
+- **DELETE** `/vault` – Delete a password.
 
 Authentication is handled via JWT tokens, which should be included in the headers of each request.

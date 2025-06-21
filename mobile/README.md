@@ -5,7 +5,6 @@ This is the frontend React Native/Expo application for the Password Vault Projec
 ## Features
 
 - Biometric Authentication using fingerprint or face recognition
-- Offline Access
 - Cross-Platform Sync
 - Secure Storage
 - Modern UI/UX
@@ -30,8 +29,8 @@ This is the frontend React Native/Expo application for the Password Vault Projec
 1. Clone the repository and navigate to the frontend directory:
 
 ```bash
-git clone https://github.com/Mowhite29/Password-Vault-Project.git
-cd password-vault-project/mobile
+git clone https://github.com/Mowhite29/Password-Vault.git
+cd password-vault/mobile
 ```
 
 2. Install dependencies:
@@ -101,11 +100,9 @@ mobile/
 
 The mobile application communicates with the backend API to manage passwords. Here are the key endpoints:
 
-- **GET** `/api/passwords` – Fetch all passwords.
-- **POST** `/api/passwords` – Add a new password.
-- **GET** `/api/passwords/{id}` – Fetch a password by ID.
-- **PUT** `/api/passwords/{id}` – Update a password by ID.
-- **DELETE** `/api/passwords/{id}` – Delete a password by ID.
+- **GET** `/vault` – Fetch all passwords.
+- **POST** `/vault` – Add a new password.
+- **PUT** `/vault` – Update a password.
+- **DELETE** `/vault` – Delete a password.
 
 Authentication is handled via JWT tokens, which should be included in the headers of each request.
-

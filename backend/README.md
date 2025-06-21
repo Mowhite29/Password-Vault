@@ -1,6 +1,6 @@
 # Password Vault - Backend
 
-This is the backend API for the Password Vault project, built with Django REST Framework. It handles user authentication, password data storage, and encryption logic.
+This is the backend API for the Password Vault project, built with Django REST Framework. It handles user authentication and password data storage.
 
 ## Features
 
@@ -15,8 +15,6 @@ This is the backend API for the Password Vault project, built with Django REST F
 - Django REST Framework
 - PostgreSQL database
 - PyJWT for token handling
-- Cryptography library for encryption
-- Docker (optional)
 
 ## Getting Started
 
@@ -31,8 +29,8 @@ This is the backend API for the Password Vault project, built with Django REST F
 1. Clone the repository and navigate to the backend directory:
 
 ```bash
-git clone https://github.com/Mowhite29/Password-Vault-Project.git
-cd password-vault-project/backend
+git clone https://github.com/Mowhite29/Password-Vault.git
+cd password-vault/backend
 ```
 
 2. Create and activate a virtual environment:
@@ -46,7 +44,7 @@ venv\Scripts\activate     # Windows
 3. Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 4. Create a `.env` file with required environment variables (example in `.env.example`):
@@ -80,7 +78,7 @@ The API will be available at `http://localhost:8000`.
 Run backend tests with:
 
 ```bash
-python manage.py test tests
+python manage.py test
 ```
 
 ## API Endpoints
@@ -157,7 +155,7 @@ returns status 200 with:
 
 ```
 
-- **PUT** `/api/vault/` - Edit a saved password
+- **PUT** `/vault/` - Edit a saved password
 
 ```bash
 requests.put(

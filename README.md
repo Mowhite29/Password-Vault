@@ -1,6 +1,6 @@
 # Password Vault
 
-A full-stack, secure password management application built with React.js (frontend) and Django REST Framework or FastAPI (backend). This project is designed to showcase client-side encryption, RESTful API integration, authentication, and a clean, responsive UI.
+A full-stack, secure password management application built with React.js (frontend) and Django REST Framework (backend). This project is designed to showcase client-side encryption, RESTful API integration, authentication, and a clean, responsive UI.
 
 ## Features
 
@@ -14,21 +14,24 @@ A full-stack, secure password management application built with React.js (fronte
 ## Tech Stack
 
 **Frontend:**
+
 - React.js
+- React Native/Expo
 - Sass
 - Axios
 - React Router
 
 **Backend:**
-- Django REST Framework / FastAPI
+
+- Django REST Framework
 - PostgreSQL
 - JWT (JSON Web Tokens)
-- Python Cryptography
 
 ## Repositories
 
-- 🔗 [Frontend Repo](https://github.com/Mowhite29/Password-Vault-Project/tree/main/frontend)
-- 🔗 [Backend Repo](https://github.com/Mowhite29/Password-Vault-Project/tree/main/backend)
+- [Frontend Repo](https://github.com/Mowhite29/Password-Vault/tree/main/frontend)
+- [Mobile Repo](https://github.com/Mowhite29/Password-Vault/tree/main/mobile)
+- [Backend Repo](https://github.com/Mowhite29/Password-Vault/tree/main/backend)
 
 ## Getting Started
 
@@ -37,7 +40,7 @@ Each component (frontend and backend) has its own setup instructions in its resp
 ### 1. Clone Repositories
 
 ```bash
-git clone https://github.com/Mowhite29/Password-Vault-Project.git
+git clone https://github.com/Mowhite29/Password-Vault.git
 ```
 
 ### 2. Run Backend
@@ -51,8 +54,10 @@ Follow the frontend README instructions to install dependencies and start the de
 ## Folder Structure
 
 ```bash
-password-vault-project/
+password-vault/
 ├── frontend/          # React.js frontend
+│   └── README.md
+├── mobile/          # React Native frontend
 │   └── README.md
 ├── backend/           # Django backend
 │   └── README.md
@@ -64,3 +69,6 @@ password-vault-project/
 
 - [Roadmap](./docs/ROADMAP.md)
 - [Skill Showcase](./docs/SKILLS.md)
+- [Security Considerations](./docs/SECURITY_CONSIDERATIONS.md)
+- [Testing](./docs/TESTING.md)
+- [Original Project](./docs/ORIGINAL_PROJECT.md)
