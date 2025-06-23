@@ -5,9 +5,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import (
-    VaultView, RegisterView,
-    PasswordChange, PasswordChangeConfirm,
-    EmailVerifyView, PasswordReset,
+    VaultView, RegisterView, RegisterViewDemo,
+    PasswordChange, PasswordChangeDemo, PasswordChangeConfirm,
+    EmailVerifyView, PasswordReset, PasswordResetDemo
 )
 
 urlpatterns = [
@@ -16,13 +16,13 @@ urlpatterns = [
     path('api/token/refresh/',
          TokenRefreshView.as_view(), name='token_refresh'),
     path('vault/', VaultView.as_view(), name='VaultView'),
-    path('user/', RegisterView.as_view(), name='RegisterView'),
+    path('user/', RegisterViewDemo.as_view(), name='RegisterView'),
     path('verify-email/<uidb64>/<token>/',
          EmailVerifyView.as_view(), name='EmailVerifyView'),
     path('password-change-request/',
-         PasswordChange.as_view(), name='PasswordChange'),
+         PasswordChangeDemo.as_view(), name='PasswordChange'),
     path('password-reset-request/',
-         PasswordReset.as_view(), name='PasswordReset'),
+         PasswordResetDemo.as_view(), name='PasswordReset'),
     path('password-change-confirm/<uidb64>/<token>/',
          PasswordChangeConfirm.as_view(), name='PasswordChangeConfirm'),
 ]
