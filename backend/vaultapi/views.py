@@ -21,6 +21,7 @@ from .serializers import (
 
 class RegisterView(APIView):
     throttle_classes = [AnonRateThrottle]
+
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -76,8 +77,28 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class RegisterViewDemo(APIView):
+    throttle_classes = [AnonRateThrottle]
+
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            activation_link = (
+                f"{settings.FRONTEND_URL}/verify-email/{uid}/{token}"
+            )
+            return Response(activation_link, user, user.email,
+                            status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class EmailVerifyView(APIView):
     throttle_classes = [AnonRateThrottle]
+
     def get(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
@@ -231,6 +252,25 @@ class PasswordChange(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class PasswordChangeDemo(APIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
+
+    def post(self, request):
+        serializer = PasswordChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+            password_change_url = (
+                f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
+            return Response(password_change_url, user, user.email,
+                            status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class PasswordReset(APIView):
     throttle_classes = [AnonRateThrottle]
 
@@ -291,9 +331,32 @@ class PasswordReset(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class PasswordResetDemo(APIView):
+    throttle_classes = [AnonRateThrottle]
+
+    def post(self, request):
+        serializer = PasswordChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            username = request.data.get('username')
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return Response({"detail": "User not found"},
+                                status=status.HTTP_404_NOT_FOUND)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+            password_change_url = (
+                f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
+            return Response(password_change_url, user, user.email,
+                                    status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class PasswordChangeConfirm(APIView):
     throttle_classes = [AnonRateThrottle]
-    
+
     def post(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
