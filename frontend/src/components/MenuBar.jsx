@@ -11,7 +11,7 @@ export default function MenuBar(signedIn, SignInOut) {
     setOpen(() => !open);
   }
 
-  if (deviceType === 'touchOnly') {
+  if (deviceType === "touchOnly") {
     return (
       <div className={open ? "menuContainerOpen" : "menuContainer"}>
         <div className="staticMenuBar">
