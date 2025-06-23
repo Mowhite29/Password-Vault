@@ -15,9 +15,9 @@ jobs:
         postgres:
           image: postgres:15
           env:
-            POSTGRES_DB: ${{ secrets.POSTGRES_NAME }}
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB: ${{ secrets.DATABSE_NAME }}
+            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
             POSTGRES_HOST: postgres
             POSTGRES_PORT: 5432
           ports: ['5432:5432']
@@ -55,9 +55,9 @@ jobs:
         - name: Run Django Tests
           env:
             DJANGO_SETTINGS_MODULE: vault.settings
-            POSTGRES_DB: ${{ secrets.POSTGRES_NAME }}
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
             POSTGRES_HOST: postgres
             POSTGRES_PORT: 5432
           run: |
