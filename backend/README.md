@@ -216,6 +216,23 @@ returns status 200 with:
 {"message": "user created"}
 ```
 
+- **POST** `/user/` - Create a new user vault DEMO VERSION
+
+```bash
+requests.post(
+    "http://localhost:8000/user/", 
+    json = {
+        "username": "username", 
+        "first_name": "first_name",
+        "last_name": "last_name",  # Can be left blank
+        "email": "email", 
+        "password": "password"
+    }
+)
+returns status 200 with:
+{'url': activation_link, 'user': user, 'email': user.email}
+```
+
 - **GET** `/verify-email/` - Verify email address
 
 ```bash
@@ -243,7 +260,40 @@ returns status 200 with:
 {"detail":"A confirmation email has been sent to your email address."}
 ```
 
+- **POST** `/password-change-request` - Request a password change email DEMO VERSION
+
+```bash
+requests.post(
+    "http://localhost:8000/password-change-request/", 
+    json: {
+        "username": "username"
+    },
+    headers = {
+        "Authorization": "Bearer token", 
+        "Content-Type": "application/json"
+    }
+)
+returns status 200 with:
+{'url': password_change_url, 'user': user, 'email': user.email}
+```
+
 - **POST** `/password-reset-request` - Request a password reset email
+
+```bash
+requests.post(
+    "http://localhost:8000/password-reset-request/", 
+    json: {
+        "username": "username"
+    },
+    headers = {
+        "Content-Type": "application/json"
+    }
+)
+returns status 200 with:
+{'url': password_change_url, 'user': user, 'email': user.email}
+```
+
+- **POST** `/password-reset-request` - Request a password reset email DEMO VERSION
 
 ```bash
 requests.post(
