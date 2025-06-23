@@ -2,6 +2,12 @@
 
 A full-stack, secure password management application built with React.js (frontend) and Django REST Framework (backend). This project is designed to showcase client-side encryption, RESTful API integration, authentication, and a clean, responsive UI.
 
+## Important Notice
+
+This project is not intended for production use. It is provided as a demonstration of software development abilities only.
+
+**So not store real passwords or sensitive information in this system. No security guarantees are provided, and the author accepts no liability for misuse or data loss.**
+
 ## Features
 
 - Secure user registration and login with JWT
