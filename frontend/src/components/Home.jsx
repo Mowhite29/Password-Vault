@@ -7,7 +7,7 @@ export default function Home(signedIn, SignInOut) {
   return (
     <>
       <HeaderBar />
-      <MenuBar signedIn={signedIn} SignInOut={SignInOut}/>
+      <MenuBar signedIn={signedIn} SignInOut={SignInOut} />
     </>
   );
 }
