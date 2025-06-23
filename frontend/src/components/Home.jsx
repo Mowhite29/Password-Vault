@@ -1,5 +1,6 @@
 import {} from "react";
+import "../styles/Home.scss";
 
-function Home() {}
-
-export default Home;
+export default function Home() {
+  return <></>;
+}
