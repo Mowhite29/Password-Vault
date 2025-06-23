@@ -188,6 +188,32 @@ The main negative aspect of this method are all related to using client-side ren
 
 Another downside to my application design is that it will be reliant on an active internet connection is order to function. On the other hand, if the user cannot connect to the internet to access their passwords, they are unlikely to be able to acces other service that said passwords are required for.
 
+## Password Checking
+
+A new problem with my data flow is that it currently provides no option for checking that the master key entered is correct. This means that if a user enters the wrong key while adding a new password to their vault, that password will then be irrecoverable unless the wrong version of the key is entered for the decryption process.
+
+While the current procedure ensure a zero knowledge approach, it is not user friendly. I would like to implement a checking system to ensure that user has not entered the wrong key while maintaining zero knowledge.
+
+### Solution
+
+At user creation:
+
+1. User enters their master key, which i will use to generate a hash with a per user generated salt
+2. Users email address is then hashed using a new per user generated salt to generate a known string
+3. Known string is then encrypted using hash as key and a nonce.
+4. Cypher text, nonce and both salt strings are stored in database.
+
+When user adds a new password or wishes to decrypt one:
+
+1. Cypher text, nonce and both salts are recalled from database
+2. User enters master key, which along with their email address is hashed with their respective salts
+3. Cypher text is decrypted using hash derived from master key and nonce
+4. If decrypted hash matched hashed email address, master key match is confirmed
+
+- No users master key is present outside of their browser ensuring zero knowledge
+- Known string is not stored alongside cypher text which would offer an attacker an advantage when attempting to discover encryption key
+- Known string is per user for peace of mind
+
 ## Testing
 
 Security testing is covered in ```./TESTING.md```
