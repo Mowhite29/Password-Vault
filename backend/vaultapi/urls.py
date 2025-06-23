@@ -5,9 +5,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import (
-    VaultView, RegisterView, RegisterViewDemo,
-    PasswordChange, PasswordChangeDemo, PasswordChangeConfirm,
-    EmailVerifyView, PasswordReset, PasswordResetDemo
+    VaultView, RegisterViewDemo,
+    PasswordChangeDemo, PasswordChangeConfirm,
+    EmailVerifyView, PasswordResetDemo
 )
 
 urlpatterns = [
