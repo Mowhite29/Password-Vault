@@ -333,3 +333,64 @@ export async function VaultDelete(
       }
     });
 }
+
+export async function KeyFetch(accessToken) {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort());
+
+  const url = backEndURL + "/user/key/";
+  const authToken = "Bearer " + accessToken;
+
+  await axios
+    .get(url, {
+      headers: {
+        HTTP_AUTHORIZATION: authToken,
+      },
+      signal: AbortSignal.timeout(10000),
+    })
+    .then(function (response) {
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return false;
+      }
+    });
+}
+
+export async function KeyCreate(
+  encrypted_string,
+  salt1,
+  salt2,
+  nonce,
+  accessToken,
+) {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort());
+
+  const url = backEndURL + "/vault/";
+  const authToken = "Bearer " + accessToken;
+
+  await axios
+    .post(
+      url,
+      {
+        encrypted_string: encrypted_string,
+        salt: salt1,
+        salt2: salt2,
+        nonce: nonce,
+      },
+      {
+        headers: {
+          HTTP_AUTHORIZATION: authToken,
+        },
+        signal: AbortSignal.timeout(10000),
+      },
+    )
+    .then(function (response) {
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+}
