@@ -325,4 +325,37 @@ returns status 200 with:
 {"message":"password updated"}
 ```
 
+- **POST** `/user/key/` - Set user key
+
+```bash
+requests.post(
+    "http://localhost:8000/user/key/", 
+    json: {
+        "encrypted_string": "string", 
+        "salt1": "salt1", 
+        "salt2": "salt2", 
+        "nonce": "nonce"
+    },
+    headers = {
+        "Authorization": "Bearer token",
+        "Content-Type": "application/json"
+    }
+)
+returns status 200
+```
+
+- **Get** `/user/key/` - Get user key
+
+```bash
+requests.get(
+    "http://localhost:8000/user/key/", 
+    headers = {
+        "Authorization": "Bearer token",
+        "Content-Type": "application/json"
+    }
+)
+returns status 200 with:
+{"user":user,"encrypted_string":"string","salt1":"salt1","salt2":"salt2","nonce":"nonce"}
+```
+
 Authentication is handled via JWT tokens, which should be included in the headers of each request
