@@ -5,5 +5,6 @@
 **/.git
 **/.svn
 **/.hg
+**/.scss
 
 /prettierrc.js
