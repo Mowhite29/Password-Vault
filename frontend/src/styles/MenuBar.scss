@@ -1,5 +1,5 @@
 @media (min-width: 0px) {
-  .menuContainerm,
+  .menuContainer,
   .menuContainerOpen {
     width: 90%;
     display: flex;
@@ -20,6 +20,7 @@
       }
     }
     .mobileMenu {
+      justify-content: space-around;
     }
   }
 }
