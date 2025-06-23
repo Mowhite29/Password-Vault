@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.DJANGO_SECRET_KEY }}
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'vault.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'), # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.DATABASE_NAME }}
-        'USER': os.environ.get('DATABASE_USER'), # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.DATABASE_USER }}
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'), # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.PASSWORD }}
-        'HOST': os.environ.get('DATABASE_HOST', 'postgres'), # SET AND CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.DATABASE_HOST }}
-        'PORT': os.environ.get('DATABASE_PORT', '5432'), # SET AND CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.DATABASE_PORT }}
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST', 'postgres'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
     }
 }
 
@@ -159,8 +159,8 @@ CRSF_TRUSTED_ORIGINS = {
     'http://localhost'
 }
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID') # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.AWS_ACCESS_KEY_ID }}
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY') # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-AWS_REGION_NAME = os.getenv('AWS_REGION_NAME') # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.AWS_REGION_NAME }}
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.DEFAULT_FROM_EMAIL }}
-FRONTEND_URL = os.getenv('FRONTEND_URL') # CHANGE TO GITHUB SECRETS UPON DEPLOY ${{ secrets.FRONTEND_URL }}
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_REGION_NAME = os.getenv('AWS_REGION_NAME')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+FRONTEND_URL = os.getenv('FRONTEND_URL')
