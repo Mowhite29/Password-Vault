@@ -3,12 +3,7 @@ import { deviceType } from "detect-it";
 
 import "../styles/MenuBar.scss";
 
-export default function MenuBar({
-  signedIn,
-  screen,
-  SignInOut,
-  CurrentScreen,
-}) {
+export default function MenuBar({ signedIn, SignInOut, CurrentScreen }) {
   const [open, setOpen] = useState(false);
 
   function OpenMenu() {
