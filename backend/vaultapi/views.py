@@ -90,7 +90,8 @@ class RegisterViewDemo(APIView):
             activation_link = (
                 f"{settings.FRONTEND_URL}/verify-email/{uid}/{token}"
             )
-            return Response(activation_link, user, user.email,
+            return Response({'url': activation_link,
+                            'user': user, 'email': user.email},
                             status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -265,7 +266,8 @@ class PasswordChangeDemo(APIView):
 
             password_change_url = (
                 f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
-            return Response(password_change_url, user, user.email,
+            return Response({'url': password_change_url, 'user': user,
+                            'email': user.email},
                             status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -348,8 +350,9 @@ class PasswordResetDemo(APIView):
 
             password_change_url = (
                 f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
-            return Response(password_change_url, user, user.email,
-                                    status=status.HTTP_200_OK)
+            return Response({'url': password_change_url, 'user': user,
+                                'email': user.email},
+                                status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
