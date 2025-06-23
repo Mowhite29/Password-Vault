@@ -1,0 +1,29 @@
+
+@media (min-width: 0px) {
+  .menuContainerm, .menuContainerOpen {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+
+    .staticMenuBar {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        h1 {
+            justify-self: flex-start;
+        }
+        h2 {
+            justify-self: flex-end;
+        }
+    }
+    .mobileMenu {
+        
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+}
