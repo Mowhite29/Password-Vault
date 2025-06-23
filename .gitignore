@@ -1,5 +1,5 @@
 /backend/vault/.env
-/fontend/.env
+/frontend/.env
 /.venv
 /backend/tests
 /frontend/node_modules
