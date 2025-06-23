@@ -11,7 +11,10 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/vault/" element={<Vault />} />
       <Route path="/verify-email/:uidb64/:token" element={<VerifyEmail />} />
-      <Route path="/password-change-confirm/:uidb64/:token" element={<PasswordChange />} />
+      <Route
+        path="/password-change-confirm/:uidb64/:token"
+        element={<PasswordChange />}
+      />
     </Router>
   );
 }

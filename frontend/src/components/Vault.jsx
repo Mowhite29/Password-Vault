@@ -1,8 +1,3 @@
-
-export default function Vault(){
-
-    return(
-        <>
-        </>
-    )
+export default function Vault() {
+  return <></>;
 }
