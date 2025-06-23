@@ -15,7 +15,7 @@
     "argon2-browser": "^1.18.0",
     "argon2id": "^1.0.1",
     "axios": "^1.10.0",
-    "mobile-device-detect": "^0.4.3",
+    "detect-it": "^4.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",

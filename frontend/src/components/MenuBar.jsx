@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { isMobile } from "mobile-device-detect";
+import { deviceType } from "detect-it";
 import { redirect } from "react-router-dom";
 
 import "../styles/menuBar.scss";
@@ -11,7 +11,7 @@ export default function MenuBar(signedIn, SignInOut) {
     setOpen(() => !open);
   }
 
-  if (isMobile) {
+  if (deviceType === 'touchOnly') {
     return (
       <div className={open ? "menuContainerOpen" : "menuContainer"}>
         <div className="staticMenuBar">
