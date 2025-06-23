@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import VaultEntry, PasswordChange
+from .models import VaultEntry, PasswordChange, UserKeys
 
 
 class VaultSerializer(serializers.ModelSerializer):
@@ -25,6 +25,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.is_active = False
         user.save()
         return user
+
+
+class UserKeySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserKeys
+        fields = ['user', 'encrypted_string', 'salt1', 'salt2', 'nonce']
+        read_only_fields = ['user']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return UserKeys.objects.create(user=user, **validated_data)
 
 
 class UserSerializer(serializers.ModelSerializer):

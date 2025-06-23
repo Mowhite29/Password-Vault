@@ -12,10 +12,10 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils import timezone
 import boto3
 from botocore.exceptions import ClientError
-from .models import VaultEntry
+from .models import VaultEntry, UserKeys
 from .serializers import (
     VaultSerializer, RegisterSerializer,
-    PasswordChangeSerializer
+    PasswordChangeSerializer, UserKeySerializer
 )
 
 
@@ -117,6 +117,29 @@ class EmailVerifyView(APIView):
         return Response({"message":
                         "Email verified successfully. You can now log in."},
                         status=status.HTTP_200_OK)
+
+
+class UserKeysView(APIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+    def get(self, request):
+        # Retrieve user key information
+        try:
+            userKeys = UserKeys.objects.get(user=request.user)
+            serializer = UserKeySerializer(userKeys)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except UserKeys.DoesNotExist:
+            return Response({"error": "Entry not found"},
+                                status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request):
+        serializer = UserKeySerializer(data=request.data,
+                                       context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=400)
 
 
 class VaultView(APIView):

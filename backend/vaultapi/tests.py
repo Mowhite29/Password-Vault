@@ -112,3 +112,22 @@ class APITests(APITestCase):
             "DELETE request failed to return {'message': 'Password deleted'}")
         self.assertEqual(response3.data, {"error": "Entry not found"},
                 "GET request failed to return {'error': 'Entry not found'}")
+
+    def test_user_key_set(self):
+        url = reverse('UserKeys')
+        payload = {
+            "encrypted_string": "string", "salt1": "salt1",
+            "salt2": "salt2", "nonce": "nonce"}
+        response = self.client.post(url, payload, format='json',
+                         **self.auth_headers)
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_key_get(self):
+        url = reverse('UserKeys')
+        payload = {
+            "encrypted_string": "string", "salt1": "salt1",
+            "salt2": "salt2", "nonce": "nonce"}
+        self.client.post(url, payload, format='json',
+                         **self.auth_headers)
+        response = self.client.get(url, **self.auth_headers)
+        self.assertEqual(response.status_code, 200)

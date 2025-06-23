@@ -21,6 +21,16 @@ class VaultEntry(models.Model):
         return f"{self.label} ({self.user.username})"
 
 
+class UserKeys(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    encrypted_string = models.CharField(
+        help_text="Known string encrypted using users master key")
+    salt1 = models.TextField(blank=True,
+                             help_text='Known string padding salt')
+    salt2 = models.TextField(blank=True, help_text='Master key padding salt')
+    nonce = models.TextField(blank=True, help_text='Crypto nonce')
+
+
 class PasswordChange(models.Model):
     username = models.CharField(max_length=150)
     new_password = models.CharField()

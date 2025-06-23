@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
 from .views import (
     VaultView, RegisterViewDemo,
     PasswordChangeDemo, PasswordChangeConfirm,
-    EmailVerifyView, PasswordResetDemo
+    EmailVerifyView, PasswordResetDemo, UserKeysView
 )
 
 urlpatterns = [
@@ -17,6 +17,7 @@ urlpatterns = [
          TokenRefreshView.as_view(), name='token_refresh'),
     path('vault/', VaultView.as_view(), name='VaultView'),
     path('user/', RegisterViewDemo.as_view(), name='RegisterView'),
+    path('user/key/', UserKeysView.as_view(), name='UserKeys'),
     path('verify-email/<uidb64>/<token>/',
          EmailVerifyView.as_view(), name='EmailVerifyView'),
     path('password-change-request/',
