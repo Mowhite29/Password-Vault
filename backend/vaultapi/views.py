@@ -84,14 +84,14 @@ class RegisterViewDemo(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_link = (
                 f"{settings.FRONTEND_URL}/verify-email/{uid}/{token}"
             )
+
             return Response({'url': activation_link,
-                            'user': user, 'email': user.email},
+                            'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
