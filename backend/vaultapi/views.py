@@ -12,17 +12,21 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils import timezone
 import boto3
 from botocore.exceptions import ClientError
+import logging
 from .models import VaultEntry, UserKeys
 from .serializers import (
     VaultSerializer, RegisterSerializer,
     PasswordChangeSerializer, UserKeySerializer
 )
 
+logger = logging.getLogger(__name__)
+
 
 class RegisterView(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def post(self, request):
+        logger.info("Register endpoint accessed.")
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -64,16 +68,19 @@ class RegisterView(APIView):
 
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
+                logger.error(f'{user.username} {e.response['Error']['Message']}')
                 return Response(serializer.errors,
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 print(activation_link)
                 print(f"Email sent! Message ID: {response['MessageId']}")
+                logger.info(f'Confirmation email sent to {user.username}')
                 return Response({"detail":
                                 ("A confirmation email has been sent "
                                         "to your email address.")},
                 status=status.HTTP_200_OK)
 
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -81,16 +88,19 @@ class RegisterViewDemo(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def post(self, request):
+        logger.info("Register endpoint accessed.")
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
 
+            logger.info(f'Confirmation email sent to {user.username}')
             return Response({'uid': uid, 'token': token,
                             'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
 
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -98,19 +108,23 @@ class EmailVerifyView(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def get(self, request, uidb64, token):
+        logger.info("Email verification accessed.")
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            logger.error("Invalid activation link.")
             return Response({"detail": "Invalid activation link"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         if not default_token_generator.check_token(user, token):
+            logger.error(f'Invalid verification token for {user.username}')
             return Response({"detail": "Invalid or expired token"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         user.is_active = True
         user.save()
+        logger.info(f'{user.username} verified successfully.')
         return Response({"message":
                         "Email verified successfully. You can now log in."},
                         status=status.HTTP_200_OK)
@@ -121,26 +135,33 @@ class UserKeysView(APIView):
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def get(self, request):
+        logger.info("Get user key accessed.")
         # Retrieve user key information
         try:
             userKeys = UserKeys.objects.get(user=request.user)
             serializer = UserKeySerializer(userKeys)
+            logger.info(f'User key accessed by {userKeys.user.username}')
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserKeys.DoesNotExist:
+            logger.error(f'User {userKeys.user.username} attempted to access user key prior to it being set.')
             return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
+        logger.info("Set user key accessed.")
         serializer = UserKeySerializer(data=request.data,
                                        context={'request': request})
         if serializer.is_valid():
             try:
                 UserKeys.objects.get(user=request.user)
+                logger.error(f'User {request.user.username} attempted to set new user key.')
                 return Response({'error': 'Key already exists for this user'},
                                 status=status.HTTP_405_METHOD_NOT_ALLOWED)
             except UserKeys.DoesNotExist:
                 serializer.save()
+                logger.info(f'User {request.user.username} set new user key.')
                 return Response(status=status.HTTP_200_OK)
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=400)
 
 
@@ -149,12 +170,15 @@ class VaultView(APIView):
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
     def get(self, request):
+        logger.info("Get vault accessed.")
         # Retrieve password list
         vaults = VaultEntry.objects.filter(user=request.user)
         serializer = VaultSerializer(vaults, many=True)
+        logger.info(f'User {request.user.username} retrieved vault.')
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        logger.info("Vault entry creation accessed.")
         # Create new entry
         serializer = VaultSerializer(data=request.data,
                                      context={'request': request})
@@ -167,15 +191,19 @@ class VaultView(APIView):
                                         username=username)
             except VaultEntry.DoesNotExist:
                 serializer.save()
+                logger.info(f'User {validated_data.user.username} created new entry.')
                 return Response({"message": "Password saved"},
                                 status=status.HTTP_200_OK)
             else:
+                logger.error(f'User {validated_data.user.username} attempted '
+                              'to create new entry using existing username.')
                 return Response({"error": "Password already exists for this username"},
                                 status=status.HTTP_400_BAD_REQUEST)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
 
     def put(self, request):
+        logger.info("Update vault entry accessed.")
         # Update entry
         serializer = VaultSerializer(data=request.data,
                                     context={'request': request})
@@ -187,6 +215,8 @@ class VaultView(APIView):
                 entry = VaultEntry.objects.get(user=request.user,
                                                label=label, username=username)
             except VaultEntry.DoesNotExist:
+                logger.error(f'User {validated_data.user.username} attempted '
+                             'to update a nonexistant entry')
                 return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
             entry.encrypted_password = validated_data.get('encrypted_password')
@@ -195,12 +225,15 @@ class VaultView(APIView):
             entry.notes = validated_data.get('notes', '')
             entry.updated_at = timezone.now
             entry.save()
+            logger.info(f'User {validated_data.user.username} updated entry '
+                        'for {label} {username}')
             return Response({"message": "Entry Updated"},
                             status=status.HTTP_200_OK)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
+        logger.info("Delete vault entry accessed.")
         # Delete entry
         serializer = VaultSerializer(data=request.data,
                                      context={'request': request})
@@ -214,12 +247,16 @@ class VaultView(APIView):
                                         username=username,
                                         encrypted_password=encrypted_password)
             except VaultEntry.DoesNotExist:
+                logger.error(f'User {validated_data.user.username} attempted '
+                            'to delete a nonexistant entry.')
                 return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
             entry.delete()
+            logger.info(f'User {validated_data.user.username} deleted entry '
+                        'for {label} {username}')
             return Response({"message": "Password deleted"},
                             status=status.HTTP_200_OK)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -228,6 +265,7 @@ class PasswordChange(APIView):
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def post(self, request):
+        logger.info("Password change request accessed.")
         serializer = PasswordChangeSerializer(data=request.data)
         if serializer.is_valid():
             user = request.user
@@ -267,14 +305,16 @@ class PasswordChange(APIView):
 
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
-                return Response(serializer.errors,
+                logger.error(e.response['Error']['Message'])
+                return Response({e.response['Error']['Message']},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 print(f"Email sent! Message ID: {response['MessageId']}")
+                logger.info(f'User {user.username} requested password change.')
                 return Response({"detail":
                     "A confirmation email has been sent to your email address."},
                     status=status.HTTP_200_OK)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -283,16 +323,17 @@ class PasswordChangeDemo(APIView):
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def post(self, request):
+        logger.info("Password change request accessed.")
         serializer = PasswordChangeSerializer(data=request.data)
         if serializer.is_valid():
             user = request.user
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-
+            logger.info(f'User {user.username} requested password change.')
             return Response({'uid': uid, 'token': token,
                              'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -300,6 +341,7 @@ class PasswordReset(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def post(self, request):
+        logger.info("Password reset request accessed.")
         serializer = PasswordChangeSerializer(data=request.data)
         if serializer.is_valid():
             username = request.data.get('username')
@@ -344,15 +386,17 @@ class PasswordReset(APIView):
 
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
-                return Response(serializer.errors,
+                logger.error(e.response['Error']['Message'])
+                return Response(e.response['Error']['Message'],
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 print(f"Email sent! Message ID: {response['MessageId']}")
+                logger.info(f'User {username} requested password change.')
                 return Response({"detail":
                                 ("A confirmation email has been "
                                     "sent to your email address.")},
                                     status=status.HTTP_200_OK)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -360,6 +404,7 @@ class PasswordResetDemo(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def post(self, request):
+        logger.info("Password reset request accessed.")
         serializer = PasswordChangeSerializer(data=request.data)
         if serializer.is_valid():
             username = request.data.get('username')
@@ -370,11 +415,11 @@ class PasswordResetDemo(APIView):
                                 status=status.HTTP_404_NOT_FOUND)
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-
+            logger.info(f'User {username} requested password change.')
             return Response({'uid': uid, 'token': token, 'user': user.username,
                                 'email': user.email},
                                 status=status.HTTP_200_OK)
-
+        logger.error(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -382,23 +427,29 @@ class PasswordChangeConfirm(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def post(self, request, uidb64, token):
+        logger.info("Password change confirm accessed.")
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            logger.error("Password reset requested for invalid user.")
             return Response({"detail": "Invalid user"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         if not default_token_generator.check_token(user, token):
+            logger.error(f'User {user.username} provided invalid password '
+                         'change token.')
             return Response({"detail": "Invalid token"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         new_password = request.data.get('new_password')
         if not new_password:
+            logger.error(f'User {user.username} did not enter new password.')
             return Response({"detail": "New password is required"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         user.set_password(new_password)
         user.save()
+        logger.info(f'User {user.username} changed password')
         return Response({"message": "password updated"},
                         status=status.HTTP_200_OK)
