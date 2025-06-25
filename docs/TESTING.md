@@ -11,6 +11,7 @@ For this I will configure a CI-pipeline workflow for Backend, React.js Frontend 
 
 - **Bandit** - Security-focused static code analysis for Python
 - **Flake8** - Lightweight linting and formatting
+- **Safety** - Security vulnerability testing and firewall
 
 ## Frontend
 

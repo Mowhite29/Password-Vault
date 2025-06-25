@@ -65,6 +65,11 @@ jobs:
             flake8 vaultapi --exclude=migrations,__pycache__,templates \
                             --extend-ignore=E127,E128,E501
 
+        - name: Run Security (Vulnerability testing)
+          uses: pyupio/safety-action@v1
+          with:
+            api-key: ${{ secrets.SAFETY_API_KEY }}
+
 
         - name: Run Django Tests
           env:
