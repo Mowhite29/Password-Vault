@@ -231,7 +231,7 @@ requests.post(
     }
 )
 returns status 200 with:
-{'url': activation_link, 'user': user, 'email': user.email}
+{'uid': 'uid', 'token': 'token', 'user': user, 'email': user.email}
 ```
 
 - **GET** `/verify-email/` - Verify email address
