@@ -3,6 +3,7 @@
 /.venv
 /backend/tests
 /backend/vaultapi/__pycache__
+/backend/vault/__pycache__
 /backend/vaultapi/migrations
 /frontend/node_modules
 /mobile/node_modules
