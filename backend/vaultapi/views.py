@@ -191,11 +191,11 @@ class VaultView(APIView):
                                         username=username)
             except VaultEntry.DoesNotExist:
                 serializer.save()
-                logger.info(f'User {validated_data.user.username} created new entry.')
+                logger.info(f'User {request.user.username} created new entry.')
                 return Response({"message": "Password saved"},
                                 status=status.HTTP_200_OK)
             else:
-                logger.error(f'User {validated_data.user.username} attempted '
+                logger.error(f'User {request.user.username} attempted '
                               'to create new entry using existing username.')
                 return Response({"error": "Password already exists for this username"},
                                 status=status.HTTP_400_BAD_REQUEST)
@@ -215,7 +215,7 @@ class VaultView(APIView):
                 entry = VaultEntry.objects.get(user=request.user,
                                                label=label, username=username)
             except VaultEntry.DoesNotExist:
-                logger.error(f'User {validated_data.user.username} attempted '
+                logger.error(f'User {request.user.username} attempted '
                              'to update a nonexistant entry')
                 return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
@@ -225,7 +225,7 @@ class VaultView(APIView):
             entry.notes = validated_data.get('notes', '')
             entry.updated_at = timezone.now
             entry.save()
-            logger.info(f'User {validated_data.user.username} updated entry '
+            logger.info(f'User {request.user.username} updated entry '
                         'for {label} {username}')
             return Response({"message": "Entry Updated"},
                             status=status.HTTP_200_OK)
@@ -247,12 +247,12 @@ class VaultView(APIView):
                                         username=username,
                                         encrypted_password=encrypted_password)
             except VaultEntry.DoesNotExist:
-                logger.error(f'User {validated_data.user.username} attempted '
+                logger.error(f'User {request.user.username} attempted '
                             'to delete a nonexistant entry.')
                 return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
             entry.delete()
-            logger.info(f'User {validated_data.user.username} deleted entry '
+            logger.info(f'User {request.user.username} deleted entry '
                         'for {label} {username}')
             return Response({"message": "Password deleted"},
                             status=status.HTTP_200_OK)

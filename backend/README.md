@@ -52,7 +52,6 @@ pip install -r requirements-dev.txt
 ```bash
 DATABASE_URL=postgresql://user:password@localhost:5432/passwordvault
 SECRET_KEY=your-django-secret-key
-JWT_SECRET=your-jwt-secret
 ```
 
 ### Database Setup
