@@ -213,7 +213,8 @@ requests.post(
     }
 )
 returns status 200 with:
-{"message": "user created"}
+{"detail":
+    ("A confirmation email has been sent to your email address.")}
 ```
 
 - **POST** `/user/` - Create a new user vault DEMO VERSION
