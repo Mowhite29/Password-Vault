@@ -2,6 +2,7 @@
 /frontend/.env
 /.venv
 /backend/tests
+/backend/logs
 /backend/vaultapi/__pycache__
 /backend/vault/__pycache__
 /backend/vaultapi/migrations
