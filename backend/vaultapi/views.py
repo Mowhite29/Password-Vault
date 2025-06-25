@@ -86,11 +86,8 @@ class RegisterViewDemo(APIView):
             user = serializer.save()
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
-            activation_link = (
-                f"{settings.FRONTEND_URL}/verify-email/{uid}/{token}"
-            )
 
-            return Response({'url': activation_link,
+            return Response({'uid': uid, 'token': token,
                             'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
 
@@ -137,8 +134,13 @@ class UserKeysView(APIView):
         serializer = UserKeySerializer(data=request.data,
                                        context={'request': request})
         if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
+            try:
+                UserKeys.objects.get(user=request.user)
+                return Response({'error': 'Key already exists for this user'},
+                                status=status.HTTP_405_METHOD_NOT_ALLOWED)
+            except UserKeys.DoesNotExist:
+                serializer.save()
+                return Response(status=status.HTTP_200_OK)
         return Response(serializer.errors, status=400)
 
 
@@ -171,7 +173,7 @@ class VaultView(APIView):
                 return Response({"error": "Password already exists for this username"},
                                 status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
 
     def put(self, request):
         # Update entry
@@ -287,10 +289,8 @@ class PasswordChangeDemo(APIView):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            password_change_url = (
-                f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
-            return Response({'url': password_change_url, 'user': user,
-                            'email': user.email},
+            return Response({'uid': uid, 'token': token,
+                             'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -371,9 +371,7 @@ class PasswordResetDemo(APIView):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            password_change_url = (
-                f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
-            return Response({'url': password_change_url, 'user': user,
+            return Response({'uid': uid, 'token': token, 'user': user.username,
                                 'email': user.email},
                                 status=status.HTTP_200_OK)
 
@@ -389,11 +387,11 @@ class PasswordChangeConfirm(APIView):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"detail": "Invalid user"},
-                            status=status.HTTP_404_BAD_REQUEST)
+                            status=status.HTTP_400_BAD_REQUEST)
 
         if not default_token_generator.check_token(user, token):
             return Response({"detail": "Invalid token"},
-                            status=status.HTTP_404_BAD_REQUEST)
+                            status=status.HTTP_400_BAD_REQUEST)
 
         new_password = request.data.get('new_password')
         if not new_password:
