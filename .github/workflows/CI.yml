@@ -73,7 +73,7 @@ jobs:
 
         - name: Run Django Tests
           env:
-            DJANGO_SETTINGS_MODULE: vault.settings
+            DJANGO_SETTINGS_MODULE: vault.test_settings
             POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
             POSTGRES_USER: ${{ secrets.DATABASE_USER }}
             POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
