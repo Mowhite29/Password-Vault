@@ -5,6 +5,15 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = []
 LOGGING = {
         'version': 1,
         'disable_existing_loggers': True,
+        'handlers': {
+            'null': {
+                'class': 'logging.NullHandler',
+            },
+        },
+        'root': {
+            'handlers': ['null'],
+            'level': 'CRITICAL',
+        },
     }
 
 DATABASES = {
