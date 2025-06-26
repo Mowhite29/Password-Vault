@@ -15,11 +15,9 @@ jobs:
         postgres:
           image: postgres:15
           env:
-            POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
-            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-            POSTGRES_HOST: postgres
-            POSTGRES_PORT: 5432
+            PGUSER: ${{ secrets.PGUSER }}
+            PGPASSWORD: ${{ secrets.PGPASSWORD }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
           ports: ['5432:5432']
           options: >-
             --health-cmd pg_isready
@@ -43,16 +41,14 @@ jobs:
         - name: Set secrets as environment variables
           run: |
             echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> $GITHUB_ENV
-            echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> $GITHUB_ENV
-            echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> $GITHUB_ENV
-            echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> $GITHUB_ENV
-            echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> $GITHUB_ENV
-            echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> $GITHUB_ENV
             echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
             echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
             echo "AWS_REGION_NAME=${{ secrets.AWS_REGION_NAME }}" >> $GITHUB_ENV
             echo "DEFAULT_FROM_EMAIL=${{ secrets.DEFAULT_FROM_EMAIL }}" >> $GITHUB_ENV
             echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> $GITHUB_ENV
+            echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
+            echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
         - name: Run Bandit (security static code analysis)
           run: |
@@ -74,11 +70,9 @@ jobs:
         - name: Run Django Tests
           env:
             DJANGO_SETTINGS_MODULE: vault.test_settings
-            POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
-            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-            POSTGRES_HOST: postgres
-            POSTGRES_PORT: 5432
+            PGUSER: ${{ secrets.PGUSER }}
+            PGPASSWORD: ${{ secrets.PGPASSWORD }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
           run: |
             cd backend
             python manage.py migrate
