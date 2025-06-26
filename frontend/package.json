@@ -36,5 +36,12 @@
     "prettier": "3.5.3",
     "sass-embedded": "^1.89.2",
     "vite": "^6.3.5"
+  },
+  "prettier":{
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true,
+    "htmlWhitespaceSensitivity": "ignore"
   }
 }

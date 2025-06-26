@@ -2,9 +2,10 @@
 **/.svn
 **/.hg
 **/node_modules
-**/.git
 **/.svn
 **/.hg
-**/.scss
+**/*.scss
+**/*.json
+**/*.config.js
 
 /prettierrc.js
