@@ -17,3 +17,6 @@ DATABASES = {
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
      }
 }
+
+if os.getenv("GITHUB_WORKFLOW"):
+    DISABLE_SERVER_SIDE_CURSORS = True
