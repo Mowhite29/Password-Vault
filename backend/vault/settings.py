@@ -100,6 +100,9 @@ DATABASES = {
         'HOST': tmpPostgres.hostname,
         'PORT': 5432,
         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+        'TEST': {
+            'NAME': 'test_neondb_ci',
+        }
     }
 }
 
