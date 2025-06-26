@@ -6,8 +6,12 @@ import PasswordChange from "./components/PasswordChange";
 import Vault from "./components/Vault";
 import VerifyEmail from "./components/VerifyEmail";
 import store from "./redux/store";
+import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 
 function App() {
+
+  useKeepBackendAwake();
+
   return (
     <Provider store={store}>
       <Router>
