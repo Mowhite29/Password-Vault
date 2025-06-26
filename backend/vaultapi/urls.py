@@ -8,10 +8,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from .views import (
     VaultView, RegisterViewDemo,
     PasswordChangeDemo, PasswordChangeConfirm,
-    EmailVerifyView, PasswordResetDemo, UserKeysView
+    EmailVerifyView, PasswordResetDemo, UserKeysView,
+    ping_view
 )
 
 urlpatterns = [
+    path('ping/', ping_view, name='ping'),
     path('api/token/',
          TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/',

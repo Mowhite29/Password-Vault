@@ -6,6 +6,7 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
+from django.http import JsonResponse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -20,6 +21,10 @@ from .serializers import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def ping_view(request):
+    return JsonResponse({"status": "ok"}, status=200)
 
 
 class RegisterView(APIView):
