@@ -84,7 +84,7 @@ export default function SignIn() {
 
   return (
     <div className="signInContainer">
-      <div className="signIn">
+      <form className="signIn">
         <p>Sign in</p>
         <input
           className="usernameInput"
@@ -92,6 +92,7 @@ export default function SignIn() {
           value={username}
           onChange={usernameInput}
           placeholder="Email address"
+          autoComplete="email-address"
         ></input>
         <input
           className="passwordinput"
@@ -99,10 +100,11 @@ export default function SignIn() {
           value={password}
           onChange={passwordInput}
           placeholder="Password"
+          autoComplete="current-password"
         ></input>
-        <button classname="signInButton">Sign In</button>
-      </div>
-      <div classname="createAccount">
+        <button className="signInButton">Sign In</button>
+      </form>
+      <form className="createAccount">
         <p>Create account</p>
         <input
           className="usernameInput"
@@ -123,10 +125,10 @@ export default function SignIn() {
           type="text"
           value={name}
           onChange={nameInput}
-          placeHolder="Name"
+          placeholder="Name"
         ></input>
-        <button classname="createAccountButton">Create Account</button>
-      </div>
+        <button className="createAccountButton">Create Account</button>
+      </form>
       {messageVisible === true && <div className="messageBox">{message}</div>}
     </div>
   );
