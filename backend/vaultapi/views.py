@@ -69,19 +69,20 @@ class RegisterView(APIView):
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
                 logger.error(f'{user.username} {e.response['Error']['Message']}')
-                return Response(serializer.errors,
+                return Response({"error": serializer.errors},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 print(activation_link)
                 print(f"Email sent! Message ID: {response['MessageId']}")
                 logger.info(f'Confirmation email sent to {user.username}')
-                return Response({"detail":
+                return Response({"message":
                                 ("A confirmation email has been sent "
                                         "to your email address.")},
                 status=status.HTTP_200_OK)
 
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegisterViewDemo(APIView):
@@ -101,7 +102,8 @@ class RegisterViewDemo(APIView):
                             status=status.HTTP_200_OK)
 
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class EmailVerifyView(APIView):
@@ -114,12 +116,12 @@ class EmailVerifyView(APIView):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             logger.error("Invalid activation link.")
-            return Response({"detail": "Invalid activation link"},
+            return Response({"error": "Invalid activation link"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         if not default_token_generator.check_token(user, token):
             logger.error(f'Invalid verification token for {user.username}')
-            return Response({"detail": "Invalid or expired token"},
+            return Response({"error": "Invalid or expired token"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         user.is_active = True
@@ -143,7 +145,8 @@ class UserKeysView(APIView):
             logger.info(f'User key accessed by {userKeys.user.username}')
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserKeys.DoesNotExist:
-            logger.error(f'User {userKeys.user.username} attempted to access user key prior to it being set.')
+            logger.error(f'User {userKeys.user.username} '
+                        'attempted to access user key prior to it being set.')
             return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
 
@@ -154,15 +157,18 @@ class UserKeysView(APIView):
         if serializer.is_valid():
             try:
                 UserKeys.objects.get(user=request.user)
-                logger.error(f'User {request.user.username} attempted to set new user key.')
+                logger.error(f'User {request.user.username} '
+                                'attempted to set new user key.')
                 return Response({'error': 'Key already exists for this user'},
                                 status=status.HTTP_405_METHOD_NOT_ALLOWED)
             except UserKeys.DoesNotExist:
                 serializer.save()
                 logger.info(f'User {request.user.username} set new user key.')
-                return Response(status=status.HTTP_200_OK)
+                return Response({"message": "User key set"},
+                                status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=400)
+        return Response({"error": serializer.errors},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class VaultView(APIView):
@@ -191,16 +197,19 @@ class VaultView(APIView):
                                         username=username)
             except VaultEntry.DoesNotExist:
                 serializer.save()
-                logger.info(f'User {request.user.username} created new entry.')
+                logger.info(f'User {request.user.username} created '
+                                    'new entry.')
                 return Response({"message": "Password saved"},
                                 status=status.HTTP_200_OK)
             else:
                 logger.error(f'User {request.user.username} attempted '
                               'to create new entry using existing username.')
-                return Response({"error": "Password already exists for this username"},
+                return Response({
+                    "error": "Password already exists for this username"},
                                 status=status.HTTP_400_BAD_REQUEST)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_417_EXPECTATION_FAILED)
+        return Response({"error": serializer.errors},
+                            status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
         logger.info("Update vault entry accessed.")
@@ -230,7 +239,8 @@ class VaultView(APIView):
             return Response({"message": "Entry Updated"},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                        status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
         logger.info("Delete vault entry accessed.")
@@ -257,7 +267,8 @@ class VaultView(APIView):
             return Response({"message": "Password deleted"},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordChange(APIView):
@@ -306,16 +317,18 @@ class PasswordChange(APIView):
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
                 logger.error(e.response['Error']['Message'])
-                return Response({e.response['Error']['Message']},
+                return Response({"error": e.response['Error']['Message']},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 print(f"Email sent! Message ID: {response['MessageId']}")
                 logger.info(f'User {user.username} requested password change.')
-                return Response({"detail":
-                    "A confirmation email has been sent to your email address."},
-                    status=status.HTTP_200_OK)
+                return Response({"message":
+                                    "A confirmation email has been "
+                                    "sent to your email address."},
+                                    status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordChangeDemo(APIView):
@@ -334,7 +347,8 @@ class PasswordChangeDemo(APIView):
                              'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordReset(APIView):
@@ -354,7 +368,7 @@ class PasswordReset(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
 
             password_change_url = (
-                f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
+                f'{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}')
 
             email_subject = "Confirm Your Password Change"
             email_message = render_to_string(
@@ -387,17 +401,18 @@ class PasswordReset(APIView):
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
                 logger.error(e.response['Error']['Message'])
-                return Response(e.response['Error']['Message'],
+                return Response({"error": e.response['Error']['Message']},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 print(f"Email sent! Message ID: {response['MessageId']}")
                 logger.info(f'User {username} requested password change.')
-                return Response({"detail":
-                                ("A confirmation email has been "
-                                    "sent to your email address.")},
+                return Response({"message":
+                                "A confirmation email has been "
+                                    "sent to your email address."},
                                     status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordResetDemo(APIView):
@@ -416,11 +431,12 @@ class PasswordResetDemo(APIView):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             logger.info(f'User {username} requested password change.')
-            return Response({'uid': uid, 'token': token, 'user': user.username,
-                                'email': user.email},
+            return Response({'uid': uid, 'token': token,
+                                'user': user.username, 'email': user.email},
                                 status=status.HTTP_200_OK)
         logger.error(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": serializer.errors},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordChangeConfirm(APIView):
@@ -433,23 +449,23 @@ class PasswordChangeConfirm(APIView):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             logger.error("Password reset requested for invalid user.")
-            return Response({"detail": "Invalid user"},
+            return Response({"error": "Invalid user"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         if not default_token_generator.check_token(user, token):
             logger.error(f'User {user.username} provided invalid password '
                          'change token.')
-            return Response({"detail": "Invalid token"},
+            return Response({"error": "Invalid token"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         new_password = request.data.get('new_password')
         if not new_password:
             logger.error(f'User {user.username} did not enter new password.')
-            return Response({"detail": "New password is required"},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "New password is required"},
+                                status=status.HTTP_400_BAD_REQUEST)
 
         user.set_password(new_password)
         user.save()
         logger.info(f'User {user.username} changed password')
         return Response({"message": "password updated"},
-                        status=status.HTTP_200_OK)
+                            status=status.HTTP_200_OK)
