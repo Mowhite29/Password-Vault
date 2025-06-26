@@ -54,9 +54,11 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'vaultapi',
     'vault',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -224,3 +226,9 @@ if DEBUG:
     LOGGING['handlers']['file']['filename'] = os.path.join(BASE_DIR, 'logs/dev.log')
 else:
     LOGGING['handlers']['file']['filename'] = os.path.join(BASE_DIR, 'logs/prod.log')
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    os.getenv('FRONTEND_URL')
+]
