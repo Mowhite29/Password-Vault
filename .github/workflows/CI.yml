@@ -177,7 +177,7 @@ jobs:
       #     npm test
 
   deployBackend:
-      name: Deploy Django backend
+      name: Backend CD (Django)
       needs: backend
       runs-on: ubuntu-latest
 
