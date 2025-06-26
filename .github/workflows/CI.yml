@@ -196,6 +196,21 @@ jobs:
 
         - name: Deploy backend to Render
           uses: JorgeLNJunior/render-deploy@v1.4.5
+          env:
+            DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+            DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+            DATABASE_USER: ${{ secrets.DATABASE_USER }}
+            DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+            DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+            DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_REGION_NAME: ${{ secrets.AWS_REGION_NAME }}
+            DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
+            FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+            PGUSER: ${{ secrets.PGUSER }}
+            PGPASSWORD: ${{ secrets.PGPASSWORD }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
           with:
             service_id: ${{ secrets.RENDER_SERVICE_ID }}
             api_key: ${{ secrets.RENDER_API_KEY }}
