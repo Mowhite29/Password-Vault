@@ -92,23 +92,6 @@ WSGI_APPLICATION = 'vault.wsgi.application'
 
 tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.decode().replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
-        'TEST': {
-            'NAME': 'test_neondb_ci',
-        }
-    }
-}
-
-DATABASE_URL = os.getenv('DATABASE_URL')
-
 if 'tmpPostgres' in globals():
     DATABASES = {
         'default': {
