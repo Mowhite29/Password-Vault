@@ -76,7 +76,6 @@ jobs:
 
         - name: Run Django Tests
           env:
-            DJANGO_SETTINGS_MODULE: vault.test_settings
             POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
             POSTGRES_USER: ${{ secrets.DATABASE_USER }}
             POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
@@ -175,3 +174,52 @@ jobs:
       #   run: |
       #     cd mobile
       #     npm test
+
+  deployBackend:
+      name: Deploy Django backend
+      needs: backend
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Install backend dependancies
+          working-directory: ./backend
+          run: |
+            python -m venv venv
+            source venv/bin/activate
+            pip install -r requirements.txt
+
+                
+
+        - name: Deploy backend to Render
+          uses: JorgeLNJunior/render-deploy@v1.4.5
+          with:
+            service_id: ${{ secrets.RENDER_SERVICE_ID }}
+            api_key: ${{ secrets.RENDER_API_KEY }}
+            clear_cache: true
+            deployment_environment: 'production'
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  # deployFrontend:
+  #     name: Deploy React frontend
+  #     needs: frontend
+  #     runs-on: ubuntu-latest
+
+  #     steps: 
+  #       - name: Checkout
+  #         uses: actions/checkout@v1
+
+  #       - name: Build frontend
+  #         run: |
+  #           cd frontend
+  #           npm install
+  #           npm run vite build
+
+  #       - name: Deploy frontend to Netlify
+  #         uses: danakim/gh-action-deploy-netlify@master
+  #         with:
+  #           AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  #           SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  #           DEPLOY_PROD: true
