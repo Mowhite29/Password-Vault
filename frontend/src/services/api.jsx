@@ -54,7 +54,7 @@ export async function PasswordChange(username, accessToken) {
   const abortController = new AbortController();
   setTimeout(() => abortController.abort());
 
-  const url = backEndURL + "/password-change-request";
+  const url = backEndURL + "/password-change-request/";
   const authToken = "Bearer " + accessToken;
 
   await axios
@@ -83,7 +83,7 @@ export async function PasswordReset(username) {
   const abortController = new AbortController();
   setTimeout(() => abortController.abort());
 
-  const url = backEndURL + "/password-reset-request";
+  const url = backEndURL + "/password-reset-request/";
 
   await axios
     .post(
@@ -367,7 +367,7 @@ export async function KeyCreate(
   const abortController = new AbortController();
   setTimeout(() => abortController.abort());
 
-  const url = backEndURL + "/vault/";
+  const url = backEndURL + "/user/key/";
   const authToken = "Bearer " + accessToken;
 
   await axios
