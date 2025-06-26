@@ -15,9 +15,11 @@ jobs:
         postgres:
           image: postgres:15
           env:
-            PGUSER: ${{ secrets.PGUSER }}
-            PGPASSWORD: ${{ secrets.PGPASSWORD }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+            POSTGRES_HOST: postgres
+            POSTGRES_PORT: 5432
           ports: ['5432:5432']
           options: >-
             --health-cmd pg_isready
@@ -49,6 +51,9 @@ jobs:
             echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
             echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+            echo "PGUSER=${{ secrets.PGUSER }}" >> $GITHUB_ENV
+            echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> $GITHUB_ENV
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
         - name: Run Bandit (security static code analysis)
           run: |
@@ -70,9 +75,11 @@ jobs:
         - name: Run Django Tests
           env:
             DJANGO_SETTINGS_MODULE: vault.test_settings
-            PGUSER: ${{ secrets.PGUSER }}
-            PGPASSWORD: ${{ secrets.PGPASSWORD }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+            POSTGRES_HOST: postgres
+            POSTGRES_PORT: 5432
           run: |
             cd backend
             python manage.py migrate
