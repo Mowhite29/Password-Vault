@@ -17,6 +17,7 @@ Django==5.2.3
 django-rest-framework==0.1.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
+drf_spectacular==0.28.0
 exceptiongroup==1.2.2
 face==24.0.0
 glom==22.1.0
