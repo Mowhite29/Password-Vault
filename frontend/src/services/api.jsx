@@ -59,7 +59,7 @@ export async function PasswordChange(username, accessToken) {
             url,
             { username: username },
             {
-                headers: { HTTP_AUTHORIZATION: authToken },
+                headers: { AUTHORIZATION: authToken },
                 timeout: 10000,
             }
         )
@@ -172,7 +172,7 @@ export async function VaultFetch(accessToken) {
         const authToken = 'Bearer ' + accessToken
 
         const response = await axios.get(url, {
-            headers: { HTTP_AUTHORIZATION: authToken },
+            headers: { AUTHORIZATION: authToken },
             timeout: 10000,
         })
         if (response.status === 200) {
@@ -213,7 +213,7 @@ export async function VaultCreate(
                 notes: notes,
             },
             {
-                headers: { HTTP_AUTHORIZATION: authToken },
+                headers: { AUTHORIZATION: authToken },
                 timeout: 10000,
             }
         )
@@ -253,7 +253,7 @@ export async function VaultEdit(
                 notes: notes,
             },
             {
-                headers: { HTTP_AUTHORIZATION: authToken },
+                headers: { AUTHORIZATION: authToken },
                 timeout: 10000,
             }
         )
@@ -290,7 +290,7 @@ export async function VaultDelete(
                 encrypted_password: encrypted_password,
             },
             {
-                headers: { HTTP_AUTHORIZATION: authToken },
+                headers: { AUTHORIZATION: authToken },
                 timeout: 10000,
             }
         )
@@ -315,7 +315,7 @@ export async function KeyFetch(accessToken) {
         const url = backEndURL + '/user/key/'
         const authToken = 'Bearer ' + accessToken
         const response = await axios.get(url, {
-            headers: { HTTP_AUTHORIZATION: authToken },
+            headers: { AUTHORIZATION: authToken },
             timeout: 10000,
         })
         if (response.status === 200) {
@@ -351,7 +351,7 @@ export async function KeyCreate(
                 nonce: nonce,
             },
             {
-                headers: { HTTP_AUTHORIZATION: authToken },
+                headers: { AUTHORIZATION: authToken },
                 timeout: 10000,
             }
         )
