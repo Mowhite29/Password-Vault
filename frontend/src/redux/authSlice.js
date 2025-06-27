@@ -4,6 +4,7 @@ const initialState = {
     screen: 'home',
     signedIn: false,
     token: '',
+    userEmail: {},
 }
 
 const authSlice = createSlice({
@@ -26,8 +27,11 @@ const authSlice = createSlice({
         setToken(state, action) {
             state.token = action.payload
         },
+        setUserEmail(state, action) {
+            state.userEmail = action.payload
+        },
     },
 })
 
-export const { signIn, signOut, setScreen } = authSlice.actions
+export const { signIn, signOut, setScreen, setUserEmail } = authSlice.actions
 export default authSlice.reducer
