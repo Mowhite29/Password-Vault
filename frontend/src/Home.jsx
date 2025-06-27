@@ -4,10 +4,13 @@ import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
 import SignIn from './components/SignIn'
 import Vault from './components/Vault'
+import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import './styles/Home.scss'
 
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
+
+    useKeepBackendAwake()
 
     return (
         <>
@@ -20,7 +23,7 @@ export default function Home() {
                 }}
             ></div>
             {screen === 'signin' && <SignIn />}
-            {screen === 'signin' && <Vault />}
+            {screen === 'vault' && <Vault />}
         </>
     )
 }
