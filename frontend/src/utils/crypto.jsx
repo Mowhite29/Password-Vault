@@ -1,65 +1,71 @@
 import { secretbox, randomBytes } from 'tweetnacl'
-import argon2 from 'argon2'
+import loadArgon2 from 'argon2-wasm'
 
-export function Encrypt(masterKey, password) {
+export async function Encrypt(masterKey, password) {
+    const argon2 = await loadArgon2()
+
     const salt = randomBytes(16)
     const nonce = randomBytes(24)
 
-    argon2
-        .hash(masterKey, {
-            salt: salt,
-            hashLength: 32,
-            type: argon2.argon2id,
-        })
-        .then((hash) => {
-            return {
-                encryptedPassword: secretbox(password, nonce, hash),
-                salt: salt,
-                nonce: nonce,
-            }
-        })
+    const derivedKey = await argon2.hash({
+        pass: masterKey,
+        salt: salt,
+        hashLen: 32,
+        type: argon2.Argontype.Argon2id,
+    })
+
+    const encryptedPassword = secretbox(password, nonce, derivedKey)
+
+    return {
+        encryptedPassword,
+        salt,
+        nonce,
+    }
 }
 
-export function Decrypt(masterKey, encryptedPassword, salt, nonce) {
-    argon2
-        .hash(masterKey, {
-            salt: salt,
-            hashLength: 32,
-            type: argon2.argon2id,
-        })
-        .then((hash) => {
-            return secretbox.open(encryptedPassword, nonce, hash)
-        })
+export async function Decrypt(masterKey, encryptedPassword, salt, nonce) {
+    const argon2 = await loadArgon2()
+
+    const derivedKey = await argon2.hash({
+        pass: masterKey,
+        salt: salt,
+        hashLen: 32,
+        type: argon2.Argontype.Argon2id,
+    })
+
+    return secretbox.open(encryptedPassword, nonce, derivedKey)
 }
 
-export function GenerateKeyCheck(masterKey, email) {
+export async function GenerateKeyCheck(masterKey, email) {
+    const argon2 = await loadArgon2()
+
     const salt1 = randomBytes(16)
     const salt2 = randomBytes(16)
     const nonce = randomBytes(24)
 
-    const emailHash = argon2.hash(email, {
+    const emailDerivedKey = await argon2.hash({
+        pass: email,
         salt: salt1,
-        hashLength: 32,
-        type: argon2.argon2id,
+        hashLen: 32,
+        type: argon2.Argontype.Argon2id,
     })
 
-    argon2
-        .hash(masterKey, {
-            salt: salt2,
-            hashLength: 32,
-            type: argon2.argon2id,
-        })
-        .then((hash) => {
-            return {
-                encryptedString: secretbox(emailHash, nonce, hash),
-                salt1: salt1,
-                salt2: salt2,
-                nonce: nonce,
-            }
-        })
+    const derivedKey = await argon2.hash({
+        pass: masterKey,
+        salt: salt2,
+        hashLen: 32,
+        type: argon2.Argontype.Argon2id,
+    })
+
+    return {
+        encryptedString: secretbox(emailDerivedKey, nonce, derivedKey),
+        salt1: salt1,
+        salt2: salt2,
+        nonce: nonce,
+    }
 }
 
-export function KeyCheck(
+export async function KeyCheck(
     masterKey,
     email,
     encryptedString,
@@ -67,21 +73,25 @@ export function KeyCheck(
     salt2,
     nonce
 ) {
-    const emailHash = argon2.hash(email, {
+    const argon2 = await loadArgon2()
+
+    const emailDerivedKey = await argon2.hash({
+        pass: email,
         salt: salt1,
-        hashLength: 32,
-        type: argon2.argon2id,
+        hashLen: 32,
+        type: argon2.Argontype.Argon2id,
     })
 
-    argon2
-        .hash(masterKey, {
-            salt: salt2,
-            hashLength: 32,
-            type: argon2.argon2id,
-        })
-        .then((hash) => {
-            if (secretbox.open(encryptedString, nonce, hash) === emailHash) {
-                return true
-            }
-        })
+    const derivedKey = await argon2.hash({
+        pass: masterKey,
+        salt: salt2,
+        hashLen: 32,
+        type: argon2.Argontype.Argon2id,
+    })
+
+    if (
+        secretbox.open(encryptedString, nonce, derivedKey) === emailDerivedKey
+    ) {
+        return true
+    }
 }
