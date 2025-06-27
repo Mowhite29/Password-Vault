@@ -1,18 +1,46 @@
 import { secretbox, randomBytes } from 'tweetnacl'
-import loadArgon2 from 'argon2-wasm'
+
+function base64ToUint8Array(base64) {
+    const binary = atob(base64)
+    const len = binary.length
+    const bytes = new Uint8Array(len)
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binary.charCodeAt(i)
+    }
+    return bytes
+}
+
+async function deriveKey(password, salt, iterations = 100000) {
+    const enc = new TextEncoder()
+    const keyMaterial = await crypto.subtle.importKey(
+        'raw',
+        enc.encode(password),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+    )
+
+    const key = await crypto.subtle.deriveKey(
+        {
+            name: 'PBKDF2',
+            salt: salt,
+            iterations: iterations,
+            hash: 'SHA-256',
+        },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['encrypt', 'decrypt']
+    )
+    const outputKey = await crypto.subtle.exportKey('raw', key)
+    return new Uint8Array(outputKey)
+}
 
 export async function Encrypt(masterKey, password) {
-    const argon2 = await loadArgon2()
-
     const salt = randomBytes(16)
     const nonce = randomBytes(24)
 
-    const derivedKey = await argon2.hash({
-        pass: masterKey,
-        salt: salt,
-        hashLen: 32,
-        type: argon2.Argontype.Argon2id,
-    })
+    const derivedKey = deriveKey(masterKey, salt, 100000)
 
     const encryptedPassword = secretbox(password, nonce, derivedKey)
 
@@ -24,44 +52,33 @@ export async function Encrypt(masterKey, password) {
 }
 
 export async function Decrypt(masterKey, encryptedPassword, salt, nonce) {
-    const argon2 = await loadArgon2()
-
-    const derivedKey = await argon2.hash({
-        pass: masterKey,
-        salt: salt,
-        hashLen: 32,
-        type: argon2.Argontype.Argon2id,
-    })
+    const derivedKey = deriveKey(masterKey, salt, 100000)
 
     return secretbox.open(encryptedPassword, nonce, derivedKey)
 }
 
 export async function GenerateKeyCheck(masterKey, email) {
-    const argon2 = await loadArgon2()
+    const salt1 = crypto.getRandomValues(new Uint8Array(16))
+    const salt2 = crypto.getRandomValues(new Uint8Array(16))
+    const nonce = crypto.getRandomValues(new Uint8Array(24))
 
-    const salt1 = randomBytes(16)
-    const salt2 = randomBytes(16)
-    const nonce = randomBytes(24)
+    const emailDerivedKey = await deriveKey(email, salt1, 100000)
+    const derivedKey = await deriveKey(masterKey, salt2, 100000)
 
-    const emailDerivedKey = await argon2.hash({
-        pass: email,
-        salt: salt1,
-        hashLen: 32,
-        type: argon2.Argontype.Argon2id,
-    })
-
-    const derivedKey = await argon2.hash({
-        pass: masterKey,
-        salt: salt2,
-        hashLen: 32,
-        type: argon2.Argontype.Argon2id,
-    })
+    console.log(emailDerivedKey instanceof Uint8Array) // true
+    console.log(nonce instanceof Uint8Array) // true
+    console.log(derivedKey instanceof Uint8Array)
+    console.log(emailDerivedKey) // true
+    console.log(nonce) // true
+    console.log(derivedKey)
 
     return {
-        encryptedString: secretbox(emailDerivedKey, nonce, derivedKey),
-        salt1: salt1,
-        salt2: salt2,
-        nonce: nonce,
+        encryptedString: btoa(
+            String.fromCharCode(secretbox(emailDerivedKey, nonce, derivedKey))
+        ),
+        salt1: btoa(String.fromCharCode(salt1)),
+        salt2: btoa(String.fromCharCode(salt2)),
+        nonce: btoa(String.fromCharCode(nonce)),
     }
 }
 
@@ -73,24 +90,30 @@ export async function KeyCheck(
     salt2,
     nonce
 ) {
-    const argon2 = await loadArgon2()
-
-    const emailDerivedKey = await argon2.hash({
-        pass: email,
-        salt: salt1,
-        hashLen: 32,
-        type: argon2.Argontype.Argon2id,
-    })
-
-    const derivedKey = await argon2.hash({
-        pass: masterKey,
-        salt: salt2,
-        hashLen: 32,
-        type: argon2.Argontype.Argon2id,
-    })
-
+    const emailDerivedKey = await deriveKey(
+        email,
+        base64ToUint8Array(salt1),
+        100000
+    )
+    const derivedKey = await deriveKey(
+        masterKey,
+        base64ToUint8Array(salt2),
+        100000
+    )
+    console.log(
+        secretbox.open(
+            base64ToUint8Array(encryptedString),
+            base64ToUint8Array(nonce),
+            derivedKey
+        )
+    )
+    console.log(emailDerivedKey)
     if (
-        secretbox.open(encryptedString, nonce, derivedKey) === emailDerivedKey
+        secretbox.open(
+            base64ToUint8Array(encryptedString),
+            base64ToUint8Array(nonce),
+            derivedKey
+        ) === emailDerivedKey
     ) {
         return true
     }
