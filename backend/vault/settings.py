@@ -38,8 +38,13 @@ X_FRAME_OPTIONS = 'DENY'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CORS_ALLOW_CREDENTIALS = True
 
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://passwordvault.info",
+]
 
 # Application definition
 
@@ -226,9 +231,3 @@ if DEBUG:
     LOGGING['handlers']['file']['filename'] = os.path.join(BASE_DIR, 'logs/dev.log')
 else:
     LOGGING['handlers']['file']['filename'] = os.path.join(BASE_DIR, 'logs/prod.log')
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://passwordvault.info",
-]
