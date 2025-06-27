@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { signIn, setScreen } from '../redux/authSlice'
+import { signIn, setScreen, setUserEmail } from '../redux/authSlice'
 import { Register, TokenObtain } from '../services/api'
+import Email from './Email'
 import '../styles/SignIn.scss'
 
 export default function SignIn() {
@@ -11,10 +11,14 @@ export default function SignIn() {
     const [newUsername, setNewUsername] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [name, setName] = useState('')
-    const [message, setMessage] = useState('')
+    const [popUpMessage, setPopUpMessage] = useState('')
     const [messageVisible, setMessageVisible] = useState(false)
+    const [emailVisible, setEmailVisible] = useState(false)
+    const [emailURL, setEmailURL] = useState('')
+
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+
+    const emailType = 'email'
 
     const usernameInput = (e) => {
         setUsername(e.target.value)
@@ -44,26 +48,31 @@ export default function SignIn() {
         dispatch(signIn(access))
     }
 
+    const userDetails = (details) => {
+        dispatch(setUserEmail(details))
+    }
+
     async function SignIn() {
-        const tokenObtain = await TokenObtain(username, password)
-        setMessage('Loading')
+        setPopUpMessage('Loading')
         setMessageVisible(true)
+        const tokenObtain = await TokenObtain(username, password)
         if (tokenObtain != false) {
             console.log(tokenObtain)
             tokenHandler(tokenObtain['access'])
+            userDetails(username)
             handleScreenChange('vault')
         } else {
-            setMessage('Cannot sign in, check credentials')
+            setPopUpMessage('Cannot sign in, check credentials')
         }
     }
 
     async function CreateAccount() {
-        setMessage('Loading')
+        setPopUpMessage('Loading')
         setMessageVisible(true)
         const register = await Register(newUsername, newPassword, name)
 
         if (register) {
-            setMessage(
+            setPopUpMessage(
                 'Account creation successful, please verify email address to sign in'
             )
             const url =
@@ -72,10 +81,11 @@ export default function SignIn() {
                 '/' +
                 register['token'] +
                 '/'
+            setEmailURL(url)
             console.log(register['uid'], register['token'])
-            setTimeout(() => navigate(url), 4000)
+            setTimeout(() => setEmailVisible(true), 4000)
         } else {
-            setMessage(
+            setPopUpMessage(
                 'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
             )
         }
@@ -135,8 +145,18 @@ export default function SignIn() {
                     Create Account
                 </button>
             </form>
-            {messageVisible === true && (
-                <div className="messageBox">{message}</div>
+            {messageVisible && (
+                <div className="popUpContainer">
+                    <h1>{popUpMessage}</h1>
+                </div>
+            )}
+            {emailVisible && (
+                <Email
+                    type={emailType}
+                    url={emailURL}
+                    user={name}
+                    email={newUsername}
+                />
             )}
         </div>
     )
