@@ -17,7 +17,7 @@ import logging
 from .models import VaultEntry, UserKeys
 from .serializers import (
     VaultSerializer, RegisterSerializer,
-    PasswordChangeSerializer, UserKeySerializer
+    UserKeySerializer
 )
 
 logger = logging.getLogger(__name__)
@@ -157,6 +157,7 @@ class UserKeysView(APIView):
 
     def post(self, request):
         logger.info("Set user key accessed.")
+
         serializer = UserKeySerializer(data=request.data,
                                        context={'request': request})
         if serializer.is_valid():
@@ -282,58 +283,52 @@ class PasswordChange(APIView):
 
     def post(self, request):
         logger.info("Password change request accessed.")
-        serializer = PasswordChangeSerializer(data=request.data)
-        if serializer.is_valid():
-            user = request.user
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
+        user = request.user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            password_change_url = (
-                f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
+        password_change_url = (
+            f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
 
-            email_subject = "Confirm Your Password Change"
-            email_message = render_to_string(
-                            "email/password_change_confirmation.html",
-                            {
-                                'user': user,
-                                'password_change_url': password_change_url
-                            })
-            client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
-            try:
-                response = client.send_email(
-                    Destination={
-                        'ToAddresses': [user.email],
-                    },
-                    Message={
-                        'Body': {
-                            'Html': {
-                                'Charset': 'UTF-8',
-                                'Data': email_message
-                            }
-                        },
-                        'Subject': {
+        email_subject = "Confirm Your Password Change"
+        email_message = render_to_string(
+                        "email/password_change_confirmation.html",
+                        {
+                            'user': user,
+                            'password_change_url': password_change_url
+                        })
+        client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
+        try:
+            response = client.send_email(
+                Destination={
+                    'ToAddresses': [user.email],
+                },
+                Message={
+                    'Body': {
+                        'Html': {
                             'Charset': 'UTF-8',
-                            'Data': email_subject,
-                        },
+                            'Data': email_message
+                        }
                     },
-                    Source=settings.DEFAULT_FROM_EMAIL,
-                )
-
-            except ClientError as e:
-                print(f"An error occurred: {e.response['Error']['Message']}")
-                logger.error(e.response['Error']['Message'])
-                return Response({"error": e.response['Error']['Message']},
-                                status=status.HTTP_400_BAD_REQUEST)
-            else:
-                print(f"Email sent! Message ID: {response['MessageId']}")
-                logger.info(f'User {user.username} requested password change.')
-                return Response({"message":
-                                    "A confirmation email has been "
-                                    "sent to your email address."},
-                                    status=status.HTTP_200_OK)
-        logger.error(serializer.errors)
-        return Response({"error": serializer.errors},
+                    'Subject': {
+                        'Charset': 'UTF-8',
+                        'Data': email_subject,
+                    },
+                },
+                Source=settings.DEFAULT_FROM_EMAIL,
+            )
+        except ClientError as e:
+            print(f"An error occurred: {e.response['Error']['Message']}")
+            logger.error(e.response['Error']['Message'])
+            return Response({"error": e.response['Error']['Message']},
                             status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(f"Email sent! Message ID: {response['MessageId']}")
+            logger.info(f'User {user.username} requested password change.')
+            return Response({"message":
+                                "A confirmation email has been "
+                                "sent to your email address."},
+                                status=status.HTTP_200_OK)
 
 
 class PasswordChangeDemo(APIView):
@@ -342,18 +337,13 @@ class PasswordChangeDemo(APIView):
 
     def post(self, request):
         logger.info("Password change request accessed.")
-        serializer = PasswordChangeSerializer(data=request.data)
-        if serializer.is_valid():
-            user = request.user
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            logger.info(f'User {user.username} requested password change.')
-            return Response({'uid': uid, 'token': token,
-                             'user': user.username, 'email': user.email},
+        user = request.user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        logger.info(f'User {user.username} requested password change.')
+        return Response({'uid': uid, 'token': token,
+                            'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
-        logger.error(serializer.errors)
-        return Response({"error": serializer.errors},
-                        status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordReset(APIView):
@@ -361,63 +351,58 @@ class PasswordReset(APIView):
 
     def post(self, request):
         logger.info("Password reset request accessed.")
-        serializer = PasswordChangeSerializer(data=request.data)
-        if serializer.is_valid():
-            username = request.data.get('username')
-            try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                return Response({"detail": "User not found"},
-                                status=status.HTTP_404_NOT_FOUND)
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
+        username = request.data.get('username')
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"},
+                            status=status.HTTP_404_NOT_FOUND)
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            password_change_url = (
-                f'{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}')
+        password_change_url = (
+            f'{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}')
 
-            email_subject = "Confirm Your Password Change"
-            email_message = render_to_string(
-                "email/password_change_confirmation.html",
-                {
-                    'user': user,
-                    'password_change_url': password_change_url
-                })
-            client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
-            try:
-                response = client.send_email(
-                    Destination={
-                        'ToAddresses': [user.email]
-                    },
-                    Message={
-                        'Body': {
-                            'Html': {
-                                'Charset': 'UTF-8',
-                                'Data': email_message
-                            }
-                        },
-                        'Subject': {
+        email_subject = "Confirm Your Password Change"
+        email_message = render_to_string(
+            "email/password_change_confirmation.html",
+            {
+                'user': user,
+                'password_change_url': password_change_url
+            })
+        client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
+        try:
+            response = client.send_email(
+                Destination={
+                    'ToAddresses': [user.email]
+                },
+                Message={
+                    'Body': {
+                        'Html': {
                             'Charset': 'UTF-8',
-                            'Data': email_subject
-                        },
+                            'Data': email_message
+                        }
                     },
-                    Source=settings.DEFAULT_FROM_EMAIL
-                )
+                    'Subject': {
+                        'Charset': 'UTF-8',
+                        'Data': email_subject
+                    },
+                },
+                Source=settings.DEFAULT_FROM_EMAIL
+            )
 
-            except ClientError as e:
-                print(f"An error occurred: {e.response['Error']['Message']}")
-                logger.error(e.response['Error']['Message'])
-                return Response({"error": e.response['Error']['Message']},
-                                status=status.HTTP_400_BAD_REQUEST)
-            else:
-                print(f"Email sent! Message ID: {response['MessageId']}")
-                logger.info(f'User {username} requested password change.')
-                return Response({"message":
-                                "A confirmation email has been "
-                                    "sent to your email address."},
-                                    status=status.HTTP_200_OK)
-        logger.error(serializer.errors)
-        return Response({"error": serializer.errors},
+        except ClientError as e:
+            print(f"An error occurred: {e.response['Error']['Message']}")
+            logger.error(e.response['Error']['Message'])
+            return Response({"error": e.response['Error']['Message']},
                             status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(f"Email sent! Message ID: {response['MessageId']}")
+            logger.info(f'User {username} requested password change.')
+            return Response({"message":
+                            "A confirmation email has been "
+                                "sent to your email address."},
+                                status=status.HTTP_200_OK)
 
 
 class PasswordResetDemo(APIView):
@@ -425,23 +410,18 @@ class PasswordResetDemo(APIView):
 
     def post(self, request):
         logger.info("Password reset request accessed.")
-        serializer = PasswordChangeSerializer(data=request.data)
-        if serializer.is_valid():
-            username = request.data.get('username')
-            try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                return Response({"detail": "User not found"},
-                                status=status.HTTP_404_NOT_FOUND)
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            logger.info(f'User {username} requested password change.')
-            return Response({'uid': uid, 'token': token,
-                                'user': user.username, 'email': user.email},
-                                status=status.HTTP_200_OK)
-        logger.error(serializer.errors)
-        return Response({"error": serializer.errors},
-                            status=status.HTTP_400_BAD_REQUEST)
+        username = request.data.get('username')
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"},
+                            status=status.HTTP_404_NOT_FOUND)
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        logger.info(f'User {username} requested password change.')
+        return Response({'uid': uid, 'token': token,
+                            'user': user.username, 'email': user.email},
+                            status=status.HTTP_200_OK)
 
 
 class PasswordChangeConfirm(APIView):

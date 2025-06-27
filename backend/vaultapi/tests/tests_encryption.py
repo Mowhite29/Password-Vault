@@ -48,8 +48,8 @@ class APITests(APITestCase):
     def test_user_key_set(self):
         url = reverse('UserKeys')
         payload = {
-            "encrypted_string": "string", "salt1": "salt1",
-            "salt2": "salt2", "nonce": "nonce"}
+            "encrypted_string": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "salt1": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==",
+            "salt2": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "nonce": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ=="}
         response = self.client.post(url, payload, format='json',
                                         **self.auth_headers)
         self.assertEqual(response.status_code, 200,
@@ -58,14 +58,11 @@ class APITests(APITestCase):
     def test_user_key_set_existing(self):
         url = reverse('UserKeys')
         payload = {
-            "encrypted_string": "string", "salt1": "salt1",
-            "salt2": "salt2", "nonce": "nonce"}
+            "encrypted_string": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "salt1": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==",
+            "salt2": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "nonce": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ=="}
         self.client.post(url, payload, format='json',
                          **self.auth_headers)
-        payload1 = {
-            "encrypted_string": "new_string", "salt1": "new_salt1",
-            "salt2": "new_salt2", "nonce": "new_nonce"}
-        request = self.client.post(url, payload1, format='json',
+        request = self.client.post(url, payload, format='json',
                                         **self.auth_headers)
 
         self.assertEqual(request.status_code, 405)
@@ -73,8 +70,8 @@ class APITests(APITestCase):
     def test_user_key_get(self):
         url = reverse('UserKeys')
         payload = {
-            "encrypted_string": "string", "salt1": "salt1",
-            "salt2": "salt2", "nonce": "nonce"}
+            "encrypted_string": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "salt1": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==",
+            "salt2": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "nonce": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ=="}
         self.client.post(url, payload, format='json',
                          **self.auth_headers)
         response = self.client.get(url, **self.auth_headers)
@@ -84,8 +81,8 @@ class APITests(APITestCase):
     def test_user_key_get_invalid_token(self):
         url = reverse('UserKeys')
         payload = {
-            "encrypted_string": "string", "salt1": "salt1",
-            "salt2": "salt2", "nonce": "nonce"}
+            "encrypted_string": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "salt1": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==",
+            "salt2": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==", "nonce": "U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ=="}
         self.client.post(url, payload, format='json',
                          **self.auth_headers)
         response = self.client.get(url,

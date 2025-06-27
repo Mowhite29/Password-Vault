@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import VaultEntry, PasswordChange, UserKeys
+import base64
+from .models import VaultEntry, UserKeys
 
 
 class VaultSerializer(serializers.ModelSerializer):
@@ -27,7 +28,26 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class Base64BinaryField(serializers.Field):
+    def to_representation(self, value):
+        if isinstance(value, str):
+            # assume base64 string already, just return
+            return value
+        return base64.b64encode(value).decode('utf-8')
+
+    def to_internal_value(self, data):
+        try:
+            return base64.b64decode(data)
+        except Exception:
+            raise serializers.ValidationError('Invalid base64-encoded data')
+
+
 class UserKeySerializer(serializers.ModelSerializer):
+    encrypted_string = Base64BinaryField()
+    salt1 = Base64BinaryField()
+    salt2 = Base64BinaryField()
+    nonce = Base64BinaryField()
+
     class Meta:
         model = UserKeys
         fields = ['user', 'encrypted_string', 'salt1', 'salt2', 'nonce']
@@ -42,9 +62,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
-
-
-class PasswordChangeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PasswordChange
-        fields = ['username']
