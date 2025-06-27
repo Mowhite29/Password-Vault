@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "argon2": "^0.43.0",
     "argon2-browser": "^1.18.0",
+    "argon2-wasm": "^0.9.0",
     "argon2id": "^1.0.1",
     "axios": "^1.10.0",
     "detect-it": "^4.0.1",
@@ -21,7 +22,9 @@
     "react-dom": "^19.1.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
-    "tweetnacl": "^1.0.3"
+    "tweetnacl": "^1.0.3",
+    "vite-plugin-top-level-await": "^1.5.0",
+    "vite-plugin-wasm": "^3.4.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -37,7 +40,7 @@
     "sass-embedded": "^1.89.2",
     "vite": "^6.3.5"
   },
-  "prettier":{
+  "prettier": {
     "trailingComma": "es5",
     "tabWidth": 4,
     "semi": false,
