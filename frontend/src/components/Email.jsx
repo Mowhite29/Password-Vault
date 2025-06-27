@@ -1,6 +1,15 @@
+import { useNavigate } from 'react-router-dom'
 import '../styles/Email.scss'
 
-export default function Email(type, url, user, email) {
+export default function Email({ type, url, user, email }) {
+    const navigate = useNavigate()
+
+    const siteURL = import.meta.env.VITE_FRONTEND_URL
+
+    function Verify() {
+        navigate(url)
+    }
+
     if (type === 'email') {
         return (
             <>
@@ -15,7 +24,7 @@ export default function Email(type, url, user, email) {
                         Please verify your email address by clicking the link
                         below:
                     </p>
-                    <a href={url}>{url}</a>
+                    <button onClick={() => Verify()}>{siteURL + url}</button>
                     <p>If you didn't register, please ignore this email.</p>
                 </div>
             </>
