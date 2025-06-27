@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -18,15 +19,21 @@ export default function VerifyEmail() {
     async function Verify() {
         const response = await VerifyEmailAddress(params.uid, params.token)
         if (response) {
-            handleScreenChange('home')
-            navigate('/')
+            setTimeout(() => {
+                handleScreenChange('home')
+                navigate('/')
+            }, 4000)
         }
     }
 
+    useEffect(() => {
+        Verify()
+    })
+
     return (
         <>
-            <button onClick={() => Verify()}>Verify email address</button>
+            <h1>Email address verified successfully</h1>
+            <h2>Please wait for redirection to home page</h2>
         </>
     )
-    
 }
