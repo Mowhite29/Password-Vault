@@ -7,9 +7,8 @@ import '../styles/MenuBar.scss'
 
 export default function MenuBar() {
     const [open, setOpen] = useState(false)
-
-    const dispatch = useDispatch()
     const signedIn = useSelector((state) => state.auth.signedIn)
+    const dispatch = useDispatch()
 
     function OpenMenu() {
         setOpen(() => !open)
