@@ -39,9 +39,9 @@ class APITests(APITestCase):
         self.entry_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'encrypted_password': 'Example Encrypted Password',
-            'salt': 'Example Salt',
-            'nonce': 'Example Nonce',
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'Example Notes'
         }
 
@@ -67,18 +67,18 @@ class APITests(APITestCase):
         url = reverse('VaultView')
         entry_payload = {
             'username': 'Example Username',
-            'encrypted_password': 'Example Encrypted Password',
-            'salt': 'Example Salt',
-            'nonce': 'Example Nonce',
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'Example Notes'
         }
         response1 = self.client.post(url, entry_payload, format='json',
                                         **self.auth_headers)
         entry_payload = {
             'label': 'Example Site',
-            'encrypted_password': 'Example Encrypted Password',
-            'salt': 'Example Salt',
-            'nonce': 'Example Nonce',
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'Example Notes'
         }
         response2 = self.client.post(url, entry_payload, format='json',
@@ -86,8 +86,8 @@ class APITests(APITestCase):
         entry_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'salt': 'Example Salt',
-            'nonce': 'Example Nonce',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'Example Notes'
         }
         response3 = self.client.post(url, entry_payload, format='json',
@@ -133,9 +133,9 @@ class APITests(APITestCase):
         updated_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'encrypted_password': 'New Encrypted Password',
-            'salt': 'Updated Salt',
-            'nonce': 'Updated Nonce',
+            'encrypted_password': 'U29tZSBuZXcgc2FtcGxlIHRlc3QgZGF0YSE=',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'New Notes'
         }
         response1 = self.client.put(url, updated_payload, format='json',
@@ -148,7 +148,7 @@ class APITests(APITestCase):
         self.assertEqual(response1.data, {"message": "Entry Updated"},
                 "PUT request failed to return {'message': 'Entry Updated'}")
         self.assertEqual(response2.json()[0]['encrypted_password'],
-                            'New Encrypted Password',
+                            'U29tZSBuZXcgc2FtcGxlIHRlc3QgZGF0YSE=',
                             "GET request failed to return updated entry")
 
     def test_update_vault_invalid_entry(self):
@@ -158,9 +158,9 @@ class APITests(APITestCase):
         updated_payload = {
             'label': 'Example Site',
             'username': 'Incorrect Username',
-            'encrypted_password': 'New Encrypted Password',
-            'salt': 'Updated Salt',
-            'nonce': 'Updated Nonce',
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'New Notes'
         }
         response1 = self.client.put(url, updated_payload, format='json',
@@ -168,9 +168,9 @@ class APITests(APITestCase):
         updated_payload = {
             'label': 'Incorrect Site',
             'username': 'Example Username',
-            'encrypted_password': 'New Encrypted Password',
-            'salt': 'Updated Salt',
-            'nonce': 'Updated Nonce',
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'New Notes'
         }
         response2 = self.client.put(url, updated_payload, format='json',
@@ -189,9 +189,9 @@ class APITests(APITestCase):
         updated_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'encrypted_password': 'New Encrypted Password',
-            'salt': 'Updated Salt',
-            'nonce': 'Updated Nonce',
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'notes': 'New Notes'
         }
         response1 = self.client.put(url, updated_payload, format='json',
@@ -206,7 +206,9 @@ class APITests(APITestCase):
         search_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'encrypted_password': 'Example Encrypted Password'
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ=='
         }
         response = self.client.delete(url, search_payload,
                                        **self.auth_headers)
@@ -220,7 +222,9 @@ class APITests(APITestCase):
         search_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'encrypted_password': 'Example Encrypted Password'
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
         }
         response = self.client.delete(url, search_payload,
                                        **self.auth_headers)
@@ -234,7 +238,9 @@ class APITests(APITestCase):
         search_payload = {
             'label': 'Wrong Site',
             'username': 'Example Username',
-            'encrypted_password': 'Example Encrypted Password'
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
+            'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
         }
         response = self.client.delete(url, search_payload,
                                        **self.auth_headers)
@@ -248,7 +254,7 @@ class APITests(APITestCase):
         search_payload = {
             'label': 'Example Site',
             'username': 'Example Username',
-            'encrypted_password': 'Example Encrypted Password'
+            'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ=='
         }
         response = self.client.delete(url, search_payload,
                             **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
