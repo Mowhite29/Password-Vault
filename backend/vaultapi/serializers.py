@@ -25,7 +25,7 @@ class Base64BinaryField(serializers.Field):
 
 
 class VaultSerializer(serializers.ModelSerializer):
-    encrypted_string = Base64BinaryField()
+    encrypted_password = Base64BinaryField()
     salt = Base64BinaryField()
     nonce = Base64BinaryField()
 
