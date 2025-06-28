@@ -238,8 +238,10 @@ Delete a vault entry
 ```json
 {
     "label": "label", 
-        "username": "username", 
-        "encrypted_password": "encrypted_password"
+    "username": "username", 
+    "encrypted_password": "encrypted_password",
+    "salt": "salt",
+    "nonce": "nonce"
 }
 ```
 
