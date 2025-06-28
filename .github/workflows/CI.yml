@@ -72,19 +72,11 @@ jobs:
             AWS_REGION_NAME: ${{ secrets.AWS_REGION_NAME }}
             DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
             FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
-            PGUSER: ${{ secrets.PGUSER }}
-            PGPASSWORD: ${{ secrets.PGPASSWORD }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
             DJANGO_SETTINGS_MODULE: vault.test_settings
-            POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
-            POSTGRES_USER: ${{ secrets.DATABASE_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-            POSTGRES_HOST: postgres
-            POSTGRES_PORT: 5432
           run: |
             cd backend
             python manage.py migrate
-            python manage.py test --settings=vault.test_settings
+            python manage.py test 
 
   frontend:
     name: Frontend CI (React)
