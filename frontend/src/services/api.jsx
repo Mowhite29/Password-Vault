@@ -19,7 +19,6 @@ export async function Register(username, password, firstname, lastname = '') {
         )
 
         if (response.status === 200) {
-            console.log('2')
             return response.data
         } else {
             console.log(response.status)
@@ -318,16 +317,14 @@ export async function KeyFetch(accessToken) {
             headers: { AUTHORIZATION: authToken },
             timeout: 10000,
         })
+
         if (response.status === 200) {
             return response.data
         } else {
             return false
         }
     } catch (error) {
-        console.error(
-            'Key fetch failed:',
-            error.response?.data || error.message
-        )
+        console.log('Key fetch failed:', error.message)
         return false
     }
 }
@@ -346,7 +343,7 @@ export async function KeyCreate(
             url,
             {
                 encrypted_string: encrypted_string,
-                salt: salt1,
+                salt1: salt1,
                 salt2: salt2,
                 nonce: nonce,
             },
