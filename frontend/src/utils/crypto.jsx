@@ -1,13 +1,28 @@
 import { secretbox, randomBytes } from 'tweetnacl'
 
-function base64ToUint8Array(base64) {
+function base64ToUint8Array(base64, label = 'data') {
+    if (!base64 || typeof base64 !== 'string') {
+        throw new Error(
+            `Missing or invalid base64 input for ${label}: ${base64}`
+        )
+    }
     const binary = atob(base64)
     const len = binary.length
     const bytes = new Uint8Array(len)
     for (let i = 0; i < len; i++) {
+        // eslint-disable-next-line security/detect-object-injection
         bytes[i] = binary.charCodeAt(i)
     }
     return bytes
+}
+
+function uint8ArrayToBase64(bytes) {
+    let binary = ''
+    for (let i = 0; i < bytes.length; i++) {
+        // eslint-disable-next-line security/detect-object-injection
+        binary += String.fromCharCode(bytes[i])
+    }
+    return btoa(binary)
 }
 
 async function deriveKey(password, salt, iterations = 100000) {
@@ -65,20 +80,13 @@ export async function GenerateKeyCheck(masterKey, email) {
     const emailDerivedKey = await deriveKey(email, salt1, 100000)
     const derivedKey = await deriveKey(masterKey, salt2, 100000)
 
-    console.log(emailDerivedKey instanceof Uint8Array) // true
-    console.log(nonce instanceof Uint8Array) // true
-    console.log(derivedKey instanceof Uint8Array)
-    console.log(emailDerivedKey) // true
-    console.log(nonce) // true
-    console.log(derivedKey)
-
     return {
-        encryptedString: btoa(
-            String.fromCharCode(secretbox(emailDerivedKey, nonce, derivedKey))
+        encryptedString: uint8ArrayToBase64(
+            secretbox(emailDerivedKey, nonce, derivedKey)
         ),
-        salt1: btoa(String.fromCharCode(salt1)),
-        salt2: btoa(String.fromCharCode(salt2)),
-        nonce: btoa(String.fromCharCode(nonce)),
+        salt1: uint8ArrayToBase64(salt1),
+        salt2: uint8ArrayToBase64(salt2),
+        nonce: uint8ArrayToBase64(nonce),
     }
 }
 
@@ -92,29 +100,28 @@ export async function KeyCheck(
 ) {
     const emailDerivedKey = await deriveKey(
         email,
-        base64ToUint8Array(salt1),
+        base64ToUint8Array(salt1, 'salt1'),
         100000
     )
     const derivedKey = await deriveKey(
         masterKey,
-        base64ToUint8Array(salt2),
+        base64ToUint8Array(salt2, 'salt2'),
         100000
     )
-    console.log(
-        secretbox.open(
-            base64ToUint8Array(encryptedString),
-            base64ToUint8Array(nonce),
-            derivedKey
-        )
+    const retrievedKey = secretbox.open(
+        base64ToUint8Array(encryptedString),
+        base64ToUint8Array(nonce),
+        derivedKey
     )
-    console.log(emailDerivedKey)
-    if (
-        secretbox.open(
-            base64ToUint8Array(encryptedString),
-            base64ToUint8Array(nonce),
-            derivedKey
-        ) === emailDerivedKey
-    ) {
-        return true
+
+    if (retrievedKey === null) {
+        return false
     }
+
+    if (retrievedKey.length !== emailDerivedKey.length) return false
+    for (let i = 0; i < retrievedKey.length; i++) {
+        // eslint-disable-next-line security/detect-object-injection
+        if (retrievedKey[i] !== emailDerivedKey[i]) return false
+    }
+    return true
 }
