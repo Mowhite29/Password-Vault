@@ -12,9 +12,9 @@ class VaultEntry(models.Model):
     encrypted_password = models.CharField(max_length=1024,
                         help_text="AES-encrypted password string")
     salt = models.BinaryField(blank=True, null=True,
-                              help_text='Hash padding salt')
+                        help_text='Hash padding salt')
     nonce = models.BinaryField(blank=True, null=True,
-                               help_text='Crypto nonce')
+                        help_text='Crypto nonce')
     notes = models.TextField(blank=True, help_text="Optional notes or hints")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -28,8 +28,7 @@ class UserKeys(models.Model):
     encrypted_string = models.CharField(max_length=1024,
         help_text="Known string encrypted using users master key")
     salt1 = models.BinaryField(blank=True, null=True,
-                             help_text='Known string padding salt')
+                        help_text='Known string padding salt')
     salt2 = models.BinaryField(blank=True, null=True,
-                               help_text='Master key padding salt')
-    nonce = models.BinaryField(blank=True, null=True,
-                               help_text='Crypto nonce')
+                        help_text='Master key padding salt')
+    nonce = models.BinaryField(blank=True, null=True, help_text='Crypto nonce')
