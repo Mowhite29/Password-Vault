@@ -157,7 +157,7 @@ class UserKeysView(APIView):
 
     def post(self, request):
         logger.info("Set user key accessed.")
-
+        # Save user key information
         serializer = UserKeySerializer(data=request.data,
                                        context={'request': request})
         if serializer.is_valid():
@@ -168,7 +168,6 @@ class UserKeysView(APIView):
                 return Response({'error': 'Key already exists for this user'},
                                 status=status.HTTP_405_METHOD_NOT_ALLOWED)
             except UserKeys.DoesNotExist:
-                serializer.save()
                 logger.info(f'User {request.user.username} set new user key.')
                 return Response({"message": "User key set"},
                                 status=status.HTTP_200_OK)

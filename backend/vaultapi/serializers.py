@@ -1,10 +1,34 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 import base64
+import re
 from .models import VaultEntry, UserKeys
 
 
+class Base64BinaryField(serializers.Field):
+    def to_representation(self, value):
+        if value is None:
+            return None
+        if isinstance(value, str):
+            match = re.match(r"^b'(.*)'$", value)
+            if match:
+                value = eval(value)
+            else:
+                raise TypeError(f"Expected bytes, got str: {value!r}")
+        return base64.b64encode(value).decode('utf-8')
+
+    def to_internal_value(self, data):
+        try:
+            return base64.b64decode(data)
+        except Exception:
+            raise serializers.ValidationError('Invalid base64-encoded data')
+
+
 class VaultSerializer(serializers.ModelSerializer):
+    encrypted_string = Base64BinaryField()
+    salt = Base64BinaryField()
+    nonce = Base64BinaryField()
+
     class Meta:
         model = VaultEntry
         fields = ['user', 'label', 'username', 'encrypted_password',
@@ -26,20 +50,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.is_active = False
         user.save()
         return user
-
-
-class Base64BinaryField(serializers.Field):
-    def to_representation(self, value):
-        if isinstance(value, str):
-            # assume base64 string already, just return
-            return value
-        return base64.b64encode(value).decode('utf-8')
-
-    def to_internal_value(self, data):
-        try:
-            return base64.b64decode(data)
-        except Exception:
-            raise serializers.ValidationError('Invalid base64-encoded data')
 
 
 class UserKeySerializer(serializers.ModelSerializer):
