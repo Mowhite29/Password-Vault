@@ -260,11 +260,9 @@ class VaultView(APIView):
             validated_data = serializer.validated_data
             label = validated_data.get('label')
             username = validated_data.get('username')
-            encrypted_password = validated_data.get('encrypted_password')
             try:
                 entry = VaultEntry.objects.get(user=request.user, label=label,
-                                        username=username,
-                                        encrypted_password=encrypted_password)
+                                        username=username)
             except VaultEntry.DoesNotExist:
                 logger.error(f'User {request.user.username} attempted '
                             'to delete a nonexistant entry.')
