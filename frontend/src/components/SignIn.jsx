@@ -57,7 +57,6 @@ export default function SignIn() {
         setMessageVisible(true)
         const tokenObtain = await TokenObtain(username, password)
         if (tokenObtain != false) {
-            console.log(tokenObtain)
             tokenHandler(tokenObtain['access'])
             userDetails(username)
             handleScreenChange('vault')
