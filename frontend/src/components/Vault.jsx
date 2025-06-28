@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import useKeepBackendAwake from '../hooks/useKeepBackendAwake'
 import '../styles/Vault.scss'
 import { useSelector } from 'react-redux'
 import { KeyCheck, GenerateKeyCheck } from '../utils/crypto'
@@ -20,7 +19,17 @@ export default function Vault() {
 
     useEffect(() => {
         InitialiseVault()
-    }, [])
+
+        async function InitialiseVault() {
+            const response = await KeyFetch(token)
+            if (response === false) {
+                setkeySetShown(true)
+            } else {
+                setKeyValues(response.data)
+                setkeyEntryShown(true)
+            }
+        }
+    }, [token])
 
     const keyInput = (e) => {
         setEnteredkey(e.target.value)
@@ -39,13 +48,15 @@ export default function Vault() {
             setMasterKey(enteredKey)
             setPopUpMessage('Master key set successfully')
             setMessageVisible(true)
-            setTimeout(() => setMessageVisible(false), 5000)
+            setTimeout(() => {
+                setMessageVisible(false)
+                setkeySetShown(false)
+            }, 5000)
         }
     }
 
     async function KeyEntry() {
         const response = await KeyFetch(token)
-        console.log(response)
         const key = await KeyCheck(
             enteredKey,
             userEmail,
@@ -56,6 +67,7 @@ export default function Vault() {
         )
         if (key) {
             setMasterKey(enteredKey)
+            setkeyEntryShown(false)
         } else {
             setPopUpMessage('Invalid master key entered, please try again')
             setMessageVisible(true)
@@ -63,18 +75,9 @@ export default function Vault() {
         }
     }
 
-    async function InitialiseVault() {
-        try {
-            const response = await KeyFetch(token)
-            if (response === false) {
-                setkeySetShown(true)
-            } else {
-                setKeyValues(response.data)
-                setkeyEntryShown(true)
-            }
-        } catch (error) {
-            console.log('key fetch error:', error.status)
-        }
+    async function EntryCreation() {
+        keyValues
+        masterKey
     }
 
     return (
