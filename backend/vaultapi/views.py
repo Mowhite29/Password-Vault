@@ -30,6 +30,7 @@ def ping_view(request):
 class RegisterView(APIView):
     throttle_classes = [AnonRateThrottle]
 
+    # Register new user
     def post(self, request):
         logger.info("Register endpoint accessed.")
         serializer = RegisterSerializer(data=request.data)
@@ -93,6 +94,7 @@ class RegisterView(APIView):
 class RegisterViewDemo(APIView):
     throttle_classes = [AnonRateThrottle]
 
+    # Register new user
     def post(self, request):
         logger.info("Register endpoint accessed.")
         serializer = RegisterSerializer(data=request.data)
@@ -114,6 +116,7 @@ class RegisterViewDemo(APIView):
 class EmailVerifyView(APIView):
     throttle_classes = [AnonRateThrottle]
 
+    # User email verification
     def get(self, request, uidb64, token):
         logger.info("Email verification accessed.")
         try:
@@ -141,23 +144,23 @@ class UserKeysView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
+    # Retrieve user key information
     def get(self, request):
         logger.info("Get user key accessed.")
-        # Retrieve user key information
         try:
             userKeys = UserKeys.objects.get(user=request.user)
             serializer = UserKeySerializer(userKeys)
             logger.info(f'User key accessed by {userKeys.user.username}')
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserKeys.DoesNotExist:
-            logger.error(f'User {userKeys.user.username} '
+            logger.error(f'User {request.user.username} '
                         'attempted to access user key prior to it being set.')
             return Response({"error": "Entry not found"},
-                                status=status.HTTP_404_NOT_FOUND)
+                                status=status.HTTP_204_NO_CONTENT)
 
+    # Save user key information
     def post(self, request):
         logger.info("Set user key accessed.")
-        # Save user key information
         serializer = UserKeySerializer(data=request.data,
                                        context={'request': request})
         if serializer.is_valid():
@@ -169,6 +172,7 @@ class UserKeysView(APIView):
                                 status=status.HTTP_405_METHOD_NOT_ALLOWED)
             except UserKeys.DoesNotExist:
                 logger.info(f'User {request.user.username} set new user key.')
+                serializer.save()
                 return Response({"message": "User key set"},
                                 status=status.HTTP_200_OK)
         logger.error(serializer.errors)
@@ -180,17 +184,17 @@ class VaultView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
+    # Retrieve password list
     def get(self, request):
         logger.info("Get vault accessed.")
-        # Retrieve password list
         vaults = VaultEntry.objects.filter(user=request.user)
         serializer = VaultSerializer(vaults, many=True)
         logger.info(f'User {request.user.username} retrieved vault.')
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    # Create new entry
     def post(self, request):
         logger.info("Vault entry creation accessed.")
-        # Create new entry
         serializer = VaultSerializer(data=request.data,
                                      context={'request': request})
         if serializer.is_valid():
@@ -216,9 +220,9 @@ class VaultView(APIView):
         return Response({"error": serializer.errors},
                             status=status.HTTP_400_BAD_REQUEST)
 
+    # Update entry
     def put(self, request):
         logger.info("Update vault entry accessed.")
-        # Update entry
         serializer = VaultSerializer(data=request.data,
                                     context={'request': request})
         if serializer.is_valid():
@@ -247,9 +251,9 @@ class VaultView(APIView):
         return Response({"error": serializer.errors},
                         status=status.HTTP_400_BAD_REQUEST)
 
+    # Delete entry
     def delete(self, request):
         logger.info("Delete vault entry accessed.")
-        # Delete entry
         serializer = VaultSerializer(data=request.data,
                                      context={'request': request})
         if serializer.is_valid():
@@ -280,6 +284,7 @@ class PasswordChange(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
+    # Password change request from authenticated user
     def post(self, request):
         logger.info("Password change request accessed.")
         user = request.user
@@ -334,6 +339,7 @@ class PasswordChangeDemo(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
+    # Password change request from authenticated user
     def post(self, request):
         logger.info("Password change request accessed.")
         user = request.user
@@ -348,6 +354,7 @@ class PasswordChangeDemo(APIView):
 class PasswordReset(APIView):
     throttle_classes = [AnonRateThrottle]
 
+    # Password change request from unauthenticated user
     def post(self, request):
         logger.info("Password reset request accessed.")
         username = request.data.get('username')
@@ -407,6 +414,7 @@ class PasswordReset(APIView):
 class PasswordResetDemo(APIView):
     throttle_classes = [AnonRateThrottle]
 
+    # Password change request from unauthenticated user
     def post(self, request):
         logger.info("Password reset request accessed.")
         username = request.data.get('username')
@@ -426,6 +434,7 @@ class PasswordResetDemo(APIView):
 class PasswordChangeConfirm(APIView):
     throttle_classes = [AnonRateThrottle]
 
+    # Password change confirmation
     def post(self, request, uidb64, token):
         logger.info("Password change confirm accessed.")
         try:
