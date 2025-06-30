@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { signIn, setScreen, setUserEmail } from '../redux/authSlice'
+import {
+    signIn,
+    setScreen,
+    setUserEmail,
+    setRefreshToken,
+} from '../redux/authSlice'
 import { Register, TokenObtain } from '../services/api'
 import Email from './Email'
 import '../styles/SignIn.scss'
@@ -52,12 +57,17 @@ export default function SignIn() {
         dispatch(setUserEmail(details))
     }
 
+    const refreshToken = (refresh) => {
+        dispatch(setRefreshToken(refresh))
+    }
+
     async function SignIn() {
         setPopUpMessage('Loading')
         setMessageVisible(true)
         const tokenObtain = await TokenObtain(username, password)
         if (tokenObtain != false) {
             tokenHandler(tokenObtain['access'])
+            refreshToken(tokenObtain['refresh'])
             userDetails(username)
             handleScreenChange('vault')
         } else {
