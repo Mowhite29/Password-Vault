@@ -4,6 +4,7 @@ const initialState = {
     screen: 'home',
     signedIn: false,
     token: '',
+    refreshToken: '',
     userEmail: {},
 }
 
@@ -19,7 +20,9 @@ const authSlice = createSlice({
         signOut(state) {
             state.signedIn = false
             state.token = ''
+            state.refreshToken = ''
             state.screen = 'home'
+            state.userEmail = {}
         },
         setScreen(state, action) {
             state.screen = action.payload
@@ -27,11 +30,21 @@ const authSlice = createSlice({
         setToken(state, action) {
             state.token = action.payload
         },
+        setRefreshToken(state, action) {
+            state.refreshToken = action.payload
+        },
         setUserEmail(state, action) {
             state.userEmail = action.payload
         },
     },
 })
 
-export const { signIn, signOut, setScreen, setUserEmail } = authSlice.actions
+export const {
+    signIn,
+    signOut,
+    setScreen,
+    setUserEmail,
+    setToken,
+    setRefreshToken,
+} = authSlice.actions
 export default authSlice.reducer
