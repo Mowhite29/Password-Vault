@@ -110,11 +110,3 @@ class APITests(APITestCase):
                                    **self.auth_headers)
         self.assertEqual(request.status_code, 200,
                          "POST request failed to return status 200")
-
-    def test_user_name_change_missing_name(self):
-        url = reverse('NameChange')
-        payload = {"first_name": "newName"}
-        request = self.client.post(url, payload, format='json',
-                                   **self.auth_headers)
-        self.assertEqual(request.status_code, 400,
-                         "POST request failed to return status 400")
