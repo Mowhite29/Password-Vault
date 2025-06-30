@@ -25,7 +25,14 @@ I have built the following tests for my api endpoints:
 - Successful email verification
 - Email verification attempt with invalid verification token
 - Successful name change
-- Attempt to change name with missing name fields
+
+### Email Change
+
+- Successful email change
+- Attempt to change email with missing new email
+- Attempt to change email with invalid authorisation token
+- Successful email change verification
+- Attempt to verify changed email with invalid verification token
 
 ### Authentication
 
