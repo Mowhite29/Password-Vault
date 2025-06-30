@@ -1,11 +1,13 @@
 import {} from 'react'
 import { useSelector } from 'react-redux'
+
 import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
 import SignIn from './components/SignIn'
 import Vault from './components/Vault'
 import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
+import useTokenTimeout from './hooks/useTokenTimeout'
 import './styles/Home.scss'
 
 export default function Home() {
@@ -13,6 +15,7 @@ export default function Home() {
 
     useKeepBackendAwake()
     useInactivityLogout()
+    useTokenTimeout()
 
     return (
         <>
