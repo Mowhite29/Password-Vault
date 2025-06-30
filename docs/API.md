@@ -111,7 +111,7 @@ Register a new user
 }
 ```
 
-### **GET** `/verifu-email/uid/token/`
+### **GET** `/verify-email/uid/token/`
 
 Email verification
 
