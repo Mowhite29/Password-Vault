@@ -1,4 +1,4 @@
-import { secretbox, randomBytes } from 'tweetnacl'
+import { secretbox } from 'tweetnacl'
 
 function base64ToUint8Array(base64, label = 'data') {
     if (!base64 || typeof base64 !== 'string') {
@@ -52,24 +52,37 @@ async function deriveKey(password, salt, iterations = 100000) {
 }
 
 export async function Encrypt(masterKey, password) {
-    const salt = randomBytes(16)
-    const nonce = randomBytes(24)
+    const salt = crypto.getRandomValues(new Uint8Array(16))
+    const nonce = crypto.getRandomValues(new Uint8Array(24))
 
-    const derivedKey = deriveKey(masterKey, salt, 100000)
+    const derivedKey = await deriveKey(masterKey, salt, 100000)
 
-    const encryptedPassword = secretbox(password, nonce, derivedKey)
+    const enc = new TextEncoder()
+    const passwordArray = enc.encode(password)
 
+    const encryptedPassword = await secretbox(passwordArray, nonce, derivedKey)
+    console.log(encryptedPassword, nonce, salt)
     return {
-        encryptedPassword,
-        salt,
-        nonce,
+        encryptedPassword: uint8ArrayToBase64(encryptedPassword),
+        salt: uint8ArrayToBase64(salt),
+        nonce: uint8ArrayToBase64(nonce),
     }
 }
 
 export async function Decrypt(masterKey, encryptedPassword, salt, nonce) {
-    const derivedKey = deriveKey(masterKey, salt, 100000)
-
-    return secretbox.open(encryptedPassword, nonce, derivedKey)
+    const derivedKey = await deriveKey(
+        masterKey,
+        base64ToUint8Array(salt),
+        100000
+    )
+    const passwordArray = secretbox.open(
+        base64ToUint8Array(encryptedPassword),
+        base64ToUint8Array(nonce),
+        derivedKey
+    )
+    const enc = new TextDecoder()
+    const plaintext = enc.decode(passwordArray)
+    return plaintext
 }
 
 export async function GenerateKeyCheck(masterKey, email) {
