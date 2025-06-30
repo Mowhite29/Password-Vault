@@ -365,3 +365,67 @@ export async function KeyCreate(
         return false
     }
 }
+
+export async function EmailChange(new_email, accessToken) {
+    try {
+        const url = backEndURL + '/email-change-request/'
+        const authToken = 'Bearer ' + accessToken
+        const response = await axios.post(
+            url,
+            {
+                new_email: new_email,
+            },
+            {
+                headers: { AUTHORIZATION: authToken },
+                timeout: 10000,
+            }
+        )
+        if (response.status === 200) {
+            return true
+        } else {
+            return false
+        }
+    } catch {
+        console.log('Email change request failed')
+    }
+}
+
+export async function EmailChangeVerify(uidb64, token) {
+    try {
+        const url =
+            backEndURL + '/email-change-confirm/' + uidb64 + '/' + token + '/'
+        const response = await axios.post(url)
+        if (response.status === 200) {
+            return true
+        } else {
+            return false
+        }
+    } catch {
+        console.log('Email change verify failed')
+    }
+}
+
+export async function NameChange(firstName, lastName, accessToken) {
+    try {
+        const url = backEndURL + '/user/change/'
+        const authToken = 'Bearer ' + accessToken
+        const response = await axios.post(
+            url,
+            {
+                first_name: firstName,
+                last_name: lastName,
+            },
+            {
+                headers: { AUTHORIZATION: authToken },
+                timeout: 10000,
+            }
+        )
+        if (response.status === 200) {
+            return true
+        } else {
+            return false
+        }
+    } catch {
+        console.log('Name change request failed')
+    }
+}
