@@ -1,17 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import authReducer from './authSlice'
 import connectReducer from './connectionSlice'
 
-const persistConfig = {
-    key: 'root',
-    storage,
-}
-const persistedAuthReducer = persistReducer(persistConfig, authReducer)
 export const store = configureStore({
     reducer: {
-        auth: persistedAuthReducer,
+        auth: authReducer,
         connect: connectReducer,
     },
     middleware: (getDefaultMiddleware) =>
@@ -21,5 +14,3 @@ export const store = configureStore({
             },
         }),
 })
-
-export const persistor = persistStore(store)
