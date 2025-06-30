@@ -75,11 +75,15 @@ export async function Decrypt(masterKey, encryptedPassword, salt, nonce) {
         base64ToUint8Array(salt),
         100000
     )
+    console.log('key', derivedKey)
+    console.log('nonce', nonce)
+    console.log('password', encryptedPassword)
     const passwordArray = secretbox.open(
         base64ToUint8Array(encryptedPassword),
         base64ToUint8Array(nonce),
         derivedKey
     )
+    console.log(passwordArray)
     const enc = new TextDecoder()
     const plaintext = enc.decode(passwordArray)
     return plaintext
