@@ -21,6 +21,21 @@ class APITests(APITestCase):
                                     password=self.password,
                                     is_active=True)
 
+        # Get auth token
+        token_response = self.client.post(
+            '/api/token/',
+            {
+                'username': self.username,
+                'password': self.password
+            },
+            format='json'
+        )
+        self.assertEqual(token_response.status_code, 200)
+        self.token = token_response.data['access']
+        self.auth_headers = {
+            'HTTP_AUTHORIZATION': f'Bearer {self.token}'
+        }
+
         self.payload = {
             "username": "testUser1",
             "first_name": "testFirstName1",
@@ -87,3 +102,19 @@ class APITests(APITestCase):
 
         self.assertEqual(request1.status_code, 400,
                          "GET request failed to return status 400")
+
+    def test_user_name_change(self):
+        url = reverse('NameChange')
+        payload = {"first_name": "newName", "last_name": "newname"}
+        request = self.client.post(url, payload, format='json',
+                                   **self.auth_headers)
+        self.assertEqual(request.status_code, 200,
+                         "POST request failed to return status 200")
+
+    def test_user_name_change_missing_name(self):
+        url = reverse('NameChange')
+        payload = {"first_name": "newName"}
+        request = self.client.post(url, payload, format='json',
+                                   **self.auth_headers)
+        self.assertEqual(request.status_code, 400,
+                         "POST request failed to return status 400")

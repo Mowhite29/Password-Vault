@@ -24,6 +24,8 @@ I have built the following tests for my api endpoints:
 - User creation attempt using an invalid email address
 - Successful email verification
 - Email verification attempt with invalid verification token
+- Successful name change
+- Attempt to change name with missing name fields
 
 ### Authentication
 

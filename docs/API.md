@@ -62,7 +62,7 @@ Refresh an access token using the refresh token
 }
 ```
 
-## User Registration, Email Verification & Master Key Handling
+## User Registration, Email Verification, Master Key Handling & Name Change
 
 ### **POST** `/user/`
 
@@ -160,6 +160,25 @@ Retrieve user master key checking details
 }
 ```
 
+### **POST** `/user/change/`
+
+Change users name
+**Request Body:**
+
+```json
+{
+    "first_name": "first_name",
+    "last_name": "last_name"
+}
+```
+
+**Response:**
+
+```json
+{
+    "message": "name updated"
+}
+```
 
 ## Vault Entry Operations
 
@@ -353,6 +372,60 @@ Password change confirmation
 ```json
 {
     "message": "password updated"
+}
+```
+
+## Email Change
+
+### **POST** `/email-change-request/`
+
+Request email address change
+**Request Body:**
+
+```json
+{
+    "new_email": "new_email"
+}
+```
+
+**Response:**
+
+```json
+{
+    "message": "A confirmation email has been sent to your email address."
+}
+```
+
+### **POST** `/email-change-request/` **DEMO VERSION**
+
+Request email address change
+**Request Body:**
+
+```json
+{
+    "new_email": "new_email"
+}
+```
+
+**Response:**
+
+```json
+{
+    "uid": "uid",
+    "token": "token",
+    "user":"testnew1@test.com",
+    "email":"testnew1@test.com"
+}
+```
+
+### **POST** `/email-change-confirm/uid/token/`
+
+Confirm email address change
+**Response:**
+
+```json
+{
+    "message": "email updated"
 }
 ```
 

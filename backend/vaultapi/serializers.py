@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 import base64
 import re
-from .models import VaultEntry, UserKeys
+from .models import VaultEntry, UserKeys, EmailChange
 
 
 class Base64BinaryField(serializers.Field):
@@ -71,4 +71,15 @@ class UserKeySerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['first_name', 'last_name']
+
+
+class EmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailChange
+        fields = ['user', 'new_email']
+        read_only_fields = ['user']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return EmailChange.objects.create(user=user, **validated_data)

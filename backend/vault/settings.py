@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('FRONTEND_URL'), os.environ.get('BACKEND_URL')]
+ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('FRONTEND_URL'), os.environ.get('BACKEND_URL'), 'localhost']
 
 X_FRAME_OPTIONS = 'DENY'
 SESSION_COOKIE_SECURE = True

@@ -97,10 +97,10 @@ class APITests(APITestCase):
                          "POST request with missing label field "
                          "failed to return status 400")
         self.assertEqual(response2.status_code, 400,
-                         "POST request width missing username field "
+                         "POST request with missing username field "
                          "failed to return status 400")
         self.assertEqual(response3.status_code, 400,
-                         "POST request width mssing encrypted_password "
+                         "POST request with missing encrypted_password "
                          "field failed to return status 400")
 
     def test_get_vault_entries(self):
