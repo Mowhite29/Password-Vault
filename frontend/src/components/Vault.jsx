@@ -14,7 +14,7 @@ import { Encrypt, Decrypt } from '../utils/crypto'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
-    const userEmail = useSelector((stata) => stata.auth.userEmail)
+    const userEmail = useSelector((state) => state.auth.userEmail)
 
     const [messageVisible, setMessageVisible] = useState(false)
     const [popUpMessage, setPopUpMessage] = useState('')
@@ -35,6 +35,7 @@ export default function Vault() {
     const [vault, setVault] = useState([])
 
     useEffect(() => {
+        setMasterKey('')
         InitialiseVault()
 
         async function InitialiseVault() {
@@ -52,7 +53,6 @@ export default function Vault() {
             const response = await VaultFetch(token)
             console.log(response)
             setVault(response)
-            console.log(response[0].encrypted_password)
             const plaintext = await Decrypt(
                 masterKey,
                 response[0].encrypted_password,
@@ -152,13 +152,42 @@ export default function Vault() {
         }
     }
 
+    const ShowPassword = async (e) => {
+        const response = await VaultFetch(token)
+        console.log(response)
+        setVault(response)
+        const plaintext1 = await Decrypt(
+            masterKey,
+            response[0].encrypted_password,
+            response[0].salt,
+            response[0].nonce
+        )
+        console.log('plaintext1', plaintext1)
+
+        const elem = e.target
+        console.log(elem.value)
+        const password = vault[elem.value]['encrypted_password']
+        const salt = vault[elem.value]['salt']
+        const nonce = vault[elem.value]['nonce']
+        console.log(password, salt, nonce)
+        const plaintext = await Decrypt(
+            masterKey,
+            vault[0]['encrypted_password'],
+            vault[0]['salt'],
+            vault[0]['nonce']
+        )
+        console.log('plaintext', plaintext)
+        elem.innerText = plaintext
+    }
+
     return (
-        <>
+        <div className="vaultView">
             <div className="utilsContainer">
                 <input
                     name="search"
                     value={search}
                     onChange={inputHandler}
+                    placeholder="search"
                 ></input>
                 <button
                     className="addButton"
@@ -169,7 +198,10 @@ export default function Vault() {
             </div>
             <div className="vaultDisplay">
                 {vault.map((entry) => (
-                    <div className="vaultEntry" key={entry.label}>
+                    <div
+                        className="vaultEntry"
+                        key={vault.indexOf(entry.label)}
+                    >
                         <div>
                             <h3 className="label">Website</h3>
                             <h3 className="value">{entry.label}</h3>
@@ -179,30 +211,40 @@ export default function Vault() {
                             <h3 className="value">{entry.username}</h3>
                         </div>
                         <div>
-                            <h3 className="label">Password</h3>
-                            <h3 className="value">
-                                {entry.encrypted_password}
-                            </h3>
-                        </div>
-                        <div>
                             <h3 className="label">Notes</h3>
                             <h3 className="value">{entry.notes}</h3>
                         </div>
                         <div>
+                            <h3 className="label">Password</h3>
+                            <button
+                                className="showPasswordButton"
+                                value={vault.indexOf(entry)}
+                                onClick={ShowPassword}
+                            >
+                                Show password
+                            </button>
+                        </div>
+                        <div>
                             <h3 className="label">Created at</h3>
-                            <h3 className="value">{entry.created_at}</h3>
+                            <h3 className="value">
+                                {new Date(entry.created_at).toLocaleString()}
+                            </h3>
                         </div>
                         {entry.created_at === entry.updated_at ? null : (
                             <div>
                                 <h3 className="label">Updated at</h3>
-                                <h3 className="value">{entry.updated_at}</h3>
+                                <h3 className="value">
+                                    {new Date(
+                                        entry.updated_at
+                                    ).toLocaleString()}
+                                </h3>
                             </div>
                         )}
                     </div>
                 ))}
             </div>
             {keySetShown && (
-                <div className="keyEntryContainer">
+                <div className="keySetContainer">
                     <h1>
                         Enter a master key to be used in accessing your saved
                         passwords.{' '}
@@ -278,6 +320,6 @@ export default function Vault() {
                     <h1>{notification}</h1>
                 </div>
             )}
-        </>
+        </div>
     )
 }
