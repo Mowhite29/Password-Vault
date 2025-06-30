@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut } from '../redux/authSlice'
 
@@ -13,29 +13,32 @@ const useInactivityLogout = () => {
     }
 
     const resetTimer = () => {
-        if (timerRef.current) clearTimeout(timerRef.current);
+        if (timerRef.current) clearTimeout(timerRef.current)
         timerRef.current = setTimeout(() => {
-            if (signedIn){
+            if (signedIn) {
                 handleSignOut()
             }
-        }, 900000);
-    };
+        }, 900000)
+    }
 
     useEffect(() => {
         const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart']
 
-        const handleActivity = () => resetTimer();
+        const handleActivity = () => resetTimer()
 
-        events.forEach(event => window.addEventListener(event, handleActivity));
+        events.forEach((event) =>
+            window.addEventListener(event, handleActivity)
+        )
 
-        resetTimer();
+        resetTimer()
 
         return () => {
-            events.forEach(event => window.removeEventListener(event, handleActivity));
-            if (timerRef.current) clearTimeout(timerRef.current);
+            events.forEach((event) =>
+                window.removeEventListener(event, handleActivity)
+            )
+            if (timerRef.current) clearTimeout(timerRef.current)
         }
     })
-
 }
 
 export default useInactivityLogout
