@@ -1,0 +1,71 @@
+@media (min-width: 0px) {
+    .vaultView {
+        display: flex;
+        flex-direction: column;
+
+        .utilsContainer {
+            width: 90%;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            input {
+                text-align: center;
+                margin: 5px;
+            }
+            .addButton {
+                width: 40%;
+                
+            }
+        }
+        .vaultDisplay {
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            align-self: center;
+            .vaultEntry {
+                display: flex;
+                flex-direction: column;
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+            }
+        }
+        .keySetContainer {
+            width: 80%;
+            position: absolute;
+            top: 200px;
+        }
+        .keyEntryContainer {
+            align-self: center;
+            width: 80%;
+            position: absolute;
+            top: 200px;
+            background-color: white;
+            border: 2px solid gray;
+        }
+        .popupContainer {
+            align-self: center;
+            width: 80%;
+            position: absolute;
+            top: 200px;
+            background-color: white;
+            border: 2px solid gray;
+        }
+        .entryCreationContainer {
+            align-self: center;
+            width: 80%;
+            position: absolute;
+            top: 200px;
+            background-color: white;
+            border: 2px solid gray;
+        }
+    }
+}
+@media (min-width: 1024px) {
+    .vaultView {}
+}
