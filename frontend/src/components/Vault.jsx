@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import '../styles/Vault.scss'
 import { useSelector } from 'react-redux'
 import { KeyCheck, GenerateKeyCheck } from '../utils/crypto'
@@ -34,6 +34,37 @@ export default function Vault() {
 
     const [vault, setVault] = useState([])
 
+    const timerRef = useRef(null)
+
+    const resetTimer = () => {
+        if (timerRef.current) clearTimeout(timerRef.current)
+        timerRef.current = setTimeout(() => {
+            if (masterKey) {
+                setMasterKey('')
+                setkeyEntryShown(true)
+            }
+        }, 180000)
+    }
+
+    useEffect(() => {
+        const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart']
+
+        const handleActivity = () => resetTimer()
+
+        events.forEach((event) =>
+            window.addEventListener(event, handleActivity)
+        )
+
+        resetTimer()
+
+        return () => {
+            events.forEach((event) =>
+                window.removeEventListener(event, handleActivity)
+            )
+            if (timerRef.current) clearTimeout(timerRef.current)
+        }
+    })
+
     useEffect(() => {
         setMasterKey('')
         InitialiseVault()
@@ -51,17 +82,9 @@ export default function Vault() {
 
         async function RetrieveVault() {
             const response = await VaultFetch(token)
-            console.log(response)
             setVault(response)
-            const plaintext = await Decrypt(
-                masterKey,
-                response[0].encrypted_password,
-                response[0].salt,
-                response[0].nonce
-            )
-            console.log('plaintext', plaintext)
         }
-        // eslint-disable-next-line
+// eslint-disable-next-line
     }, [token])
 
     const keyInput = (e) => {
@@ -106,6 +129,7 @@ export default function Vault() {
             setMessageVisible(true)
             setTimeout(() => setMessageVisible(false), 3000)
         }
+        setEnteredkey('')
     }
 
     const inputHandler = (e) => {
@@ -132,6 +156,8 @@ export default function Vault() {
                 ? ((ready = false), setNotification('Please enter a password'))
                 : null
         if (ready) {
+            console.log('masterkey', masterKey)
+            console.log('password', password)
             const cypher = await Encrypt(masterKey, password)
             const response = await VaultCreate(
                 label,
@@ -143,8 +169,11 @@ export default function Vault() {
                 token
             )
             if (response === true) {
+                setCreationShown(false)
                 setPopUpMessage('Password added successfully')
                 setMessageVisible(true)
+                const response = await VaultFetch(token)
+                setVault(response)
                 setTimeout(() => {
                     setMessageVisible(false)
                 }, 3000)
@@ -153,30 +182,14 @@ export default function Vault() {
     }
 
     const ShowPassword = async (e) => {
-        const response = await VaultFetch(token)
-        console.log(response)
-        setVault(response)
-        const plaintext1 = await Decrypt(
-            masterKey,
-            response[0].encrypted_password,
-            response[0].salt,
-            response[0].nonce
-        )
-        console.log('plaintext1', plaintext1)
-
         const elem = e.target
         console.log(elem.value)
-        const password = vault[elem.value]['encrypted_password']
-        const salt = vault[elem.value]['salt']
-        const nonce = vault[elem.value]['nonce']
-        console.log(password, salt, nonce)
         const plaintext = await Decrypt(
             masterKey,
-            vault[0]['encrypted_password'],
-            vault[0]['salt'],
-            vault[0]['nonce']
+            vault[elem.value]['encrypted_password'],
+            vault[elem.value]['salt'],
+            vault[elem.value]['nonce']
         )
-        console.log('plaintext', plaintext)
         elem.innerText = plaintext
     }
 
@@ -200,21 +213,17 @@ export default function Vault() {
                 {vault.map((entry) => (
                     <div
                         className="vaultEntry"
-                        key={vault.indexOf(entry.label)}
+                        key={entry.label}
                     >
-                        <div>
+                        <div className="label">
                             <h3 className="label">Website</h3>
                             <h3 className="value">{entry.label}</h3>
                         </div>
-                        <div>
+                        <div className="username">
                             <h3 className="label">Username</h3>
                             <h3 className="value">{entry.username}</h3>
                         </div>
-                        <div>
-                            <h3 className="label">Notes</h3>
-                            <h3 className="value">{entry.notes}</h3>
-                        </div>
-                        <div>
+                        <div className="password">
                             <h3 className="label">Password</h3>
                             <button
                                 className="showPasswordButton"
@@ -224,14 +233,18 @@ export default function Vault() {
                                 Show password
                             </button>
                         </div>
-                        <div>
+                        <div className="notes">
+                            <h3 className="label">Notes</h3>
+                            <h3 className="value">{entry.notes}</h3>
+                        </div>
+                        <div className="createdAt">
                             <h3 className="label">Created at</h3>
                             <h3 className="value">
                                 {new Date(entry.created_at).toLocaleString()}
                             </h3>
                         </div>
                         {entry.created_at === entry.updated_at ? null : (
-                            <div>
+                            <div classname="updatedAt">
                                 <h3 className="label">Updated at</h3>
                                 <h3 className="value">
                                     {new Date(
@@ -281,42 +294,50 @@ export default function Vault() {
             )}
             {creationShown && (
                 <div className="entryCreationContainer">
-                    <div className="formContainer">
-                        <label for="label">Website</label>
-                        <input
-                            type="text"
-                            name="label"
-                            value={label}
-                            onChange={inputHandler}
-                        ></input>
-                        <label for="username">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={username}
-                            onChange={inputHandler}
-                        ></input>
-                        <label for="password">Password</label>
-                        <input
-                            type="text"
-                            name="password"
-                            value={password}
-                            onChange={inputHandler}
-                        ></input>
-                        <label for="notes">Notes</label>
-                        <input
-                            type="text"
-                            name="notes"
-                            value={notes}
-                            onChange={inputHandler}
-                        ></input>
+                    <form className="formContainer">
+                        <div className="inputs">
+                            <label for="label">Website</label>
+                            <input
+                                type="text"
+                                name="label"
+                                value={label}
+                                onChange={inputHandler}
+                            ></input>
+                        </div>
+                        <div className="inputs">
+                            <label for="username">Username</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={username}
+                                onChange={inputHandler}
+                            ></input>
+                        </div>
+                        <div className="inputs">
+                            <label for="password">Password</label>
+                            <input
+                                type="text"
+                                name="password"
+                                value={password}
+                                onChange={inputHandler}
+                            ></input>
+                        </div>
+                        <div className="inputs">
+                            <label for="notes">Notes</label>
+                            <textarea
+                                type="text"
+                                name="notes"
+                                value={notes}
+                                onChange={inputHandler}
+                            ></textarea>
+                        </div>
                         <button
                             className="creationButton"
                             onClick={() => EntryCreation()}
                         >
                             Add new password
                         </button>
-                    </div>
+                    </form>
                     <h1>{notification}</h1>
                 </div>
             )}
