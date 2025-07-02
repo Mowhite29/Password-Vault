@@ -18,7 +18,7 @@ const useInactivityLogout = () => {
             if (signedIn) {
                 handleSignOut()
             }
-        }, 900000)
+        }, 600000)
     }
 
     useEffect(() => {
