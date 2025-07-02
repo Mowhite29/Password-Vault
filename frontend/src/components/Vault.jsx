@@ -84,7 +84,6 @@ export default function Vault() {
             const response = await VaultFetch(token)
             setVault(response)
         }
-// eslint-disable-next-line
     }, [token])
 
     const keyInput = (e) => {
@@ -211,10 +210,7 @@ export default function Vault() {
             </div>
             <div className="vaultDisplay">
                 {vault.map((entry) => (
-                    <div
-                        className="vaultEntry"
-                        key={entry.label}
-                    >
+                    <div className="vaultEntry" key={entry.label}>
                         <div className="label">
                             <h3 className="label">Website</h3>
                             <h3 className="value">{entry.label}</h3>

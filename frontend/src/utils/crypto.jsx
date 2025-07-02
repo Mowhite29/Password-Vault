@@ -61,7 +61,7 @@ export async function Encrypt(masterKey, password) {
     const passwordArray = enc.encode(password)
 
     const encryptedPassword = await secretbox(passwordArray, nonce, derivedKey)
-    if (encryptedPassword === null){
+    if (encryptedPassword === null) {
         console.log('fail')
     }
     return {
