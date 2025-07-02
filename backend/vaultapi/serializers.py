@@ -10,7 +10,7 @@ class Base64BinaryField(serializers.Field):
         if value is None:
             return None
         if isinstance(value, str):
-            match = re.match(r"^b'(.*)'$", value)
+            match = re.match(r"^b('|\")(.*)('|\")$", value)
             if match:
                 value = eval(value)
             else:
