@@ -39,20 +39,21 @@
                     flex-direction: column;
                     justify-content: space-between;
                     margin: 5px 5px;
-                    height: 90px;
+                    height: 60px;
 
                     .label, .value {
                         height: 100%;
                         align-self: flex-start;
                         justify-self: center;
                         height: 50%;
+                        margin: 0 0 0 5px;
                     }
                     .label {
                         
                     }
                     .value {
-                        width: 80px;
-                        
+                        width: 90%;
+                        color: rgb(88, 88, 88);
                     }
                 }
                 .notes {
@@ -74,6 +75,14 @@
                 }
                 .createdAt, .updatedAt {
                     flex-direction: row;
+
+                    .label {
+                        width: 115px;
+                    }
+                    .value {
+                        width: 90%;
+                        text-align: right;
+                    }
                 }
 
             }
@@ -84,18 +93,36 @@
             top: 200px;
         }
         .keyEntryContainer {
+            display: flex;
+            flex-direction: column;
             align-self: center;
+            align-items: center;
             width: 80%;
             position: absolute;
             top: 200px;
             background-color: white;
             border: 2px solid gray;
+
+            h1 {
+                font-size: 30px;
+                text-align: center;
+            }
+            input {
+                width: 80%;
+                text-align: center;
+            }
+            button {}
+            h2 {
+                font-size: 20px;
+                color: red;
+                text-align: center;
+            }
         }
-        .popupContainer {
+        .popUpContainer {
             align-self: center;
             width: 80%;
             position: absolute;
-            top: -400px;
+            top: 0px;
             background-color: white;
             border: 2px solid gray;
         }
@@ -121,6 +148,10 @@
                     }
                     input, textarea {
                         justify-self: right;
+                    }
+                    textarea {
+                        height: 5rem;
+                        width: 220px;
                     }
                 }
             }
