@@ -22,17 +22,23 @@ export default function Vault() {
 
     const [keySetShown, setkeySetShown] = useState(false)
     const [keyEntryShown, setkeyEntryShown] = useState(false)
+    const [keyEntryMessage, setKeyEntryMessage] = useState('')
     const [masterKey, setMasterKey] = useState('')
     const [enteredKey, setEnteredkey] = useState('')
 
     const [creationShown, setCreationShown] = useState(false)
+    const [editShown, setEditShown] = useState(false)
+    const [deleteShown, setDeleteShown] = useState(false)
     const [notification, setNotification] = useState('')
     const [label, setLabel] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [salt, setSalt] = useState('')
+    const [nonce, setNonce] = useState('')
     const [notes, setNotes] = useState('')
 
     const [vault, setVault] = useState([])
+    const [shownVault, setShownVault] = useState([])
 
     const timerRef = useRef(null)
 
@@ -83,8 +89,25 @@ export default function Vault() {
         async function RetrieveVault() {
             const response = await VaultFetch(token)
             setVault(response)
+            setShownVault(response)
         }
     }, [token])
+
+    useEffect(() => {
+        const toShow = []
+        if (search != '') {
+            for (let i = 0; i < vault.length; i++) {
+                // eslint-disable-next-line security/detect-object-injection
+                if (vault[i]['label'].includes(search)) {
+                    // eslint-disable-next-line security/detect-object-injection
+                    toShow.push(vault[i])
+                }
+            }
+            setShownVault(toShow)
+        } else {
+            setShownVault(vault)
+        }
+    }, [search, vault])
 
     const keyInput = (e) => {
         setEnteredkey(e.target.value)
@@ -124,9 +147,7 @@ export default function Vault() {
             setMasterKey(enteredKey)
             setkeyEntryShown(false)
         } else {
-            setPopUpMessage('Invalid master key entered, please try again')
-            setMessageVisible(true)
-            setTimeout(() => setMessageVisible(false), 3000)
+            setKeyEntryMessage('Invalid master key entered, please try again')
         }
         setEnteredkey('')
     }
@@ -155,10 +176,49 @@ export default function Vault() {
                 ? ((ready = false), setNotification('Please enter a password'))
                 : null
         if (ready) {
-            console.log('masterkey', masterKey)
-            console.log('password', password)
             const cypher = await Encrypt(masterKey, password)
-            const response = await VaultCreate(
+            try {
+                const response = await VaultCreate(
+                    label,
+                    username,
+                    cypher.encryptedPassword,
+                    cypher.salt,
+                    cypher.nonce,
+                    notes,
+                    token
+                )
+                if (response === true) {
+                    setCreationShown(false)
+                    setPopUpMessage('Password added successfully')
+                    setMessageVisible(true)
+                    const response = await VaultFetch(token)
+                    setVault(response)
+                    setShownVault(response)
+                    setTimeout(() => {
+                        setMessageVisible(false)
+                    }, 3000)
+                }
+            } catch (error) {
+                console.error('Error during VaultCreate:', error)
+            }
+        }
+    }
+
+    const ShowPassword = async (e) => {
+        const elem = e.target
+        const plaintext = await Decrypt(
+            masterKey,
+            vault[elem.value]['encrypted_password'],
+            vault[elem.value]['salt'],
+            vault[elem.value]['nonce']
+        )
+        elem.innerText = plaintext
+    }
+
+    async function EntryEdit(entry) {
+        if (entry === 'submit') {
+            const cypher = await Encrypt(masterKey, password)
+            const response = VaultEdit(
                 label,
                 username,
                 cypher.encryptedPassword,
@@ -168,28 +228,80 @@ export default function Vault() {
                 token
             )
             if (response === true) {
-                setCreationShown(false)
-                setPopUpMessage('Password added successfully')
+                setEditShown(false)
+                setPopUpMessage('Entry updated successfully')
                 setMessageVisible(true)
-                const response = await VaultFetch(token)
-                setVault(response)
+                const response1 = await VaultFetch(token)
+                setVault(response1)
+                setShownVault(response1)
                 setTimeout(() => {
                     setMessageVisible(false)
                 }, 3000)
             }
+        } else if (entry === 'cancel') {
+            setEditShown(false)
+        } else {
+            const plaintext = await Decrypt(
+                masterKey,
+                // eslint-disable-next-line security/detect-object-injection
+                vault[entry]['encrypted_password'],
+                // eslint-disable-next-line security/detect-object-injection
+                vault[entry]['salt'],
+                // eslint-disable-next-line security/detect-object-injection
+                vault[entry]['nonce']
+            )
+            // eslint-disable-next-line security/detect-object-injection
+            setLabel(vault[entry]['label'])
+            // eslint-disable-next-line security/detect-object-injection
+            setUsername(vault[entry]['username'])
+            setPassword(plaintext)
+            // eslint-disable-next-line security/detect-object-injection
+            setNotes(vault[entry]['notes'])
+            setEditShown(true)
         }
     }
 
-    const ShowPassword = async (e) => {
-        const elem = e.target
-        console.log(elem.value)
-        const plaintext = await Decrypt(
-            masterKey,
-            vault[elem.value]['encrypted_password'],
-            vault[elem.value]['salt'],
-            vault[elem.value]['nonce']
-        )
-        elem.innerText = plaintext
+    async function EntryDelete(entry) {
+        if (entry === 'delete') {
+            const response = await VaultDelete(
+                label,
+                username,
+                password,
+                salt,
+                nonce,
+                token
+            )
+            console.log(response)
+            if (response === true) {
+                setDeleteShown(false)
+                setPopUpMessage('Entry deleted successfully')
+                const response1 = await VaultFetch(token)
+                setVault(response1)
+                setShownVault(response1)
+                setTimeout(() => {
+                    setMessageVisible(false)
+                }, 3000)
+            }
+        } else if (entry === 'cancel') {
+            setDeleteShown(false)
+            setMessageVisible(false)
+        } else {
+            // eslint-disable-next-line security/detect-object-injection
+            setLabel(vault[entry]['label'])
+            // eslint-disable-next-line security/detect-object-injection
+            setUsername(vault[entry]['username'])
+            // eslint-disable-next-line security/detect-object-injection
+            setPassword(vault[entry]['encrypted_password'])
+            // eslint-disable-next-line security/detect-object-injection
+            setSalt(vault[entry]['salt'])
+            // eslint-disable-next-line security/detect-object-injection
+            setNonce(vault[entry]['nonce'])
+            setPopUpMessage(
+                'Are you sure you want to delete this entry? This action is permanent'
+            )
+            setMessageVisible(true)
+            setDeleteShown(true)
+        }
     }
 
     return (
@@ -209,7 +321,7 @@ export default function Vault() {
                 </button>
             </div>
             <div className="vaultDisplay">
-                {vault.map((entry) => (
+                {shownVault.map((entry) => (
                     <div className="vaultEntry" key={entry.label}>
                         <div className="label">
                             <h3 className="label">Website</h3>
@@ -229,18 +341,21 @@ export default function Vault() {
                                 Show password
                             </button>
                         </div>
-                        <div className="notes">
-                            <h3 className="label">Notes</h3>
-                            <h3 className="value">{entry.notes}</h3>
-                        </div>
+                        {entry.notes === '' ? null : (
+                            <div className="notes">
+                                <h3 className="label">Notes</h3>
+                                <h3 className="value">{entry.notes}</h3>
+                            </div>
+                        )}
                         <div className="createdAt">
                             <h3 className="label">Created at</h3>
                             <h3 className="value">
                                 {new Date(entry.created_at).toLocaleString()}
                             </h3>
                         </div>
-                        {entry.created_at === entry.updated_at ? null : (
-                            <div classname="updatedAt">
+                        {new Date(entry.created_at).toLocaleString() ===
+                        new Date(entry.updated_at).toLocaleString() ? null : (
+                            <div className="updatedAt">
                                 <h3 className="label">Updated at</h3>
                                 <h3 className="value">
                                     {new Date(
@@ -249,6 +364,22 @@ export default function Vault() {
                                 </h3>
                             </div>
                         )}
+                        <div className="buttons">
+                            <button
+                                className="editButton"
+                                onClick={() => EntryEdit(vault.indexOf(entry))}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                className="deleteButton"
+                                onClick={() =>
+                                    EntryDelete(vault.indexOf(entry))
+                                }
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -275,17 +406,28 @@ export default function Vault() {
                 <div className="keyEntryContainer">
                     <h1>Enter your master key:</h1>
                     <input
-                        type="text"
+                        type="password"
                         placeholder="master key"
                         value={enteredKey}
                         onChange={keyInput}
                     ></input>
                     <button onClick={() => KeyEntry()}>Enter</button>
+                    <h2>{keyEntryMessage}</h2>
                 </div>
             )}
             {messageVisible && (
                 <div className="popUpContainer">
                     <h1>{popUpMessage}</h1>
+                    {deleteShown && (
+                        <>
+                            <button onClick={() => EntryDelete('delete')}>
+                                Confirm
+                            </button>
+                            <button onClick={() => EntryDelete('cancel')}>
+                                Cancel
+                            </button>
+                        </>
+                    )}
                 </div>
             )}
             {creationShown && (
@@ -332,6 +474,51 @@ export default function Vault() {
                             onClick={() => EntryCreation()}
                         >
                             Add new password
+                        </button>
+                    </form>
+                    <h1>{notification}</h1>
+                </div>
+            )}
+            {editShown && (
+                <div className="entryCreationContainer">
+                    <form className="formContainer">
+                        <div className="inputs">
+                            <label for="label">Website</label>
+                            <h2>{label}</h2>
+                        </div>
+                        <div className="inputs">
+                            <label for="username">Username</label>
+                            <h2>{username}</h2>
+                        </div>
+                        <div className="inputs">
+                            <label for="password">Password</label>
+                            <input
+                                type="text"
+                                name="password"
+                                value={password}
+                                onChange={inputHandler}
+                            ></input>
+                        </div>
+                        <div className="inputs">
+                            <label for="notes">Notes</label>
+                            <textarea
+                                type="text"
+                                name="notes"
+                                value={notes}
+                                onChange={inputHandler}
+                            ></textarea>
+                        </div>
+                        <button
+                            className="creationButton"
+                            onClick={() => EntryEdit('submit')}
+                        >
+                            Update Entry
+                        </button>
+                        <button
+                            className="creationButton"
+                            onClick={() => EntryEdit('cancel')}
+                        >
+                            Cancel
                         </button>
                     </form>
                     <h1>{notification}</h1>

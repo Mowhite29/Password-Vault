@@ -285,20 +285,17 @@ export async function VaultDelete(
         const url = backEndURL + '/vault/'
         const authToken = 'Bearer ' + accessToken
         console.log(salt, nonce)
-        const response = await axios.delete(
-            url,
-            {
-                headers: { Authorization: authToken },
-                data: {
-                    label: label,
-                    username: username,
-                    encrypted_password: encrypted_password,
-                    salt: salt,
-                    nonce: nonce,
-                },
-                timeout: 10000,
-            }
-        )
+        const response = await axios.delete(url, {
+            headers: { Authorization: authToken },
+            data: {
+                label: label,
+                username: username,
+                encrypted_password: encrypted_password,
+                salt: salt,
+                nonce: nonce,
+            },
+            timeout: 10000,
+        })
         if (response.status === 200) {
             return true
         } else if (response.status === 404) {

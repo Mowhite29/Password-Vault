@@ -1,9 +1,3 @@
-
 export default function Account() {
-
-    return (
-        <div className="accountContainer">
-            
-        </div>
-    )
+    return <div className="accountContainer"></div>
 }

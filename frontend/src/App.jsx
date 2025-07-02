@@ -2,7 +2,7 @@ import {} from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { persistor, store } from './redux/store'
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from 'redux-persist/integration/react'
 import Home from './Home'
 import PasswordChange from './components/PasswordChange'
 import VerifyEmail from './components/VerifyEmail'
