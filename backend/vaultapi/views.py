@@ -243,8 +243,7 @@ class VaultView(APIView):
             entry.notes = validated_data.get('notes', '')
             entry.updated_at = timezone.now
             entry.save()
-            logger.info(f'User {request.user.username} updated entry '
-                        'for {label} {username}')
+            logger.info(f'User {request.user.username} updated entry for {label} {username}')
             return Response({"message": "Entry Updated"},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
@@ -269,8 +268,7 @@ class VaultView(APIView):
                 return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
             entry.delete()
-            logger.info(f'User {request.user.username} deleted entry '
-                        'for {label} {username}')
+            logger.info(f'User {request.user.username} deleted entry for {label} {username}')
             return Response({"message": "Password deleted"},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
