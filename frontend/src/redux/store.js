@@ -7,10 +7,4 @@ export const store = configureStore({
         auth: authReducer,
         connect: connectReducer,
     },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
-            },
-        }),
 })
