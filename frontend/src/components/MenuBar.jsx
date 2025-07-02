@@ -26,13 +26,7 @@ export default function MenuBar() {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
                 <div className="staticMenuBar">
-                    {signedIn ? (
-                        <h1>Password Vault</h1>
-                    ) : (
-                        <button onClick={() => handleScreenChange('home')}>
-                            Password Vault
-                        </button>
-                    )}
+                    <h1>Password Vault</h1>
                     <button onClick={() => OpenMenu()}>
                         {open ? 'close' : 'open'}
                     </button>
@@ -52,6 +46,11 @@ export default function MenuBar() {
                     >
                         {signedIn ? 'Sign out' : 'Sign in'}
                     </button>
+                    {signedIn ? (
+                        <button onClick={() => handleScreenChange('account')}>
+                            My account
+                        </button>
+                    ) : null}
                     <button
                         onClick={() => handleScreenChange('signin')}
                         style={{
