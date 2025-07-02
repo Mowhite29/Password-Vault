@@ -61,7 +61,9 @@ export async function Encrypt(masterKey, password) {
     const passwordArray = enc.encode(password)
 
     const encryptedPassword = await secretbox(passwordArray, nonce, derivedKey)
-    console.log(encryptedPassword, nonce, salt)
+    if (encryptedPassword === null){
+        console.log('fail')
+    }
     return {
         encryptedPassword: uint8ArrayToBase64(encryptedPassword),
         salt: uint8ArrayToBase64(salt),
@@ -75,15 +77,11 @@ export async function Decrypt(masterKey, encryptedPassword, salt, nonce) {
         base64ToUint8Array(salt),
         100000
     )
-    console.log('key', derivedKey)
-    console.log('nonce', nonce)
-    console.log('password', encryptedPassword)
     const passwordArray = secretbox.open(
         base64ToUint8Array(encryptedPassword),
         base64ToUint8Array(nonce),
         derivedKey
     )
-    console.log(passwordArray)
     const enc = new TextDecoder()
     const plaintext = enc.decode(passwordArray)
     return plaintext
