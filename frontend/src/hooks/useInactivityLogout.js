@@ -16,6 +16,7 @@ const useInactivityLogout = () => {
         if (timerRef.current) clearTimeout(timerRef.current)
         timerRef.current = setTimeout(() => {
             if (signedIn) {
+                console.log('inactivity')
                 handleSignOut()
             }
         }, 600000)
