@@ -249,6 +249,7 @@ export async function VaultEdit(
                 username: username,
                 encrypted_password: encrypted_password,
                 salt: salt,
+                nonce: nonce,
                 notes: notes,
             },
             {
@@ -276,20 +277,25 @@ export async function VaultDelete(
     label,
     username,
     encrypted_password,
+    salt,
+    nonce,
     accessToken
 ) {
     try {
         const url = backEndURL + '/vault/'
         const authToken = 'Bearer ' + accessToken
+        console.log(salt, nonce)
         const response = await axios.delete(
             url,
             {
-                label: label,
-                username: username,
-                encrypted_password: encrypted_password,
-            },
-            {
-                headers: { AUTHORIZATION: authToken },
+                headers: { Authorization: authToken },
+                data: {
+                    label: label,
+                    username: username,
+                    encrypted_password: encrypted_password,
+                    salt: salt,
+                    nonce: nonce,
+                },
                 timeout: 10000,
             }
         )
