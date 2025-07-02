@@ -4,6 +4,7 @@ import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
 import SignIn from './components/SignIn'
 import Vault from './components/Vault'
+import Account from './components/Account'
 import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
 import useTokenTimeout from './hooks/useTokenTimeout'
@@ -28,6 +29,7 @@ export default function Home() {
             ></div>
             {screen === 'signin' && <SignIn />}
             {screen === 'vault' && <Vault />}
+            {screen === 'account' && <Account />}
         </>
     )
 }
