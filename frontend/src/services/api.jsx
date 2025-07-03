@@ -63,7 +63,7 @@ export async function PasswordChange(username, accessToken) {
             }
         )
         if (response.status === 200) {
-            return true
+            return response.data
         } else {
             return false
         }
@@ -85,7 +85,7 @@ export async function PasswordReset(username) {
             { timeout: 10000 }
         )
         if (response.status === 200) {
-            return true
+            return response.data
         } else {
             return false
         }
@@ -101,7 +101,7 @@ export async function PasswordReset(username) {
 export async function PasswordChangeConfirm(new_password, uidb64, token) {
     try {
         const url =
-            backEndURL + '/password-reset-request/' + uidb64 + '/' + token
+            backEndURL + '/password-change-confirm/' + uidb64 + '/' + token + '/'
         const response = await axios.post(
             url,
             { new_password: new_password },
@@ -286,7 +286,7 @@ export async function VaultDelete(
         const authToken = 'Bearer ' + accessToken
         console.log(salt, nonce)
         const response = await axios.delete(url, {
-            headers: { Authorization: authToken },
+            headers: { AUTHORIZATION: authToken },
             data: {
                 label: label,
                 username: username,
@@ -369,22 +369,21 @@ export async function KeyCreate(
     }
 }
 
-export async function EmailChange(new_email, accessToken) {
+export async function EmailChange(accessToken) {
     try {
         const url = backEndURL + '/email-change-request/'
         const authToken = 'Bearer ' + accessToken
+        console.log(authToken)
         const response = await axios.post(
             url,
-            {
-                new_email: new_email,
-            },
+            { data: null },
             {
                 headers: { AUTHORIZATION: authToken },
                 timeout: 10000,
             }
         )
         if (response.status === 200) {
-            return true
+            return response.data
         } else {
             return false
         }
@@ -393,11 +392,16 @@ export async function EmailChange(new_email, accessToken) {
     }
 }
 
-export async function EmailChangeVerify(uidb64, token) {
+export async function EmailChangeVerify(new_email, uidb64, token) {
     try {
         const url =
             backEndURL + '/email-change-confirm/' + uidb64 + '/' + token + '/'
-        const response = await axios.post(url)
+        const response = await axios.post(
+            url,
+            {
+                new_email: new_email,
+            },
+        )
         if (response.status === 200) {
             return true
         } else {
@@ -405,6 +409,27 @@ export async function EmailChangeVerify(uidb64, token) {
         }
     } catch {
         console.log('Email change verify failed')
+    }
+}
+
+export async function NameRequest(accessToken) {
+    try {
+        const url = backEndURL + '/user/change/'
+        const authToken = 'Bearer ' + accessToken
+        const response = await axios.get(
+            url,
+            {
+                headers: { AUTHORIZATION: authToken },
+                timeout: 10000,
+            }
+        )
+        if (response.status === 200) {
+            return response.data
+        } else {
+            return false
+        }
+    } catch {
+        console.log('Name change request failed')
     }
 }
 
