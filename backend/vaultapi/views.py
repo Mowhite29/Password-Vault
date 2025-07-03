@@ -14,10 +14,10 @@ from django.utils import timezone
 import boto3
 from botocore.exceptions import ClientError
 import logging
-from .models import VaultEntry, UserKeys, EmailChange
+from .models import VaultEntry, UserKeys
 from .serializers import (
     VaultSerializer, RegisterSerializer,
-    UserKeySerializer, EmailSerializer, UserSerializer
+    UserKeySerializer, UserSerializer
 )
 
 logger = logging.getLogger(__name__)
@@ -54,20 +54,12 @@ class RegisterView(APIView):
 
             try:
                 response = client.send_email(
-                    Destination={
-                        'ToAddresses': [user.email]
-                    },
+                    Destination={'ToAddresses': [user.email]},
                     Message={
                         'Body': {
-                            'Html': {
-                                'Charset': 'UTF-8',
-                                'Data': email_message
-                            }
+                            'Html': {'Charset': 'UTF-8', 'Data': email_message}
                         },
-                        'Subject': {
-                            'Charset': 'UTF-8',
-                            'Data': email_subject,
-                        },
+                        'Subject': {'Charset': 'UTF-8', 'Data': email_subject},
                     },
                     Source=settings.DEFAULT_FROM_EMAIL,
                 )
@@ -300,9 +292,7 @@ class PasswordChange(APIView):
         client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
         try:
             response = client.send_email(
-                Destination={
-                    'ToAddresses': [user.email],
-                },
+                Destination={'ToAddresses': [user.email]},
                 Message={
                     'Body': {
                         'Html': {
@@ -461,71 +451,50 @@ class PasswordChangeConfirm(APIView):
 
 
 class EmailChangeRequest(APIView):
-    throttle_classes = [AnonRateThrottle]
+    permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     # Email change request from authenticated user
     def post(self, request):
         logger.info("Email change request accessed.")
-        new_email = request.data.get('new_email')
-        if not new_email:
-            logger.info(f'User {request.user.username} did not enter new email.')
-            return Response({"error": "New email is required"},
-                                status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-        serializer = EmailSerializer(data=request.data,
-                                       context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            user = request.user
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
+        email_change_url = (
+            f"{settings.FRONTEND_URL}/email-change-confirm/{uid}/{token}")
 
-            email_change_url = (
-                f"{settings.FRONTEND_URL}/email-change-confirm/{uid}/{token}")
-
-            email_subject = "Confirm Your Email Address Change"
-            email_message = render_to_string(
+        email_subject = "Confirm Your Email Address Change"
+        email_message = render_to_string(
                             "email/email_change.html",
                             {
                                 'user': user,
                                 'email_change_url': email_change_url
                             })
-            client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
-            try:
-                response = client.send_email(
-                    Destination={
-                        'ToAddresses': [user.email],
+        client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
+        try:
+            response = client.send_email(
+                Destination={'ToAddresses': [user.email]},
+                Message={
+                    'Body': {
+                        'Html': {'Charset': 'UTF-8', 'Data': email_message}
                     },
-                    Message={
-                        'Body': {
-                            'Html': {
-                                'Charset': 'UTF-8',
-                                'Data': email_message
-                            }
-                        },
-                        'Subject': {
-                            'Charset': 'UTF-8',
-                            'Data': email_subject,
-                        },
-                    },
-                    Source=settings.DEFAULT_FROM_EMAIL,
-                )
-            except ClientError as e:
-                print(f"An error occurred: {e.response['Error']['Message']}")
-                logger.error(e.response['Error']['Message'])
-                return Response({"error": e.response['Error']['Message']},
-                                status=status.HTTP_400_BAD_REQUEST)
-            else:
-                print(f"Email sent! Message ID: {response['MessageId']}")
-                logger.info(f'User {user.username} requested email change.')
-                return Response({"message":
-                                    "A confirmation email has been "
-                                    "sent to your email address."},
-                                    status=status.HTTP_200_OK)
-        logger.error(serializer.errors)
-        return Response({"error": serializer.errors},
-                        status=status.HTTP_400_BAD_REQUEST)
+                    'Subject': {'Charset': 'UTF-8', 'Data': email_subject},
+                },
+                Source=settings.DEFAULT_FROM_EMAIL,
+            )
+        except ClientError as e:
+            print(f"An error occurred: {e.response['Error']['Message']}")
+            logger.error(e.response['Error']['Message'])
+            return Response({"error": e.response['Error']['Message']},
+                            status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(f"Email sent! Message ID: {response['MessageId']}")
+            logger.info(f'User {user.username} requested email change.')
+            return Response({"message":
+                                "A confirmation email has been "
+                                "sent to your email address."},
+                                status=status.HTTP_200_OK)
 
 
 class EmailChangeRequestDemo(APIView):
@@ -535,25 +504,13 @@ class EmailChangeRequestDemo(APIView):
     # Email change request from authenticated user
     def post(self, request):
         logger.info("Email change request accessed.")
-        new_email = request.data.get('new_email')
-        if not new_email:
-            logger.info(f'User {request.user.username} did not enter new email.')
-            return Response({"error": "New email is required"},
-                                status=status.HTTP_400_BAD_REQUEST)
-        serializer = EmailSerializer(data=request.data,
-                                       context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            user = request.user
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            logger.info(f'User {user.username} requested email change.')
-            return Response({'uid': uid, 'token': token,
-                                'user': user.username, 'email': user.email},
-                                status=status.HTTP_200_OK)
-        logger.error(serializer.errors)
-        return Response({"error": serializer.errors},
-                        status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        logger.info(f'User {user.username} requested email change.')
+        return Response({'uid': uid, 'token': token,
+                            'user': user.first_name, 'email': user.email},
+                            status=status.HTTP_200_OK)
 
 
 class EmailChangeConfirm(APIView):
@@ -566,7 +523,7 @@ class EmailChangeConfirm(APIView):
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            logger.error("Password reset requested for invalid user.")
+            logger.error("Email reset requested for invalid user.")
             return Response({"error": "Invalid user"},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -575,19 +532,27 @@ class EmailChangeConfirm(APIView):
                          'change token.')
             return Response({"error": "Invalid token"},
                             status=status.HTTP_400_BAD_REQUEST)
-        new_email = EmailChange.objects.get(user=user)
-        field = EmailChange._meta.get_field('new_email')
-        user.username = getattr(new_email, field.attname)
-        user.email = getattr(new_email, field.attname)
+        new_email = request.data.get('new_email')
+        if not new_email:
+            logger.info(f'User {request.user.username} did not enter new email.')
+            return Response({"error": "New email is required"},
+                                status=status.HTTP_400_BAD_REQUEST)
+        user.username = new_email
+        user.email = new_email
         user.save()
-        new_email.delete()
         logger.info(f'User {user.username} changed email')
         return Response({"message": "email updated"},
                             status=status.HTTP_200_OK)
 
 
 class NameChange(APIView):
+    permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
+
+    def get(self, request):
+        logger.info("nName request accessed")
+        user = request.user
+        return Response({"first_name": user.first_name, "last_name": user.last_name}, status=status.HTTP_200_OK)
 
     def post(self, request):
         logger.info("Name change accessed")

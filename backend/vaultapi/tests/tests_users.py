@@ -103,10 +103,35 @@ class APITests(APITestCase):
         self.assertEqual(request1.status_code, 400,
                          "GET request failed to return status 400")
 
+    def test_retrieve_user_name(self):
+        url = reverse('NameChange')
+        request = self.client.get(url, **self.auth_headers)
+
+        self.assertEqual(request.status_code, 200,
+                         "GET request failed to return status 200")
+
+    def test_retrieve_user_name_bad_token(self):
+        url = reverse('NameChange')
+        request = self.client.get(url,
+                            **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
+
+        self.assertEqual(request.status_code, 401,
+                         "GET request failed to return status 401")
+
     def test_user_name_change(self):
         url = reverse('NameChange')
         payload = {"first_name": "newName", "last_name": "newname"}
         request = self.client.post(url, payload, format='json',
                                    **self.auth_headers)
+
         self.assertEqual(request.status_code, 200,
                          "POST request failed to return status 200")
+
+    def test_user_name_change_bad_token(self):
+        url = reverse('NameChange')
+        payload = {"first_name": "newName", "last_name": "newname"}
+        request = self.client.post(url, payload, format='json',
+                            **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
+
+        self.assertEqual(request.status_code, 401,
+                         "POST request failed to return status 401")

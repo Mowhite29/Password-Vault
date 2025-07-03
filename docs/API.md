@@ -160,6 +160,17 @@ Retrieve user master key checking details
 }
 ```
 
+### **GET** `/user/change/`
+
+Retrieve users name
+**Response:**
+
+```json
+{
+    "message": "name updated"
+}
+```
+
 ### **POST** `/user/change/`
 
 Change users name
@@ -310,7 +321,7 @@ Request a password change for a signed in user
 {
     "uid": "uid", 
     "token": "token",
-    "user": "userFisrtName", 
+    "user": "userFirstName", 
     "email": "email@example.com"
 }
 ```
@@ -377,17 +388,9 @@ Password change confirmation
 
 ## Email Change
 
-### **POST** `/email-change-request/`
+### **GET** `/email-change-request/`
 
 Request email address change
-**Request Body:**
-
-```json
-{
-    "new_email": "new_email"
-}
-```
-
 **Response:**
 
 ```json
@@ -396,17 +399,9 @@ Request email address change
 }
 ```
 
-### **POST** `/email-change-request/` **DEMO VERSION**
+### **GET** `/email-change-request/` **DEMO VERSION**
 
 Request email address change
-**Request Body:**
-
-```json
-{
-    "new_email": "new_email"
-}
-```
-
 **Response:**
 
 ```json
@@ -421,6 +416,14 @@ Request email address change
 ### **POST** `/email-change-confirm/uid/token/`
 
 Confirm email address change
+**Request Body:**
+
+```json
+{
+    "new_email": "new_email"
+}
+```
+
 **Response:**
 
 ```json

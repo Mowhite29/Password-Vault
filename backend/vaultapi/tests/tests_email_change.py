@@ -41,47 +41,51 @@ class APITests(APITestCase):
 
     def test_email_change_request(self):
         url = reverse('EmailChangeRequest')
-        request = self.client.post(url, self.payload, **self.auth_headers)
+        request = self.client.post(url, **self.auth_headers)
 
         self.assertEqual(request.status_code, 200,
                          "POST request failed to return status 200")
 
     def test_email_change_request_bad_token(self):
         url = reverse('EmailChangeRequest')
-        request = self.client.post(url, self.payload,
+        request = self.client.post(url,
                             **{'HTTP_AUTHORIZATION': 'Bearer bad_token'})
 
         self.assertEqual(request.status_code, 401,
                          "POST request failed to return status 401")
 
-    def test_email_change_request_missing_email(self):
-        url = reverse('EmailChangeRequest')
-        request = self.client.post(url, **self.auth_headers)
-
-        self.assertEqual(request.status_code, 400,
-                         "POST request failed to return status 400")
-
     def test_email_change_confirm(self):
         url = reverse('EmailChangeRequest')
-        request = self.client.post(url, self.payload, **self.auth_headers)
+        request = self.client.post(url, **self.auth_headers)
         url1 = reverse('EmailChangeConfirm',
                        kwargs={
                            'uidb64': request.data['uid'],
                            'token': request.data['token']})
-        request1 = self.client.post(url1)
+        request1 = self.client.post(url1, self.payload)
 
         self.assertEqual(request1.status_code, 200,
                          "POST request failed to return status 200")
 
+    def test_email_change_confirm_missing_email(self):
+        url = reverse('EmailChangeRequest')
+        request = self.client.post(url, **self.auth_headers)
+        url1 = reverse('EmailChangeConfirm',
+                       kwargs={
+                           'uidb64': request.data['uid'],
+                           'token': request.data['token']})
+        request = self.client.post(url1)
+
+        self.assertEqual(request.status_code, 400,
+                         "POST request failed to return status 400")
+
     def test_email_change_confirm_invalid_token(self):
         url = reverse('EmailChangeRequest')
-        request = self.client.post(url, self.payload, **self.auth_headers)
+        request = self.client.post(url, **self.auth_headers)
         url1 = reverse('EmailChangeConfirm',
                        kwargs={
                            'uidb64': request.data['uid'],
                            'token': 'wrong_token'})
-        payload = {'new_password': 'new_password'}
-        request1 = self.client.post(url1, payload)
+        request1 = self.client.post(url1, self.payload,)
 
         self.assertEqual(request1.status_code, 400,
                          "GET request failed to return status 400")
