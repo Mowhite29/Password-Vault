@@ -37,6 +37,11 @@ export default function MenuBar() {
                         display: open ? 'flex' : 'none',
                     }}
                 >
+                    {signedIn ? (
+                        <button onClick={() => handleScreenChange('account')}>
+                            My account
+                        </button>
+                    ) : null}
                     <button
                         onClick={
                             signedIn
@@ -46,19 +51,11 @@ export default function MenuBar() {
                     >
                         {signedIn ? 'Sign out' : 'Sign in'}
                     </button>
-                    {signedIn ? (
-                        <button onClick={() => handleScreenChange('account')}>
-                            My account
+                    {signedIn ? null : (
+                        <button onClick={() => handleScreenChange('signin')}>
+                            Create account
                         </button>
-                    ) : null}
-                    <button
-                        onClick={() => handleScreenChange('signin')}
-                        style={{
-                            display: signedIn ? 'none' : 'flex',
-                        }}
-                    >
-                        Create account
-                    </button>
+                    )}
                 </div>
             </div>
         )
@@ -67,7 +64,25 @@ export default function MenuBar() {
             <div className="menuContainer">
                 <div className="staticMenuBar">
                     <h1>Password Vault</h1>
-                    <h2>Sign in</h2>
+                    {signedIn ? (
+                        <button onClick={() => handleScreenChange('account')}>
+                            My account
+                        </button>
+                    ) : null}
+                    <button
+                        onClick={
+                            signedIn
+                                ? () => handleSignOut()
+                                : () => handleScreenChange('signin')
+                        }
+                    >
+                        {signedIn ? 'Sign out' : 'Sign in'}
+                    </button>
+                    {signedIn ? null : (
+                        <button onClick={() => handleScreenChange('signin')}>
+                            Create account
+                        </button>
+                    )}
                 </div>
             </div>
         )
