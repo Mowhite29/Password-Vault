@@ -17,19 +17,25 @@ export default function EmailChange() {
         dispatch(signOut())
     }
 
-    async function Confirm(){
-        const response = await EmailChangeVerify(email, params.uidb64, params.token)
-        if (response != true){
+    async function Confirm() {
+        const response = await EmailChangeVerify(
+            email,
+            params.uidb64,
+            params.token
+        )
+        if (response != true) {
             setMessage('Email change failed, please try again later')
-        }else {
-            setMessage('Email change successful. You will now be redirected to the home page to sign in')
+        } else {
+            setMessage(
+                'Email change successful. You will now be redirected to the home page to sign in'
+            )
             setTimeout(() => {
                 handleSignOut()
                 navigate('/')
             })
         }
     }
-    
+
     const inputHandler = (e) => {
         setEmail(e.target.value)
     }

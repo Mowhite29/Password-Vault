@@ -36,11 +36,14 @@ export default function Email({ type, url, user, email }) {
                     From: email-verify@passwordvault.info
                 </p>
                 <p className="emailHeaders">To: {email}</p>
-                <p className="emailHeaders">Subject: Email Change Verification</p>
+                <p className="emailHeaders">
+                    Subject: Email Change Verification
+                </p>
                 <div className="emailBody">
                     <p>Hi {user},</p>
                     <p>
-                        Please clicking the link below to change your email address:
+                        Please clicking the link below to change your email
+                        address:
                     </p>
                     <button onClick={() => Verify()}>{siteURL + url}</button>
                     <p>If you didn't register, please ignore this email.</p>

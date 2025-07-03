@@ -17,19 +17,25 @@ export default function PasswordChange() {
         dispatch(signOut())
     }
 
-    async function Confirm(){
-        const response = await PasswordChangeConfirm(password, params.uidb64, params.token)
-        if (response != true){
+    async function Confirm() {
+        const response = await PasswordChangeConfirm(
+            password,
+            params.uidb64,
+            params.token
+        )
+        if (response != true) {
             setMessage('Password change failed, please try again later')
-        }else {
-            setMessage('Password change successful. You will now be redirected to the home page to sign in')
+        } else {
+            setMessage(
+                'Password change successful. You will now be redirected to the home page to sign in'
+            )
             setTimeout(() => {
-                navigate("/")
+                navigate('/')
                 handleSignOut()
             }, 5000)
         }
     }
-    
+
     const inputHandler = (e) => {
         setPassword(e.target.value)
     }
@@ -37,7 +43,11 @@ export default function PasswordChange() {
     return (
         <>
             <h1>Enter new password:</h1>
-            <input type="password" onChange={inputHandler} value={password}></input>
+            <input
+                type="password"
+                onChange={inputHandler}
+                value={password}
+            ></input>
             <h2>{message}</h2>
             <button onClick={() => Confirm()}>Confirm</button>
         </>

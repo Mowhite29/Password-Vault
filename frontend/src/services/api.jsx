@@ -101,7 +101,12 @@ export async function PasswordReset(username) {
 export async function PasswordChangeConfirm(new_password, uidb64, token) {
     try {
         const url =
-            backEndURL + '/password-change-confirm/' + uidb64 + '/' + token + '/'
+            backEndURL +
+            '/password-change-confirm/' +
+            uidb64 +
+            '/' +
+            token +
+            '/'
         const response = await axios.post(
             url,
             { new_password: new_password },
@@ -396,12 +401,9 @@ export async function EmailChangeVerify(new_email, uidb64, token) {
     try {
         const url =
             backEndURL + '/email-change-confirm/' + uidb64 + '/' + token + '/'
-        const response = await axios.post(
-            url,
-            {
-                new_email: new_email,
-            },
-        )
+        const response = await axios.post(url, {
+            new_email: new_email,
+        })
         if (response.status === 200) {
             return true
         } else {
@@ -416,13 +418,10 @@ export async function NameRequest(accessToken) {
     try {
         const url = backEndURL + '/user/change/'
         const authToken = 'Bearer ' + accessToken
-        const response = await axios.get(
-            url,
-            {
-                headers: { AUTHORIZATION: authToken },
-                timeout: 10000,
-            }
-        )
+        const response = await axios.get(url, {
+            headers: { AUTHORIZATION: authToken },
+            timeout: 10000,
+        })
         if (response.status === 200) {
             return response.data
         } else {
