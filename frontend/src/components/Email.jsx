@@ -29,6 +29,24 @@ export default function Email({ type, url, user, email }) {
                 </div>
             </>
         )
+    } else if (type === 'email-change') {
+        return (
+            <>
+                <p className="emailHeaders">
+                    From: email-verify@passwordvault.info
+                </p>
+                <p className="emailHeaders">To: {email}</p>
+                <p className="emailHeaders">Subject: Email Change Verification</p>
+                <div className="emailBody">
+                    <p>Hi {user},</p>
+                    <p>
+                        Please clicking the link below to change your email address:
+                    </p>
+                    <button onClick={() => Verify()}>{siteURL + url}</button>
+                    <p>If you didn't register, please ignore this email.</p>
+                </div>
+            </>
+        )
     } else {
         return (
             <>
@@ -43,7 +61,7 @@ export default function Email({ type, url, user, email }) {
                         Complete your password change by clicking the link
                         below:
                     </p>
-                    <a href={url}>{url}</a>
+                    <button onClick={() => Verify()}>{siteURL + url}</button>
                     <p>If you didn't request this, please ignore this email.</p>
                 </div>
             </>
