@@ -378,7 +378,6 @@ export async function EmailChange(accessToken) {
     try {
         const url = backEndURL + '/email-change-request/'
         const authToken = 'Bearer ' + accessToken
-        console.log(authToken)
         const response = await axios.post(
             url,
             { data: null },
@@ -428,7 +427,7 @@ export async function NameRequest(accessToken) {
             return false
         }
     } catch {
-        console.log('Name change request failed')
+        console.log('Name request failed')
     }
 }
 
