@@ -46,6 +46,27 @@ This application is a **portfolio project only** and should **not be used to sto
 
 ## Screenshots
 
+<p float="left">
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQR3oLLP0WIpRpmUOxn7iS5iAdJg1nlQj5QXUWtVQP3Xdv8?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRa5gdI6r8hRLdd3N3VRdK0AUjKT_IJVxT8HosjZMViQSE?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSGubPe7pnPSrfRVr9MvIAvATPBWSwi6xZz9whmjXZ2DIw?height=660" width=300>
+</p>
+<p float="left">
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTDB6eLOuF0S5keppWq0g6XATVtSIgeUaxLMNE0PfjLiS4?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTD1kebYP7VR7nHMuVvb4CYAd8kxOgrPuxJ0qnosFeQMSM?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQS0wcz1Ymx-T59AIYuYaQGcASwPErVJUwmvp7rWHzq2YwY?height=660" width=300>
+</p>
+<p float="left">
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTgzI4woo4HTpgkzFvhvZsvAV8vV0DVBXfwv5gwZrxMt5M?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQQEOFfgSsdT6Sj1P__mQ1IAdMUAQUeQlCDYYzhl4kOw2o?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQjIhS0kFnTTq87H3kqb_elAa1Qj6qHd-ttAtCrQEmNBJk?height=660" width=300>
+</p>
+<p float="left">
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQROGQrma4PHRYOy4M64XkRHAdBYsnlnATGGVcqF3dk8B-8?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQp_qPMFxCAT6eNAFVMzlg9Ab6nGkINMc_11GnamJj4Ax4?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTLu_DoBW0QRqvCU4YQmGs3AcVYAoE51kBVsE8mHvCsTMs?height=660" width=300>
+</p>
+
 ---
 
 ## Testing & CI
@@ -64,7 +85,6 @@ This application is a **portfolio project only** and should **not be used to sto
 | Area                     | Location                            |
 |--------------------------|-------------------------------------|
 | Full project overview    | [README.md](./README.md)            |
-| Live demo (if available) | _Add URL here_                      |
 | Mock email view          | `/demo/email-verification`          |
 | Legal disclaimer         | [LEGAL.md](./LEGAL.md)              |
 
@@ -75,7 +95,7 @@ This application is a **portfolio project only** and should **not be used to sto
 | Stage                | Status        | Notes                                |
 |----------------------|---------------|---------------------------------------|
 | Core backend logic   | [x] Completed  | Auth, encryption, CRUD                |
-| Frontend MVP         | [ ] Completed  | Web and mobile                        |
+| Frontend MVP         | [x] Completed  | Web and mobile                        |
 | Mobile demo deploy   | [ ] In Progress| Expo test build planned               |
 | Production hardening | [ ] Planned    | UI polish, error handling, a11y       |
 | Additional features  | [ ] Planned    | Folders, password strength checking   |
