@@ -8,6 +8,7 @@ import '../styles/MenuBar.scss'
 export default function MenuBar() {
     const [open, setOpen] = useState(false)
     const signedIn = useSelector((state) => state.auth.signedIn)
+    const screen = useSelector((state) => state.auth.screen)
     const dispatch = useDispatch()
 
     function OpenMenu() {
@@ -20,6 +21,7 @@ export default function MenuBar() {
 
     const handleScreenChange = (newScreen) => {
         dispatch(setScreen(newScreen))
+        setOpen(false)
     }
 
     if (deviceType === 'touchOnly') {
@@ -28,35 +30,44 @@ export default function MenuBar() {
                 <div className="staticMenuBar">
                     <h1>Password Vault</h1>
                     <button onClick={() => OpenMenu()}>
-                        {open ? 'close' : 'open'}
+                        {open ? 'close menu' : 'open menu'}
                     </button>
                 </div>
-                <div
-                    className="mobileMenu"
-                    style={{
-                        display: open ? 'flex' : 'none',
-                    }}
-                >
-                    {signedIn ? (
-                        <button onClick={() => handleScreenChange('account')}>
-                            My account
+                {open ? (
+                    <div className="mobileMenu">
+                        {screen != 'home' && (
+                            <button onClick={() => handleScreenChange('home')}>
+                                Home
+                            </button>
+                        )}
+                        <button onClick={() => handleScreenChange('about')}>
+                            About
                         </button>
-                    ) : null}
-                    <button
-                        onClick={
-                            signedIn
-                                ? () => handleSignOut()
-                                : () => handleScreenChange('signin')
-                        }
-                    >
-                        {signedIn ? 'Sign out' : 'Sign in'}
-                    </button>
-                    {signedIn ? null : (
-                        <button onClick={() => handleScreenChange('signin')}>
-                            Create account
+                        {signedIn ? (
+                            <button
+                                onClick={() => handleScreenChange('account')}
+                            >
+                                My account
+                            </button>
+                        ) : null}
+                        <button
+                            onClick={
+                                signedIn
+                                    ? () => handleSignOut()
+                                    : () => handleScreenChange('signin')
+                            }
+                        >
+                            {signedIn ? 'Sign out' : 'Sign in'}
                         </button>
-                    )}
-                </div>
+                        {signedIn ? null : (
+                            <button
+                                onClick={() => handleScreenChange('signin')}
+                            >
+                                Create account
+                            </button>
+                        )}
+                    </div>
+                ) : null}
             </div>
         )
     } else {
@@ -64,6 +75,14 @@ export default function MenuBar() {
             <div className="menuContainer">
                 <div className="staticMenuBar">
                     <h1>Password Vault</h1>
+                    {screen != 'home' && (
+                        <button onClick={() => handleScreenChange('home')}>
+                            Home
+                        </button>
+                    )}
+                    <button onClick={() => handleScreenChange('about')}>
+                        About
+                    </button>
                     {signedIn ? (
                         <button onClick={() => handleScreenChange('account')}>
                             My account
