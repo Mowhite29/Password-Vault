@@ -413,7 +413,7 @@ class PasswordResetDemo(APIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         logger.info(f'User {username} requested password change.')
         return Response({'uid': uid, 'token': token,
-                            'user': user.username, 'email': user.email},
+                            'user': user.first_name, 'email': user.email},
                             status=status.HTTP_200_OK)
 
 
@@ -526,7 +526,6 @@ class EmailChangeConfirm(APIView):
             logger.error("Email reset requested for invalid user.")
             return Response({"error": "Invalid user"},
                             status=status.HTTP_400_BAD_REQUEST)
-
         if not default_token_generator.check_token(user, token):
             logger.error(f'User {user.username} provided invalid email '
                          'change token.')
@@ -537,12 +536,18 @@ class EmailChangeConfirm(APIView):
             logger.info(f'User {request.user.username} did not enter new email.')
             return Response({"error": "New email is required"},
                                 status=status.HTTP_400_BAD_REQUEST)
-        user.username = new_email
-        user.email = new_email
-        user.save()
-        logger.info(f'User {user.username} changed email')
-        return Response({"message": "email updated"},
-                            status=status.HTTP_200_OK)
+        try:
+            check = User.objects.get(username=new_email)
+            logger.info(f'User {request.user.username} entered existing email.')
+            return Response({"error": "Account already exists for this email"},
+                                status=status.HTTP_400_BAD_REQUEST)
+        except (check.DoesNotExist):
+            user.username = new_email
+            user.email = new_email
+            user.save()
+            logger.info(f'User {user.username} changed email')
+            return Response({"message": "email updated"},
+                                status=status.HTTP_200_OK)
 
 
 class NameChange(APIView):
