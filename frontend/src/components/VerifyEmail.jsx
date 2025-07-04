@@ -31,9 +31,9 @@ export default function VerifyEmail() {
     })
 
     return (
-        <>
+        <div classname="verifyContainer">
             <h1>Email address verified successfully</h1>
             <h2>Please wait for redirection to home page</h2>
-        </>
+        </div>
     )
 }
