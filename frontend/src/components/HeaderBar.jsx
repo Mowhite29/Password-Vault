@@ -6,8 +6,7 @@ export default function HeaderBar() {
         <div className="headerContainer">
             <p>
                 DEMO PROJECT ONLY - DO NOT USE WITH REAL DATA. THIS APPLICATION
-                IS A PORTFOLIO PROJECT TO DEMONSTRATE SKILLS - SEE DISCLAIMER
-                BELOW
+                IS A PORTFOLIO PROJECT TO DEMONSTRATE SKILLS - SEE ABOUT PAGE
             </p>
             <p>
                 This application uses a backend which spins down when not used.
