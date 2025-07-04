@@ -419,20 +419,20 @@ export default function Vault() {
                 <div className="popUpContainer">
                     <h1>{popUpMessage}</h1>
                     {deleteShown && (
-                        <>
+                        <div className="buttons">
                             <button onClick={() => EntryDelete('delete')}>
                                 Confirm
                             </button>
                             <button onClick={() => EntryDelete('cancel')}>
                                 Cancel
                             </button>
-                        </>
+                        </div>
                     )}
                 </div>
             )}
             {creationShown && (
                 <div className="entryCreationContainer">
-                    <form className="formContainer">
+                    <form className="formContainer" on>
                         <div className="inputs">
                             <label for="label">Website</label>
                             <input
@@ -474,6 +474,9 @@ export default function Vault() {
                             onClick={() => EntryCreation()}
                         >
                             Add new password
+                        </button>
+                        <button onClick={() => setCreationShown(false)}>
+                            Cancel
                         </button>
                     </form>
                     <h1>{notification}</h1>
