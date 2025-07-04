@@ -2,7 +2,9 @@
     .vaultView {
         display: flex;
         flex-direction: column;
-        height: 105%;
+        height: 666px;
+        position: absolute;
+        top: 105px;
 
         .utilsContainer {
             width: 90%;
@@ -69,7 +71,7 @@
                 }
                 .createdAt, .updatedAt {
                     flex-direction: row;
-
+                    height: 30px;
                     .label {
                         width: 115px;
                     }
@@ -81,6 +83,7 @@
                 .buttons {
                     display: flex;
                     justify-content: space-around;
+                    margin: 5px;
                 }
             }
         }
@@ -96,7 +99,7 @@
             align-items: center;
             width: 80%;
             position: absolute;
-            top: 200px;
+            top: 115px;
             background-color: white;
             border: 2px solid gray;
 
@@ -108,7 +111,9 @@
                 width: 80%;
                 text-align: center;
             }
-            button {}
+            button {
+                margin: 5px;
+            }
             h2 {
                 font-size: 20px;
                 color: red;
@@ -116,45 +121,86 @@
             }
         }
         .popUpContainer {
+            display: flex;
+            flex-direction: column;
             align-self: center;
             width: 80%;
             position: absolute;
             top: 0px;
             background-color: white;
             border: 2px solid gray;
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-content: center ;
+                button {
+                margin: 5px;
+            }
+            }
+            
         }
         .entryCreationContainer {
             align-self: center;
-            width: 80%;
+            width: 100vw;
+            height: 72%;
             position: absolute;
-            top: 200px;
-            background-color: white;
-            border: 2px solid gray;
-
+            top: 0;
+            align-content: center;
+            backdrop-filter: blur(1px);
             .formContainer {
                 display: flex;
                 flex-direction: column;
+                width: 70%;
+                background-color: white;
+                border: 2px solid gray;
+                justify-self: center;
                 .inputs {
                     display: flex;
-                    flex-direction: row;
+                    flex-direction: column;
                     align-items: center;
                     margin: 5px 0;
 
-                    h2 {
+                    label {
                         text-align: left;
                     }
                     input, textarea {
                         justify-self: right;
+                        width: 80%;
                     }
                     textarea {
                         height: 5rem;
                         width: 220px;
                     }
+                    h2 {
+                        font-size: 20px;
+                    }
+                }
+                button {
+                    width: 70%;
+                    align-self: center;
+                    margin: 5px;
                 }
             }
         }
     }
 }
 @media (min-width: 1024px) {
-    .vaultView {}
+    .vaultView {
+        width: 80%;
+        align-self: center;
+
+        .vaultDisplay {
+            height: 80%;
+            .vaultEntry {
+                .label, .username, .password, .notes {
+                    flex-direction: row;
+                }
+            }
+        }
+
+        .keyEntryContainer {
+            width: 40%;
+        }
+    }
 }

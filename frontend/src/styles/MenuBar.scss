@@ -1,16 +1,20 @@
 @media (min-width: 0px) {
     .menuContainer,
     .menuContainerOpen {
-        width: 90%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-self: center;
+        margin: 0 0 20px 0;
+        position: absolute;
+        top: 40px;
 
         .staticMenuBar {
-            width: 100%;
+            width: 90%;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            align-self: center;
 
             h1 {
                 justify-self: flex-start;
@@ -18,12 +22,33 @@
             h2 {
                 justify-self: flex-end;
             }
+            button {
+                height: 50%;
+                justify-self: center;
+                align-self: center;
+            }
         }
         .mobileMenu {
+            z-index: 10;
             justify-content: space-around;
+            align-self: center;
+            border: 2px solid gray;
+            height: 50px;
+            width: 90%;
+            background-color: white;
+
+            button {
+                height: 60%;
+                align-self: center;
+            }
         }
     }
 }
 
 @media (min-width: 1024px) {
+    .menuContainer {
+        width: 70%;
+        align-self: center;
+        
+    }
 }

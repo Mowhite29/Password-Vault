@@ -1,0 +1,47 @@
+@media (min-width: 0px) {
+    .screen {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: -96px;
+        left: -35px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        backdrop-filter: blur(1px);
+    
+        .emailContainer {
+            display: flex;
+            flex-direction: column;
+            justify-self: center;
+            align-self: center;
+            width: 90%;
+            height: 70%;
+            background-color: white;
+            border: 2px solid gray;
+
+            .emailHeaders {
+                margin: 5px;
+            }
+            .emailBody {
+                margin: 10px;
+            }
+            button {
+                background: none;
+                color: red;
+                border: none;
+                text-align: left;
+                padding: 0;
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .screen {
+
+        .emailContainer {
+            width: 50%;
+        }
+    }
+}

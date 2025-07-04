@@ -2,6 +2,8 @@
     .headerContainer {
         width: 100%;
         background-color: black;
+        position: absolute;
+        top: 0;
         p {
             line-clamp: 2;
             -webkit-line-clamp: 2;
@@ -15,4 +17,10 @@
 }
 
 @media (min-width: 1024px) {
+    .headerContainer {
+        p {
+            font-size: 15px;
+            margin: 5px;
+        }
+    }
 }
