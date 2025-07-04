@@ -8,9 +8,9 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 
 - [x] User registration & login with JWT
 - [x] Vault CRUD operations
-- [ ] AES encryption for stored passwords
+- [x] AES encryption for stored passwords
 - [x] PostgreSQL integration
-- [ ] Responsive React UI
+- [x] Responsive React UI
 - [ ] Basic password strength checker
 - [ ] GitHub documentation and initial deployment
 
@@ -48,19 +48,13 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 
 ## Phase 5: Infrastructure & DevOps
 
-- [ ] Add CI/CD pipelines with GitHub Actions for automated testing and deployment
-- [ ] Integrate unit and integration testing (Pytest + React Testing Library)
+- [x] Add CI/CD pipelines with GitHub Actions for automated testing and deployment
+- [x] Integrate unit and integration testing (Pytest + React Testing Library)
 - [ ] Add database migrations tracking with Alembic or Django Migrations
-- [ ] Optional: Add GraphQL API layer to complement REST
 
 ---
 
 ## Ideas Under Consideration (Skills Showcase)
-
-### Browser Extension
-- A lightweight Chrome/Firefox extension for quick vault access and autofill
-- Technologies: JavaScript, browser storage, messaging API
-- Skills: Frontend performance, secure data handling in browser contexts
 
 ### Biometric & Device-Based Authentication
 - Add biometric login support (e.g., Touch ID, Face ID) for mobile devices
