@@ -8,6 +8,7 @@ import {
     EmailChange,
 } from '../services/api'
 import Email from './Email'
+import '../styles/Account.scss'
 
 export default function Account() {
     const userEmail = useSelector((state) => state.auth.userEmail)
@@ -46,9 +47,7 @@ export default function Account() {
                 'A password change confirmation email has been sent to your email address'
             )
             setMessageVisible(true)
-            setTimeout(() => {
-                setEmailView(true)
-            }, 5000)
+            setTimeout(() => setEmailView(true), 5000)
         } else {
             setPopUpMessage(
                 'Password change unsuccessful, please try again later'
@@ -72,9 +71,7 @@ export default function Account() {
                 'An email change confirmation email has been sent to your email address'
             )
             setMessageVisible(true)
-            setTimeout(() => {
-                setEmailView(true)
-            }, 5000)
+            setTimeout(() => setEmailView(true), 5000)
         } else {
             setPopUpMessage('Email change unsuccessful, please try again later')
         }
@@ -111,11 +108,14 @@ export default function Account() {
 
     return (
         <div className="accountContainer">
-            <button onClick={() => handleScreenChange('vault')}>
+            <button
+                className="return"
+                onClick={() => handleScreenChange('vault')}
+            >
                 Return to vault
             </button>
             <button onClick={() => ChangePassword()}>Change password</button>
-            <button onClick={() => ChangeEmail()}>Change email address</button>
+            {/* <button onClick={() => ChangeEmail()}>Change email address</button> */}
             <button onClick={() => ChangeName()}>Change name</button>
             {nameShown && (
                 <div className="nameChange">
@@ -140,6 +140,7 @@ export default function Account() {
                     <button onClick={() => ChangeName(true)}>
                         Change name
                     </button>
+                    <button onClick={() => setNameShown(false)}>Cancel</button>
                 </div>
             )}
             {messageVisible && (
