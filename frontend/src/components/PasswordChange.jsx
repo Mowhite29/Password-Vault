@@ -41,7 +41,7 @@ export default function PasswordChange() {
     }
 
     return (
-        <>
+        <div className="changeContainer">
             <h1>Enter new password:</h1>
             <input
                 type="password"
@@ -50,6 +50,6 @@ export default function PasswordChange() {
             ></input>
             <h2>{message}</h2>
             <button onClick={() => Confirm()}>Confirm</button>
-        </>
+        </div>
     )
 }
