@@ -123,8 +123,8 @@ class APITests(APITestCase):
                             **self.auth_headers)
         response = self.client.get(url,
                             {'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
-        self.assertEqual(response.status_code, 401,
-                         "GET request failed to return status 401")
+        self.assertEqual(response.status_code, 403,
+                         "GET request failed to return status 403")
 
     def test_update_vault_entry(self):
         url = reverse('VaultView')
@@ -196,8 +196,8 @@ class APITests(APITestCase):
         }
         response1 = self.client.put(url, updated_payload, format='json',
                             **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
-        self.assertEqual(response1.status_code, 401,
-                         "PUT request failed to return status 401")
+        self.assertEqual(response1.status_code, 403,
+                         "PUT request failed to return status 403")
 
     def test_delete_vault_entry(self):
         url = reverse('VaultView')
@@ -258,5 +258,5 @@ class APITests(APITestCase):
         }
         response = self.client.delete(url, search_payload,
                             **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
-        self.assertEqual(response.status_code, 401,
-                         "DELETE request failed to return status 401")
+        self.assertEqual(response.status_code, 403,
+                         "DELETE request failed to return status 403")

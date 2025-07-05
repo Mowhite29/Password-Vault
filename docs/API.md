@@ -62,6 +62,30 @@ Refresh an access token using the refresh token
 }
 ```
 
+### **POST** `/api/mobile/`
+
+Obtain an access token for a mobile device
+Any authenticated requests from this device must include the device id in request body
+
+**Request Body:**
+
+```json
+{
+    "username": "user@example.com",
+    "password": "userpassword",
+    "device_id": "device_id"
+}
+```
+
+**Response:**
+
+```json
+{
+    "refresh": "refreshToken",
+    "access": "accessToken"
+}
+```
+
 ## User Registration, Email Verification, Master Key Handling & Name Change
 
 ### **POST** `/user/`
@@ -383,52 +407,6 @@ Password change confirmation
 ```json
 {
     "message": "password updated"
-}
-```
-
-## Email Change
-
-### **GET** `/email-change-request/`
-
-Request email address change
-**Response:**
-
-```json
-{
-    "message": "A confirmation email has been sent to your email address."
-}
-```
-
-### **GET** `/email-change-request/` **DEMO VERSION**
-
-Request email address change
-**Response:**
-
-```json
-{
-    "uid": "uid",
-    "token": "token",
-    "user":"testnew1@test.com",
-    "email":"testnew1@test.com"
-}
-```
-
-### **POST** `/email-change-confirm/uid/token/`
-
-Confirm email address change
-**Request Body:**
-
-```json
-{
-    "new_email": "new_email"
-}
-```
-
-**Response:**
-
-```json
-{
-    "message": "email updated"
 }
 ```
 

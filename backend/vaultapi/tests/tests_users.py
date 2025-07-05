@@ -115,8 +115,8 @@ class APITests(APITestCase):
         request = self.client.get(url,
                             **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
 
-        self.assertEqual(request.status_code, 401,
-                         "GET request failed to return status 401")
+        self.assertEqual(request.status_code, 403,
+                         "GET request failed to return status 403")
 
     def test_user_name_change(self):
         url = reverse('NameChange')
@@ -133,5 +133,5 @@ class APITests(APITestCase):
         request = self.client.post(url, payload, format='json',
                             **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})
 
-        self.assertEqual(request.status_code, 401,
-                         "POST request failed to return status 401")
+        self.assertEqual(request.status_code, 403,
+                         "POST request failed to return status 403")

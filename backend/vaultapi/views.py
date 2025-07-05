@@ -1,8 +1,12 @@
 from rest_framework import status
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
@@ -14,6 +18,7 @@ from django.utils import timezone
 import boto3
 from botocore.exceptions import ClientError
 import logging
+import jwt
 from .models import VaultEntry, UserKeys
 from .serializers import (
     VaultSerializer, RegisterSerializer,
@@ -25,6 +30,58 @@ logger = logging.getLogger(__name__)
 
 def ping_view(request):
     return JsonResponse({"status": "ok"}, status=200)
+
+
+class MobileLogin(APIView):
+    throttle_classes = [AnonRateThrottle]
+
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        device_id = request.data.get("device_id")
+
+        try:
+            user = User.objects.get(username=username)
+            if user.check_password(password):
+                refresh = RefreshToken.for_user(user)
+                refresh['device_id'] = device_id
+                return Response(
+                    {
+                        'access': str(refresh.access_token),
+                        'refresh': str(refresh),
+                    },
+                    status=status.HTTP_200_OK
+                )
+            else:
+                return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class DeviceAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        auth = request.headers.get('Authorization')
+        if not auth:
+            raise AuthenticationFailed('Authorization header missing')
+
+        parts = auth.split()
+        if len(parts) != 2:
+            raise AuthenticationFailed('Authorization header format is Bearer <token>')
+
+        token = parts[1]
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            device_id_from_token = payload.get('device_id')
+            device_id_from_request = request.data.get('device_id') or request.headers.get('Device-Id')
+            if device_id_from_token != device_id_from_request:
+                raise AuthenticationFailed('Device mismatch, access denied')
+
+            user = User.objects.get(id=payload['user_id'])
+            return (user, token)
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Token expired')
+        except jwt.DecodeError:
+            raise AuthenticationFailed('Invalid token')
 
 
 class RegisterView(APIView):
@@ -133,6 +190,7 @@ class EmailVerifyView(APIView):
 
 
 class UserKeysView(APIView):
+    authentication_classes = [DeviceAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
@@ -173,6 +231,7 @@ class UserKeysView(APIView):
 
 
 class VaultView(APIView):
+    authentication_classes = [DeviceAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
@@ -269,6 +328,7 @@ class VaultView(APIView):
 
 
 class PasswordChange(APIView):
+    authentication_classes = [DeviceAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
@@ -322,6 +382,7 @@ class PasswordChange(APIView):
 
 
 class PasswordChangeDemo(APIView):
+    authentication_classes = [DeviceAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
@@ -450,107 +511,8 @@ class PasswordChangeConfirm(APIView):
                             status=status.HTTP_200_OK)
 
 
-class EmailChangeRequest(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [AnonRateThrottle, UserRateThrottle]
-
-    # Email change request from authenticated user
-    def post(self, request):
-        logger.info("Email change request accessed.")
-        user = request.user
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-
-        email_change_url = (
-            f"{settings.FRONTEND_URL}/email-change-confirm/{uid}/{token}")
-
-        email_subject = "Confirm Your Email Address Change"
-        email_message = render_to_string(
-                            "email/email_change.html",
-                            {
-                                'user': user,
-                                'email_change_url': email_change_url
-                            })
-        client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
-        try:
-            response = client.send_email(
-                Destination={'ToAddresses': [user.email]},
-                Message={
-                    'Body': {
-                        'Html': {'Charset': 'UTF-8', 'Data': email_message}
-                    },
-                    'Subject': {'Charset': 'UTF-8', 'Data': email_subject},
-                },
-                Source=settings.DEFAULT_FROM_EMAIL,
-            )
-        except ClientError as e:
-            print(f"An error occurred: {e.response['Error']['Message']}")
-            logger.error(e.response['Error']['Message'])
-            return Response({"error": e.response['Error']['Message']},
-                            status=status.HTTP_400_BAD_REQUEST)
-        else:
-            print(f"Email sent! Message ID: {response['MessageId']}")
-            logger.info(f'User {user.username} requested email change.')
-            return Response({"message":
-                                "A confirmation email has been "
-                                "sent to your email address."},
-                                status=status.HTTP_200_OK)
-
-
-class EmailChangeRequestDemo(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [AnonRateThrottle, UserRateThrottle]
-
-    # Email change request from authenticated user
-    def post(self, request):
-        logger.info("Email change request accessed.")
-        user = request.user
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        logger.info(f'User {user.username} requested email change.')
-        return Response({'uid': uid, 'token': token,
-                            'user': user.first_name, 'email': user.email},
-                            status=status.HTTP_200_OK)
-
-
-class EmailChangeConfirm(APIView):
-    throttle_classes = [AnonRateThrottle]
-
-    # Email change confirmation
-    def post(self, request, uidb64, token):
-        logger.info("Email change confirm accessed.")
-        try:
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            logger.error("Email reset requested for invalid user.")
-            return Response({"error": "Invalid user"},
-                            status=status.HTTP_400_BAD_REQUEST)
-        if not default_token_generator.check_token(user, token):
-            logger.error(f'User {user.username} provided invalid email '
-                         'change token.')
-            return Response({"error": "Invalid token"},
-                            status=status.HTTP_400_BAD_REQUEST)
-        new_email = request.data.get('new_email')
-        if not new_email:
-            logger.info(f'User {request.user.username} did not enter new email.')
-            return Response({"error": "New email is required"},
-                                status=status.HTTP_400_BAD_REQUEST)
-        try:
-            check = User.objects.get(username=new_email)
-            logger.info(f'User {request.user.username} entered existing email.')
-            return Response({"error": "Account already exists for this email"},
-                                status=status.HTTP_400_BAD_REQUEST)
-        except (check.DoesNotExist):
-            user.username = new_email
-            user.email = new_email
-            user.save()
-            logger.info(f'User {user.username} changed email')
-            return Response({"message": "email updated"},
-                                status=status.HTTP_200_OK)
-
-
 class NameChange(APIView):
+    authentication_classes = [DeviceAuthentication, JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
 

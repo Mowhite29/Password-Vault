@@ -9,7 +9,7 @@ from .views import (
     VaultView, RegisterViewDemo,
     PasswordChangeDemo, PasswordChangeConfirm,
     EmailVerifyView, PasswordResetDemo, UserKeysView,
-    ping_view, NameChange
+    ping_view, NameChange, MobileLogin
 )
 
 urlpatterns = [
@@ -18,6 +18,7 @@ urlpatterns = [
          TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/',
          TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/mobile/', MobileLogin.as_view(), name='TokenObtainMobile'),
     path('vault/', VaultView.as_view(), name='VaultView'),
     path('user/', RegisterViewDemo.as_view(), name='RegisterView'),
     path('user/key/', UserKeysView.as_view(), name='UserKeys'),
@@ -30,10 +31,6 @@ urlpatterns = [
          PasswordResetDemo.as_view(), name='PasswordReset'),
     path('password-change-confirm/<uidb64>/<token>/',
          PasswordChangeConfirm.as_view(), name='PasswordChangeConfirm'),
-    # path('email-change-request/',
-    #      EmailChangeRequestDemo.as_view(), name='EmailChangeRequest'),
-    # path('email-change-confirm/<uidb64>/<token>/',
-    #      EmailChangeConfirm.as_view(), name='EmailChangeConfirm'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

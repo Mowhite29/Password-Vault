@@ -51,8 +51,8 @@ class APITests(APITestCase):
         request = self.client.post(url, self.payload,
                             **{'HTTP_AUTHORIZATION': 'Bearer bad_token'})
 
-        self.assertEqual(request.status_code, 401,
-                         "POST request failed to return status 401")
+        self.assertEqual(request.status_code, 403,
+                         "POST request failed to return status 403")
 
     def test_password_reset_request(self):
         url = reverse('PasswordReset')
