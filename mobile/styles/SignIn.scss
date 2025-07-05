@@ -1,0 +1,69 @@
+@media (min-width: 0px) {
+    .signInContainer {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100px;
+        width: 80%;
+        align-self: center;
+        .formContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        
+            .forms {
+                width: 70%;
+                display: flex;
+                flex-direction: column;
+                align-self: center;
+
+                h1 {
+                    text-align: center;
+                }
+                input {
+                    margin: 5px 0;
+                }
+
+                button {
+                    width: 50%;
+                    align-self: center;
+                }
+            }
+
+            .forgottenButton {
+                width: 35%;
+                align-self: center;
+                margin: 5px 0 0 0;
+            }
+        }
+
+        .popUpContainer {
+            position: absolute;
+            top: 100px;
+            background-color: white;
+            border: 2px solid gray;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .signInContainer {
+        flex-direction: row;
+        .formContainer {
+            width: 50%;
+            justify-items: center;
+            .forms {
+                
+            }
+            .forgottenButton {
+                width: auto;
+                justify-self: center;
+            }
+        }
+
+        .screen {
+            left: -140px;
+        }
+    }
+}

@@ -5,7 +5,6 @@ import {
     PasswordChange,
     NameChange,
     NameRequest,
-    EmailChange,
 } from '../services/api'
 import Email from './Email'
 import '../styles/Account.scss'
@@ -55,28 +54,6 @@ export default function Account() {
         }
     }
 
-    async function ChangeEmail() {
-        const response = await EmailChange(token)
-        if (response) {
-            const url =
-                '/email-change-confirm/' +
-                response['uid'] +
-                '/' +
-                response['token'] +
-                '/'
-            setEmailURL(url)
-            setName(response['user'])
-            setEmailType('email-change')
-            setPopUpMessage(
-                'An email change confirmation email has been sent to your email address'
-            )
-            setMessageVisible(true)
-            setTimeout(() => setEmailView(true), 5000)
-        } else {
-            setPopUpMessage('Email change unsuccessful, please try again later')
-        }
-    }
-
     async function ChangeName(done = false) {
         if (done) {
             const response = await NameChange(firstname, lastname, token)
@@ -115,7 +92,6 @@ export default function Account() {
                 Return to vault
             </button>
             <button onClick={() => ChangePassword()}>Change password</button>
-            {/* <button onClick={() => ChangeEmail()}>Change email address</button> */}
             <button onClick={() => ChangeName()}>Change name</button>
             {nameShown && (
                 <div className="nameChange">

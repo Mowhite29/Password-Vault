@@ -1,0 +1,11 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/.svn
+**/.hg
+**/*.scss
+**/*.json
+**/*.config.js
+
+/prettierrc.js

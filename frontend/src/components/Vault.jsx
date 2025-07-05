@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import '../styles/Vault.scss'
 import { useSelector } from 'react-redux'
-import { KeyCheck, GenerateKeyCheck } from '../utils/crypto'
+import { KeyCheck, GenerateKeyCheck, Encrypt, Decrypt } from '../utils/crypto'
 import {
     KeyCreate,
     KeyFetch,
@@ -10,7 +10,6 @@ import {
     VaultEdit,
     VaultFetch,
 } from '../services/api'
-import { Encrypt, Decrypt } from '../utils/crypto'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)

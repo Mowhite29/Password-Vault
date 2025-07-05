@@ -374,45 +374,6 @@ export async function KeyCreate(
     }
 }
 
-export async function EmailChange(accessToken) {
-    try {
-        const url = backEndURL + '/email-change-request/'
-        const authToken = 'Bearer ' + accessToken
-        const response = await axios.post(
-            url,
-            { data: null },
-            {
-                headers: { AUTHORIZATION: authToken },
-                timeout: 10000,
-            }
-        )
-        if (response.status === 200) {
-            return response.data
-        } else {
-            return false
-        }
-    } catch {
-        console.log('Email change request failed')
-    }
-}
-
-export async function EmailChangeVerify(new_email, uidb64, token) {
-    try {
-        const url =
-            backEndURL + '/email-change-confirm/' + uidb64 + '/' + token + '/'
-        const response = await axios.post(url, {
-            new_email: new_email,
-        })
-        if (response.status === 200) {
-            return true
-        } else {
-            return false
-        }
-    } catch {
-        console.log('Email change verify failed')
-    }
-}
-
 export async function NameRequest(accessToken) {
     try {
         const url = backEndURL + '/user/change/'

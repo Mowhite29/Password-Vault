@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
-import '../styles/Headerbar.scss'
+import '../styles/HeaderBar.scss'
+
 export default function HeaderBar() {
     const connected = useSelector((state) => state.connect.connected)
     return (
