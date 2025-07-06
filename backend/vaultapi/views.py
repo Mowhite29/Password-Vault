@@ -59,6 +59,8 @@ class MobileLogin(APIView):
 
 
 class DeviceAuthentication(BaseAuthentication):
+    throttle_classes = [AnonRateThrottle]
+    
     def authenticate(self, request):
         auth = request.headers.get('Authorization')
         if not auth:

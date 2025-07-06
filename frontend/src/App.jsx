@@ -6,7 +6,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Home from './Home'
 import PasswordChange from './components/PasswordChange'
 import VerifyEmail from './components/VerifyEmail'
-import EmailChangeView from './components/EmailChangeView'
 
 function App() {
     return (
@@ -18,10 +17,6 @@ function App() {
                         <Route
                             path="/verify-email/:uid/:token/"
                             element={<VerifyEmail />}
-                        />
-                        <Route
-                            path="/email-change-confirm/:uidb64/:token/"
-                            element={<EmailChangeView />}
                         />
                         <Route
                             path="/password-change-confirm/:uidb64/:token/"

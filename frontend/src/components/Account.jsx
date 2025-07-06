@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setScreen } from '../redux/authSlice'
-import {
-    PasswordChange,
-    NameChange,
-    NameRequest,
-} from '../services/api'
+import { PasswordChange, NameChange, NameRequest } from '../services/api'
 import Email from './Email'
 import '../styles/Account.scss'
 
