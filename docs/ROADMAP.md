@@ -1,4 +1,4 @@
-# 📍 Password Vault – Project Roadmap
+# Password Vault – Project Roadmap
 
 This roadmap outlines planned features and enhancements for the Password Vault project. Items are grouped by development phase and may be adjusted based on feedback or new priorities.
 
@@ -11,14 +11,14 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 - [x] AES encryption for stored passwords
 - [x] PostgreSQL integration
 - [x] Responsive React UI
-- [ ] Basic password strength checker
+- [x] Basic password strength checker
 - [ ] GitHub documentation and initial deployment
 
 ---
 
 ## Phase 2: Security & UX Enhancements
 
-- [ ] Auto-logout on inactivity
+- [x] Auto-logout on inactivity
 - [ ] Add Two-Factor Authentication (2FA) using TOTP or email
 - [ ] Add user activity logging (e.g., last login, IP address)
 - [ ] Integrate password generator with customizable options
@@ -57,26 +57,31 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 ## Ideas Under Consideration (Skills Showcase)
 
 ### Biometric & Device-Based Authentication
+
 - Add biometric login support (e.g., Touch ID, Face ID) for mobile devices
 - Device-based trust system (register device fingerprint via user-agent/IP hash)
 - Skills: React Native APIs, secure auth tokens, networking
 
 ### Dark Mode & Accessibility
+
 - Add a theme toggle (light/dark) with system preference detection
 - Implement full keyboard navigation and screen reader support (ARIA)
 - Skills: UI/UX, accessibility standards, advanced CSS
 
 ### Geolocation + IP Security
+
 - Log and display approximate location of each login
 - Alert users when login is from a new country or device
 - Skills: Networking (CCNA concepts), geolocation APIs, user trust modeling
 
 ### Rate Limiting & Threat Detection
+
 - Implement request throttling and lockout on repeated login failures
 - Add alerts or dashboard for suspicious activity
 - Skills: Security+, CySA+, backend performance
 
 ### Machine Learning (Future Stretch Goal)
+
 - Train a model to detect unusual password reuse or risky behavior
 - Recommend stronger passwords based on user behavior
 - Skills: Python, NumPy, intro machine learning, behavioral modeling
