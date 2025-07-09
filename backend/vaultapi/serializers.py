@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 import base64
 import re
 from .models import VaultEntry, UserKeys
@@ -72,3 +74,25 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
+
+
+class CustomTokenRefreshSerializer(TokenRefreshSerializer):
+    def validate(self, attrs):
+        refresh_token = attrs['refresh']
+        request = self.context['request']
+        device_id = request.data.get('device_id')
+
+        if not device_id:
+            raise serializers.ValidationError('device_id is required')
+
+        try:
+            refresh = RefreshToken(refresh_token)
+        except Exception:
+            raise serializers.ValidationError('Invalid refresh token')
+
+        device_id_from_token = refresh.get('device_id', None)
+        if device_id_from_token != device_id:
+            raise serializers.ValidationError('device_id mismatch')
+
+        data = {'access': str(refresh.access_token)}
+        return data

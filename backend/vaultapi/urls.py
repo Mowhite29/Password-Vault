@@ -4,12 +4,11 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from .views import (
     VaultView, RegisterViewDemo,
     PasswordChangeDemo, PasswordChangeConfirm,
     EmailVerifyView, PasswordResetDemo, UserKeysView,
-    ping_view, NameChange, MobileLogin
+    ping_view, NameChange, MobileLogin, MobileRefresh
 )
 
 urlpatterns = [
@@ -19,6 +18,8 @@ urlpatterns = [
     path('api/token/refresh/',
          TokenRefreshView.as_view(), name='token_refresh'),
     path('api/mobile/', MobileLogin.as_view(), name='TokenObtainMobile'),
+    path('api/mobile/refresh/',
+         MobileRefresh.as_view(), name='TokenRefreshMobile'),
     path('vault/', VaultView.as_view(), name='VaultView'),
     path('user/', RegisterViewDemo.as_view(), name='RegisterView'),
     path('user/key/', UserKeysView.as_view(), name='UserKeys'),
@@ -34,9 +35,3 @@ urlpatterns = [
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
-
-urlpatterns += [
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'),
-         name='swagger-ui'),
-]

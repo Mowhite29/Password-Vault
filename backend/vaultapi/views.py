@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenRefreshView
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
@@ -22,20 +23,25 @@ import jwt
 from .models import VaultEntry, UserKeys
 from .serializers import (
     VaultSerializer, RegisterSerializer,
-    UserKeySerializer, UserSerializer
+    UserKeySerializer, UserSerializer, CustomTokenRefreshSerializer
 )
 
 logger = logging.getLogger(__name__)
 
 
 def ping_view(request):
-    return JsonResponse({"status": "ok"}, status=200)
+    return JsonResponse({"status": "ok"}, status=status.HTTP_200_OK)
+
+
+class MobileRefresh(TokenRefreshView):
+    serializer_class = CustomTokenRefreshSerializer
 
 
 class MobileLogin(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def post(self, request):
+        logger.info("Mobile login accessed")
         username = request.data.get("username")
         password = request.data.get("password")
         device_id = request.data.get("device_id")
@@ -45,6 +51,7 @@ class MobileLogin(APIView):
             if user.check_password(password):
                 refresh = RefreshToken.for_user(user)
                 refresh['device_id'] = device_id
+                logger.info(f'Mobile user {user.username} logged in')
                 return Response(
                     {
                         'access': str(refresh.access_token),
@@ -53,36 +60,57 @@ class MobileLogin(APIView):
                     status=status.HTTP_200_OK
                 )
             else:
-                return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+                logger.error(f'Mobile user {user.username} '
+                             'provided invalid credentials')
+                return Response({"detail": "Invalid credentials."},
+                                status=status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
-            return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+            logger.error("Mobile user provided invalid nonexistant "
+                         "credentials")
+            return Response({"detail": "Invalid credentials."},
+                            status=status.HTTP_401_UNAUTHORIZED)
 
 
 class DeviceAuthentication(BaseAuthentication):
     throttle_classes = [AnonRateThrottle]
-    
+
     def authenticate(self, request):
+        logger.info("Mobile authentication accessed")
         auth = request.headers.get('Authorization')
         if not auth:
+            logger.error("Mobile user attempted authentication with missing "
+                         "auth header")
             raise AuthenticationFailed('Authorization header missing')
 
         parts = auth.split()
         if len(parts) != 2:
-            raise AuthenticationFailed('Authorization header format is Bearer <token>')
+            logger.error("Mobile user attempted authentication with "
+                         "incorrectly formatted auth header")
+            raise AuthenticationFailed('Authorization header format is '
+                                       'Bearer <token>')
 
         token = parts[1]
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            payload = jwt.decode(token, settings.SECRET_KEY,
+                                 algorithms=["HS256"])
             device_id_from_token = payload.get('device_id')
-            device_id_from_request = request.data.get('device_id') or request.headers.get('Device-Id')
+            device_id_from_request = request.data.get('device_id')
             if device_id_from_token != device_id_from_request:
+                logger.error("Mobile user attempted authentication with "
+                             "mismatched token and device ID")
                 raise AuthenticationFailed('Device mismatch, access denied')
 
             user = User.objects.get(id=payload['user_id'])
+            logger.info(f'Mobile user {user.username} authentication '
+                        'successfully')
             return (user, token)
         except jwt.ExpiredSignatureError:
+            logger.error("Mobile user attempted authentication with "
+                         "expired token")
             raise AuthenticationFailed('Token expired')
         except jwt.DecodeError:
+            logger.error("Mobile user attempted authentication with "
+                         "invalid token")
             raise AuthenticationFailed('Invalid token')
 
 
@@ -134,7 +162,7 @@ class RegisterView(APIView):
                 logger.info(f'Confirmation email sent to {user.username}')
                 return Response({"message":
                                 ("A confirmation email has been sent "
-                                        "to your email address.")},
+                                    "to your email address.")},
                 status=status.HTTP_200_OK)
 
         logger.error(serializer.errors)

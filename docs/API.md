@@ -66,7 +66,6 @@ Refresh an access token using the refresh token
 
 Obtain an access token for a mobile device
 Any authenticated requests from this device must include the device id in request body
-
 **Request Body:**
 
 ```json
@@ -82,6 +81,25 @@ Any authenticated requests from this device must include the device id in reques
 ```json
 {
     "refresh": "refreshToken",
+    "access": "accessToken"
+}
+```
+
+### **POST** `/api/mobile/refresh/`
+
+Refresh access token for a mobile device
+**Request Body:**
+
+```json
+{
+    "refresh": "refreshToken"
+}
+```
+
+**Response:**
+
+```json
+{
     "access": "accessToken"
 }
 ```
