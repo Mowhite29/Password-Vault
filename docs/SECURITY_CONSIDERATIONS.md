@@ -24,7 +24,6 @@ The main security concerns are:
 - All data stored at the backend must be in a secure form, so that in the event of a data breach the user data involved will be unusable;
 - Encrypted data must not be stored in the same location as its corresponding encryption key;
 - Data should not be exposed in a plaintext form on the backend where it might be vulnerable to an insider threat;
-- 3-2-1 Rule: At three copies of the database should exist using two media types with one copy stored offsite.
 
 ## Options
 
@@ -141,6 +140,40 @@ Cons
 
 TweetNaCl makes the most sense to me, and if needed I can switch to Libsodium later on
 
+### Algorithm
+
+OWASP define AES as the preferred algorithm for symmetric encryption. As TweetNaCl only supports xsalsa20-poly1305, the following considerations must be taken into account:
+
+#### Key Size
+
+OWASP and PCI DSS both define a minimum key length of 128 bits. Using the Node.js Web Crypto libraries subtle.deriveKey function, a key length of 128, 192 or 256 bits can be used.
+
+#### Known attacks and weaknesses
+
+I have been unable to find any known vulnerabilities regarding the TweetNaCl implementation of xsalsa20-poly1305.
+Noteable past vulnerabilities:
+
+- The original Rust implementation of xsalsa20-poly1305 is considered vulnerable due to end of support. This is mitigated by using the newer TweetNaCl SecretBox implementation [Reference at vulert.com](https://vulert.com/vuln-db/crates.io-xsalsa20poly1305-70628)
+- [Penetration test report for Rust implementation](https://cure53.de/pentest-report_rust-libs_2022.pdf)
+
+#### Maturity
+
+The Salsa20 and XSalsa20 variant have both been used for close to two decades- providing sufficient time for any weaknesses to have been discovered.
+
+- Salsa20 was designed by Daniel J. Bernstein in 2005 and was known for its speed and security [Bernstein- The Salsa20 family of stream ciphers](https://cr.yp.to/snuffle/salsafamily-20071225.pdf)
+- Bernstein introduced the XSalsa20 variant in 2008. It uses a 192 bit nonce- reducing the risk of nonce reuse [Bernstein- Extending the Salsa20 nonce](https://cr.yp.to/snuffle/xsalsa-20110204.pdf)
+
+
+#### Approval by third parties
+
+Salsa20 was selected as one of the stream cyphers to be included in the eCrypt eStream portfolio.
+Although is has not been officially approved by organisations such as NIST, its sister cipher ChaCha20 has.
+
+
+#### Performance
+
+As a stream cipher, XSalsa is faster and resource-cheaper than block ciphers such as AES though may be out performed by AES-GCM if AES-NI is used.
+
 ## Hashing
 
 As my application will be reliant of the hashing of users password to provide an encryption key, I must ensure that I am using a solid library for this function.
@@ -188,7 +221,7 @@ The main negative aspect of this method are all related to using client-side ren
 
 Another downside to my application design is that it will be reliant on an active internet connection is order to function. On the other hand, if the user cannot connect to the internet to access their passwords, they are unlikely to be able to acces other service that said passwords are required for.
 
-## Password Checking
+## Encryption Passcode Checking
 
 A new problem with my data flow is that it currently provides no option for checking that the master key entered is correct. This means that if a user enters the wrong key while adding a new password to their vault, that password will then be irrecoverable unless the wrong version of the key is entered for the decryption process.
 
@@ -213,6 +246,27 @@ When user adds a new password or wishes to decrypt one:
 - No users master key is present outside of their browser ensuring zero knowledge
 - Known string is not stored alongside cypher text which would offer an attacker an advantage when attempting to discover encryption key
 - Known string is per user for peace of mind
+
+## User Password Handling
+
+### Password Generation
+
+
+### Password Checking
+
+When users enter a new password to be saved, said password must undergo checks and if checks fail user will be notified.
+When users passwords are recalled checks will be run again.
+
+#### Checks
+
+The following checks will be run as per [OWASP guideleines](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html#implement-proper-password-strength-controls)
+
+- Password strength. zxcvbn-ts library will be implemented to notify users of weak passwords
+- Password leak check. zxcvbn-ts/matcher-pwned will be implemented to check whether users passwords have been involved in any data leaks
+
+## Multifactor Authentication
+
+
 
 ## Testing
 
