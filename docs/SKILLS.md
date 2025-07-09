@@ -53,6 +53,3 @@ These certifications provide a strong foundation in network infrastructure, secu
 This project showcases my ability to combine modern frontend and backend technologies with strong cybersecurity practices to deliver a secure and user-friendly password manager. It reflects my commitment to continuous learning and applying certifications to real-world software development.
 
 ---
-
-*For questions or collaborations, please contact me via [GitHub](https://github.com/Mowhite29) or [whitebearwebdesign.com](https://whitebearwebdesign.com).*
-
