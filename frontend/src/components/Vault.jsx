@@ -10,6 +10,7 @@ import {
     VaultEdit,
     VaultFetch,
 } from '../services/api'
+import { Generate, Check } from '../utils/passwordGenerator'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
@@ -174,33 +175,45 @@ export default function Vault() {
               : password === ''
                 ? ((ready = false), setNotification('Please enter a password'))
                 : null
+        
         if (ready) {
-            const cypher = await Encrypt(masterKey, password)
-            try {
-                const response = await VaultCreate(
-                    label,
-                    username,
-                    cypher.encryptedPassword,
-                    cypher.salt,
-                    cypher.nonce,
-                    notes,
-                    token
-                )
-                if (response === true) {
-                    setCreationShown(false)
-                    setPopUpMessage('Password added successfully')
-                    setMessageVisible(true)
-                    const response = await VaultFetch(token)
-                    setVault(response)
-                    setShownVault(response)
-                    setTimeout(() => {
-                        setMessageVisible(false)
-                    }, 3000)
+            const check = await Check(userEmail, password)
+            console.log(check)
+            if (check != true){
+                setNotification(check['warning'], ...check['suggestions'])
+            }else {
+                const cypher = await Encrypt(masterKey, password)
+                try {
+                    const response = await VaultCreate(
+                        label,
+                        username,
+                        cypher.encryptedPassword,
+                        cypher.salt,
+                        cypher.nonce,
+                        notes,
+                        token
+                    )
+                    if (response === true) {
+                        setCreationShown(false)
+                        setPopUpMessage('Password added successfully')
+                        setMessageVisible(true)
+                        const response = await VaultFetch(token)
+                        setVault(response)
+                        setShownVault(response)
+                        setTimeout(() => {
+                            setMessageVisible(false)
+                        }, 3000)
+                    }
+                } catch (error) {
+                    console.error('Error during VaultCreate:', error)
                 }
-            } catch (error) {
-                console.error('Error during VaultCreate:', error)
             }
         }
+    }
+
+    async function GeneratePassword() {
+        const generated = await Generate()
+        setPassword(generated)
     }
 
     const ShowPassword = async (e) => {
@@ -402,17 +415,18 @@ export default function Vault() {
                 </div>
             )}
             {keyEntryShown && (
-                <div className="keyEntryContainer">
+                <form className="keyEntryContainer">
                     <h1>Enter your master key:</h1>
                     <input
                         type="password"
                         placeholder="master key"
                         value={enteredKey}
                         onChange={keyInput}
+                        autoComplete='none'
                     ></input>
-                    <button onClick={() => KeyEntry()}>Enter</button>
+                    <button type="button" onClick={() => KeyEntry()}>Enter</button>
                     <h2>{keyEntryMessage}</h2>
-                </div>
+                </form>
             )}
             {messageVisible && (
                 <div className="popUpContainer">
@@ -431,9 +445,9 @@ export default function Vault() {
             )}
             {creationShown && (
                 <div className="entryCreationContainer">
-                    <form className="formContainer" on>
+                    <div className="formContainer">
                         <div className="inputs">
-                            <label for="label">Website</label>
+                            <label>Website</label>
                             <input
                                 type="text"
                                 name="label"
@@ -442,7 +456,7 @@ export default function Vault() {
                             ></input>
                         </div>
                         <div className="inputs">
-                            <label for="username">Username</label>
+                            <label>Username</label>
                             <input
                                 type="text"
                                 name="username"
@@ -451,16 +465,17 @@ export default function Vault() {
                             ></input>
                         </div>
                         <div className="inputs">
-                            <label for="password">Password</label>
+                            <label>Password</label>
                             <input
                                 type="text"
                                 name="password"
                                 value={password}
                                 onChange={inputHandler}
                             ></input>
+                            <button onClick={() => GeneratePassword()}>Generate Password</button>
                         </div>
                         <div className="inputs">
-                            <label for="notes">Notes</label>
+                            <label>Notes</label>
                             <textarea
                                 type="text"
                                 name="notes"
@@ -470,15 +485,16 @@ export default function Vault() {
                         </div>
                         <button
                             className="creationButton"
-                            onClick={() => EntryCreation()}
+                            onClick={async () =>  await EntryCreation()}
                         >
                             Add new password
                         </button>
                         <button onClick={() => setCreationShown(false)}>
                             Cancel
                         </button>
-                    </form>
-                    <h1>{notification}</h1>
+                        <h3>{notification}</h3>
+                    </div>
+                    
                 </div>
             )}
             {editShown && (
