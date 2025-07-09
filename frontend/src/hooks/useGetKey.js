@@ -6,6 +6,8 @@ const useGetKey = () => {
     const token = useSelector((state) => state.auth.token)
 
     useEffect(() => {
+        fetch()
+
         const fetch = async () => {
             try {
                 const response = await KeyFetch(token)
@@ -19,8 +21,6 @@ const useGetKey = () => {
                 return false
             }
         }
-
-        fetch()
     })
 }
 
