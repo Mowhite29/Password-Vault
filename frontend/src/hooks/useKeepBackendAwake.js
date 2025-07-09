@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setConnect } from '../redux/connectionSlice'
 
-const useKeepBackendAwake = (intervalMinutes = 4) => {
+const useKeepBackendAwake = () => {
     const dispatch = useDispatch()
 
     const Connection = (updown) => {
@@ -22,24 +22,19 @@ const useKeepBackendAwake = (intervalMinutes = 4) => {
                     Connection(false)
                     console.log('Ping failed with status:', response.status)
                 }
-            } catch (err) {
+            } catch (error) {
                 Connection(false)
-                console.log('Ping error:', err)
+                console.log('Ping error:', error)
             }
         }
 
-        // Initial wake-up ping
         pingBackend()
 
-        // Set interval to keep backend awake
-        const interval = setInterval(
-            () => {
-                pingBackend()
-            },
-            intervalMinutes * 60 * 1000
-        )
+        const interval = setInterval(() => {
+            pingBackend()
+        }, 240000)
 
-        return () => clearInterval(interval) // Cleanup on unmount
+        return () => clearInterval(interval)
     })
 }
 
