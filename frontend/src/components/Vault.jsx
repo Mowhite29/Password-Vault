@@ -182,7 +182,8 @@ export default function Vault() {
             console.log(check)
             if (check != true) {
                 let prompt = ''
-                for (let i = 0; i < check['suggestions'].length; i++){
+                for (let i = 0; i < check['suggestions'].length; i++) {
+                    // eslint-disable-next-line security/detect-object-injection
                     prompt = prompt + ' ' + check['suggestions'][i]
                 }
                 setNotification(prompt)
@@ -223,7 +224,7 @@ export default function Vault() {
 
     const ShowPassword = async (e) => {
         const elem = e.target
-        if (elem.innerText != 'Show Password'){
+        if (elem.innerText != 'Show Password') {
             elem.innerText = 'Show Password'
             return
         }
@@ -235,10 +236,12 @@ export default function Vault() {
         )
         elem.innerText = plaintext
         const check = await Check(userEmail, plaintext)
-        if (check != true){
+        if (check != true) {
             setPopUpMessage(check['warning'])
             setMessageVisible(true)
-            setTimeout(() => {setMessageVisible(false)}, 3000)
+            setTimeout(() => {
+                setMessageVisible(false)
+            }, 3000)
         }
     }
 
