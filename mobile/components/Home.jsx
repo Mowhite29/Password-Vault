@@ -12,7 +12,7 @@ import Account from "./Account";
 import About from "./About";
 import useKeepBackendAwake from "../hooks/useKeepBackendAwake";
 import useTokenTimeout from "../hooks/useTokenTimeout";
-import StyleSheet from "../styles/Home.scss";
+import "../styles/Home.scss";
 
 export default function Home() {
   const screen = useSelector((state) => state.auth.screen);

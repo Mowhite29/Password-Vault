@@ -20,6 +20,7 @@
     "@zxcvbn-ts/core": "^3.0.4",
     "@zxcvbn-ts/language-common": "^3.0.4",
     "@zxcvbn-ts/language-en": "^3.0.2",
+    "@zxcvbn-ts/matcher-pwned": "^3.0.4",
     "axios": "^1.10.0",
     "expo": "~53.0.10",
     "expo-blur": "~14.1.5",
@@ -36,6 +37,7 @@
     "expo-symbols": "~0.4.5",
     "expo-system-ui": "~5.0.8",
     "expo-web-browser": "~14.2.0",
+    "pretty-format": "^30.0.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
@@ -50,6 +52,7 @@
     "react-redux": "^9.2.0",
     "react-router-native": "^6.30.0",
     "redux-persist": "^6.0.0",
+    "sass": "^1.89.2",
     "sass-embedded": "^1.89.2",
     "tweetnacl": "^1.0.3"
   },

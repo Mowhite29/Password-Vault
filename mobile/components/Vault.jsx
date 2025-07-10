@@ -11,7 +11,7 @@ import {
   VaultEdit,
   VaultFetch,
 } from "../services/api";
-import { Check, Generate } from "../../frontend/src/utils/passwordGenerator";
+import { Check, Generate } from "../utils/passwordGenerator";
 
 export default function Vault() {
   const token = useSelector((state) => state.auth.token);
@@ -201,6 +201,8 @@ export default function Vault() {
           setTimeout(() => {
             setMessageVisible(false);
           }, 3000);
+        } else {
+          setNotification(response);
         }
       } catch (error) {
         console.error("Error during VaultCreate:", error);

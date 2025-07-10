@@ -4,6 +4,8 @@ import * as SecureStore from "expo-secure-store";
 
 const backEndURL = process.env.EXPO_BACKEND_URL;
 
+const deviceID = async () => SecureStore.getItemAsync("device_id");
+
 export async function Register(username, password, firstname, lastname = "") {
   try {
     const url = backEndURL + "/user/";
@@ -58,7 +60,7 @@ export async function PasswordChange(username, accessToken) {
 
     const response = await axios.post(
       url,
-      { username: username },
+      { username: username, device_id: deviceID },
       {
         headers: { AUTHORIZATION: authToken },
         timeout: 10000,
@@ -128,11 +130,11 @@ export async function PasswordChangeConfirm(new_password, uidb64, token) {
 export async function TokenObtain(username, password) {
   try {
     const url = backEndURL + "/api/mobile/";
-    const deviceId = DeviceInfo.getUniqueId();
-    await SecureStore.setItemAsync("device_id", deviceId);
+    const deviceID = DeviceInfo.getUniqueId();
+    await SecureStore.setItemAsync("device_id", deviceID);
     const response = await axios.post(
       url,
-      { username: username, password: password, device_id: deviceId },
+      { username: username, password: password, device_id: deviceID },
       { timeout: 10000 },
     );
     if (response.status === 200) {
@@ -147,12 +149,13 @@ export async function TokenObtain(username, password) {
   }
 }
 
-export async function TokenRefresh(refreshToken) {
+export async function TokenRefresh() {
   try {
     const url = backEndURL + "/api/token/refresh/";
+    const refreshToken = async () => SecureStore.getItemAsync("refreshToken");
     const response = await axios.post(
       url,
-      { refresh: refreshToken },
+      { refresh: refreshToken, device_id: deviceID },
       { timeout: 10000 },
     );
     if (response.status === 200) {
@@ -176,6 +179,7 @@ export async function VaultFetch(accessToken) {
 
     const response = await axios.get(url, {
       headers: { AUTHORIZATION: authToken },
+      data: { device_id: deviceID },
       timeout: 10000,
     });
     if (response.status === 200) {
@@ -211,6 +215,7 @@ export async function VaultCreate(
         salt: salt,
         nonce: nonce,
         notes: notes,
+        device_id: deviceID,
       },
       {
         headers: { AUTHORIZATION: authToken },
@@ -227,7 +232,7 @@ export async function VaultCreate(
       "Vault entry creation failed:",
       error.response?.data || error.message,
     );
-    return false;
+    return "Vault entry creation failed:" + error.response.data.error;
   }
 }
 
@@ -252,6 +257,7 @@ export async function VaultEdit(
         salt: salt,
         nonce: nonce,
         notes: notes,
+        device_id: deviceID,
       },
       {
         headers: { AUTHORIZATION: authToken },
@@ -294,6 +300,7 @@ export async function VaultDelete(
         encrypted_password: encrypted_password,
         salt: salt,
         nonce: nonce,
+        device_id: deviceID,
       },
       timeout: 10000,
     });
@@ -319,6 +326,7 @@ export async function KeyFetch(accessToken) {
     const authToken = "Bearer " + accessToken;
     const response = await axios.get(url, {
       headers: { AUTHORIZATION: authToken },
+      data: { device_id: deviceID },
       timeout: 10000,
     });
 
@@ -350,6 +358,7 @@ export async function KeyCreate(
         salt1: salt1,
         salt2: salt2,
         nonce: nonce,
+        device_id: deviceID,
       },
       {
         headers: { AUTHORIZATION: authToken },
@@ -376,6 +385,7 @@ export async function NameRequest(accessToken) {
     const authToken = "Bearer " + accessToken;
     const response = await axios.get(url, {
       headers: { AUTHORIZATION: authToken },
+      data: { device_id: deviceID },
       timeout: 10000,
     });
     if (response.status === 200) {
@@ -397,6 +407,7 @@ export async function NameChange(firstName, lastName, accessToken) {
       {
         first_name: firstName,
         last_name: lastName,
+        device_id: deviceID,
       },
       {
         headers: { AUTHORIZATION: authToken },
