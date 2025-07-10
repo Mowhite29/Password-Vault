@@ -5,9 +5,9 @@ import Home from "../components/Home.jsx";
 const App = () => {
   return (
     <Provider store={store}>
-        <Home />
+      <Home />
     </Provider>
   );
-}
+};
 
-export default App
+export default App;

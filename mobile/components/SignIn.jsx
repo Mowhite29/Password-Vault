@@ -146,9 +146,17 @@ export default function SignIn() {
             placeholder="Password"
             autoComplete="current-password"
           ></TextInput>
-          <Button style={StyleSheet.signInButton} onClick={() => SignIn()} title="Sign In" />
+          <Button
+            style={StyleSheet.signInButton}
+            onClick={() => SignIn()}
+            title="Sign In"
+          />
         </View>
-        <Button style={StyleSheet.forgottenButton} onClick={() => ForgottenPassword()} title="forgotten password" />
+        <Button
+          style={StyleSheet.forgottenButton}
+          onClick={() => ForgottenPassword()}
+          title="forgotten password"
+        />
       </View>
       <View style={StyleSheet.formContainer}>
         <View style={StyleSheet.forms}>
@@ -177,7 +185,11 @@ export default function SignIn() {
             placeholder="Name"
             autoComplete="name"
           ></TextInput>
-          <Button style={StyleSheet.createAccountButton} onClick={() => CreateAccount()}title="Create Account"/>
+          <Button
+            style={StyleSheet.createAccountButton}
+            onClick={() => CreateAccount()}
+            title="Create Account"
+          />
         </View>
       </View>
       {messageVisible && (

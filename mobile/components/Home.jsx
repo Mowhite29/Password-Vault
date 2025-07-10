@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import { View, Button, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { setScreen, signIn } from "../redux/authSlice";
@@ -20,22 +20,22 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const tokenHandler = (access) => {
-      dispatch(signIn(access));
-    };
+    dispatch(signIn(access));
+  };
 
   useEffect(() => {
-      FetchUser()
-  
-      async function FetchUser() {
-        const refreshToken = await SecureStore.getItemAsync('refreshToken');
-        if (refreshToken !== null){
-          const request = await TokenRefresh(refreshToken)
-          if (request){
-            tokenHandler(request['access'])
-          }
+    FetchUser();
+
+    async function FetchUser() {
+      const refreshToken = await SecureStore.getItemAsync("refreshToken");
+      if (refreshToken !== null) {
+        const request = await TokenRefresh(refreshToken);
+        if (request) {
+          tokenHandler(request["access"]);
         }
       }
-    })
+    }
+  });
 
   useKeepBackendAwake();
   useTokenTimeout();
@@ -61,7 +61,10 @@ export default function Home() {
             <Text style={StyleSheet.h3}>
               Your Passwords. Protected. Simplified. Trusted.
             </Text>
-            <Button onPress={() => handleScreenChange("signin")} title="Get Started Now" />
+            <Button
+              onPress={() => handleScreenChange("signin")}
+              title="Get Started Now"
+            />
           </View>
         </View>
       )}

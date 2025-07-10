@@ -8,5 +8,3 @@ export const store = configureStore({
     connect: connectReducer,
   },
 });
-
-

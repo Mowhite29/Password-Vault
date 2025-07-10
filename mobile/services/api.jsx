@@ -1,6 +1,6 @@
 import axios from "axios";
-import DeviceInfo from 'react-native-device-info';
-import * as SecureStore from 'expo-secure-store';
+import DeviceInfo from "react-native-device-info";
+import * as SecureStore from "expo-secure-store";
 
 const backEndURL = process.env.EXPO_BACKEND_URL;
 
@@ -128,15 +128,15 @@ export async function PasswordChangeConfirm(new_password, uidb64, token) {
 export async function TokenObtain(username, password) {
   try {
     const url = backEndURL + "/api/mobile/";
-    const deviceId = DeviceInfo.getUniqueId()
-    await SecureStore.setItemAsync('device_id', deviceId);
+    const deviceId = DeviceInfo.getUniqueId();
+    await SecureStore.setItemAsync("device_id", deviceId);
     const response = await axios.post(
       url,
       { username: username, password: password, device_id: deviceId },
       { timeout: 10000 },
     );
     if (response.status === 200) {
-      await SecureStore.setItemAsync('refreshToken', response.data["refresh"]);
+      await SecureStore.setItemAsync("refreshToken", response.data["refresh"]);
       return response.data;
     } else {
       return false;

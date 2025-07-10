@@ -26,9 +26,21 @@ export default function About() {
   return (
     <View style={StyleSheet.aboutContainer}>
       <View style={StyleSheet.Buttons}>
-        <Button onClick={() => inputHandler("about")} title="About" accessibilityLabel="About" />
-        <Button onClick={() => inputHandler("legal")}title="Legal" accessibilityLabel="Legal" />
-        <Button onClick={() => inputHandler("credits")} title="Credits" accessibilityLabel="Credits" />
+        <Button
+          onClick={() => inputHandler("about")}
+          title="About"
+          accessibilityLabel="About"
+        />
+        <Button
+          onClick={() => inputHandler("legal")}
+          title="Legal"
+          accessibilityLabel="Legal"
+        />
+        <Button
+          onClick={() => inputHandler("credits")}
+          title="Credits"
+          accessibilityLabel="Credits"
+        />
       </View>
       {about && (
         <View style={StyleSheet.about}>
@@ -51,13 +63,14 @@ export default function About() {
         <View style={StyleSheet.legal}>
           <Text style={StyleSheet.h1}>Legal Disclaimer</Text>
           <Text style={StyleSheet.p}>
-            This application is a non-commercial portfolio project created by Moses White 
-            for the purposes of demonstrating application development skills.
+            This application is a non-commercial portfolio project created by
+            Moses White for the purposes of demonstrating application
+            development skills.
           </Text>
           <Text style={StyleSheet.p}>
-            The application is provided &quot;as is&quot;, with no warranties of any kind,
-            express or implied, including but not limited to any warranties of
-            merchantability, fitness for a particular purpose, or
+            The application is provided &quot;as is&quot;, with no warranties of
+            any kind, express or implied, including but not limited to any
+            warranties of merchantability, fitness for a particular purpose, or
             non-infringement
           </Text>
           <Text style={StyleSheet.p}>

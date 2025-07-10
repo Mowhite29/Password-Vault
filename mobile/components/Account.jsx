@@ -2,11 +2,7 @@ import { View, Button, Text } from "react-native";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setScreen } from "../redux/authSlice";
-import {
-  PasswordChange,
-  NameChange,
-  NameRequest,
-} from "../services/api";
+import { PasswordChange, NameChange, NameRequest } from "../services/api";
 import Email from "./Email";
 import StyleSheet from "../styles/Account.scss";
 
@@ -86,8 +82,10 @@ export default function Account() {
     <View style={StyleSheet.accountContainer}>
       <Button
         style={StyleSheet.return}
-        onClick={() => handleScreenChange("vault")} title="Return to vault"/>
-      <Button onClick={() => ChangePassword()}title="Change password" />
+        onClick={() => handleScreenChange("vault")}
+        title="Return to vault"
+      />
+      <Button onClick={() => ChangePassword()} title="Change password" />
       <Button onClick={() => ChangeName()} title="Change name" />
       {nameShown && (
         <View style={StyleSheet.nameChange}>

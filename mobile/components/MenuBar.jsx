@@ -25,10 +25,15 @@ export default function MenuBar() {
   };
 
   return (
-    <View style={open ? StyleSheet.menuContainerOpen : StyleSheet.menuContainer}>
+    <View
+      style={open ? StyleSheet.menuContainerOpen : StyleSheet.menuContainer}
+    >
       <View style={StyleSheet.staticMenuBar}>
         <Text style={StyleSheet.h1}>Password Vault</Text>
-        <Button onClick={() => OpenMenu()} title={open ? "close menu" : "open menu"} />
+        <Button
+          onClick={() => OpenMenu()}
+          title={open ? "close menu" : "open menu"}
+        />
       </View>
       {open ? (
         <View style={StyleSheet.mobileMenu}>
@@ -37,7 +42,10 @@ export default function MenuBar() {
           )}
           <Button onClick={() => handleScreenChange("about")} title="About" />
           {signedIn ? (
-            <Button onClick={() => handleScreenChange("account")} title="My account" />
+            <Button
+              onClick={() => handleScreenChange("account")}
+              title="My account"
+            />
           ) : null}
           <Button
             onClick={
@@ -45,9 +53,13 @@ export default function MenuBar() {
                 ? () => handleSignOut()
                 : () => handleScreenChange("signin")
             }
-            title={signedIn ? "Sign out" : "Sign in"} />
+            title={signedIn ? "Sign out" : "Sign in"}
+          />
           {signedIn ? null : (
-            <Button onClick={() => handleScreenChange("signin")} title="Create account" />
+            <Button
+              onClick={() => handleScreenChange("signin")}
+              title="Create account"
+            />
           )}
         </View>
       ) : null}

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setToken } from "../redux/authSlice";
-import { TokenRefresh, TokenObtain } from "../services/api";
+import { TokenRefresh } from "../services/api";
 
 const useTokenTimeout = () => {
   const signedIn = useSelector((state) => state.auth.signedIn);

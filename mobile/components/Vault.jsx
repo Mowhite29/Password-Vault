@@ -167,18 +167,18 @@ export default function Vault() {
 
   async function EntryCreation() {
     let ready = true;
-    if (label === ""){
-      ready = false 
-      setNotification("Please enter a password")
-    }else if (username === ""){
-      ready = false
-      setNotification("Please enter a username")
-    // eslint-disable-next-line security/detect-possible-timing-attacks
-    }else if (password === "") {
-      ready = false 
-      setNotification("Please enter a password")
+    if (label === "") {
+      ready = false;
+      setNotification("Please enter a password");
+    } else if (username === "") {
+      ready = false;
+      setNotification("Please enter a username");
+      // eslint-disable-next-line security/detect-possible-timing-attacks
+    } else if (password === "") {
+      ready = false;
+      setNotification("Please enter a password");
     }
-    
+
     if (ready) {
       const cypher = await Encrypt(masterKey, password);
       try {
@@ -209,16 +209,16 @@ export default function Vault() {
   }
 
   async function GeneratePassword() {
-          const generated = await Generate()
-          setPassword(generated)
-      }
+    const generated = await Generate();
+    setPassword(generated);
+  }
 
   const ShowPassword = async (e) => {
     const elem = e.target;
-     if (elem.innerText !== 'Show Password'){
-            elem.innerText = 'Show Password'
-            return
-        }
+    if (elem.innerText !== "Show Password") {
+      elem.innerText = "Show Password";
+      return;
+    }
     const plaintext = await Decrypt(
       masterKey,
       vault[elem.value]["encrypted_password"],
@@ -226,12 +226,14 @@ export default function Vault() {
       vault[elem.value]["nonce"],
     );
     elem.innerText = plaintext;
-    const check = await Check(userEmail, plaintext)
-            if (check !== true){
-                setPopUpMessage(check['warning'])
-                setMessageVisible(true)
-                setTimeout(() => {setMessageVisible(false)}, 3000)
-            }
+    const check = await Check(userEmail, plaintext);
+    if (check !== true) {
+      setPopUpMessage(check["warning"]);
+      setMessageVisible(true);
+      setTimeout(() => {
+        setMessageVisible(false);
+      }, 3000);
+    }
   };
 
   async function EntryEdit(entry) {
@@ -332,7 +334,11 @@ export default function Vault() {
           onChange={inputHandler}
           placeholder="search"
         ></TextInput>
-        <Button style={StyleSheet.addButton} onClick={() => setCreationShown(true)} title="Add new password" />
+        <Button
+          style={StyleSheet.addButton}
+          onClick={() => setCreationShown(true)}
+          title="Add new password"
+        />
       </View>
       <ScrollView style={StyleSheet.vaultDisplay}>
         {shownVault.map((entry) => (
@@ -421,7 +427,7 @@ export default function Vault() {
             value={enteredKey}
             onChange={keyInput}
           ></TextInput>
-          <Button onClick={() => KeyEntry()}title="Enter" />
+          <Button onClick={() => KeyEntry()} title="Enter" />
           <Text style={StyleSheet.h2}>{keyEntryMessage}</Text>
         </View>
       )}
@@ -465,7 +471,10 @@ export default function Vault() {
                 value={password}
                 onChange={inputHandler}
               ></TextInput>
-              <Button onClick={() => GeneratePassword()} title="Generate Password" />
+              <Button
+                onClick={() => GeneratePassword()}
+                title="Generate Password"
+              />
             </View>
             <View style={StyleSheet.inputs}>
               <Text for="notes">Notes</Text>
@@ -476,7 +485,11 @@ export default function Vault() {
                 onChange={inputHandler}
               ></TextInput>
             </View>
-            <Button style={StyleSheet.creationButton} onClick={() => EntryCreation()} title="Add new password" />
+            <Button
+              style={StyleSheet.creationButton}
+              onClick={() => EntryCreation()}
+              title="Add new password"
+            />
             <Button onClick={() => setCreationShown(false)} title="Cancel" />
           </View>
           <Text style={StyleSheet.h1}>{notification}</Text>
