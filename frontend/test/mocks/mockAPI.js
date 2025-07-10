@@ -3,8 +3,10 @@ import { http, HttpResponse } from 'msw'
 const backEndURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
 
 export const mockAPI = [
-    http.post(backEndURL + '/ping/', () => {
-        return HttpResponse(null, { status: 200 })
+    http.all(backEndURL + '/ping/', () => {
+        return HttpResponse.json({
+            status: 'ok',
+        })
     }),
     http.post(backEndURL + '/api/token/', () => {
         return HttpResponse.json({
@@ -28,7 +30,7 @@ export const mockAPI = [
             access: 'mockAccessToken',
         })
     }),
-    http.get(backEndURL + '/user/', () => {
+    http.post(backEndURL + '/user/', () => {
         return HttpResponse.json({
             uid: 'uid',
             token: 'token',

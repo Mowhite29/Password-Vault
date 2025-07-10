@@ -4,12 +4,15 @@ import { describe, it, expect, afterEach } from 'vitest'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import Vault from '../src/components/Vault'
-import { mockState } from './mocks/mockState'
-
 import '@testing-library/jest-dom'
+import authReducer from '../src/redux/authSlice'
+import connectReducer from '../src/redux/connectionSlice'
 
 const store = configureStore({
-    reducer: () => mockState,
+    reducer: {
+        auth: authReducer,
+        connect: connectReducer,
+    },
 })
 
 afterEach(cleanup)

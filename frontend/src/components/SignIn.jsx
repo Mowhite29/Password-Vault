@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
@@ -140,6 +141,7 @@ export default function SignIn() {
                         onChange={usernameInput}
                         placeholder="Email address"
                         autoComplete="email-address"
+                        alt="sign in username input"
                     ></input>
                     <input
                         className="passwordinput"
@@ -148,8 +150,13 @@ export default function SignIn() {
                         onChange={passwordInput}
                         placeholder="Password"
                         autoComplete="current-password"
+                        alt="sign in password input"
                     ></input>
-                    <button className="signInButton" type="submit">
+                    <button
+                        className="signInButton"
+                        type="submit"
+                        alt="sign in button"
+                    >
                         Sign In
                     </button>
                 </form>
@@ -170,6 +177,7 @@ export default function SignIn() {
                         onChange={newUsernameInput}
                         placeholder="Email address"
                         autoComplete="email-address"
+                        alt="create account username input"
                     ></input>
                     <input
                         className="passwordinput"
@@ -178,6 +186,7 @@ export default function SignIn() {
                         onChange={newPasswordInput}
                         placeholder="Password"
                         autoComplete="none"
+                        alt="create account password input"
                     ></input>
                     <input
                         className="nameInput"
@@ -187,7 +196,11 @@ export default function SignIn() {
                         placeholder="Name"
                         autoComplete="name"
                     ></input>
-                    <button className="createAccountButton" type="submit">
+                    <button
+                        className="createAccountButton"
+                        type="submit"
+                        alt="create account button"
+                    >
                         Create Account
                     </button>
                 </form>
