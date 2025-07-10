@@ -80,7 +80,6 @@ export async function Generate() {
         password.push('-')
     }
     password.pop()
-    console.log(password.join(''))
     return password.join('')
 }
 
@@ -101,7 +100,6 @@ export async function Check(user, password) {
     zxcvbnOptions.setOptions(options)
 
     const response = await zxcvbnAsync(password)
-    console.log(response)
     if (response.score === 4) {
         return true
     } else {

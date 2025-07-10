@@ -180,7 +180,11 @@ export default function Vault() {
             const check = await Check(userEmail, password)
             console.log(check)
             if (check != true) {
-                setNotification(check['warning'], ...check['suggestions'])
+                let prompt = ''
+                for (let i = 0; i < check['suggestions'].length; i++){
+                    prompt = prompt + ' ' + check['suggestions'][i]
+                }
+                setNotification(prompt)
             } else {
                 const cypher = await Encrypt(masterKey, password)
                 try {
@@ -218,6 +222,10 @@ export default function Vault() {
 
     const ShowPassword = async (e) => {
         const elem = e.target
+        if (elem.innerText != 'Show Password'){
+            elem.innerText = 'Show Password'
+            return
+        }
         const plaintext = await Decrypt(
             masterKey,
             vault[elem.value]['encrypted_password'],
@@ -225,6 +233,12 @@ export default function Vault() {
             vault[elem.value]['nonce']
         )
         elem.innerText = plaintext
+        const check = await Check(userEmail, plaintext)
+        if (check != true){
+            setPopUpMessage(check['warning'])
+            setMessageVisible(true)
+            setTimeout(() => {setMessageVisible(false)}, 3000)
+        }
     }
 
     async function EntryEdit(entry) {
@@ -350,7 +364,7 @@ export default function Vault() {
                                 value={vault.indexOf(entry)}
                                 onClick={ShowPassword}
                             >
-                                Show password
+                                Show Password
                             </button>
                         </div>
                         {entry.notes === '' ? null : (
