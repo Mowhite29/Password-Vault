@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw'
 
-const backEndURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
+const backEndURL = import.meta.env.VITE_BACKEND_URL ?? 'http://test.api'
 
 export const mockAPI = [
     http.all(backEndURL + '/ping/', () => {

@@ -1,9 +1,8 @@
 import { beforeAll, afterAll, afterEach } from 'vitest'
-import { server } from './mocks/server'
+import { setupServer } from 'msw/node'
+import { mockAPI } from './mocks/mockAPI'
 
-if (!import.meta.env.VITE_BACKEND_URL) {
-    import.meta.env.VITE_BACKEND_URL = 'http://test.api'
-}
+export const server = setupServer(...mockAPI)
 
 server.events.on('request:start', (req) => {
     console.log('[MSW] Request:', req.method, req.url)
