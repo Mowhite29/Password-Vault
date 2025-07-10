@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import '../styles/Vault.scss'
 import { useSelector } from 'react-redux'
