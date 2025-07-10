@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview",
-    "test": "mocha"
+    "test": "vitest"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -51,7 +51,9 @@
     "msw": "^2.10.3",
     "prettier": "3.5.3",
     "sass-embedded": "^1.89.2",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.0"
   },
   "prettier": {
     "trailingComma": "es5",
