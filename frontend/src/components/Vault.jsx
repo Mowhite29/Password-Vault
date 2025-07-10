@@ -179,7 +179,6 @@ export default function Vault() {
 
         if (ready) {
             const check = await Check(userEmail, password)
-            console.log(check)
             if (check != true) {
                 let prompt = ''
                 for (let i = 0; i < check['suggestions'].length; i++) {
@@ -209,6 +208,8 @@ export default function Vault() {
                         setTimeout(() => {
                             setMessageVisible(false)
                         }, 3000)
+                    } else {
+                        setNotification(response)
                     }
                 } catch (error) {
                     console.error('Error during VaultCreate:', error)
@@ -351,67 +352,74 @@ export default function Vault() {
                 </button>
             </div>
             <div className="vaultDisplay">
-                {shownVault.map((entry) => (
-                    <div className="vaultEntry" key={entry.label}>
-                        <div className="label">
-                            <h3 className="label">Website</h3>
-                            <h3 className="value">{entry.label}</h3>
-                        </div>
-                        <div className="username">
-                            <h3 className="label">Username</h3>
-                            <h3 className="value">{entry.username}</h3>
-                        </div>
-                        <div className="password">
-                            <h3 className="label">Password</h3>
-                            <button
-                                className="showPasswordButton"
-                                value={vault.indexOf(entry)}
-                                onClick={ShowPassword}
-                            >
-                                Show Password
-                            </button>
-                        </div>
-                        {entry.notes === '' ? null : (
-                            <div className="notes">
-                                <h3 className="label">Notes</h3>
-                                <h3 className="value">{entry.notes}</h3>
+                {Array.isArray(shownVault) &&
+                    shownVault.map((entry) => (
+                        <div className="vaultEntry" key={entry.label}>
+                            <div className="label">
+                                <h3 className="label">Website</h3>
+                                <h3 className="value">{entry.label}</h3>
                             </div>
-                        )}
-                        <div className="createdAt">
-                            <h3 className="label">Created at</h3>
-                            <h3 className="value">
-                                {new Date(entry.created_at).toLocaleString()}
-                            </h3>
-                        </div>
-                        {new Date(entry.created_at).toLocaleString() ===
-                        new Date(entry.updated_at).toLocaleString() ? null : (
-                            <div className="updatedAt">
-                                <h3 className="label">Updated at</h3>
+                            <div className="username">
+                                <h3 className="label">Username</h3>
+                                <h3 className="value">{entry.username}</h3>
+                            </div>
+                            <div className="password">
+                                <h3 className="label">Password</h3>
+                                <button
+                                    className="showPasswordButton"
+                                    value={vault.indexOf(entry)}
+                                    onClick={ShowPassword}
+                                >
+                                    Show Password
+                                </button>
+                            </div>
+                            {entry.notes === '' ? null : (
+                                <div className="notes">
+                                    <h3 className="label">Notes</h3>
+                                    <h3 className="value">{entry.notes}</h3>
+                                </div>
+                            )}
+                            <div className="createdAt">
+                                <h3 className="label">Created at</h3>
                                 <h3 className="value">
                                     {new Date(
-                                        entry.updated_at
+                                        entry.created_at
                                     ).toLocaleString()}
                                 </h3>
                             </div>
-                        )}
-                        <div className="buttons">
-                            <button
-                                className="editButton"
-                                onClick={() => EntryEdit(vault.indexOf(entry))}
-                            >
-                                Edit
-                            </button>
-                            <button
-                                className="deleteButton"
-                                onClick={() =>
-                                    EntryDelete(vault.indexOf(entry))
-                                }
-                            >
-                                Delete
-                            </button>
+                            {new Date(entry.created_at).toLocaleString() ===
+                            new Date(
+                                entry.updated_at
+                            ).toLocaleString() ? null : (
+                                <div className="updatedAt">
+                                    <h3 className="label">Updated at</h3>
+                                    <h3 className="value">
+                                        {new Date(
+                                            entry.updated_at
+                                        ).toLocaleString()}
+                                    </h3>
+                                </div>
+                            )}
+                            <div className="buttons">
+                                <button
+                                    className="editButton"
+                                    onClick={() =>
+                                        EntryEdit(vault.indexOf(entry))
+                                    }
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className="deleteButton"
+                                    onClick={() =>
+                                        EntryDelete(vault.indexOf(entry))
+                                    }
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
             {keySetShown && (
                 <div className="keySetContainer">
@@ -473,6 +481,7 @@ export default function Vault() {
                                 name="label"
                                 value={label}
                                 onChange={inputHandler}
+                                alt="website input"
                             ></input>
                         </div>
                         <div className="inputs">
@@ -482,6 +491,7 @@ export default function Vault() {
                                 name="username"
                                 value={username}
                                 onChange={inputHandler}
+                                alt="username input"
                             ></input>
                         </div>
                         <div className="inputs">
@@ -491,8 +501,12 @@ export default function Vault() {
                                 name="password"
                                 value={password}
                                 onChange={inputHandler}
+                                alt="password input"
                             ></input>
-                            <button onClick={() => GeneratePassword()}>
+                            <button
+                                onClick={() => GeneratePassword()}
+                                alt="generate password"
+                            >
                                 Generate Password
                             </button>
                         </div>
@@ -503,13 +517,15 @@ export default function Vault() {
                                 name="notes"
                                 value={notes}
                                 onChange={inputHandler}
+                                alt="notes input"
                             ></textarea>
                         </div>
                         <button
                             className="creationButton"
                             onClick={async () => await EntryCreation()}
+                            alt="creation button"
                         >
-                            Add new password
+                            Add password
                         </button>
                         <button onClick={() => setCreationShown(false)}>
                             Cancel
