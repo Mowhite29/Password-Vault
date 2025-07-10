@@ -117,4 +117,14 @@ export const mockAPI = [
             message: 'password updated',
         })
     }),
+    http.all('https://api.pwnedpasswords.com/range/77EF7', () => {
+        return HttpResponse.json({
+            '00569F63A9A6A9F0B21D5AED0375457445F': 4,
+            '008864DB8F69546486E462002872C4A5AC3': 1,
+            '00EE1D1ACF495005AB4E03916581A9AB85A': 18,
+            '02221D3A360AE313BED66F52D92DC50E527': 20,
+            '025C026F0172347C5FD124F9A879CB8AF22': 36,
+            '0299FE8678C9D126C687DC5F8F71AEBF51E': 1,
+        })
+    }),
 ]
