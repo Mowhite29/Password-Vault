@@ -1,6 +1,6 @@
 export const mockState = {
     auth: {
         token: 'mock-token',
-        userEmail: 'user@example.com'
-    }
+        userEmail: 'user@example.com',
+    },
 }

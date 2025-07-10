@@ -175,13 +175,13 @@ export default function Vault() {
               : password === ''
                 ? ((ready = false), setNotification('Please enter a password'))
                 : null
-        
+
         if (ready) {
             const check = await Check(userEmail, password)
             console.log(check)
-            if (check != true){
+            if (check != true) {
                 setNotification(check['warning'], ...check['suggestions'])
-            }else {
+            } else {
                 const cypher = await Encrypt(masterKey, password)
                 try {
                     const response = await VaultCreate(
@@ -422,9 +422,11 @@ export default function Vault() {
                         placeholder="master key"
                         value={enteredKey}
                         onChange={keyInput}
-                        autoComplete='none'
+                        autoComplete="none"
                     ></input>
-                    <button type="button" onClick={() => KeyEntry()}>Enter</button>
+                    <button type="button" onClick={() => KeyEntry()}>
+                        Enter
+                    </button>
                     <h2>{keyEntryMessage}</h2>
                 </form>
             )}
@@ -472,7 +474,9 @@ export default function Vault() {
                                 value={password}
                                 onChange={inputHandler}
                             ></input>
-                            <button onClick={() => GeneratePassword()}>Generate Password</button>
+                            <button onClick={() => GeneratePassword()}>
+                                Generate Password
+                            </button>
                         </div>
                         <div className="inputs">
                             <label>Notes</label>
@@ -485,7 +489,7 @@ export default function Vault() {
                         </div>
                         <button
                             className="creationButton"
-                            onClick={async () =>  await EntryCreation()}
+                            onClick={async () => await EntryCreation()}
                         >
                             Add new password
                         </button>
@@ -494,7 +498,6 @@ export default function Vault() {
                         </button>
                         <h3>{notification}</h3>
                     </div>
-                    
                 </div>
             )}
             {editShown && (

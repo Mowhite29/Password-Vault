@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import {render, screen, fireEvent, cleanup } from '@testing-library/react'
+import { render, screen, fireEvent, cleanup } from '@testing-library/react'
 import { expect, assert } from 'chai'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
@@ -18,7 +18,7 @@ afterEach(cleanup)
 describe('Vault Component', () => {
     it('should render the Vault component with default ststae', async () => {
         render(
-            <Provider store={store} >
+            <Provider store={store}>
                 <Vault />
             </Provider>
         )
