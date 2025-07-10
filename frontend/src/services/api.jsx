@@ -231,7 +231,7 @@ export async function VaultCreate(
             'Vault entry creation failed:',
             error.response?.data || error.message
         )
-        return false
+        return 'Vault entry creation failed:' + error.response.data.error
     }
 }
 
