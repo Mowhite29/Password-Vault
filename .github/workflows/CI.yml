@@ -130,6 +130,11 @@ jobs:
           cd frontend
           retire --exitwith 13
 
+      - name: Run Vitest (Unit testing)
+        run: |
+          cd frontend
+          npm run test
+
 
   mobile:
     name: Mobile CI (React Native)
