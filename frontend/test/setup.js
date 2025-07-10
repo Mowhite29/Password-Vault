@@ -3,7 +3,7 @@ import { setupServer } from 'msw/node'
 import { mockAPI } from './mocks/mockAPI'
 
 if (!import.meta.env.VITE_BACKEND_URL) {
-  import.meta.env.VITE_BACKEND_URL = 'http://test.api'
+    import.meta.env.VITE_BACKEND_URL = 'http://test.api'
 }
 
 export const server = setupServer(...mockAPI)
