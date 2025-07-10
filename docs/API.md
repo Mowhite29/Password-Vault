@@ -92,7 +92,8 @@ Refresh access token for a mobile device
 
 ```json
 {
-    "refresh": "refreshToken"
+    "refresh": "refreshToken",
+    "device_id": "device_id"
 }
 ```
 
