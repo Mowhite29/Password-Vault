@@ -11,6 +11,7 @@ import {
   VaultEdit,
   VaultFetch,
 } from "../services/api";
+import { Check, Generate } from "../../frontend/src/utils/passwordGenerator";
 
 export default function Vault() {
   const token = useSelector((state) => state.auth.token);
@@ -207,8 +208,17 @@ export default function Vault() {
     }
   }
 
+  async function GeneratePassword() {
+          const generated = await Generate()
+          setPassword(generated)
+      }
+
   const ShowPassword = async (e) => {
     const elem = e.target;
+     if (elem.innerText !== 'Show Password'){
+            elem.innerText = 'Show Password'
+            return
+        }
     const plaintext = await Decrypt(
       masterKey,
       vault[elem.value]["encrypted_password"],
@@ -216,6 +226,12 @@ export default function Vault() {
       vault[elem.value]["nonce"],
     );
     elem.innerText = plaintext;
+    const check = await Check(userEmail, plaintext)
+            if (check !== true){
+                setPopUpMessage(check['warning'])
+                setMessageVisible(true)
+                setTimeout(() => {setMessageVisible(false)}, 3000)
+            }
   };
 
   async function EntryEdit(entry) {
@@ -336,7 +352,7 @@ export default function Vault() {
                 value={vault.indexOf(entry)}
                 onClick={ShowPassword}
               >
-                Show password
+                Show Password
               </Button>
             </View>
             {entry.notes === "" ? null : (
@@ -449,6 +465,7 @@ export default function Vault() {
                 value={password}
                 onChange={inputHandler}
               ></TextInput>
+              <Button onClick={() => GeneratePassword()} title="Generate Password" />
             </View>
             <View style={StyleSheet.inputs}>
               <Text for="notes">Notes</Text>
