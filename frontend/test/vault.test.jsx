@@ -1,11 +1,10 @@
-/* eslint-disable */
 import React from 'react'
-import { render, screen, fireEvent, cleanup } from '@testing-library/react'
-import { expect, assert } from 'chai'
+import { render, screen, cleanup } from '@testing-library/react'
+import { describe, it, expect, afterEach } from 'vitest'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import Vault from '../src/components/Vault'
-import { mockState } from './mockState'
+import { mockState } from './mocks/mockState'
 
 import '@testing-library/jest-dom'
 
@@ -16,14 +15,14 @@ const store = configureStore({
 afterEach(cleanup)
 
 describe('Vault Component', () => {
-    it('should render the Vault component with default ststae', async () => {
+    it('should render the Vault component with default state', () => {
         render(
             <Provider store={store}>
                 <Vault />
             </Provider>
         )
 
-        expect(screen.getByPlaceholderText(/search/i)).to.exist
-        expect(screen.getByText(/Add new password/i)).to.exist
+        expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument()
+        expect(screen.getByText(/Add new password/i)).toBeInTheDocument()
     })
 })
