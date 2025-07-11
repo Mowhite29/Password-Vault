@@ -10,4 +10,9 @@ export default defineConfig({
         wasm(),
         topLevelAwait()
     ],
+    root: 'src',
+    build: {
+        outDir: '/home/runner/work/_temp/_github_home/build',
+        emptyOutDir: true,
+    }
 })
