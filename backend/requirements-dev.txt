@@ -55,6 +55,7 @@ pycodestyle==2.13.0
 pyflakes==3.3.2
 Pygments==2.19.1
 PyJWT==2.9.0
+pyotp==2.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
 PyYAML==6.0.2

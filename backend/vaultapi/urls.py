@@ -5,14 +5,15 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import (
-    VaultView, RegisterViewDemo,
-    PasswordChangeDemo, PasswordChangeConfirm,
-    EmailVerifyView, PasswordResetDemo, UserKeysView,
-    ping_view, NameChange, MobileLogin, MobileRefresh
+    VaultView, RegisterViewDemo, PasswordChangeDemo, PasswordChangeConfirm,
+    EmailVerifyView, PasswordResetDemo, UserKeysView, ping_view, NameChange,
+    MobileLogin, MobileRefresh, Login, Authenticate
 )
 
 urlpatterns = [
     path('ping/', ping_view, name='ping'),
+    path('login/', Login.as_view(), name='Login'),
+    path('authenticate/', Authenticate.as_view(), name='Authenticate'),
     path('api/token/',
          TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/',

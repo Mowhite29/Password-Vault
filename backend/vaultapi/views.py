@@ -8,6 +8,7 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenRefreshView
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
@@ -20,7 +21,8 @@ import boto3
 from botocore.exceptions import ClientError
 import logging
 import jwt
-from .models import VaultEntry, UserKeys
+import pyotp
+from .models import VaultEntry, UserKeys, UserProfile
 from .serializers import (
     VaultSerializer, RegisterSerializer,
     UserKeySerializer, UserSerializer, CustomTokenRefreshSerializer
@@ -31,6 +33,35 @@ logger = logging.getLogger(__name__)
 
 def ping_view(request):
     return JsonResponse({"status": "ok"}, status=status.HTTP_200_OK)
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def generate_totp_secret(user):
+    totp_secret = pyotp.random_base32()
+    totp = pyotp.TOTP(totp_secret).provisioning_uri(name=user.username,
+                                                issuer_name='Password Vault')
+    profile, create = UserProfile.objects.get_or_create(user=user)
+    profile.totp_secret = totp_secret
+    profile.save()
+    return totp
+
+
+def verify_totp(user, token):
+    try:
+        profile = UserProfile.objects.get(user=user)
+        totp = pyotp.TOTP(profile.totp_secret)
+        return totp.verify(token)
+    except UserProfile.DoesNotExist:
+        logger.info(f"TOTP not set up for user {user.username}")
+        return False
 
 
 class MobileRefresh(TokenRefreshView):
@@ -101,7 +132,7 @@ class DeviceAuthentication(BaseAuthentication):
                 raise AuthenticationFailed('Device mismatch, access denied')
 
             user = User.objects.get(id=payload['user_id'])
-            logger.info(f'Mobile user {user.username} authentication '
+            logger.info(f'Mobile user {user.username} authenticated '
                         'successfully')
             return (user, token)
         except jwt.ExpiredSignatureError:
@@ -112,6 +143,53 @@ class DeviceAuthentication(BaseAuthentication):
             logger.error("Mobile user attempted authentication with "
                          "invalid token")
             raise AuthenticationFailed('Invalid token')
+
+
+class Login(APIView):
+    throttle_classes = [AnonRateThrottle]
+
+    def post(self, request):
+        logger.info("User login accessed")
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user is None:
+            logger.info(f"Invalid credentials provided for {username} at {get_client_ip(request)}")
+            return Response({"message": "Invalid credentials"},
+                                    status=status.HTTP_403_FORBIDDEN)
+        try:
+            UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            logger.info(f"TOTP not set up for user {user.username}")
+            token_secret = generate_totp_secret(user)
+            return Response({"message": "TOTP unset",
+                                "token_secret": token_secret},
+                                status=status.HTTP_200_OK)
+        logger.info(f"Credentials verified for {username} at {get_client_ip(request)}")
+        return Response({"message": "Credentials verified"},
+                        status=status.HTTP_200_OK)
+
+
+class Authenticate(APIView):
+    throttle_classes = [AnonRateThrottle]
+
+    def post(self, request):
+        logger.info("User login accessed")
+        username = request.data.get('username')
+        totp_token = request.data.get('totp_token')
+
+        user = User.objects.get(username=username)
+        if not verify_totp(user, totp_token):
+            logger.info(f"Invalid TOTP token provided for {user.username} at {get_client_ip(request)}")
+            return Response({"message": "Invalid TOTP token"},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        refresh = RefreshToken.for_user(user)
+        access_token = refresh.access_token
+        logger.info(f"Successful authentication for {user.username} at {get_client_ip(request)}")
+        return Response({"access": str(access_token), "refresh": str(refresh)},
+                                    status=status.HTTP_200_OK)
 
 
 class RegisterView(APIView):
@@ -230,11 +308,10 @@ class UserKeysView(APIView):
         try:
             userKeys = UserKeys.objects.get(user=request.user)
             serializer = UserKeySerializer(userKeys)
-            logger.info(f'User key accessed by {userKeys.user.username}')
+            logger.info(f'User key accessed by {userKeys.user.username} at {get_client_ip(request)}')
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UserKeys.DoesNotExist:
-            logger.error(f'User {request.user.username} '
-                        'attempted to access user key prior to it being set.')
+            logger.error(f'User {request.user.username} attempted to access user key prior to it being set from {get_client_ip(request)}')
             return Response({"error": "Entry not found"},
                                 status=status.HTTP_204_NO_CONTENT)
 
@@ -267,10 +344,10 @@ class VaultView(APIView):
 
     # Retrieve password list
     def get(self, request):
-        logger.info("Get vault accessed.")
+        logger.info("Get vault accessed")
         vaults = VaultEntry.objects.filter(user=request.user)
         serializer = VaultSerializer(vaults, many=True)
-        logger.info(f'User {request.user.username} retrieved vault.')
+        logger.info(f'User {request.user.username} retrieved vault at {get_client_ip(request)}')
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # Create new entry
@@ -287,8 +364,7 @@ class VaultView(APIView):
                                         username=username)
             except VaultEntry.DoesNotExist:
                 serializer.save()
-                logger.info(f'User {request.user.username} created '
-                                    'new entry.')
+                logger.info(f'User {request.user.username} created new entry at {get_client_ip(request)}.')
                 return Response({"message": "Password saved"},
                                 status=status.HTTP_200_OK)
             else:
@@ -324,7 +400,7 @@ class VaultView(APIView):
             entry.notes = validated_data.get('notes', '')
             entry.updated_at = timezone.now
             entry.save()
-            logger.info(f'User {request.user.username} updated entry for {label} {username}')
+            logger.info(f'User {request.user.username} updated entry for {label} {username} at {get_client_ip(request)}')
             return Response({"message": "Entry Updated"},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
@@ -344,12 +420,11 @@ class VaultView(APIView):
                 entry = VaultEntry.objects.get(user=request.user, label=label,
                                         username=username)
             except VaultEntry.DoesNotExist:
-                logger.error(f'User {request.user.username} attempted '
-                            'to delete a nonexistant entry.')
+                logger.error(f'User {request.user.username} attempted to delete a nonexistant entry at {get_client_ip(request)}.')
                 return Response({"error": "Entry not found"},
                                 status=status.HTTP_404_NOT_FOUND)
             entry.delete()
-            logger.info(f'User {request.user.username} deleted entry for {label} {username}')
+            logger.info(f'User {request.user.username} deleted entry for {label} {username} at {get_client_ip(request)}')
             return Response({"message": "Password deleted"},
                             status=status.HTTP_200_OK)
         logger.error(serializer.errors)
@@ -404,7 +479,7 @@ class PasswordChange(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
         else:
             print(f"Email sent! Message ID: {response['MessageId']}")
-            logger.info(f'User {user.username} requested password change.')
+            logger.info(f'User {user.username} requested password change at {get_client_ip(request)}.')
             return Response({"message":
                                 "A confirmation email has been "
                                 "sent to your email address."},
@@ -422,7 +497,7 @@ class PasswordChangeDemo(APIView):
         user = request.user
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        logger.info(f'User {user.username} requested password change.')
+        logger.info(f'User {user.username} requested password change at {get_client_ip(request)}.')
         return Response({'uid': uid, 'token': token,
                             'user': user.username, 'email': user.email},
                             status=status.HTTP_200_OK)
@@ -481,7 +556,7 @@ class PasswordReset(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
         else:
             print(f"Email sent! Message ID: {response['MessageId']}")
-            logger.info(f'User {username} requested password change.')
+            logger.info(f'User {username} requested password change at {get_client_ip(request)}.')
             return Response({"message":
                             "A confirmation email has been "
                                 "sent to your email address."},
@@ -502,7 +577,7 @@ class PasswordResetDemo(APIView):
                             status=status.HTTP_404_NOT_FOUND)
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        logger.info(f'User {username} requested password change.')
+        logger.info(f'User {username} requested password change at {get_client_ip(request)}.')
         return Response({'uid': uid, 'token': token,
                             'user': user.first_name, 'email': user.email},
                             status=status.HTTP_200_OK)
@@ -536,7 +611,7 @@ class PasswordChangeConfirm(APIView):
 
         user.set_password(new_password)
         user.save()
-        logger.info(f'User {user.username} changed password')
+        logger.info(f'User {user.username} changed password at {get_client_ip(request)}')
         return Response({"message": "password updated"},
                             status=status.HTTP_200_OK)
 
@@ -547,7 +622,7 @@ class NameChange(APIView):
     throttle_classes = [UserRateThrottle]
 
     def get(self, request):
-        logger.info("nName request accessed")
+        logger.info(f"Name request accessed by {request.user} at {get_client_ip(request)}")
         user = request.user
         return Response({"first_name": user.first_name, "last_name": user.last_name}, status=status.HTTP_200_OK)
 

@@ -32,3 +32,11 @@ class UserKeys(models.Model):
     salt2 = models.BinaryField(blank=True, null=True,
                         help_text='Master key padding salt')
     nonce = models.BinaryField(blank=True, null=True, help_text='Crypto nonce')
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    totp_secret = models.CharField(max_length=124, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"

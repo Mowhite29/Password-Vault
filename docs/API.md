@@ -22,7 +22,7 @@ Content-type must be:
 
 ## Authentication
 
-### **POST** `/api/token/`
+### **POST** `/api/token/` **For testing purposes**
 
 Obtain access and refresh JWT tokens
 **Request Body:**
@@ -59,6 +59,58 @@ Refresh an access token using the refresh token
 ```json
 {
     "access": "accessToken"
+}
+```
+
+### **POST** `/login/`
+
+Validate user credentials, and ascertain whether a TOTP has been set
+**Request:**
+
+```json
+{
+    "username": "username", 
+    "password": "password"
+}
+```
+
+**Response:**
+
+**If TOTP unset:**
+
+```json
+{
+    "message": "TOTP unset",
+    "token_secret": "token link"
+}
+```
+
+**Else:**
+
+```json
+{
+    "message": "Credentials verified"
+}
+```
+
+### **POST** `/authenticate/`
+
+Verify entered TOTP
+**Request:**
+
+```json
+{
+    "username": "username", 
+    "totp_token": "token"
+}
+```
+
+**Response:**
+
+```json
+{
+    "access":"access token",
+    "refresh":"refresh token"
 }
 ```
 

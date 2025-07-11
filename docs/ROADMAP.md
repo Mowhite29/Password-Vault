@@ -37,7 +37,7 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 ## Phase 3: Advanced Features
 
 - [ ] Add Two-Factor Authentication (2FA) using TOTP or email
-- [ ] Add user activity logging (e.g., last login, IP address)
+- [x] Add user activity logging (e.g., last login, IP address)
 - [ ] Integrate password generator with customizable options
 - [ ] Improve form validation and user feedback on the frontend
 - [ ] Tagging and categorization (e.g., Work, Banking, Social)
