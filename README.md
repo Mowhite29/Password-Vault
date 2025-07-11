@@ -22,10 +22,11 @@ This project is not intended for production use. It is provided as a demonstrati
 **Frontend:**
 
 - React.js
-- React Native/Expo
 - Sass
 - Axios
 - React Router
+
+Originally scoped to include a React Native/Expo app, but instead focussed efforts on delivering a fully responsive web app due to native module incompatibilities, time constraints and clearer product focus.
 
 **Backend:**
 
@@ -36,7 +37,6 @@ This project is not intended for production use. It is provided as a demonstrati
 ## Repositories
 
 - [Frontend Repo](https://github.com/Mowhite29/Password-Vault/tree/main/frontend)
-- [Mobile Repo](https://github.com/Mowhite29/Password-Vault/tree/main/mobile)
 - [Backend Repo](https://github.com/Mowhite29/Password-Vault/tree/main/backend)
 
 ## Getting Started
@@ -63,8 +63,6 @@ Follow the frontend README instructions to install dependencies and start the de
 password-vault/
 ├── frontend/          # React.js frontend
 │   └── README.md
-├── mobile/          # React Native frontend
-│   └── README.md
 ├── backend/           # Django backend
 │   └── README.md
 ├── docs/              # Documentation (roadmap, skill mapping)
@@ -73,7 +71,6 @@ password-vault/
 
 ## Documentation
 
-- [Roadmap](./docs/ROADMAP.md)
 - [Skill Showcase](./docs/SKILLS.md)
 - [Security Considerations](./docs/SECURITY_CONSIDERATIONS.md)
 - [Testing](./docs/TESTING.md)
