@@ -10,18 +10,12 @@ This document outlines the key technical skills and certifications I have, and h
 |----------------------------|------------------------------------------------------------|
 | **JavaScript (ES6+)**      | Frontend interactivity using React.js, handling forms, API calls, and state management. |
 | **React.js**               | Component-based UI architecture, responsive design with Tailwind CSS, and user-friendly experience. |
-| **React Native**            | Planned mobile app development for cross-platform password vault access. |
-| **HTML5 & CSS3 (Tailwind)**| Semantic markup and utility-first styling for responsive and accessible UI. |
 | **Python**                 | Backend API development with Django REST Framework or FastAPI, implementing business logic. |
 | **Django / FastAPI**        | Building RESTful APIs, authentication, database modeling, and secure backend architecture. |
 | **PostgreSQL**             | Relational database design for storing encrypted password entries and user data securely. |
 | **REST APIs**              | Designing and consuming APIs to connect frontend and backend securely and efficiently. |
 | **Encryption (AES)**       | Client-side encryption of sensitive vault data before storage to enhance security. |
 | **Authentication (JWT)**   | Secure user authentication and session management via JSON Web Tokens. |
-| **Cybersecurity Certifications** | Applying principles from Security+, CASP+, CySA+, PenTest+, and A+ certifications to implement secure coding, threat mitigation, and vulnerability assessment. |
-| **Networking (CCNA knowledge)** | Understanding of network security, IP handling, and threat detection integrated into login monitoring features. |
-| **Machine Learning (Beginner)** | Initial experiments with Python libraries (NumPy) for behavioral modeling and anomaly detection. |
-| **Version Control (Git/GitHub)** | Code management, branching, collaboration, and continuous integration readiness. |
 
 ---
 
