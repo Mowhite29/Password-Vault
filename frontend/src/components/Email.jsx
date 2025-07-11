@@ -48,7 +48,7 @@ export default function Email({ type, url, user, email }) {
                     <div className="emailBody">
                         <p>Hi {user},</p>
                         <p>
-                            Please clicking the link below to change your email
+                            Please click on the link below to change your email
                             address:
                         </p>
                         <button onClick={() => Verify()}>
