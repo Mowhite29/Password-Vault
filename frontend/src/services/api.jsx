@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 
 const backEndURL = import.meta.env.VITE_BACKEND_URL
+console.log("Backend URL is:", backEndURL);
 
 export async function Register(username, password, firstname, lastname = '') {
     try {
