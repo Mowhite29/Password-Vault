@@ -234,6 +234,7 @@ jobs:
         - name: Build frontend
           run: |
             cd frontend
+            mkdir -p /home/runner/work/_temp/_github_home/build
             npm run build
 
         - name: Deploy frontend to Netlify
