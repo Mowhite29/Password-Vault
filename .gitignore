@@ -1,6 +1,6 @@
 /backend/vault/.env
 /frontend/.env
-/mobile/.env
+/mobile/
 /.venv
 /backend/logs
 /backend/tests
