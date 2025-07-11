@@ -58,7 +58,7 @@ describe('Vault Component', () => {
             await user.type(screen.getByAltText(/username input/i), 'testuser')
             await user.type(
                 screen.getByAltText(/password input/i),
-                'Secu439455W0Rd'
+                'Secu43P455W0Rd'
             )
             const createButton = screen.getByRole('button', {
                 name: /Add password/i,
