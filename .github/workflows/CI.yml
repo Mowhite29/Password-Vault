@@ -10,7 +10,6 @@ jobs:
   backend:
       name: Backend CI (Django)
       runs-on: ubuntu-latest
-      if: startsWith(github.ref, 'refs/tags/release-')
 
       services:
         postgres:
@@ -185,6 +184,7 @@ jobs:
       name: Backend CD (Django)
       needs: backend
       runs-on: ubuntu-latest
+      if: startsWith(github.ref, 'refs/tags/release-')
 
       steps:
         - name: Checkout code
@@ -212,6 +212,7 @@ jobs:
       name: Deploy React frontend
       needs: frontend
       runs-on: ubuntu-latest
+      
 
       steps: 
         - name: Checkout
@@ -237,7 +238,6 @@ jobs:
             VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL}}
           run: |
             cd frontend
-            console.log('VITE_BACKEND_URL:', process.env.VITE_BACKEND_URL);
             mkdir -p /home/runner/work/_temp/_github_home/build
             npm run build
 
