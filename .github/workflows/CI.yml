@@ -232,6 +232,8 @@ jobs:
             npx vite --version
 
         - name: Build frontend
+          env:
+            VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL}}
           run: |
             cd frontend
             mkdir -p /home/runner/work/_temp/_github_home/build
