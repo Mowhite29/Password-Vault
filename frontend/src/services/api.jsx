@@ -128,6 +128,50 @@ export async function PasswordChangeConfirm(new_password, uidb64, token) {
     }
 }
 
+export async function Login(username, password) {
+    try {
+        const url = backEndURL + '/login/'
+
+        const response = await axios.post(
+            url,
+            { username: username, password: password },
+            { timeout: 10000 }
+        )
+        if (response.status === 200) {
+            if (response.data.message === 'TOTP unset') {
+                return 'set'
+            } else {
+                return 'unset'
+            }
+        } else {
+            return false
+        }
+    } catch (error) {
+        console.error('Sign in failed:', error.response?.data || error.message)
+        return false
+    }
+}
+
+export async function Authenticate(username, token) {
+    try {
+        const url = backEndURL + '/authenticate/'
+
+        const response = await axios.post(
+            url,
+            { username: username, totp_token: token },
+            { timeout: 10000 }
+        )
+        if (response.status === 200) {
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        console.error('Sign in failed:', error.response?.data || error.message)
+        return false
+    }
+}
+
 export async function TokenObtain(username, password) {
     try {
         const url = backEndURL + '/api/token/'
