@@ -139,9 +139,9 @@ export async function Login(username, password) {
         )
         if (response.status === 200) {
             if (response.data.message === 'TOTP unset') {
-                return 'set'
+                return response.data.token_secret
             } else {
-                return 'unset'
+                return 'set'
             }
         } else {
             return false
@@ -162,7 +162,7 @@ export async function Authenticate(username, token) {
             { timeout: 10000 }
         )
         if (response.status === 200) {
-            return true
+            return response.data
         } else {
             return false
         }

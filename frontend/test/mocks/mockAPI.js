@@ -8,7 +8,12 @@ export const mockAPI = [
             status: 'ok',
         })
     }),
-    http.post(backEndURL + '/api/token/', () => {
+    http.post(backEndURL + '/login/', () => {
+        return HttpResponse.json({
+            message: 'Credentials verified',
+        })
+    }),
+    http.post(backEndURL + '/authenticate/', () => {
         return HttpResponse.json({
             refresh: 'mockRefreshToken',
             access: 'mockAccessToken',

@@ -61,10 +61,9 @@ describe('SignIn Component', () => {
         await user.click(signInButton)
 
         await waitFor(() => {
-            expect(store.getState().auth.signedIn).toBe(true)
+            expect(screen.getByAltText(/totp input/i)).toBeInTheDocument()
         })
     })
-
     it('should allow account creation', async () => {
         render(
             <Provider store={store}>
@@ -84,6 +83,37 @@ describe('SignIn Component', () => {
             name: /create account/i,
         })
         await user.click(signInButton)
+
+        await waitFor(() => {
+            expect(
+                screen.getByAltText(/sign in username input/i)
+            ).toBeInTheDocument()
+        })
+    })
+    it('should allow successful totp entry', async () => {
+        render(
+            <Provider store={store}>
+                <SignIn />
+            </Provider>
+        )
+
+        await user.type(
+            screen.getByAltText(/sign in username input/i),
+            'user@email.com'
+        )
+        await user.type(
+            screen.getByAltText(/sign in password input/i),
+            'password'
+        )
+        const signInButton = screen.getByRole('button', { name: /sign in/i })
+        await user.click(signInButton)
+
+        const totpInput = screen.getByAltText(/totp input/i)
+        await user.type(totpInput, '123456')
+        const totpButton = screen.getByRole('button', {
+            name: /Enter/i,
+        })
+        await user.click(totpButton)
 
         await waitFor(() => {
             expect(store.getState().auth.signedIn).toBe(true)

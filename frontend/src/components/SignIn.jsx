@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { QRCodeSVG } from 'qrcode.react'
 import {
     signIn,
     setScreen,
     setUserEmail,
     setRefreshToken,
 } from '../redux/authSlice'
-import { Register, TokenObtain, PasswordReset } from '../services/api'
+import { Register, Login, PasswordReset, Authenticate } from '../services/api'
 import Email from './Email'
 import '../styles/SignIn.scss'
 
@@ -22,6 +23,11 @@ export default function SignIn() {
     const [emailVisible, setEmailVisible] = useState(false)
     const [emailURL, setEmailURL] = useState('')
     const [emailType, setEmailType] = useState('')
+    const [TOTPVisible, setTOTPVisible] = useState(false)
+    const [TOTPToken, setTOTPToken] = useState('')
+    const [TOTPSecret, setTOTPSecret] = useState('')
+    const [TOTPString, setTOTPString] = useState('')
+    const [TOTPMessage, setTOTPMessage] = useState('')
 
     const dispatch = useDispatch()
 
@@ -45,6 +51,10 @@ export default function SignIn() {
         setName(e.target.value)
     }
 
+    const tokenInput = (e) => {
+        setTOTPToken(e.target.value)
+    }
+
     const handleScreenChange = (newScreen) => {
         dispatch(setScreen(newScreen))
     }
@@ -64,15 +74,30 @@ export default function SignIn() {
     async function SignIn() {
         setPopUpMessage('Loading')
         setMessageVisible(true)
-        const tokenObtain = await TokenObtain(username, password)
-        if (tokenObtain != false) {
-            tokenHandler(tokenObtain['access'])
-            refreshToken(tokenObtain['refresh'])
-            userDetails(username)
-            handleScreenChange('vault')
+        const login = await Login(username, password)
+        if (login != false) {
+            if (login !== 'set') {
+                setTOTPSecret(login)
+                var string = /secret=([A-Za-z0-9]+)/.exec(login)
+                console.log(string[1])
+                setTOTPString(string[1])
+            }
+            setTOTPVisible(true)
         } else {
             setPopUpMessage('Cannot sign in, check credentials')
             setTimeout(() => setMessageVisible(false), 4000)
+        }
+    }
+
+    async function TOTP() {
+        const authenticate = await Authenticate(username, TOTPToken)
+        if (authenticate) {
+            tokenHandler(authenticate['access'])
+            refreshToken(authenticate['refresh'])
+            userDetails(username)
+            handleScreenChange('vault')
+        } else {
+            setTOTPMessage('Cannot sign in, check code')
         }
     }
 
@@ -218,6 +243,45 @@ export default function SignIn() {
                     email={username || newUsername}
                 />
             )}
+            {TOTPVisible &&
+                (TOTPSecret === '' ? (
+                    <div className="totpContainer">
+                        <h2>
+                            Enter one time passcode as shown in your
+                            authenticator application
+                        </h2>
+                        <input
+                            type="number"
+                            value={TOTPToken}
+                            onChange={tokenInput}
+                            alt="totp input"
+                        ></input>
+                        <button onClick={() => TOTP()} alt="totp enter button">
+                            Enter
+                        </button>
+                    </div>
+                ) : (
+                    <div className="totpContainer">
+                        <h2>
+                            Use QR or text code with an authenticator
+                            application to set up multi factor authentication,
+                            then enter the code generated
+                        </h2>
+                        <QRCodeSVG value={TOTPSecret} width="200" />
+                        <h3>{TOTPString}</h3>
+                        <input
+                            name="token"
+                            type="number"
+                            value={TOTPToken}
+                            onChange={tokenInput}
+                            alt="totp input"
+                        ></input>
+                        <button onClick={() => TOTP()} alt="totp enter button">
+                            Enter
+                        </button>
+                        <h4>{TOTPMessage}</h4>
+                    </div>
+                ))}
         </div>
     )
 }

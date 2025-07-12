@@ -45,7 +45,7 @@ def get_client_ip(request):
 
 
 def generate_totp_secret(user):
-    totp_secret = pyotp.random_base32()
+    totp_secret = pyotp.random_base32()[:16]
     totp = pyotp.TOTP(totp_secret).provisioning_uri(name=user.username,
                                                 issuer_name='Password Vault')
     profile, create = UserProfile.objects.get_or_create(user=user)
