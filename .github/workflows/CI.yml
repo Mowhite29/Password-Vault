@@ -103,11 +103,6 @@ jobs:
         run: |
           cd frontend
           npm install
-
-      # - name: Run Semgrep
-      #   uses: returntocorp/semgrep-action@v1
-      #   with:
-      #     config: "p/javascript"
           
       - name: Run ESLint with security rules (Formatting and security)
         run: |
