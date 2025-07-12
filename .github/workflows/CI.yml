@@ -135,51 +135,6 @@ jobs:
           cd frontend
           npm run test
 
-
-  mobile:
-    name: Mobile CI (React Native)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: |
-          cd mobile
-          npm install
-
-      - name: Run ESLint with security rules (Formatting and security)
-        run: |
-          cd mobile
-          npx eslint .
-
-      # - name: Run Semgrep
-      #   uses: returntocorp/semgrep-action@v1
-      #   with:
-      #     config: "p/javascript"
-
-      - name: Run npm audit (Dependancy vulnerability Scanning)
-        run: |
-          cd mobile
-          npm audit --audit-level=high
-
-      - name: Run Retire.js (JS library vulnerability detection)
-        run: |
-          npm install -g retire
-          cd mobile
-          retire --exitwith 13
-
-      # - name: Run Jest Tests
-      #   run: |
-      #     cd mobile
-      #     npm test
-
   deployBackend:
       name: Backend CD (Django)
       needs: backend
