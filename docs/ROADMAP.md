@@ -38,10 +38,9 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 
 - [x] Add Two-Factor Authentication (2FA) using TOTP or email
 - [x] Add user activity logging (e.g., last login, IP address)
-- [ ] Integrate password generator with customizable options
-- [ ] Improve form validation and user feedback on the frontend
-- [ ] Tagging and categorization (e.g., Work, Banking, Social)
-- [ ] Advanced search and filtering by tag, keyword, or date
+- [x] Improve form validation and user feedback on the frontend
+- [x] Tagging and categorization (e.g., Work, Banking, Social)
+- [x] Advanced search and filtering by tag, keyword, or date
 
 ---
 

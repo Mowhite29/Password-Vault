@@ -42,7 +42,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'Example Notes'
+            'notes': 'Example Notes',
+            'tag': 'Example tag'
         }
 
     def test_create_vault_entry(self):
@@ -70,7 +71,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'Example Notes'
+            'notes': 'Example Notes',
+            'tag': 'Example tag'
         }
         response1 = self.client.post(url, entry_payload, format='json',
                                         **self.auth_headers)
@@ -79,7 +81,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'Example Notes'
+            'notes': 'Example Notes',
+            'tag': 'Example tag'
         }
         response2 = self.client.post(url, entry_payload, format='json',
                                         **self.auth_headers)
@@ -88,7 +91,8 @@ class APITests(APITestCase):
             'username': 'Example Username',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'Example Notes'
+            'notes': 'Example Notes',
+            'tag': 'Example tag'
         }
         response3 = self.client.post(url, entry_payload, format='json',
                                         **self.auth_headers)
@@ -136,7 +140,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBuZXcgc2FtcGxlIHRlc3QgZGF0YSE=',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'New Notes'
+            'notes': 'New Notes',
+            'tag': 'new tag'
         }
         response1 = self.client.put(url, updated_payload, format='json',
                                     **self.auth_headers)
@@ -161,7 +166,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'New Notes'
+            'notes': 'New Notes',
+            'tag': 'new tag'
         }
         response1 = self.client.put(url, updated_payload, format='json',
                                     **self.auth_headers)
@@ -171,7 +177,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'New Notes'
+            'notes': 'New Notes',
+            'tag': 'new tag'
         }
         response2 = self.client.put(url, updated_payload, format='json',
                                     **self.auth_headers)
@@ -192,7 +199,8 @@ class APITests(APITestCase):
             'encrypted_password': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'salt': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
             'nonce': 'U29tZSBzYW1wbGUgdGVzdCBkYXRhIQ==',
-            'notes': 'New Notes'
+            'notes': 'New Notes',
+            'tag': 'new tag'
         }
         response1 = self.client.put(url, updated_payload, format='json',
                             **{'HTTP_AUTHORIZATION': f'Bearer {'bad_token'}'})

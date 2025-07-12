@@ -34,7 +34,7 @@ class VaultSerializer(serializers.ModelSerializer):
     class Meta:
         model = VaultEntry
         fields = ['user', 'label', 'username', 'encrypted_password',
-                  'salt', 'nonce', 'notes', 'created_at', 'updated_at']
+                  'salt', 'nonce', 'notes', 'tag', 'created_at', 'updated_at']
         read_only_fields = ['user', 'created_at']
 
     def create(self, validated_data):

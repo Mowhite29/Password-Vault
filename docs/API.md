@@ -303,6 +303,7 @@ Retrieve all stored vault entries
     "salt": "salt",
     "nonce": "nonce",
     "notes": "notes",
+    "tag": "tag",
     "created_at": "yyyy-mm-ddThh:mm:ss.ssssssZ",
     "updated_at": "yyyy-mm-ddThh:mm:ss.ssssssZ"
 }
@@ -320,7 +321,8 @@ Create a new vault entry
     "encrypted_password": "encrypted_password",
     "salt": "salt",
     "nonce": "nonce",
-    "notes": ""
+    "notes": "notes",
+    "tag": "tag",
 }
 ```
 
@@ -344,7 +346,8 @@ Update an existing vault entry
     "encrypted_password": "new_encrypted_password",
     "salt": "new_salt",
     "nonce": "new_nonce",
-    "notes": ""
+    "notes": "notes",
+    "tag": "tag",
 }
 ```
 

@@ -244,6 +244,7 @@ export async function VaultCreate(
     salt,
     nonce,
     notes = '',
+    tag,
     accessToken
 ) {
     try {
@@ -259,6 +260,7 @@ export async function VaultCreate(
                 salt: salt,
                 nonce: nonce,
                 notes: notes,
+                tag: tag,
             },
             {
                 headers: { AUTHORIZATION: authToken },
@@ -286,6 +288,7 @@ export async function VaultEdit(
     salt,
     nonce,
     notes = '',
+    tag,
     accessToken
 ) {
     try {
@@ -300,6 +303,7 @@ export async function VaultEdit(
                 salt: salt,
                 nonce: nonce,
                 notes: notes,
+                tag: tag,
             },
             {
                 headers: { AUTHORIZATION: authToken },

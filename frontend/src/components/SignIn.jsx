@@ -10,6 +10,7 @@ import {
 } from '../redux/authSlice'
 import { Register, Login, PasswordReset, Authenticate } from '../services/api'
 import Email from './Email'
+import { Check } from '../utils/passwordGenerator'
 import '../styles/SignIn.scss'
 
 export default function SignIn() {
@@ -72,8 +73,6 @@ export default function SignIn() {
     }
 
     async function SignIn() {
-        setPopUpMessage('Loading')
-        setMessageVisible(true)
         const login = await Login(username, password)
         if (login != false) {
             if (login !== 'set') {
@@ -104,28 +103,45 @@ export default function SignIn() {
     async function CreateAccount() {
         setPopUpMessage('Loading')
         setMessageVisible(true)
-        const register = await Register(newUsername, newPassword, name)
-
-        if (register) {
-            setPopUpMessage(
-                'Account creation successful, please verify email address to sign in'
-            )
-            const url =
-                '/verify-email/' +
-                register['uid'] +
-                '/' +
-                register['token'] +
-                '/'
-            setEmailType('email')
-            setEmailURL(url)
+        if (!newUsername || !newPassword || !name) {
+            setPopUpMessage('Please complete all required fields')
+            setMessageVisible(true)
             setTimeout(() => {
-                setEmailVisible(true)
                 setMessageVisible(false)
-            }, 4000)
+            }, 3000)
         } else {
-            setPopUpMessage(
-                'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
-            )
+            const check = await Check(newUsername, newPassword)
+            if (check != true) {
+                setPopUpMessage('Please enter a secure password')
+                setMessageVisible(true)
+                setTimeout(() => {
+                    setMessageVisible(false)
+                }, 3000)
+                return
+            }
+            const register = await Register(newUsername, newPassword, name)
+
+            if (register) {
+                setPopUpMessage(
+                    'Account creation successful, please verify email address to sign in'
+                )
+                const url =
+                    '/verify-email/' +
+                    register['uid'] +
+                    '/' +
+                    register['token'] +
+                    '/'
+                setEmailType('email')
+                setEmailURL(url)
+                setTimeout(() => {
+                    setEmailVisible(true)
+                    setMessageVisible(false)
+                }, 4000)
+            } else {
+                setPopUpMessage(
+                    'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
+                )
+            }
         }
     }
 

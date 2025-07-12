@@ -5,6 +5,7 @@
         height: 666px;
         position: absolute;
         top: 105px;
+        width: 100%;
 
         .utilsContainer {
             width: 90%;
@@ -35,6 +36,38 @@
                 border: 2px solid gray;
                 border-radius: 20px;
                 margin: 5px 0;
+                overflow: clip;
+
+                .tag {
+                    position: relative;
+                    left: 74%;
+                    top: -2%;
+                    margin: 0;
+                    width: 40%;
+                    height: 20%;
+                    transform: rotate(45deg);
+                    display: flex;
+
+                    h3 {
+                        margin: 0;
+                        text-align: center;
+                        color: white;
+                        width: 100%;
+                        align-self: end;
+                    }
+                }
+                .work {
+                    background-color: green;
+                }
+                .social {
+                    background-color: blue;
+                }
+                .school {
+                    background-color: red;
+                }
+                .personal {
+                    background-color: gray;
+                }
 
                 .label, .username, .password, .createdAt, .updatedAt, .notes {
                     display: flex;
@@ -88,9 +121,15 @@
             }
         }
         .keySetContainer {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            align-items: center;
             width: 80%;
             position: absolute;
-            top: 200px;
+            top: 0;
+            background-color: white;
+            border: 2px solid gray;
         }
         .keyEntryContainer {
             display: flex;
@@ -146,12 +185,13 @@
             height: 72%;
             position: absolute;
             top: 0;
+            left: 0;
             align-content: center;
             backdrop-filter: blur(1px);
             .formContainer {
                 display: flex;
                 flex-direction: column;
-                width: 70%;
+                width: 80%;
                 background-color: white;
                 border: 2px solid gray;
                 justify-self: center;
@@ -174,6 +214,10 @@
                     }
                     h2 {
                         font-size: 20px;
+                    }
+                    .checkBoxes {
+                        display: flex;
+                        flex-direction: row;
                     }
                 }
                 button {
@@ -206,7 +250,8 @@
 
         .entryCreationContainer {
             height: 100vh;
-            top: -98px
+            top: -98px;
+            left: -108px;
         }
     }
 }

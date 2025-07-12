@@ -37,6 +37,7 @@ export default function Vault() {
     const [salt, setSalt] = useState('')
     const [nonce, setNonce] = useState('')
     const [notes, setNotes] = useState('')
+    const [tag, setTag] = useState([])
 
     const [vault, setVault] = useState([])
     const [shownVault, setShownVault] = useState([])
@@ -99,7 +100,27 @@ export default function Vault() {
         if (search != '') {
             for (let i = 0; i < vault.length; i++) {
                 // eslint-disable-next-line security/detect-object-injection
-                if (vault[i]['label'].includes(search)) {
+                if (
+                    vault[i]['label']
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
+                ) {
+                    // eslint-disable-next-line security/detect-object-injection
+                    toShow.push(vault[i])
+                }
+                // eslint-disable-next-line security/detect-object-injection
+                if (
+                    vault[i]['tag'].toLowerCase().includes(search.toLowerCase())
+                ) {
+                    // eslint-disable-next-line security/detect-object-injection
+                    toShow.push(vault[i])
+                }
+                // eslint-disable-next-line security/detect-object-injection
+                if (
+                    new Date(vault[i]['created_at'])
+                        .toLocaleString()
+                        .includes(search)
+                ) {
                     // eslint-disable-next-line security/detect-object-injection
                     toShow.push(vault[i])
                 }
@@ -162,6 +183,8 @@ export default function Vault() {
             setPassword(e.target.value)
         } else if (e.target.name === 'notes') {
             setNotes(e.target.value)
+        } else if (e.target.name === 'tag') {
+            setTag(e.target.value)
         } else if (e.target.name === 'search') {
             setSearch(e.target.value)
         }
@@ -188,6 +211,7 @@ export default function Vault() {
                 setNotification(prompt)
             } else {
                 const cypher = await Encrypt(masterKey, password)
+                console.log(tag)
                 try {
                     const response = await VaultCreate(
                         label,
@@ -196,12 +220,18 @@ export default function Vault() {
                         cypher.salt,
                         cypher.nonce,
                         notes,
+                        tag,
                         token
                     )
                     if (response === true) {
                         setCreationShown(false)
                         setPopUpMessage('Password added successfully')
                         setMessageVisible(true)
+                        setPassword('')
+                        setLabel('')
+                        setUsername('')
+                        setNotes('')
+                        setTag('')
                         const response = await VaultFetch(token)
                         setVault(response)
                         setShownVault(response)
@@ -256,6 +286,7 @@ export default function Vault() {
                 cypher.salt,
                 cypher.nonce,
                 notes,
+                tag,
                 token
             )
             if (response === true) {
@@ -355,6 +386,23 @@ export default function Vault() {
                 {Array.isArray(shownVault) &&
                     shownVault.map((entry) => (
                         <div className="vaultEntry" key={entry.label}>
+                            {entry.tag === 'Work' ? (
+                                <div className="tag work">
+                                    <h3 className="value">{entry.tag}</h3>
+                                </div>
+                            ) : entry.tag === 'Social' ? (
+                                <div className="tag social">
+                                    <h3 className="value">{entry.tag}</h3>
+                                </div>
+                            ) : entry.tag === 'School' ? (
+                                <div className="tag school">
+                                    <h3 className="value">{entry.tag}</h3>
+                                </div>
+                            ) : entry.tag === 'Personal' ? (
+                                <div className="tag personal">
+                                    <h3 className="value">{entry.tag}</h3>
+                                </div>
+                            ) : null}
                             <div className="label">
                                 <h3 className="label">Website</h3>
                                 <h3 className="value">{entry.label}</h3>
@@ -520,6 +568,43 @@ export default function Vault() {
                                 alt="notes input"
                             ></textarea>
                         </div>
+                        <div className="inputs">
+                            <label>Tag</label>
+                            <div className="checkBoxes">
+                                <label>Work</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="Work"
+                                    onClick={inputHandler}
+                                    alt="tag input"
+                                />
+                                <label>Social</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="Social"
+                                    onChange={inputHandler}
+                                    alt="tag input"
+                                />
+                                <label>School</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="School"
+                                    onChange={inputHandler}
+                                    alt="tag input"
+                                />
+                                <label>Personal</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="Personal"
+                                    onChange={inputHandler}
+                                    alt="tag input"
+                                />
+                            </div>
+                        </div>
                         <button
                             className="creationButton"
                             onClick={async () => await EntryCreation()}
@@ -562,6 +647,43 @@ export default function Vault() {
                                 value={notes}
                                 onChange={inputHandler}
                             ></textarea>
+                        </div>
+                        <div className="inputs">
+                            <label>Tag</label>
+                            <div className="checkBoxes">
+                                <label>Work</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="Work"
+                                    onClick={inputHandler}
+                                    alt="tag input"
+                                />
+                                <label>Social</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="Social"
+                                    onChange={inputHandler}
+                                    alt="tag input"
+                                />
+                                <label>School</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="School"
+                                    onChange={inputHandler}
+                                    alt="tag input"
+                                />
+                                <label>Personal</label>
+                                <input
+                                    type="radio"
+                                    name="tag"
+                                    value="Personal"
+                                    onChange={inputHandler}
+                                    alt="tag input"
+                                />
+                            </div>
                         </div>
                         <button
                             className="creationButton"
