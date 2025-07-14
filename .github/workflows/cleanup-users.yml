@@ -1,0 +1,24 @@
+name: Cleanup Users
+
+on:
+    schedule:
+        - cron: '0 * * * *'
+        - cron: '3 * * * *'
+        - cron: '6 * * * *'
+        - cron: '9 * * * *'
+        - cron: '12 * * * *'
+        - cron: '15 * * * *'
+        - cron: '18 * * * *'
+        - cron: '21 * * * *'
+
+jobs:
+    cleanup:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Trigger cleanup endpoint
+              run: |
+                curl -X POST ${{ secrets.CLEANUP_ENDPOINT }} \
+                -H "X_ADMIN_TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}"
+        
+        env:
+            ADMIN_CLEANUP_TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}
