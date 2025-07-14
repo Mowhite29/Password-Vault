@@ -9,7 +9,6 @@ import {
     setRefreshToken,
 } from '../redux/authSlice'
 import { Register, Login, PasswordReset, Authenticate } from '../services/api'
-import Email from './Email'
 import { Check } from '../utils/passwordGenerator'
 import '../styles/SignIn.scss'
 
@@ -21,9 +20,6 @@ export default function SignIn() {
     const [name, setName] = useState('')
     const [popUpMessage, setPopUpMessage] = useState('')
     const [messageVisible, setMessageVisible] = useState(false)
-    const [emailVisible, setEmailVisible] = useState(false)
-    const [emailURL, setEmailURL] = useState('')
-    const [emailType, setEmailType] = useState('')
     const [TOTPVisible, setTOTPVisible] = useState(false)
     const [TOTPToken, setTOTPToken] = useState('')
     const [TOTPSecret, setTOTPSecret] = useState('')
@@ -84,6 +80,7 @@ export default function SignIn() {
             setTOTPVisible(true)
         } else {
             setPopUpMessage('Cannot sign in, check credentials')
+            setMessageVisible(true)
             setTimeout(() => setMessageVisible(false), 4000)
         }
     }
@@ -125,18 +122,7 @@ export default function SignIn() {
                 setPopUpMessage(
                     'Account creation successful, please verify email address to sign in'
                 )
-                const url =
-                    '/verify-email/' +
-                    register['uid'] +
-                    '/' +
-                    register['token'] +
-                    '/'
-                setEmailType('email')
-                setEmailURL(url)
-                setTimeout(() => {
-                    setEmailVisible(true)
-                    setMessageVisible(false)
-                }, 4000)
+                setTimeout(() => setMessageVisible(false), 4000)
             } else {
                 setPopUpMessage(
                     'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
@@ -153,15 +139,8 @@ export default function SignIn() {
                     'Password reset request successful, if there is an account associated with this email address, a password reset email has been sent'
                 )
                 setMessageVisible(true)
-                const url =
-                    '/password-change-confirm/' +
-                    response['uid'] +
-                    '/' +
-                    response['token'] +
-                    '/'
-                setEmailType('password')
-                setEmailURL(url)
-                setTimeout(() => setEmailVisible(true), 4000)
+
+                setTimeout(() => setMessageVisible(false), 4000)
             }
         } else {
             setPopUpMessage('Please enter email address')
@@ -181,7 +160,7 @@ export default function SignIn() {
                         value={username}
                         onChange={usernameInput}
                         placeholder="Email address"
-                        autoComplete="email-address"
+                        autoComplete="off"
                         alt="sign in username input"
                     ></input>
                     <input
@@ -190,7 +169,7 @@ export default function SignIn() {
                         value={password}
                         onChange={passwordInput}
                         placeholder="Password"
-                        autoComplete="current-password"
+                        autoComplete="off"
                         alt="sign in password input"
                     ></input>
                     <button
@@ -217,7 +196,7 @@ export default function SignIn() {
                         value={newUsername}
                         onChange={newUsernameInput}
                         placeholder="Email address"
-                        autoComplete="email-address"
+                        autoComplete="off"
                         alt="create account username input"
                     ></input>
                     <input
@@ -226,7 +205,7 @@ export default function SignIn() {
                         value={newPassword}
                         onChange={newPasswordInput}
                         placeholder="Password"
-                        autoComplete="none"
+                        autoComplete="off"
                         alt="create account password input"
                     ></input>
                     <input
@@ -235,7 +214,7 @@ export default function SignIn() {
                         value={name}
                         onChange={nameInput}
                         placeholder="Name"
-                        autoComplete="name"
+                        autoComplete="off"
                     ></input>
                     <button
                         className="createAccountButton"
@@ -250,14 +229,6 @@ export default function SignIn() {
                 <div className="popUpContainer">
                     <h1>{popUpMessage}</h1>
                 </div>
-            )}
-            {emailVisible && (
-                <Email
-                    type={emailType}
-                    url={emailURL}
-                    user={name}
-                    email={username || newUsername}
-                />
             )}
             {TOTPVisible &&
                 (TOTPSecret === '' ? (

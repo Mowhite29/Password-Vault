@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setScreen } from '../redux/authSlice'
 import { PasswordChange, NameChange, NameRequest } from '../services/api'
-import Email from './Email'
 import '../styles/Account.scss'
 
 export default function Account() {
@@ -14,10 +13,6 @@ export default function Account() {
     const [messageVisible, setMessageVisible] = useState(false)
 
     const [nameShown, setNameShown] = useState(false)
-    const [emailView, setEmailView] = useState(false)
-    const [emailURL, setEmailURL] = useState('')
-    const [emailType, setEmailType] = useState('')
-    const [name, setName] = useState('')
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
 
@@ -30,20 +25,11 @@ export default function Account() {
     async function ChangePassword() {
         const response = await PasswordChange(userEmail, token)
         if (response) {
-            const url =
-                '/password-change-confirm/' +
-                response['uid'] +
-                '/' +
-                response['token'] +
-                '/'
-            setEmailURL(url)
-            setName(response['user'])
-            setEmailType('password')
             setPopUpMessage(
                 'A password change confirmation email has been sent to your email address'
             )
             setMessageVisible(true)
-            setTimeout(() => setEmailView(true), 5000)
+            setTimeout(() => setMessageVisible(false), 4000)
         } else {
             setPopUpMessage(
                 'Password change unsuccessful, please try again later'
@@ -120,14 +106,6 @@ export default function Account() {
                 <div className="popUpContainer">
                     <h1>{popUpMessage}</h1>
                 </div>
-            )}
-            {emailView && (
-                <Email
-                    type={emailType}
-                    url={emailURL}
-                    user={name}
-                    email={userEmail}
-                />
             )}
         </div>
     )
