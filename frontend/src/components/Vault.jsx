@@ -99,8 +99,8 @@ export default function Vault() {
         const toShow = []
         if (search != '') {
             for (let i = 0; i < vault.length; i++) {
-                // eslint-disable-next-line security/detect-object-injection
                 if (
+                    // eslint-disable-next-line security/detect-object-injection
                     vault[i]['label']
                         .toLowerCase()
                         .includes(search.toLowerCase())
@@ -108,15 +108,17 @@ export default function Vault() {
                     // eslint-disable-next-line security/detect-object-injection
                     toShow.push(vault[i])
                 }
-                // eslint-disable-next-line security/detect-object-injection
+
                 if (
+                    // eslint-disable-next-line security/detect-object-injection
                     vault[i]['tag'].toLowerCase().includes(search.toLowerCase())
                 ) {
                     // eslint-disable-next-line security/detect-object-injection
                     toShow.push(vault[i])
                 }
-                // eslint-disable-next-line security/detect-object-injection
+
                 if (
+                    // eslint-disable-next-line security/detect-object-injection
                     new Date(vault[i]['created_at'])
                         .toLocaleString()
                         .includes(search)

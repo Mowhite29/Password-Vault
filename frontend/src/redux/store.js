@@ -3,18 +3,28 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authReducer from './authSlice'
 import connectReducer from './connectionSlice'
+import waiverReducer from './waiverSlice'
 
-const persistConfig = {
-    key: 'root',
+const persistAuthConfig = {
+    key: 'auth',
+    storage,
+}
+const persistWaiverConfig = {
+    key: 'waiver',
     storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, authReducer)
+const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer)
+const persistedWaiverReducer = persistReducer(
+    persistWaiverConfig,
+    waiverReducer
+)
 
 export const store = configureStore({
     reducer: {
-        auth: persistedReducer,
+        auth: persistedAuthReducer,
         connect: connectReducer,
+        waiver: persistedWaiverReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

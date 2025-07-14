@@ -483,7 +483,7 @@ class PasswordChange(APIView):
                         'Data': email_subject,
                     },
                 },
-                Source='password-change'+ settings.DEFAULT_FROM_EMAIL,
+                Source='password-change' + settings.DEFAULT_FROM_EMAIL,
             )
         except ClientError as e:
             print(f"An error occurred: {e.response['Error']['Message']}")
