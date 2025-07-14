@@ -31,6 +31,19 @@ from .serializers import (
 logger = logging.getLogger(__name__)
 
 
+def trigger_user_cleanup(request):
+    logger.info("User cleanup accessed")
+    token = request.headers.get('X_ADMIN_TOKEN')
+    if token != settings.ADMIN_CLEANUP_TOKEN:
+        logger.error("Unauthorised access attempt to user cleanup")
+        return Response({"error": "Unauthorized"},
+                        status=status.HTTP_403_FORBIDDEN)
+
+    count = User.objects.filter(is_staff=False).delete()
+    logger.info(f"{count} users deleted")
+    return Response({"deleted_users": count}, status=status.HTTP_200_OK)
+
+
 def ping_view(request):
     return JsonResponse({"status": "ok"}, status=status.HTTP_200_OK)
 
@@ -226,7 +239,7 @@ class RegisterView(APIView):
                         },
                         'Subject': {'Charset': 'UTF-8', 'Data': email_subject},
                     },
-                    Source=settings.DEFAULT_FROM_EMAIL,
+                    Source='verify-email' + settings.DEFAULT_FROM_EMAIL,
                 )
 
             except ClientError as e:
@@ -470,7 +483,7 @@ class PasswordChange(APIView):
                         'Data': email_subject,
                     },
                 },
-                Source=settings.DEFAULT_FROM_EMAIL,
+                Source='password-change'+ settings.DEFAULT_FROM_EMAIL,
             )
         except ClientError as e:
             print(f"An error occurred: {e.response['Error']['Message']}")
@@ -546,7 +559,7 @@ class PasswordReset(APIView):
                         'Data': email_subject
                     },
                 },
-                Source=settings.DEFAULT_FROM_EMAIL
+                Source='password-reset' + settings.DEFAULT_FROM_EMAIL
             )
 
         except ClientError as e:
