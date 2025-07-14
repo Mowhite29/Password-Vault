@@ -28,7 +28,7 @@ export default function MenuBar() {
     if (deviceType === 'touchOnly') {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
-                <div className="staticMenuBar">
+                <div className="staticMenuBar" alt="menu bar">
                     <h1>Password Vault</h1>
                     <button onClick={() => OpenMenu()}>
                         {open ? 'close menu' : 'open menu'}
@@ -74,7 +74,7 @@ export default function MenuBar() {
     } else {
         return (
             <div className="menuContainer">
-                <div className="staticMenuBar">
+                <div className="staticMenuBar" alt="menu bar">
                     <h1>Password Vault</h1>
                     {screen != 'home' && (
                         <button onClick={() => handleScreenChange('home')}>

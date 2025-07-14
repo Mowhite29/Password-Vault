@@ -1,5 +1,43 @@
 
 @media (min-width: 0px) {
+    .warningContainer {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        backdrop-filter: blur(2px);
+        z-index: 10000000;
+        display: flex;
+        justify-content: center;
+
+        .warningBanner {
+            display: flex;
+            flex-direction: column;
+            width: 80vw;
+            height: 80vh;
+            background-color: white;
+            align-self: center;
+            border: 2px solid black;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            padding: 10px;
+
+            h1 {
+                font-size: 28px;
+                text-align: center;
+            }
+            h2 {
+                font-size: 20px;
+                text-align: end;
+            }
+            a {
+                text-align: end;
+            }
+            h3 {
+                font-size: 20px;
+            }
+        }
+    }
     .home {
         width: 100%;
         height: auto;

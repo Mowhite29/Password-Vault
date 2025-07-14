@@ -8,11 +8,13 @@ import Vault from '../src/components/Vault'
 import '@testing-library/jest-dom'
 import authReducer from '../src/redux/authSlice'
 import connectReducer from '../src/redux/connectionSlice'
+import waiverReducer from '../src/redux/waiverSlice'
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         connect: connectReducer,
+        waiver: waiverReducer,
     },
 })
 

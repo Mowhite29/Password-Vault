@@ -6,4 +6,7 @@ export const mockState = {
         signedIn: false,
         refreshToken: 'mock-refresh-token',
     },
+    waiver: {
+        agreed: true,
+    },
 }

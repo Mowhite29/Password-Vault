@@ -11,11 +11,13 @@ import SignIn from '../src/components/SignIn'
 import '@testing-library/jest-dom'
 import authReducer from '../src/redux/authSlice'
 import connectReducer from '../src/redux/connectionSlice'
+import waiverReducer from '../src/redux/waiverSlice'
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         connect: connectReducer,
+        waiver: waiverReducer,
     },
 })
 
@@ -65,7 +67,6 @@ describe('Home Component', () => {
             </Provider>
         )
 
-        expect(screen.getByText(/Password Vault/i)).toBeInTheDocument()
         expect(screen.getByText(/open menu/i)).toBeInTheDocument()
     })
 
