@@ -21,18 +21,3 @@ By accessing or using this application, you agree to the following terms:
 
 4. **No Warranty**  
    This software is provided **"as is"**, without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.
-
----
-
-## Email Handling
-
-- This project includes **simulated email verification and reset functionality**.
-- All email flows are non-functional in the demo and do not send real emails.
-- Any email addresses entered are not stored or transmitted beyond the local scope of the demonstration.
-
----
-
-## Security Context
-
-- All encryption and decryption processes occur client-side as part of a zero-knowledge design.
-- The backend does not store
