@@ -212,6 +212,7 @@ export default function Vault() {
                 }
                 setNotification(prompt)
             } else {
+                setNotification('')
                 const cypher = await Encrypt(masterKey, password)
                 console.log(tag)
                 try {
@@ -280,27 +281,37 @@ export default function Vault() {
 
     async function EntryEdit(entry) {
         if (entry === 'submit') {
-            const cypher = await Encrypt(masterKey, password)
-            const response = VaultEdit(
-                label,
-                username,
-                cypher.encryptedPassword,
-                cypher.salt,
-                cypher.nonce,
-                notes,
-                tag,
-                token
-            )
-            if (response === true) {
-                setEditShown(false)
-                setPopUpMessage('Entry updated successfully')
-                setMessageVisible(true)
-                const response1 = await VaultFetch(token)
-                setVault(response1)
-                setShownVault(response1)
-                setTimeout(() => {
-                    setMessageVisible(false)
-                }, 3000)
+            const check = await Check(userEmail, password)
+            if (check != true) {
+                let prompt = ''
+                for (let i = 0; i < check['suggestions'].length; i++) {
+                    // eslint-disable-next-line security/detect-object-injection
+                    prompt = prompt + ' ' + check['suggestions'][i]
+                }
+                setNotification(prompt)
+            } else {
+                const cypher = await Encrypt(masterKey, password)
+                const response = VaultEdit(
+                    label,
+                    username,
+                    cypher.encryptedPassword,
+                    cypher.salt,
+                    cypher.nonce,
+                    notes,
+                    tag,
+                    token
+                )
+                if (response === true) {
+                    setEditShown(false)
+                    setPopUpMessage('Entry updated successfully')
+                    setMessageVisible(true)
+                    const response1 = await VaultFetch(token)
+                    setVault(response1)
+                    setShownVault(response1)
+                    setTimeout(() => {
+                        setMessageVisible(false)
+                    }, 3000)
+                }
             }
         } else if (entry === 'cancel') {
             setEditShown(false)
@@ -623,7 +634,7 @@ export default function Vault() {
             )}
             {editShown && (
                 <div className="entryCreationContainer">
-                    <form className="formContainer">
+                    <div className="formContainer">
                         <div className="inputs">
                             <label for="label">Website</label>
                             <h2>{label}</h2>
@@ -640,6 +651,12 @@ export default function Vault() {
                                 value={password}
                                 onChange={inputHandler}
                             ></input>
+                            <button
+                                onClick={() => GeneratePassword()}
+                                alt="generate password"
+                            >
+                                Generate Password
+                            </button>
                         </div>
                         <div className="inputs">
                             <label for="notes">Notes</label>
@@ -699,8 +716,8 @@ export default function Vault() {
                         >
                             Cancel
                         </button>
-                    </form>
-                    <h1>{notification}</h1>
+                        <h3>{notification}</h3>
+                    </div>
                 </div>
             )}
         </div>

@@ -11,27 +11,26 @@ This application is a **portfolio project only** and should **not be used to sto
 
 ## Core Features
 
-| Feature                       | Included  | Description                                   |
-|-------------------------------|:---------:|-----------------------------------------------|
-| User registration             | [x]       | Email-based registration flow                 |
-| Email verification simulation | [x]       | Mock email shown for demo                     |
-| Token-based authentication    | [x]       | JWT token flow using DRF                      |
-| Master key for encryption     | [x]       | User-supplied key for encryption/decryption   |
-| Password vault (CRUD)         | [x]       | Add, update, list, delete entries             |
-| Password generation (frontend)| [x]       | Demo-only passwords for simulation            |
-| Encryption (frontend)         | [x]       | End-to-end encryption using [your library]    |
-| Mobile-responsive design      | [ ]       | Planned for production build                  |
-| React Native frontend         | [x]       | Shared crypto layer between web and mobile    |
+| Feature                       | Included  |
+|-------------------------------|:---------:|
+| User registration             | [x]       |
+| Email verification simulation | [x]       |
+| Token-based authentication    | [x]       |
+| Master key for encryption     | [x]       |
+| Password vault (CRUD)         | [x]       |
+| Password generation (frontend)| [x]       |
+| Encryption (frontend)         | [x]       |
+| React Native frontend         | [x]       |
 
 ---
 
 ## Tech Stack
 
 - **Backend**: Django + Django REST Framework  
-- **Frontend**: React + Sass, React Native/Expo (Mobile)  
+- **Frontend**: React + Sass
 - **Database**: PostgreSQL  
 - **CI/CD**: GitHub Actions – tests, linters, vulnerability scans  
-- **Security**: AES-GCM encryption, JWT authentication, strong validation  
+- **Security**: XSalsa-20 encryption, JWT authentication, strong password validation  
 
 ---
 
@@ -39,7 +38,6 @@ This application is a **portfolio project only** and should **not be used to sto
 
 - Passwords are encrypted client-side with a user-supplied master key not stored on the server.
 - All API endpoints are protected by token authentication.
-- Mock password and email flows are used to avoid handling sensitive data.
 - Users are warned not to enter any real data in all relevant areas.
 
 ---
@@ -47,24 +45,34 @@ This application is a **portfolio project only** and should **not be used to sto
 ## Screenshots
 
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQR3oLLP0WIpRpmUOxn7iS5iAdJg1nlQj5QXUWtVQP3Xdv8?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRa5gdI6r8hRLdd3N3VRdK0AUjKT_IJVxT8HosjZMViQSE?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSGubPe7pnPSrfRVr9MvIAvATPBWSwi6xZz9whmjXZ2DIw?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTGMfUz7kL_Tr0EolQOhE0zATeuJlumqe_UqshrRQUki1k?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRxBGn9Va3dToPTPizQAaK7AVL0e6Z2-34C99QZA0oBwB0?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQi-osFCaXiR6nz4fc8GuvdAU8yD50s63eGRh6f_Tc3RVM?height=660" width=300>
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTDB6eLOuF0S5keppWq0g6XATVtSIgeUaxLMNE0PfjLiS4?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTD1kebYP7VR7nHMuVvb4CYAd8kxOgrPuxJ0qnosFeQMSM?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQS0wcz1Ymx-T59AIYuYaQGcASwPErVJUwmvp7rWHzq2YwY?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQT6H8ncfyWPR5TCcb_uP3d-ASCwZ-RAAVT-5_EzrOGE2TQ?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTRbJZoB494ToK_tdEVMSbXAXM-cSR1aPaGDc1oUvImIFU?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQ1PMOi-xmFSITHqSCNxMrgAeR2mlNl3__MeBeuYPF-yYc?height=660" width=300>
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTgzI4woo4HTpgkzFvhvZsvAV8vV0DVBXfwv5gwZrxMt5M?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQQEOFfgSsdT6Sj1P__mQ1IAdMUAQUeQlCDYYzhl4kOw2o?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQjIhS0kFnTTq87H3kqb_elAa1Qj6qHd-ttAtCrQEmNBJk?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSkcKKz0UCaTJZKvbbhWlk7AWEr6iBuBn_tqMqCGpViML4?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQi7U1epBnJS68OOgvd1r-JAfNkU-BfW8aiVQWsi4rfCAw?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTbUrsXUyMfTbecZeCE2PmTAVGAqSocOVlHhnohjWsS4LU?height=660" width=300>
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQROGQrma4PHRYOy4M64XkRHAdBYsnlnATGGVcqF3dk8B-8?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQp_qPMFxCAT6eNAFVMzlg9Ab6nGkINMc_11GnamJj4Ax4?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTLu_DoBW0QRqvCU4YQmGs3AcVYAoE51kBVsE8mHvCsTMs?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQ_tDW3CKyMRoeAHyklmi41Af5-9feTgKgFqTGWLJDQ8fg?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSHKuvmrY2GQJsQy9HmV-cSAcKjxu1M3v4BOmfZHRKR1ew?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQT_NXNIh9KXQI-6Vh-BynuaAVmQpy1D9TIxcRcV5AWvJtk?height=660" width=300>
+</p>
+<p float="left">
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQv1oFFyJa4QZCjx15aaqrlAcmW3Vj06_0Hcxi3Z142EIs?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTf4hoyjS_8T6yZmehShmVNAcvO2Z4X1ZLafSJDMDbsDWU?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRmOovvFyEkSotCLDWw-KhmARD8WH2amTkGYS-z60kPIq8?height=660" width=300>
+</p>
+<p float="left">
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSTjlO197SKRZGYBhODEwznARxInzSjj9nTVhjBL4-uAAQ?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTTG4JjoT9BRY6Fjjd-KXlcAe8B_gmQT7Mdhb8rEgD5VE8?height=660" width=300>
+  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRbQw1rjB1ISaYw6Mk_JFlvAbXohyvZ53dU95S62nx-GUg?height=660" width=300>
 </p>
 
 ---
@@ -87,25 +95,3 @@ This application is a **portfolio project only** and should **not be used to sto
 | Full project overview    | [README.md](./README.md)            |
 | Mock email view          | `/demo/email-verification`          |
 | Legal disclaimer         | [LEGAL.md](./LEGAL.md)              |
-
----
-
-## Timeline
-
-| Stage                | Status        | Notes                                |
-|----------------------|---------------|---------------------------------------|
-| Core backend logic   | [x] Completed  | Auth, encryption, CRUD                |
-| Frontend MVP         | [x] Completed  | Web and mobile                        |
-| Mobile demo deploy   | [ ] In Progress| Expo test build planned               |
-| Production hardening | [ ] Planned    | UI polish, error handling, a11y       |
-| Additional features  | [ ] Planned    | Folders, password strength checking   |
-
----
-
-## Learning Goals Achieved
-
-- Built a full-stack secure password manager MVP  
-- Created and tested a RESTful API  
-- Designed encrypted client-side storage  
-- Integrated React and React Native with shared logic  
-- Implemented continuous integration with quality controls  

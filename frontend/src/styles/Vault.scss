@@ -28,7 +28,7 @@
             display: flex;
             flex-direction: column;
             width: 90%;
-            height: 60%;
+            height: 77%;
             align-self: center;
             .vaultEntry {
                 display: flex;
@@ -182,9 +182,9 @@
         .entryCreationContainer {
             align-self: center;
             width: 100vw;
-            height: 72%;
+            height: 100%;
             position: absolute;
-            top: 0;
+            top: -99px;
             left: 0;
             align-content: center;
             backdrop-filter: blur(1px);

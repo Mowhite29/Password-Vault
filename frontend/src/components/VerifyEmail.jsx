@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { VerifyEmailAddress } from '../services/api'
 import { setScreen } from '../redux/authSlice'
-import Email from './Email'
 import '../styles/VerifyEmail.scss'
 
 export default function VerifyEmail() {
