@@ -45,19 +45,19 @@ class APITests(APITestCase):
         }
 
     def test_user_creation(self):
-        url = reverse('RegisterView')
+        url = reverse('RegisterViewDemo')
         request = self.client.post(url, self.payload, format='json')
 
         self.assertEqual(request.status_code, 200,
                          "POST request failed to return status 200")
 
     def test_user_creation_existing(self):
-        url = reverse('RegisterView')
+        url = reverse('RegisterViewDemo')
         payload = {
             "username": "testUser",
             "first_name": "testFirstName",
             "last_name": "testLastName",
-            "email": "testEmail1@example.com",
+            "email": "testEmail@example.com",
             "password": "testPassword123",
         }
         request = self.client.post(url, payload, format='json')
@@ -66,7 +66,7 @@ class APITests(APITestCase):
                          "POST request failed to return status 400")
 
     def test_user_creation_invalid_email(self):
-        url = reverse('RegisterView')
+        url = reverse('RegisterViewDemo')
         payload = {
             "username": "testUser1",
             "first_name": "testFirstName1",
@@ -80,7 +80,7 @@ class APITests(APITestCase):
                          "POST request failed to return status 400")
 
     def test_email_verification(self):
-        url = reverse('RegisterView')
+        url = reverse('RegisterViewDemo')
         request = self.client.post(url, self.payload, format='json')
         url1 = reverse('EmailVerifyView',
                        kwargs={
@@ -92,7 +92,7 @@ class APITests(APITestCase):
                          "GET request failed to return status 200")
 
     def test_email_verification_invalid_token(self):
-        url = reverse('RegisterView')
+        url = reverse('RegisterViewDemo')
         request = self.client.post(url, self.payload, format='json')
         url1 = reverse('EmailVerifyView',
                        kwargs={

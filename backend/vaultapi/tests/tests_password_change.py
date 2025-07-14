@@ -40,14 +40,14 @@ class APITests(APITestCase):
         }
 
     def test_password_change_request(self):
-        url = reverse('PasswordChange')
+        url = reverse('PasswordChangeDemo')
         request = self.client.post(url, self.payload, **self.auth_headers)
 
         self.assertEqual(request.status_code, 200,
                          "POST request failed to return status 200")
 
     def test_password_change_request_bad_token(self):
-        url = reverse('PasswordChange')
+        url = reverse('PasswordChangeDemo')
         request = self.client.post(url, self.payload,
                             **{'HTTP_AUTHORIZATION': 'Bearer bad_token'})
 
@@ -55,14 +55,14 @@ class APITests(APITestCase):
                          "POST request failed to return status 403")
 
     def test_password_reset_request(self):
-        url = reverse('PasswordReset')
+        url = reverse('PasswordResetDemo')
         request = self.client.post(url, self.payload)
 
         self.assertEqual(request.status_code, 200,
                          "POST request failed to return status 200")
 
     def test_password_change_confirm(self):
-        url = reverse('PasswordChange')
+        url = reverse('PasswordChangeDemo')
         request = self.client.post(url, self.payload, **self.auth_headers)
         payload = {'new_password': 'new_password'}
         url1 = reverse('PasswordChangeConfirm',
@@ -75,7 +75,7 @@ class APITests(APITestCase):
                          "POST request failed to return status 200")
 
     def test_password_change_confirm_invalid_token(self):
-        url = reverse('PasswordChange')
+        url = reverse('PasswordChangeDemo')
         request = self.client.post(url, self.payload, **self.auth_headers)
         url1 = reverse('PasswordChangeConfirm',
                        kwargs={
@@ -88,7 +88,7 @@ class APITests(APITestCase):
                          "GET request failed to return status 400")
 
     def test_password_change_confirm_missing_password(self):
-        url = reverse('PasswordChange')
+        url = reverse('PasswordChangeDemo')
         request = self.client.post(url, self.payload, **self.auth_headers)
         url1 = reverse('PasswordChangeConfirm',
                        kwargs={
