@@ -12,11 +12,11 @@ $border-light: #DDE1E4;
 $border-dark: #2A3C43;
 
 @font-face {
-    font-family: 'balooregular';
-    src: url('../../assets/Fonts/Baloo-Regular-webfont.woff') format('woff'),
-         url('../../assets/Fonts/Baloo-Regular-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+    font-family: 'Baloo';
+    src: url('../../assets/fonts/Baloo2-VariableFont_wght.ttf') format('truetype-variations'),
+        url('../../assets/fonts/baloo-Regular.woff') format('woff'),
+        url('../../assets/fonts/baloo-Regular.woff2') format('woff2');
+    font-weight: 1 999;
 }
 
 @mixin background {
@@ -25,6 +25,7 @@ $border-dark: #2A3C43;
 
 @mixin container {
     background-color: light-dark($component-light, $component-dark);
+    border-radius: clamp(1.25rem, 8.299vw - 0.306rem, 5rem);
 }
 @mixin logo {
     background-color: light-dark($logo-light, $logo-dark);
@@ -34,9 +35,11 @@ $border-dark: #2A3C43;
 }
 @mixin text {
     color: light-dark($text-light, $text-dark);
-    font-family: balooregular;
+    font-family: 'Baloo';
 }
 @mixin border {
-    border-style: solid;
-    border-color: light-dark($border-light, $border-dark);
+    border: 2px solid light-dark($border-light, $border-dark);
+    -webkit-box-shadow:0px 7px 6px 0px light-dark($border-light, $border-dark);
+    -moz-box-shadow: 0px 7px 6px 0px light-dark($border-light, $border-dark);
+    box-shadow: 0px 7px 6px 0px light-dark($border-light, $border-dark);
 }

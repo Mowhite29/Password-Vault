@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import '../styles/Vault.scss'
+import '../assets/styles/Vault.scss'
 import { useSelector } from 'react-redux'
 import { KeyCheck, GenerateKeyCheck, Encrypt, Decrypt } from '../utils/crypto'
 import {

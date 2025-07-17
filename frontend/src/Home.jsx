@@ -1,9 +1,10 @@
 import React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setScreen } from './redux/authSlice'
 import { setWaiver } from './redux/waiverSlice'
 import { setTheme } from './redux/appearanceSlice'
+import SplashScreen from './components/SplashScreen'
 import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
 import SignIn from './components/SignIn'
@@ -13,15 +14,18 @@ import About from './components/About'
 import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
 import useTokenTimeout from './hooks/useTokenTimeout'
-import './styles/Home.scss'
+import './assets/styles/Home.scss'
+import githubDark from './assets/images/dark/Github_Logo_White.png'
+import githubLight from './assets/images/light/Github_Logo.png'
 
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
     const waiver = useSelector((state) => state.waiver.agreed)
     const theme = useSelector((state) => state.appearance.theme)
+    const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch()
-
+    
     useKeepBackendAwake()
     useInactivityLogout()
     useTokenTimeout()
@@ -53,6 +57,14 @@ export default function Home() {
         document.documentElement.style.setProperty('--theme', theme)
     }, [theme])
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+        setIsLoading(false);
+        }, 4000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const now = new Date()
     const hour = now.getUTCHours()
     let nextHour
@@ -80,6 +92,10 @@ export default function Home() {
 
     const HourRemaining = nextHour - hour
 
+    if (isLoading) {
+        return <SplashScreen />;
+    }
+
     return (
         <>
             {waiver === false && (
@@ -91,7 +107,7 @@ export default function Home() {
                             href="https://github.com/Mowhite29/Password-Vault"
                             target="_blank"
                         >
-                            Project Repository
+                            <img src={theme === 'dark'? githubDark: githubLight} />
                         </a>
                         <h3>
                             This application has been created as part of a
@@ -101,8 +117,7 @@ export default function Home() {
                             building secure, full-stack applications.
                         </h3>
                         <h3>
-                            This application is{' '}
-                            <b>not intended for production use</b>. Do not
+                            This application is <b>not intended for production use</b>. Do not
                             enter, upload, or store any real, sensitive, or
                             personal information such as actual passwords,
                             authentication credentials, or personally
@@ -138,7 +153,7 @@ export default function Home() {
                             {minutesRemaining}m
                         </h3>
                         <h3>
-                            If you agree with the terms outlines, please select
+                            If you agree with the terms outlined, please select
                             "I Agree" to continue to the application.
                         </h3>
                         <button onClick={() => handleWaiver()}>I Agree</button>

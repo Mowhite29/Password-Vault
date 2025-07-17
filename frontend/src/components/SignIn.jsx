@@ -10,7 +10,7 @@ import {
 } from '../redux/authSlice'
 import { Register, Login, PasswordReset, Authenticate } from '../services/api'
 import { Check } from '../utils/passwordGenerator'
-import '../styles/SignIn.scss'
+import '../assets/styles/SignIn.scss'
 
 export default function SignIn() {
     const [username, setUsername] = useState('')

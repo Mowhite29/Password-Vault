@@ -1,0 +1,26 @@
+@media (min-width: 0px) {
+    .headerContainer {
+        width: 100vw;
+        height: clamp(3rem, 4.426vw + 2.17rem, 5rem);
+        background-color: black;
+        position: absolute;
+        top: 0;
+        p {
+            font-size: clamp(0.563rem, 1.521vw + 0.277rem, 1.25rem);
+            margin: clamp(0.188rem, 0.968vw + 0.006rem, 0.625rem)
+                clamp(0.313rem, 0.743vw + 0.15rem, 0.625rem) 0;
+            text-align: center;
+            color: white;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .headerContainer {
+        height: clamp(1.563rem, 1.674vw + 0.491rem, 2.5rem);
+        p {
+            font-size: clamp(0.625rem, 0.558vw + 0.268rem, 0.938rem);
+            margin: 0;
+        }
+    }
+}

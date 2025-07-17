@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import '../styles/About.scss'
+import '../assets/styles/About.scss'
 
 export default function About() {
     const [about, setAbout] = useState(true)
@@ -132,6 +132,7 @@ export default function About() {
                         User icons created by Freepik - Flaticon
                     </a>
                     <a href="https://www.flaticon.com/free-icons/dark-mode" title="dark mode icons">Dark mode icons created by Anggara - Flaticon</a>
+                    <div> Icons made by <a href="https://www.flaticon.com/authors/aswell-studio" title="Aswell Studio"> Aswell Studio </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
                 </div>
             )}
         </div>

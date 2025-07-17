@@ -1,0 +1,112 @@
+@use './abstracts/mixins' as *;
+
+@media (min-width: 0px) {
+    .menuContainer,
+    .menuContainerOpen {
+        @include container;
+        @include text;
+        @include border;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin: 0 0 clamp(2.5rem, 11.065vw + 0.425rem, 7.5rem);
+        position: absolute;
+        top: clamp(3.75rem, 6.916vw + 2.453rem, 6.875rem);
+        z-index: 200;
+
+
+        .staticMenuBar {
+            width: 90%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-self: center;
+            img {
+                width: clamp(2.938rem, 18.396vw - 0.512rem, 11.25rem);
+                height: clamp(2.938rem, 18.396vw - 0.512rem, 11.25rem);
+                align-self: center;
+                border-radius: clamp(0.625rem, 5.533vw - 0.412rem, 3.125rem);
+                margin: clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) 0 clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) calc(clamp(0.625rem, 2.766vw + 0.106rem, 1.875rem) * -1); 
+            }
+            .title {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                justify-content: center;
+                align-self: center;
+                margin: clamp(0.313rem, 1.383vw + 0.053rem, 0.938rem) 0 clamp(0.313rem, 1.383vw + 0.053rem, 0.938rem) calc(clamp(3.125rem, 11.065vw + 1.05rem, 8.125rem) * -1);
+                h1 {
+                    justify-self: flex-start;
+                    font-size: clamp(1.75rem, 11.342vw - 0.377rem, 6.875rem);
+                    font-weight: 700;
+                    margin: 0;
+                    line-height: clamp(1.25rem, 8.714vw - 0.384rem, 5.188rem);
+                }
+            }
+            h2 {
+                justify-self: flex-end;
+            }
+            button {
+                height: auto;
+                justify-self: center;
+                align-self: center;
+                background: none;
+                border: none;
+                img {
+                    width: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
+                    height: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
+                    border-radius: 0;
+                }
+            }
+        }
+        .mobileMenu {
+            z-index: 200;
+            display: flex;
+            justify-content: space-around;
+            align-self: center;
+            height: clamp(3.75rem, 17.981vw + 0.379rem, 11.875rem);
+            width: 90%;
+
+            button {
+                height: 60%;
+                align-self: center;
+                background: none;
+                border: none;
+                img {
+                    width: auto;
+                    height: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .menuContainer {
+        width: clamp(38.75rem, 38.504vw + 14.107rem, 60.313rem);
+        border-radius: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
+        top: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
+        .staticMenuBar {
+            img {
+                height: clamp(3.438rem, 4.464vw + 0.58rem, 5.938rem);
+                width: clamp(3.438rem, 4.464vw + 0.58rem, 5.938rem);
+                border-radius: clamp(0.625rem, 0.558vw + 0.268rem, 0.938rem);
+                margin: clamp(0.313rem, 0.558vw - 0.045rem, 0.625rem) 0 clamp(0.313rem, 0.558vw - 0.045rem, 0.625rem) calc(clamp(1.25rem, 1.116vw + 0.536rem, 1.875rem) * -1); 
+            }
+            .title {
+                margin: 5px 0 5px calc(clamp(2.5rem, 2.79vw + 0.714rem, 4.063rem) * -1);
+                h1 {
+                    font-size: clamp(2.188rem, 3.348vw + 0.045rem, 4.063rem);
+                    line-height: clamp(1.813rem, 2.455vw + 0.241rem, 3.188rem);
+                }
+            }
+            button {
+                img {
+                    height: auto;
+                    width: clamp(2.5rem, 2.232vw + 1.071rem, 3.75rem);
+                }
+            }
+        }
+    }
+}

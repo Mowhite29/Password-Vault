@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signOut } from '../redux/authSlice'
 import { PasswordChangeConfirm } from '../services/api'
-import '../styles/PasswordChange.scss'
+import '../assets/styles/PasswordChange.scss'
 
 export default function PasswordChange() {
     const [password, setPassword] = useState('')

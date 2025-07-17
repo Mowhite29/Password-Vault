@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setScreen } from '../redux/authSlice'
 import { PasswordChange, NameChange, NameRequest } from '../services/api'
-import '../styles/Account.scss'
+import '../assets/styles/Account.scss'
 
 export default function Account() {
     const userEmail = useSelector((state) => state.auth.userEmail)

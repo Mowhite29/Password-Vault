@@ -5,7 +5,17 @@ import { signOut, setScreen } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
 import { deviceType } from 'detect-it'
 
-import '../styles/MenuBar.scss'
+import '../assets/styles/MenuBar.scss'
+import logoDark from '../assets/images/dark/logo.gif'
+import logoLight from '../assets/images/light/logo.gif'
+import menu from '../assets/images/dark/menu.png'
+import info from '../assets/images/dark/info.png'
+import loginDark from '../assets/images/dark/login.gif'
+import loginLight from '../assets/images/light/login.gif'
+import logout from '../assets/images/dark/logout.png'
+import user from '../assets/images/dark/user.png'
+import mode from '../assets/images/dark/mode.png'
+import home from '../assets/images/dark/home.png'
 
 export default function MenuBar() {
     const [open, setOpen] = useState(false)
@@ -43,26 +53,30 @@ export default function MenuBar() {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
                 <div className="staticMenuBar" alt="menu bar">
-                    <h1>Password Vault</h1>
+                    <img src={theme === 'dark'? logoDark:logoLight}></img>
+                    <div className="title">
+                        <h1>Password</h1>
+                        <h1>Vault</h1>
+                    </div>
                     <button onClick={() => OpenMenu()}>
-                        {open ? 'close menu' : 'open menu'}
+                        <img src={menu}></img>
                     </button>
                 </div>
                 {open ? (
                     <div className="mobileMenu">
                         {screen != 'home' && (
                             <button onClick={() => handleScreenChange('home')}>
-                                Home
+                                <img src={home} />
                             </button>
                         )}
                         <button onClick={() => handleScreenChange('about')}>
-                            About
+                            <img src={info} />
                         </button>
                         {signedIn ? (
                             <button
                                 onClick={() => handleScreenChange('account')}
                             >
-                                My account
+                                <img src={user} />
                             </button>
                         ) : null}
                         <button
@@ -72,16 +86,11 @@ export default function MenuBar() {
                                     : () => handleScreenChange('signin')
                             }
                         >
-                            {signedIn ? 'Sign out' : 'Sign in'}
+                            <img src={signedIn ? logout : theme === 'dark'? loginDark: loginLight} />
                         </button>
-                        {signedIn ? null : (
-                            <button
-                                onClick={() => handleScreenChange('signin')}
-                            >
-                                Create account
-                            </button>
-                        )}
-                        <button onClick={() => themeToggle()}>Light/Dark</button>
+                        <button onClick={() => themeToggle()}>
+                            <img src={mode} />
+                        </button>
                     </div>
                 ) : null}
             </div>
@@ -90,18 +99,22 @@ export default function MenuBar() {
         return (
             <div className="menuContainer">
                 <div className="staticMenuBar" alt="menu bar">
-                    <h1>Password Vault</h1>
+                    <img src={theme === 'dark'? logoDark:logoLight}></img>
+                    <div className="title">
+                        <h1>Password</h1>
+                        <h1>Vault</h1>
+                    </div>
                     {screen != 'home' && (
                         <button onClick={() => handleScreenChange('home')}>
-                            Home
+                            <img src={home} />
                         </button>
                     )}
                     <button onClick={() => handleScreenChange('about')}>
-                        About
+                        <img src={info} />
                     </button>
                     {signedIn ? (
                         <button onClick={() => handleScreenChange('account')}>
-                            My account
+                            <img src={user} />
                         </button>
                     ) : null}
                     <button
@@ -111,14 +124,11 @@ export default function MenuBar() {
                                 : () => handleScreenChange('signin')
                         }
                     >
-                        {signedIn ? 'Sign out' : 'Sign in'}
+                        <img src={signedIn ? logout : theme === 'dark'? loginDark: loginLight} />
                     </button>
-                    {signedIn ? null : (
-                        <button onClick={() => handleScreenChange('signin')}>
-                            Create account
-                        </button>
-                    )}
-                    <button onClick={() => themeToggle()}>Light/Dark</button>
+                    <button onClick={() => themeToggle()}>
+                        <img src={mode} />
+                    </button>
                 </div>
             </div>
         )
