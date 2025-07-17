@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut, setScreen } from '../redux/authSlice'
+import { setTheme } from '../redux/appearanceSlice'
 import { deviceType } from 'detect-it'
 
 import '../styles/MenuBar.scss'
@@ -10,6 +11,7 @@ export default function MenuBar() {
     const [open, setOpen] = useState(false)
     const signedIn = useSelector((state) => state.auth.signedIn)
     const screen = useSelector((state) => state.auth.screen)
+    const theme = useSelector((state) => state.appearance.theme)
     const dispatch = useDispatch()
 
     function OpenMenu() {
@@ -23,6 +25,18 @@ export default function MenuBar() {
     const handleScreenChange = (newScreen) => {
         dispatch(setScreen(newScreen))
         setOpen(false)
+    }
+
+    const handleTheme = (newTheme) => {
+            dispatch(setTheme(newTheme))
+        }
+
+    function themeToggle() {
+        if (theme === 'light'){
+            handleTheme('dark')
+        }else {
+            handleTheme('light')
+        }
     }
 
     if (deviceType === 'touchOnly') {
@@ -67,6 +81,7 @@ export default function MenuBar() {
                                 Create account
                             </button>
                         )}
+                        <button onClick={() => themeToggle()}>Light/Dark</button>
                     </div>
                 ) : null}
             </div>
@@ -103,6 +118,7 @@ export default function MenuBar() {
                             Create account
                         </button>
                     )}
+                    <button onClick={() => themeToggle()}>Light/Dark</button>
                 </div>
             </div>
         )

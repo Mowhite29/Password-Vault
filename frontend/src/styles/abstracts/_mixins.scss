@@ -1,0 +1,42 @@
+$background-light: #E8EFF3;
+$background-dark: #0D1A1F;
+$component-light: #F1F1F1;
+$component-dark: #1B2A30;
+$logo-light: #33CCCC;
+$logo-dark: #33CCCC;
+$highlight-light: #005FCC;
+$highlight-dark: #66B3FF;
+$text-light: #051118;
+$text-dark: #F1F1F1;
+$border-light: #DDE1E4;
+$border-dark: #2A3C43;
+
+@font-face {
+    font-family: 'balooregular';
+    src: url('../../assets/Fonts/Baloo-Regular-webfont.woff') format('woff'),
+         url('../../assets/Fonts/Baloo-Regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@mixin background {
+    background-color: light-dark($background-light, $background-dark);
+}
+
+@mixin container {
+    background-color: light-dark($component-light, $component-dark);
+}
+@mixin logo {
+    background-color: light-dark($logo-light, $logo-dark);
+}
+@mixin highlight {
+    background-color: light-dark($highlight-light, $highlight-dark);
+}
+@mixin text {
+    color: light-dark($text-light, $text-dark);
+    font-family: balooregular;
+}
+@mixin border {
+    border-style: solid;
+    border-color: light-dark($border-light, $border-dark);
+}

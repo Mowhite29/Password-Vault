@@ -131,6 +131,7 @@ export default function About() {
                     >
                         User icons created by Freepik - Flaticon
                     </a>
+                    <a href="https://www.flaticon.com/free-icons/dark-mode" title="dark mode icons">Dark mode icons created by Anggara - Flaticon</a>
                 </div>
             )}
         </div>

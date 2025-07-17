@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import authReducer from './authSlice'
 import connectReducer from './connectionSlice'
 import waiverReducer from './waiverSlice'
+import appearanceReducer from './appearanceSlice'
 
 const persistAuthConfig = {
     key: 'auth',
@@ -14,17 +15,21 @@ const persistWaiverConfig = {
     storage,
 }
 
+const persistAppearanceConfig = {
+    key: 'appearance',
+    storage,
+}
+
 const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer)
-const persistedWaiverReducer = persistReducer(
-    persistWaiverConfig,
-    waiverReducer
-)
+const persistedWaiverReducer = persistReducer(persistWaiverConfig, waiverReducer)
+const persistedAppearanceReducer = persistReducer(persistAppearanceConfig, appearanceReducer)
 
 export const store = configureStore({
     reducer: {
         auth: persistedAuthReducer,
         connect: connectReducer,
         waiver: persistedWaiverReducer,
+        appearance: persistedAppearanceReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

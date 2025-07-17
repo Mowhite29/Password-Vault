@@ -1,7 +1,9 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setScreen } from './redux/authSlice'
 import { setWaiver } from './redux/waiverSlice'
+import { setTheme } from './redux/appearanceSlice'
 import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
 import SignIn from './components/SignIn'
@@ -16,6 +18,7 @@ import './styles/Home.scss'
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
     const waiver = useSelector((state) => state.waiver.agreed)
+    const theme = useSelector((state) => state.appearance.theme)
 
     const dispatch = useDispatch()
 
@@ -30,6 +33,25 @@ export default function Home() {
     const handleWaiver = () => {
         dispatch(setWaiver(true))
     }
+
+    const handleTheme = (newTheme) => {
+        dispatch(setTheme(newTheme))
+    }
+
+    useEffect(() => {
+        if (theme === ''){
+            const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            if (colorScheme.matches) {
+                handleTheme('dark')
+            } else {
+                handleTheme('light')
+            }
+        }
+    })
+
+    useEffect(() => {
+        document.documentElement.style.setProperty('--theme', theme)
+    }, [theme])
 
     const now = new Date()
     const hour = now.getUTCHours()
