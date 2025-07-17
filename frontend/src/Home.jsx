@@ -22,10 +22,10 @@ export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
     const waiver = useSelector((state) => state.waiver.agreed)
     const theme = useSelector((state) => state.appearance.theme)
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
 
     const dispatch = useDispatch()
-    
+
     useKeepBackendAwake()
     useInactivityLogout()
     useTokenTimeout()
@@ -43,8 +43,10 @@ export default function Home() {
     }
 
     useEffect(() => {
-        if (theme === ''){
-            const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        if (theme === '') {
+            const colorScheme = window.matchMedia(
+                '(prefers-color-scheme: dark)'
+            )
             if (colorScheme.matches) {
                 handleTheme('dark')
             } else {
@@ -59,11 +61,11 @@ export default function Home() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-        setIsLoading(false);
-        }, 4000);
+            setIsLoading(false)
+        }, 4000)
 
-        return () => clearTimeout(timer);
-    }, []);
+        return () => clearTimeout(timer)
+    }, [])
 
     const now = new Date()
     const hour = now.getUTCHours()
@@ -93,7 +95,7 @@ export default function Home() {
     const HourRemaining = nextHour - hour
 
     if (isLoading) {
-        return <SplashScreen />;
+        return <SplashScreen />
     }
 
     return (
@@ -107,7 +109,11 @@ export default function Home() {
                             href="https://github.com/Mowhite29/Password-Vault"
                             target="_blank"
                         >
-                            <img src={theme === 'dark'? githubDark: githubLight} />
+                            <img
+                                src={
+                                    theme === 'dark' ? githubDark : githubLight
+                                }
+                            />
                         </a>
                         <h3>
                             This application has been created as part of a
@@ -117,7 +123,8 @@ export default function Home() {
                             building secure, full-stack applications.
                         </h3>
                         <h3>
-                            This application is <b>not intended for production use</b>. Do not
+                            This application is{' '}
+                            <b>not intended for production use</b>. Do not
                             enter, upload, or store any real, sensitive, or
                             personal information such as actual passwords,
                             authentication credentials, or personally

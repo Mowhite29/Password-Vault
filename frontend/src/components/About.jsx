@@ -1,8 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import '../assets/styles/About.scss'
+import githubDark from '../assets/images/dark/Github_Logo_White.png'
+import githubLight from '../assets/images/light/Github_Logo.png'
 
 export default function About() {
+    const theme = useSelector((state) => state.appearance.theme)
     const [about, setAbout] = useState(true)
     const [legal, setLegal] = useState(false)
     const [credits, setCredits] = useState(false)
@@ -44,7 +48,9 @@ export default function About() {
                         href="https://github.com/Mowhite29/Password-Vault"
                         target="_blank"
                     >
-                        Project Repository
+                        <img
+                            src={theme === 'dark' ? githubDark : githubLight}
+                        />
                     </a>
                 </div>
             )}
@@ -131,8 +137,27 @@ export default function About() {
                     >
                         User icons created by Freepik - Flaticon
                     </a>
-                    <a href="https://www.flaticon.com/free-icons/dark-mode" title="dark mode icons">Dark mode icons created by Anggara - Flaticon</a>
-                    <div> Icons made by <a href="https://www.flaticon.com/authors/aswell-studio" title="Aswell Studio"> Aswell Studio </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+                    <a
+                        href="https://www.flaticon.com/free-icons/dark-mode"
+                        title="dark mode icons"
+                    >
+                        Dark mode icons created by Anggara - Flaticon
+                    </a>
+                    <div>
+                        {' '}
+                        Icons made by{' '}
+                        <a
+                            href="https://www.flaticon.com/authors/aswell-studio"
+                            title="Aswell Studio"
+                        >
+                            {' '}
+                            Aswell Studio{' '}
+                        </a>{' '}
+                        from{' '}
+                        <a href="https://www.flaticon.com/" title="Flaticon">
+                            www.flaticon.com'
+                        </a>
+                    </div>
                 </div>
             )}
         </div>

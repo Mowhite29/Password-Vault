@@ -21,8 +21,14 @@ const persistAppearanceConfig = {
 }
 
 const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer)
-const persistedWaiverReducer = persistReducer(persistWaiverConfig, waiverReducer)
-const persistedAppearanceReducer = persistReducer(persistAppearanceConfig, appearanceReducer)
+const persistedWaiverReducer = persistReducer(
+    persistWaiverConfig,
+    waiverReducer
+)
+const persistedAppearanceReducer = persistReducer(
+    persistAppearanceConfig,
+    appearanceReducer
+)
 
 export const store = configureStore({
     reducer: {

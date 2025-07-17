@@ -38,13 +38,13 @@ export default function MenuBar() {
     }
 
     const handleTheme = (newTheme) => {
-            dispatch(setTheme(newTheme))
-        }
+        dispatch(setTheme(newTheme))
+    }
 
     function themeToggle() {
-        if (theme === 'light'){
+        if (theme === 'light') {
             handleTheme('dark')
-        }else {
+        } else {
             handleTheme('light')
         }
     }
@@ -53,7 +53,7 @@ export default function MenuBar() {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
                 <div className="staticMenuBar" alt="menu bar">
-                    <img src={theme === 'dark'? logoDark:logoLight}></img>
+                    <img src={theme === 'dark' ? logoDark : logoLight}></img>
                     <div className="title">
                         <h1>Password</h1>
                         <h1>Vault</h1>
@@ -86,7 +86,15 @@ export default function MenuBar() {
                                     : () => handleScreenChange('signin')
                             }
                         >
-                            <img src={signedIn ? logout : theme === 'dark'? loginDark: loginLight} />
+                            <img
+                                src={
+                                    signedIn
+                                        ? logout
+                                        : theme === 'dark'
+                                          ? loginDark
+                                          : loginLight
+                                }
+                            />
                         </button>
                         <button onClick={() => themeToggle()}>
                             <img src={mode} />
@@ -99,7 +107,7 @@ export default function MenuBar() {
         return (
             <div className="menuContainer">
                 <div className="staticMenuBar" alt="menu bar">
-                    <img src={theme === 'dark'? logoDark:logoLight}></img>
+                    <img src={theme === 'dark' ? logoDark : logoLight}></img>
                     <div className="title">
                         <h1>Password</h1>
                         <h1>Vault</h1>
@@ -124,7 +132,15 @@ export default function MenuBar() {
                                 : () => handleScreenChange('signin')
                         }
                     >
-                        <img src={signedIn ? logout : theme === 'dark'? loginDark: loginLight} />
+                        <img
+                            src={
+                                signedIn
+                                    ? logout
+                                    : theme === 'dark'
+                                      ? loginDark
+                                      : loginLight
+                            }
+                        />
                     </button>
                     <button onClick={() => themeToggle()}>
                         <img src={mode} />
