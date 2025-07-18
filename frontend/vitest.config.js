@@ -10,32 +10,13 @@ export default defineConfig({
     globals: true,
     include: ['test/**/*.test.{js,jsx,ts,tsx}'],
     testTimeout: 10000,
-    mockReset: true,
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src'), // optional
       'github.png': path.resolve(__dirname, '__mocks__/fileMock.js'),
       'copy.png': path.resolve(__dirname, '__mocks__/fileMock.js'),
     },
   },
-  plugins: [
-    {
-      name: 'vite:ignore-assets-for-test',
-      enforce: 'pre',
-      resolveId(source) {
-        if (source.match(/\.(png|jpe?g|svg|gif)$/)) {
-          return source;
-        }
-        return null;
-      },
-      load(id) {
-        if (id.match(/\.(png|jpe?g|svg|gif)$/)) {
-          return 'export default ""';
-        }
-        return null;
-      },
-    },
-  ],
 })
 
