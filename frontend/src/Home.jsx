@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setScreen } from './redux/authSlice'
 import { setWaiver } from './redux/waiverSlice'
 import { setTheme } from './redux/appearanceSlice'
+import { deviceType } from 'detect-it'
 import SplashScreen from './components/SplashScreen'
 import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
@@ -15,8 +16,8 @@ import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
 import useTokenTimeout from './hooks/useTokenTimeout'
 import './assets/styles/Home.scss'
-import githubDark from './assets/images/dark/Github_Logo_White.png'
-import githubLight from './assets/images/light/Github_Logo.png'
+import githubDark from './assets/images/dark/github.png'
+import githubLight from './assets/images/light/github.png'
 
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
@@ -184,7 +185,33 @@ export default function Home() {
                     </div>
                 </div>
             )}
-            {screen === 'signin' && <SignIn />}
+            {screen === 'signin' ? (
+                deviceType === 'touchOnly' ? (
+                    <SignIn />
+                ) : (
+                    <>
+                        <div className="home">
+                            <div className="homeContainer">
+                                <h1>Secure Your Digital Life with Ease</h1>
+                                <h2>
+                                    Keep your passwords safe, organized, and
+                                    accessible—anytime, anywhere.
+                                </h2>
+                                <h3>
+                                    Your Passwords. Protected. Simplified.
+                                    Trusted.
+                                </h3>
+                                <button
+                                    onClick={() => handleScreenChange('signin')}
+                                >
+                                    Get started now
+                                </button>
+                            </div>
+                        </div>
+                        <SignIn />
+                    </>
+                )
+            ) : null}
             {screen === 'vault' && <Vault />}
             {screen === 'account' && <Account />}
             {screen === 'about' && <About />}
