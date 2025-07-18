@@ -3,6 +3,8 @@
 import { defineConfig } from 'vitest/config'
 import path from 'path';
 
+const isTest = process.env.VITEST === 'true'
+
 export default defineConfig({
   test: {
     environment: 'jsdom',
@@ -16,5 +18,25 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  plugins: isTest
+    ? [
+        {
+          name: 'mock-static-assets',
+          enforce: 'pre',
+          resolveId(source) {
+            if (/\.(png|jpe?g|svg|gif)$/.test(source)) {
+              return source
+            }
+            return null
+          },
+          load(id) {
+            if (/\.(png|jpe?g|svg|gif)$/.test(id)) {
+              return 'export default ""'
+            }
+            return null
+          },
+        },
+      ]
+    : [],
 })
 
