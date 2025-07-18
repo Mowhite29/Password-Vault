@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { QRCodeSVG } from 'qrcode.react'
 import {
     signIn,
@@ -11,8 +11,12 @@ import {
 import { Register, Login, PasswordReset, Authenticate } from '../services/api'
 import { Check } from '../utils/passwordGenerator'
 import '../assets/styles/SignIn.scss'
+import copyDark from '../assets/images/dark/copy.png'
+import copyLight from '../assets/images/light/copy.png'
 
 export default function SignIn() {
+    const theme = useSelector((state) => state.appearance.theme)
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [newUsername, setNewUsername] = useState('')
@@ -119,14 +123,23 @@ export default function SignIn() {
             const register = await Register(newUsername, newPassword, name)
 
             if (register) {
+                setNewPassword('')
+                setNewUsername('')
+                setName('')
                 setPopUpMessage(
                     'Account creation successful, please verify email address to sign in'
                 )
+                setMessageVisible(true)
                 setTimeout(() => setMessageVisible(false), 4000)
+                handleScreenChange('home')
             } else {
+                setNewPassword('')
+                setNewUsername('')
+                setName('')
                 setPopUpMessage(
                     'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
                 )
+                setTimeout(() => setMessageVisible(false), 4000)
             }
         }
     }
@@ -150,125 +163,160 @@ export default function SignIn() {
     }
 
     return (
-        <div className="signInContainer">
-            <div className="formContainer">
-                <form className="forms" action={() => SignIn()}>
-                    <h1>Sign in</h1>
-                    <input
-                        className="usernameInput"
-                        type="email"
-                        value={username}
-                        onChange={usernameInput}
-                        placeholder="Email address"
-                        autoComplete="off"
-                        alt="sign in username input"
-                    ></input>
-                    <input
-                        className="passwordinput"
-                        type="password"
-                        value={password}
-                        onChange={passwordInput}
-                        placeholder="Password"
-                        autoComplete="off"
-                        alt="sign in password input"
-                    ></input>
+        <div className="signIn">
+            <div className="signInContainer">
+                <div className="formContainer">
+                    <form className="forms" action={() => SignIn()}>
+                        <h1>Sign in</h1>
+                        <input
+                            className="usernameInput"
+                            type="email"
+                            name="username"
+                            value={username}
+                            onChange={usernameInput}
+                            placeholder="Email address"
+                            autoComplete="off"
+                            alt="sign in username input"
+                        ></input>
+                        <input
+                            className="passwordinput"
+                            type="password"
+                            name="password"
+                            value={password}
+                            onChange={passwordInput}
+                            placeholder="Password"
+                            autoComplete="off"
+                            alt="sign in password input"
+                        ></input>
+                        <button
+                            className="signInButton"
+                            type="submit"
+                            alt="sign in button"
+                        >
+                            Sign In
+                        </button>
+                    </form>
                     <button
-                        className="signInButton"
-                        type="submit"
-                        alt="sign in button"
+                        className="forgottenButton"
+                        onClick={() => ForgottenPassword()}
                     >
-                        Sign In
+                        forgotten password
                     </button>
-                </form>
-                <button
-                    className="forgottenButton"
-                    onClick={() => ForgottenPassword()}
-                >
-                    forgotten password
-                </button>
-            </div>
-            <div className="formContainer">
-                <form className="forms" action={() => CreateAccount()}>
-                    <h1>Create account</h1>
-                    <input
-                        className="usernameInput"
-                        type="email"
-                        value={newUsername}
-                        onChange={newUsernameInput}
-                        placeholder="Email address"
-                        autoComplete="off"
-                        alt="create account username input"
-                    ></input>
-                    <input
-                        className="passwordinput"
-                        type="password"
-                        value={newPassword}
-                        onChange={newPasswordInput}
-                        placeholder="Password"
-                        autoComplete="off"
-                        alt="create account password input"
-                    ></input>
-                    <input
-                        className="nameInput"
-                        type="text"
-                        value={name}
-                        onChange={nameInput}
-                        placeholder="Name"
-                        autoComplete="off"
-                    ></input>
-                    <button
-                        className="createAccountButton"
-                        type="submit"
-                        alt="create account button"
-                    >
-                        Create Account
-                    </button>
-                </form>
-            </div>
-            {messageVisible && (
-                <div className="popUpContainer">
-                    <h1>{popUpMessage}</h1>
                 </div>
-            )}
-            {TOTPVisible &&
-                (TOTPSecret === '' ? (
-                    <div className="totpContainer">
-                        <h2>
-                            Enter one time passcode as shown in your
-                            authenticator application
-                        </h2>
+                <div className="formContainer">
+                    <form className="forms" action={() => CreateAccount()}>
+                        <h1>Create account</h1>
                         <input
-                            type="number"
-                            value={TOTPToken}
-                            onChange={tokenInput}
-                            alt="totp input"
+                            className="usernameInput"
+                            type="email"
+                            name="username"
+                            value={newUsername}
+                            onChange={newUsernameInput}
+                            placeholder="Email address"
+                            autoComplete="off"
+                            alt="create account username input"
                         ></input>
-                        <button onClick={() => TOTP()} alt="totp enter button">
-                            Enter
-                        </button>
-                    </div>
-                ) : (
-                    <div className="totpContainer">
-                        <h2>
-                            Use QR or text code with an authenticator
-                            application to set up multi factor authentication,
-                            then enter the code generated
-                        </h2>
-                        <QRCodeSVG value={TOTPSecret} width="200" />
-                        <h3>{TOTPString}</h3>
                         <input
-                            name="token"
-                            type="number"
-                            value={TOTPToken}
-                            onChange={tokenInput}
-                            alt="totp input"
+                            className="passwordinput"
+                            type="password"
+                            name="password"
+                            value={newPassword}
+                            onChange={newPasswordInput}
+                            placeholder="Password"
+                            autoComplete="off"
+                            alt="create account password input"
                         ></input>
-                        <button onClick={() => TOTP()} alt="totp enter button">
-                            Enter
+                        <input
+                            className="nameInput"
+                            type="text"
+                            name="name"
+                            value={name}
+                            onChange={nameInput}
+                            placeholder="Name"
+                            autoComplete="off"
+                        ></input>
+                        <button
+                            className="createAccountButton"
+                            type="submit"
+                            alt="create account button"
+                        >
+                            Create Account
                         </button>
-                        <h4>{TOTPMessage}</h4>
+                    </form>
+                </div>
+                {messageVisible && (
+                    <div className="popUpContainer">
+                        <h1>{popUpMessage}</h1>
                     </div>
-                ))}
+                )}
+                {TOTPVisible &&
+                    (TOTPSecret === '' ? (
+                        <div className="totpContainer">
+                            <h2>
+                                Enter one time passcode as shown in your
+                                authenticator application
+                            </h2>
+                            <input
+                                type="text"
+                                value={TOTPToken}
+                                onChange={tokenInput}
+                                alt="totp input"
+                            ></input>
+                            <button
+                                onClick={() => TOTP()}
+                                alt="totp enter button"
+                            >
+                                Enter
+                            </button>
+                            <h4>{TOTPMessage}</h4>
+                        </div>
+                    ) : (
+                        <div className="totpContainer">
+                            <h2>
+                                Use QR or text code with an authenticator
+                                application to set up multi factor
+                                authentication, then enter the code generated
+                            </h2>
+                            <QRCodeSVG
+                                value={TOTPSecret}
+                                height="600"
+                                width="600"
+                            />
+                            <div className="string">
+                                <h3>{TOTPString}</h3>
+                                <button
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(
+                                            TOTPString
+                                        )
+                                    }
+                                >
+                                    <img
+                                        src={
+                                            theme === 'dark'
+                                                ? copyDark
+                                                : copyLight
+                                        }
+                                    ></img>
+                                </button>
+                            </div>
+                            <input
+                                name="token"
+                                type="text"
+                                value={TOTPToken}
+                                onChange={tokenInput}
+                                alt="totp input"
+                            ></input>
+                            <button
+                                onClick={() => TOTP()}
+                                alt="totp enter button"
+                            >
+                                Enter
+                            </button>
+                            <h4>{TOTPMessage}</h4>
+                        </div>
+                    ))}
+            </div>
         </div>
     )
 }
