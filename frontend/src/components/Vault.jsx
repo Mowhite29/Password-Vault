@@ -416,7 +416,7 @@ export default function Vault() {
                                     <h3 className="value">{entry.tag}</h3>
                                 </div>
                             ) : null}
-                            <div className="label">
+                            <div className="website">
                                 <h3 className="label">Website</h3>
                                 <h3 className="value">{entry.label}</h3>
                             </div>
@@ -425,7 +425,6 @@ export default function Vault() {
                                 <h3 className="value">{entry.username}</h3>
                             </div>
                             <div className="password">
-                                <h3 className="label">Password</h3>
                                 <button
                                     className="showPasswordButton"
                                     value={vault.indexOf(entry)}
@@ -510,6 +509,7 @@ export default function Vault() {
                         value={enteredKey}
                         onChange={keyInput}
                         autoComplete="none"
+                        autofocus
                     ></input>
                     <button type="button" onClick={() => KeyEntry()}>
                         Enter
