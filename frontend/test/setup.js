@@ -22,6 +22,12 @@ afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
 
+vi.mock('.*\\.(png|jpe?g|svg|gif)$', () => {
+  return {
+    default: '',
+  };
+});
+
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation((query) => ({
@@ -35,7 +41,3 @@ Object.defineProperty(window, 'matchMedia', {
         dispatchEvent: vi.fn(),
     })),
 })
-
-vi.mock('.*\\.(png|jpg|jpeg|gif|svg)$', () => ({
-    default: '',
-}))
