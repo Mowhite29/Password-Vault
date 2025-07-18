@@ -112,7 +112,7 @@ export default function MenuBar() {
                         <h1>Password</h1>
                         <h1>Vault</h1>
                     </div>
-                    {screen != 'home' && (
+                    {screen != 'home' && screen != 'signin' && (
                         <button onClick={() => handleScreenChange('home')}>
                             <img src={home} />
                         </button>
@@ -129,7 +129,9 @@ export default function MenuBar() {
                         onClick={
                             signedIn
                                 ? () => handleSignOut()
-                                : () => handleScreenChange('signin')
+                                : screen === 'signin'
+                                  ? () => handleScreenChange('home')
+                                  : () => handleScreenChange('signin')
                         }
                     >
                         <img
