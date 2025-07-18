@@ -23,10 +23,10 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 vi.mock('.*\\.(png|jpe?g|svg|gif)$', () => {
-  return {
-    default: '',
-  };
-});
+    return {
+        default: '',
+    }
+})
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
