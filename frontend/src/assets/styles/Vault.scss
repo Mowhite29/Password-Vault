@@ -38,27 +38,39 @@
             }
         }
         .vaultDisplay {
-            overflow-y: scroll;
+            @include container;
+            @include border;
+            @include shadow;
+            @include text;
+            align-self: center;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            margin: clamp(0.625rem, 4.149vw - 0.153rem, 2.5rem) 0 0;
+            overflow-y: scroll;
+            display: flex;
             width: 90%;
-            height: 77%;
+            height: clamp(16.25rem, 130.014vw - 8.128rem, 75rem);
             align-self: center;
             .vaultEntry {
+                @include container;
+                @include border;
+                @include shadow;
+                @include text;
                 display: flex;
                 flex-direction: column;
-                border: 2px solid gray;
-                border-radius: 20px;
                 margin: 5px 0;
                 overflow: clip;
+                width: 97%;
+                margin: 5px 0;
 
                 .tag {
                     position: relative;
-                    left: 74%;
-                    top: -2%;
+                    left: clamp(12.25rem, 71.369vw - 1.132rem, 44.5rem);
+                    top: clamp(-0.25rem, 1.383vw - 0.509rem, 0.375rem);
                     margin: 0;
-                    width: 40%;
-                    height: 20%;
+                    width: clamp(5.938rem, 21.438vw + 1.918rem, 15.625rem);
+                    height: clamp(2.75rem, 7.746vw + 1.298rem, 6.25rem);
                     transform: rotate(45deg);
                     display: flex;
 
@@ -68,6 +80,7 @@
                         color: white;
                         width: 100%;
                         align-self: end;
+                        font-size: clamp(1.25rem, 4.149vw + 0.472rem, 3.125rem);
                     }
                 }
                 .work {
@@ -82,13 +95,12 @@
                 .personal {
                     background-color: gray;
                 }
-
-                .label, .username, .password, .createdAt, .updatedAt, .notes {
+                .website, .username, .password, .createdAt, .updatedAt, .notes {
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
-                    margin: 5px 5px;
-                    height: 60px;
+                    margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem) clamp(0.313rem, 3.458vw - 0.336rem, 1.875rem);
+                    height: auto;
 
                     .label, .value {
                         height: 100%;
@@ -96,6 +108,7 @@
                         justify-self: center;
                         height: 50%;
                         margin: 0 0 0 5px;
+                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                     }
                     .label {
                         
@@ -104,6 +117,9 @@
                         width: 90%;
                         color: rgb(88, 88, 88);
                     }
+                }
+                .website {
+                    margin-top: calc(clamp(1.875rem, -1.383vw + 2.134rem, 1.25rem)* -1);
                 }
                 .notes {
                     flex-direction: row;
