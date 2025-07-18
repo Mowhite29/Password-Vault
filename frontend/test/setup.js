@@ -35,3 +35,8 @@ Object.defineProperty(window, 'matchMedia', {
         dispatchEvent: vi.fn(),
     })),
 })
+
+vi.mock('@/assets/images/dark/github.png', () => ({ default: '' }))
+vi.mock('@/assets/images/light/github.png', () => ({ default: '' }))
+vi.mock('@/assets/images/dark/copy.png', () => ({ default: '' }))
+vi.mock('@/assets/images/light/copy.png', () => ({ default: '' }))
