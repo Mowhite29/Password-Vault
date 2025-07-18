@@ -35,3 +35,7 @@ Object.defineProperty(window, 'matchMedia', {
         dispatchEvent: vi.fn(),
     })),
 })
+
+vi.mock('.*\\.(png|jpg|jpeg|gif|svg)$', () => ({
+  default: '',
+}));
