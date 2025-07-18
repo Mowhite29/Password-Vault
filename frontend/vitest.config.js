@@ -14,11 +14,28 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '\\.png$': path.resolve(__dirname, '__mocks__/fileMock.js'),
-      '\\.jpg$': path.resolve(__dirname, '__mocks__/fileMock.js'),
-      '\\.jpeg$': path.resolve(__dirname, '__mocks__/fileMock.js'),
-      '\\.svg$': path.resolve(__dirname, '__mocks__/fileMock.js'),
+      '@': path.resolve(__dirname, './src'),
+      'github.png': path.resolve(__dirname, '__mocks__/fileMock.js'),
+      'copy.png': path.resolve(__dirname, '__mocks__/fileMock.js'),
     },
   },
+  plugins: [
+    {
+      name: 'vite:ignore-assets-for-test',
+      enforce: 'pre',
+      resolveId(source) {
+        if (source.match(/\.(png|jpe?g|svg|gif)$/)) {
+          return source;
+        }
+        return null;
+      },
+      load(id) {
+        if (id.match(/\.(png|jpe?g|svg|gif)$/)) {
+          return 'export default ""';
+        }
+        return null;
+      },
+    },
+  ],
 })
 
