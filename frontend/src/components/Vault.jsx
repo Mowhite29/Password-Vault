@@ -195,11 +195,11 @@ export default function Vault() {
     async function EntryCreation() {
         var ready = true
         label === ''
-            ? ((ready = false), setNotification('Please enter a password'))
+            ? ((ready = false), setNotification('Please enter website'))
             : username === ''
-              ? ((ready = false), setNotification('Please enter a username'))
+              ? ((ready = false), setNotification('Please enter username'))
               : password === ''
-                ? ((ready = false), setNotification('Please enter a password'))
+                ? ((ready = false), setNotification('Please enter password'))
                 : null
 
         if (ready) {
@@ -483,7 +483,7 @@ export default function Vault() {
                     ))}
             </div>
             {keySetShown && (
-                <div className="keySetContainer">
+                <div className="keyContainer">
                     <h1>
                         Enter a master key to be used in accessing your saved
                         passwords.{' '}
@@ -502,7 +502,7 @@ export default function Vault() {
                 </div>
             )}
             {keyEntryShown && (
-                <form className="keyEntryContainer">
+                <form className="keyContainer">
                     <h1>Enter your master key:</h1>
                     <input
                         type="password"
@@ -582,7 +582,6 @@ export default function Vault() {
                             ></textarea>
                         </div>
                         <div className="inputs">
-                            <label>Tag</label>
                             <div className="checkBoxes">
                                 <label>Work</label>
                                 <input
@@ -618,16 +617,18 @@ export default function Vault() {
                                 />
                             </div>
                         </div>
-                        <button
-                            className="creationButton"
-                            onClick={async () => await EntryCreation()}
-                            alt="creation button"
-                        >
-                            Add password
-                        </button>
-                        <button onClick={() => setCreationShown(false)}>
-                            Cancel
-                        </button>
+                        <div className="buttons">
+                            <button
+                                className="creationButton"
+                                onClick={async () => await EntryCreation()}
+                                alt="creation button"
+                            >
+                                Add password
+                            </button>
+                            <button onClick={() => setCreationShown(false)}>
+                                Cancel
+                            </button>
+                        </div>
                         <h3>{notification}</h3>
                     </div>
                 </div>
