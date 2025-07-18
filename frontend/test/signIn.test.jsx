@@ -9,12 +9,14 @@ import '@testing-library/jest-dom'
 import authReducer from '../src/redux/authSlice'
 import connectReducer from '../src/redux/connectionSlice'
 import waiverReducer from '../src/redux/waiverSlice'
+import appearanceReducer from '../src/redux/appearanceSlice'
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         connect: connectReducer,
         waiver: waiverReducer,
+        appearance: appearanceReducer
     },
 })
 

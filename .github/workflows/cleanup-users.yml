@@ -2,14 +2,14 @@ name: Cleanup Users
 
 on:
     schedule:
-        - cron: '0 * * * *'
-        - cron: '3 * * * *'
-        - cron: '6 * * * *'
-        - cron: '9 * * * *'
-        - cron: '12 * * * *'
-        - cron: '15 * * * *'
-        - cron: '18 * * * *'
-        - cron: '21 * * * *'
+        - cron: '0 0 * * *'
+        - cron: '0 3 * * *'
+        - cron: '0 6 * * *'
+        - cron: '0 9 * * *'
+        - cron: '0 12 * * *'
+        - cron: '0 15 * * *'
+        - cron: '0 18 * * *'
+        - cron: '0 21 * * *'
 
 jobs:
     cleanup:

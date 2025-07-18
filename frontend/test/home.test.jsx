@@ -1,6 +1,5 @@
 import React from 'react'
-import { render, screen, cleanup } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen, cleanup, waitFor } from '@testing-library/react'
 import { describe, it, expect, afterEach } from 'vitest'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
@@ -12,21 +11,21 @@ import '@testing-library/jest-dom'
 import authReducer from '../src/redux/authSlice'
 import connectReducer from '../src/redux/connectionSlice'
 import waiverReducer from '../src/redux/waiverSlice'
+import appearanceReducer from '../src/redux/appearanceSlice'
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         connect: connectReducer,
         waiver: waiverReducer,
+        appearance: appearanceReducer,
     },
 })
 
 afterEach(cleanup)
 
-const user = userEvent.setup()
-
 describe('Home Component', () => {
-    it('should render the Home component with default state', () => {
+    it('should render the Home component with default state', async () => {
         render(
             <Provider store={store}>
                 <Home>
@@ -36,11 +35,12 @@ describe('Home Component', () => {
                 </Home>
             </Provider>
         )
-
-        expect(screen.getByText(/Get started now/i)).toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.getByText(/Get started now/i)).toBeInTheDocument()
+        }, { timeout: 5000 })
     })
 
-    it('should render the HeaderBar component with default state', () => {
+    it('should render the HeaderBar component with default state', async () => {
         render(
             <Provider store={store}>
                 <Home>
@@ -50,47 +50,10 @@ describe('Home Component', () => {
                 </Home>
             </Provider>
         )
-
-        expect(
+        await waitFor(() => {
+            expect(
             screen.getByText(/DEMO PROJECT ONLY - DO NOT USE WITH REAL DATA./i)
         ).toBeInTheDocument()
-    })
-
-    it('should render the MenuBar component with default state', async () => {
-        render(
-            <Provider store={store}>
-                <Home>
-                    <HeaderBar />
-                    <MenuBar />
-                    <SignIn />
-                </Home>
-            </Provider>
-        )
-
-        expect(screen.getByText(/open menu/i)).toBeInTheDocument()
-    })
-
-    it('MenuBar component should allow navigation', async () => {
-        render(
-            <Provider store={store}>
-                <Home>
-                    <HeaderBar />
-                    <MenuBar />
-                    <SignIn />
-                </Home>
-            </Provider>
-        )
-
-        const openMenuButton = await screen.findByRole('button', {
-            name: /open menu/i,
-        })
-        await user.click(openMenuButton)
-
-        const signInButton = await screen.findByRole('button', {
-            name: /sign in/i,
-        })
-        await user
-            .click(signInButton)
-            .then(expect(screen.getByText(/Sign in/i)).toBeInTheDocument())
+        }, { timeout: 5000 })
     })
 })

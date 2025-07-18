@@ -72,7 +72,7 @@ export default function SignIn() {
         dispatch(setRefreshToken(refresh))
     }
 
-    async function SignIn() {
+    async function HandleSignIn() {
         const login = await Login(username, password)
         if (login != false) {
             if (login !== 'set') {
@@ -166,7 +166,7 @@ export default function SignIn() {
         <div className="signIn">
             <div className="signInContainer">
                 <div className="formContainer">
-                    <form className="forms" action={() => SignIn()}>
+                    <form className="forms" action={() => HandleSignIn()}>
                         <h1>Sign in</h1>
                         <input
                             className="usernameInput"

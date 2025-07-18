@@ -2,8 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../assets/styles/About.scss'
-import githubDark from '../assets/images/dark/Github_Logo_White.png'
-import githubLight from '../assets/images/light/Github_Logo.png'
+import githubDark from '../assets/images/dark/github.png'
+import githubLight from '../assets/images/light/github.png'
 
 export default function About() {
     const theme = useSelector((state) => state.appearance.theme)

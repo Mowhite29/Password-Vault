@@ -9,4 +9,7 @@ export const mockState = {
     waiver: {
         agreed: true,
     },
+    appearance: {
+        theme: 'dark',
+    }
 }
