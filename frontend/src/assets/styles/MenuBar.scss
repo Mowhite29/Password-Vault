@@ -6,6 +6,7 @@
         @include container;
         @include text;
         @include border;
+        @include shadow;
         width: 90%;
         display: flex;
         flex-direction: column;

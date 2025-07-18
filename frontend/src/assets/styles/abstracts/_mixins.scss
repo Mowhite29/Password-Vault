@@ -25,7 +25,12 @@ $border-dark: #2A3C43;
 
 @mixin container {
     background-color: light-dark($component-light, $component-dark);
-    border-radius: clamp(1.25rem, 8.299vw - 0.306rem, 5rem);
+    @media (min-width: 0px) { 
+        border-radius: clamp(1.25rem, 8.299vw - 0.306rem, 5rem);
+    }
+    @media (min-width: 1024px) { 
+        border-radius: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
+    }
 }
 @mixin logo {
     background-color: light-dark($logo-light, $logo-dark);
@@ -40,14 +45,41 @@ $border-dark: #2A3C43;
 @mixin border {
     @media (min-width: 0px) {
         border: clamp(0.063rem, 0.277vw + 0.011rem, 0.188rem) solid light-dark($border-light, $border-dark);
+    }
+    @media (min-width: 1024px) {
+        border: clamp(0.125rem, 0.223vw - 0.018rem, 0.25rem) solid light-dark($border-light, $border-dark);
+    }
+}
+@mixin shadow {
+    @media (min-width: 0px) {
         -webkit-box-shadow:0px clamp(0.188rem, 1.383vw - 0.072rem, 0.813rem) clamp(0.313rem, 1.66vw + 0.001rem, 1.063rem) 0px light-dark($border-light, $border-dark);
         -moz-box-shadow: 0px clamp(0.188rem, 1.383vw - 0.072rem, 0.813rem) clamp(0.313rem, 1.66vw + 0.001rem, 1.063rem) 0px light-dark($border-light, $border-dark);
         box-shadow: 0px clamp(0.188rem, 1.383vw - 0.072rem, 0.813rem) clamp(0.313rem, 1.66vw + 0.001rem, 1.063rem) 0px light-dark($border-light, $border-dark);
     }
     @media (min-width: 1024px) {
-        border: clamp(0.125rem, 0.223vw - 0.018rem, 0.25rem) solid light-dark($border-light, $border-dark);
-    -webkit-box-shadow:0px clamp(0.313rem, 0.335vw + 0.098rem, 0.5rem) clamp(0.438rem, 0.558vw + 0.08rem, 0.75rem) 0px light-dark($border-light, $border-dark);
-    -moz-box-shadow: 0px clamp(0.313rem, 0.335vw + 0.098rem, 0.5rem) clamp(0.438rem, 0.558vw + 0.08rem, 0.75rem) 0px light-dark($border-light, $border-dark);
-    box-shadow: 0px clamp(0.313rem, 0.335vw + 0.098rem, 0.5rem) clamp(0.438rem, 0.558vw + 0.08rem, 0.75rem) 0px light-dark($border-light, $border-dark);
+        -webkit-box-shadow:0px clamp(0.313rem, 0.335vw + 0.098rem, 0.5rem) clamp(0.438rem, 0.558vw + 0.08rem, 0.75rem) 0px light-dark($border-light, $border-dark);
+        -moz-box-shadow: 0px clamp(0.313rem, 0.335vw + 0.098rem, 0.5rem) clamp(0.438rem, 0.558vw + 0.08rem, 0.75rem) 0px light-dark($border-light, $border-dark);
+        box-shadow: 0px clamp(0.313rem, 0.335vw + 0.098rem, 0.5rem) clamp(0.438rem, 0.558vw + 0.08rem, 0.75rem) 0px light-dark($border-light, $border-dark);
+    }
+}
+@mixin copy {
+    @media (min-width: 0px) {
+        button {
+            background: none;
+            border: none;
+            margin: 0;
+            img {
+                width: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                height: auto
+            }
+        }
+    }
+    @media (min-width: 1024px) {
+        button {
+            img {
+                width: clamp(0.938rem, 0.558vw + 0.58rem, 1.25rem);
+                height: auto
+            }
+        }
     }
 }

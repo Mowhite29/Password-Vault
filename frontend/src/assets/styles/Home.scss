@@ -76,10 +76,11 @@
             @include container;
             @include text;
             @include border;
+            @include shadow;
             display: flex;
             flex-direction: column;
             width: 90%;
-            height: clamp(20.938rem, 60.166vw + 9.656rem, 48.125rem);
+            height: auto;
             border: none;
             text-align: center;
             align-self: center;
@@ -145,7 +146,7 @@
         }
     }
     .home {
-        height: auto;
+        height: 75%;
         position: absolute;
         top: clamp(7.813rem, 10.045vw + 1.384rem, 13.438rem);
 
@@ -153,21 +154,22 @@
             justify-self: center;
             align-self: center;
             height: 80%;
+            justify-content: space-between;
             h1 {
                 font-size: clamp(2.5rem, 3.348vw + 0.357rem, 4.375rem);
-                margin: clamp(0.875rem, 2.902vw - 0.982rem, 2.5rem) clamp(0.875rem, 2.902vw - 0.982rem, 2.5rem) 0;
+                margin: 0 clamp(0.875rem, 2.902vw - 0.982rem, 2.5rem);
             }
             h2 {
                 font-size: clamp(1.563rem, 2.232vw + 0.134rem, 2.813rem);
-                margin: clamp(0.938rem, 2.79vw - 0.848rem, 2.5rem) 40px;
+                margin: 0 40px;
             }
             h3 {
                 font-size: clamp(1.25rem, 2.232vw - 0.179rem, 2.5rem);
-                margin: 40px;
+                margin: 0 40px;
             }
             button {
                 font-size: clamp(1.875rem, 2.79vw + 0.089rem, 3.438rem);
-                margin: clamp(0.625rem, 1.116vw - 0.089rem, 1.25rem) clamp(0.625rem, 3.348vw - 1.518rem, 2.5rem) clamp(0.938rem, 2.79vw - 0.848rem, 2.5rem);
+                margin: 0 clamp(0.625rem, 3.348vw - 1.518rem, 2.5rem);
             }
         }
     }
