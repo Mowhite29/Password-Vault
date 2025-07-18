@@ -13,9 +13,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // optional
-      'github.png': path.resolve(__dirname, '__mocks__/fileMock.js'),
-      'copy.png': path.resolve(__dirname, '__mocks__/fileMock.js'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })
