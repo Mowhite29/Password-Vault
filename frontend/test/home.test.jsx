@@ -35,9 +35,12 @@ describe('Home Component', () => {
                 </Home>
             </Provider>
         )
-        await waitFor(() => {
-            expect(screen.getByText(/Get started now/i)).toBeInTheDocument()
-        }, { timeout: 5000 })
+        await waitFor(
+            () => {
+                expect(screen.getByText(/Get started now/i)).toBeInTheDocument()
+            },
+            { timeout: 5000 }
+        )
     })
 
     it('should render the HeaderBar component with default state', async () => {
@@ -50,10 +53,15 @@ describe('Home Component', () => {
                 </Home>
             </Provider>
         )
-        await waitFor(() => {
-            expect(
-            screen.getByText(/DEMO PROJECT ONLY - DO NOT USE WITH REAL DATA./i)
-        ).toBeInTheDocument()
-        }, { timeout: 5000 })
+        await waitFor(
+            () => {
+                expect(
+                    screen.getByText(
+                        /DEMO PROJECT ONLY - DO NOT USE WITH REAL DATA./i
+                    )
+                ).toBeInTheDocument()
+            },
+            { timeout: 5000 }
+        )
     })
 })

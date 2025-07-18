@@ -52,35 +52,49 @@ export default function MenuBar() {
     if (deviceType === 'touchOnly') {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
-                <div className="staticMenuBar" alt="menu bar">
-                    <img src={theme === 'dark' ? logoDark : logoLight} alt="logo"></img>
+                <div className="staticMenuBar">
+                    <img
+                        src={theme === 'dark' ? logoDark : logoLight}
+                        alt="logo"
+                    ></img>
                     <div className="title">
                         <h1>Password</h1>
                         <h1>Vault</h1>
                     </div>
-                    <button data-testid="open menu" aria-label="open menu" onClick={() => OpenMenu()}>
+                    <button
+                        data-testid="open menu"
+                        aria-label="open menu"
+                        onClick={() => OpenMenu()}
+                    >
                         <img src={menu} alt="open menu"></img>
                     </button>
                 </div>
                 {open ? (
                     <div className="mobileMenu">
                         {screen != 'home' && (
-                            <button aria-label="home" onClick={() => handleScreenChange('home')}>
+                            <button
+                                aria-label="home"
+                                onClick={() => handleScreenChange('home')}
+                            >
                                 <img src={home} alt="home" />
                             </button>
                         )}
-                        <button aria-label="about" onClick={() => handleScreenChange('about')}>
-                            <img src={info} alt="info"/>
+                        <button
+                            aria-label="about"
+                            onClick={() => handleScreenChange('about')}
+                        >
+                            <img src={info} alt="info" />
                         </button>
                         {signedIn ? (
-                            <button aria-label="account" 
+                            <button
+                                aria-label="account"
                                 onClick={() => handleScreenChange('account')}
                             >
                                 <img src={user} alt="account" />
                             </button>
                         ) : null}
                         <button
-                            aria-label={signedIn? "sign out": "sign in"}
+                            aria-label={signedIn ? 'sign out' : 'sign in'}
                             onClick={
                                 signedIn
                                     ? () => handleSignOut()
@@ -95,10 +109,13 @@ export default function MenuBar() {
                                           ? loginDark
                                           : loginLight
                                 }
-                                alt={signedIn? "sign out": "sign in"}
+                                alt={signedIn ? 'sign out' : 'sign in'}
                             />
                         </button>
-                        <button aria-label="dark mode/light mode toggle" onClick={() => themeToggle()}>
+                        <button
+                            aria-label="dark mode/light mode toggle"
+                            onClick={() => themeToggle()}
+                        >
                             <img src={mode} alt="dark mode/light mode toggle" />
                         </button>
                     </div>
@@ -108,28 +125,40 @@ export default function MenuBar() {
     } else {
         return (
             <div className="menuContainer">
-                <div className="staticMenuBar" alt="menu bar">
-                    <img src={theme === 'dark' ? logoDark : logoLight} alt="logo"></img>
+                <div className="staticMenuBar">
+                    <img
+                        src={theme === 'dark' ? logoDark : logoLight}
+                        alt="logo"
+                    ></img>
                     <div className="title">
                         <h1>Password</h1>
                         <h1>Vault</h1>
                     </div>
                     {screen != 'home' && screen != 'signin' && (
-                        <button aria-label="home" onClick={() => handleScreenChange('home')}>
+                        <button
+                            aria-label="home"
+                            onClick={() => handleScreenChange('home')}
+                        >
                             <img src={home} alt="home" />
                         </button>
                     )}
-                    <button aria-label="info" onClick={() => handleScreenChange('about')}>
-                        <img src={info} alt="info"/>
+                    <button
+                        aria-label="info"
+                        onClick={() => handleScreenChange('about')}
+                    >
+                        <img src={info} alt="info" />
                     </button>
                     {signedIn ? (
-                        <button aria-label="account" onClick={() => handleScreenChange('account')}>
+                        <button
+                            aria-label="account"
+                            onClick={() => handleScreenChange('account')}
+                        >
                             <img src={user} alt="account" />
                         </button>
                     ) : null}
                     <button
                         data-testid="sign in"
-                        aria-label={signedIn? "sign out": "sign in"}
+                        aria-label={signedIn ? 'sign out' : 'sign in'}
                         onClick={
                             signedIn
                                 ? () => handleSignOut()
@@ -146,10 +175,13 @@ export default function MenuBar() {
                                       ? loginDark
                                       : loginLight
                             }
-                            alt={signedIn? "sign out": "sign in"}
+                            alt={signedIn ? 'sign out' : 'sign in'}
                         />
                     </button>
-                    <button aria-label="dark mode/light mode toggle" onClick={() => themeToggle()}>
+                    <button
+                        aria-label="dark mode/light mode toggle"
+                        onClick={() => themeToggle()}
+                    >
                         <img src={mode} alt="dark mode/light mode toggle" />
                     </button>
                 </div>

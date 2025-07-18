@@ -16,7 +16,7 @@ const store = configureStore({
         auth: authReducer,
         connect: connectReducer,
         waiver: waiverReducer,
-        appearance: appearanceReducer
+        appearance: appearanceReducer,
     },
 })
 
