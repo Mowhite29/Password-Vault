@@ -8,6 +8,7 @@ export default defineConfig({
     globals: true,
     include: ['test/**/*.test.{js,jsx,ts,tsx}'],
     testTimeout: 10000,
+    mockReset: true,
   },
 })
 
