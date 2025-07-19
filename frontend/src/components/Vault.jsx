@@ -18,6 +18,7 @@ import deleteDark from '../assets/images/dark/delete.png'
 import deleteLight from '../assets/images/light/delete.png'
 import editDark from '../assets/images/dark/edit.png'
 import editLight from '../assets/images/light/edit.png'
+import arrow from '../assets/images/dark/arrow.png'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
@@ -97,16 +98,14 @@ export default function Vault() {
         async function RetrieveVault() {
             const response = await VaultFetch(token)
             setVault(response)
-            setShownVault([...response, ])
+            setShownVault(response)
         }
     }, [token])
 
     useEffect(() => {
         const toShow = []
         if (search != '') {
-            vault.forEach(entry => (
-                entry.active = false
-            ))
+            vault.forEach((entry) => (entry.active = false))
             for (let i = 0; i < vault.length; i++) {
                 if (
                     // eslint-disable-next-line security/detect-object-injection
@@ -290,7 +289,7 @@ export default function Vault() {
     }
 
     const CopyPassword = async (e) => {
-        const elem = e.target
+        const elem = e.currentTarget
         console.log(elem.value)
         const plaintext = await Decrypt(
             masterKey,
@@ -301,8 +300,12 @@ export default function Vault() {
         navigator.clipboard.writeText(plaintext)
     }
 
-    const ShowEntry = () => {
-
+    const ShowEntry = (e) => {
+        const label = e.currentTarget.getAttribute('data-label')
+        const newVault = shownVault.map((entry) =>
+            entry.label === label ? { ...entry, active: !entry.active } : entry
+        )
+        setShownVault(newVault)
     }
 
     const EntryEdit = async (entry) => {
@@ -424,7 +427,14 @@ export default function Vault() {
             <div className="vaultDisplay">
                 {Array.isArray(shownVault) &&
                     shownVault.map((entry) => (
-                        <div className={"vaultEntry" + (entry.active? null: " hidden")} key={entry.label} onClick={() => ShowEntry}>
+                        <div
+                            className={
+                                entry.active
+                                    ? 'vaultEntry'
+                                    : 'vaultEntry hidden'
+                            }
+                            key={entry.label}
+                        >
                             {entry.tag === 'Work' ? (
                                 <div className="tag work">
                                     <h3 className="value">{entry.tag}</h3>
@@ -443,62 +453,69 @@ export default function Vault() {
                                 </div>
                             ) : null}
                             <div className="website">
-                                <h3 className="label">Website</h3>
-                                <h3 className="value">{entry.label}</h3>
-                                <button
-                                    onClick={() =>
-                                        navigator.clipboard.writeText(
-                                            entry.label
-                                        )
-                                    }
-                                >
-                                    <img
-                                        src={
-                                            theme === 'dark'
-                                                ? copyDark
-                                                : copyLight
+                                <div className="row">
+                                    <h3 className="label">Website</h3>
+                                    <button
+                                        onClick={() =>
+                                            navigator.clipboard.writeText(
+                                                entry.label
+                                            )
                                         }
-                                    ></img>
-                                </button>
+                                    >
+                                        <img
+                                            src={
+                                                theme === 'dark'
+                                                    ? copyDark
+                                                    : copyLight
+                                            }
+                                        ></img>
+                                    </button>
+                                </div>
+                                <h3 className="value">{entry.label}</h3>
                             </div>
                             <div className="username">
-                                <h3 className="label">Username</h3>
-                                <h3 className="value">{entry.username}</h3>
-                                <button
-                                    onClick={() =>
-                                        navigator.clipboard.writeText(
-                                            entry.username
-                                        )
-                                    }
-                                >
-                                    <img
-                                        src={
-                                            theme === 'dark'
-                                                ? copyDark
-                                                : copyLight
+                                <div className="row">
+                                    <h3 className="label">Username</h3>
+                                    <button
+                                        onClick={() =>
+                                            navigator.clipboard.writeText(
+                                                entry.username
+                                            )
                                         }
-                                    ></img>
-                                </button>
+                                    >
+                                        <img
+                                            src={
+                                                theme === 'dark'
+                                                    ? copyDark
+                                                    : copyLight
+                                            }
+                                        ></img>
+                                    </button>
+                                </div>
+                                <h3 className="value">{entry.username}</h3>
                             </div>
                             <div className="password">
-                                <button
-                                    className="showPasswordButton"
-                                    value={vault.indexOf(entry)}
-                                    onClick={ShowPassword}
-                                >
-                                    Show Password
-                                </button>
-                                <button 
-                                    value={vault.indexOf(entry)}
-                                    onClick={CopyPassword}>
-                                    <img
-                                        src={
-                                            theme === 'dark'
-                                                ? copyDark
-                                                : copyLight
-                                        }
-                                    ></img>
-                                </button>
+                                <div className="row">
+                                    <button
+                                        className="showPasswordButton"
+                                        value={vault.indexOf(entry)}
+                                        onClick={ShowPassword}
+                                    >
+                                        Show Password
+                                    </button>
+                                    <button
+                                        value={vault.indexOf(entry)}
+                                        onClick={CopyPassword}
+                                    >
+                                        <img
+                                            src={
+                                                theme === 'dark'
+                                                    ? copyDark
+                                                    : copyLight
+                                            }
+                                        ></img>
+                                    </button>
+                                </div>
                             </div>
                             {entry.notes === '' ? null : (
                                 <div className="notes">
@@ -534,7 +551,13 @@ export default function Vault() {
                                         EntryEdit(vault.indexOf(entry))
                                     }
                                 >
-                                    <img src={theme === 'dark'? editDark: editLight} />
+                                    <img
+                                        src={
+                                            theme === 'dark'
+                                                ? editDark
+                                                : editLight
+                                        }
+                                    />
                                 </button>
                                 <button
                                     className="deleteButton"
@@ -542,9 +565,22 @@ export default function Vault() {
                                         EntryDelete(vault.indexOf(entry))
                                     }
                                 >
-                                    <img src={theme === 'dark'? deleteDark: deleteLight} />
+                                    <img
+                                        src={
+                                            theme === 'dark'
+                                                ? deleteDark
+                                                : deleteLight
+                                        }
+                                    />
                                 </button>
                             </div>
+                            <button
+                                className="arrow"
+                                data-label={entry.label}
+                                onClick={ShowEntry}
+                            >
+                                <img src={arrow} />
+                            </button>
                         </div>
                     ))}
             </div>
