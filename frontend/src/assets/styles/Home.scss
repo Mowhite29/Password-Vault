@@ -6,7 +6,7 @@
     overflow: hidden;
     @include background;
 }
-
+// Mobile in portrait
 @media (min-width: 0px) {
     .warningContainer {
         width: 100vw;
@@ -115,10 +115,11 @@
                 background: none;
             }
         }
-}
+    }
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 1025px) {
     .warningContainer {
         .warningBanner {
             width: 40vw;
@@ -170,6 +171,42 @@
             button {
                 font-size: clamp(1.875rem, 2.79vw + 0.089rem, 3.438rem);
                 margin: 0 clamp(0.625rem, 3.348vw - 1.518rem, 2.5rem);
+            }
+        }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .home {
+        height: 65vh;
+        top: clamp(5.625rem, 11.547vw + 2.016rem, 11.875rem);
+    
+        .homeContainer {
+            h1 {
+                font-size: calc(clamp(1.25rem, 3.464vw + 0.167rem, 3.125rem));
+                margin: clamp(0.313rem, 1.732vw - 0.229rem, 1.25rem) calc(clamp(0.938rem, 0.577vw + 0.757rem, 1.25rem)) 0;
+            }
+            h2 {
+                font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
+                margin: clamp(0.313rem, 4.042vw - 0.95rem, 2.5rem) clamp(0.938rem, 0.577vw + 0.757rem, 1.25rem);
+            }
+            h3 {
+                font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
+                margin: 0 20px;
+                font-weight: 500;
+            }
+            button {
+                @include text;
+                @include container;
+                font-size: clamp(1.25rem, 3.464vw + 0.167rem, 3.125rem);
+                text-align: center;
+                margin: clamp(0.313rem, 4.042vw - 0.95rem, 2.5rem) 0;
+                font-weight: 600;
+                width: auto;
+                align-self: center;
+                border: none;
+                background: none;
             }
         }
     }

@@ -1,5 +1,6 @@
 @use './abstracts/mixins' as *;
 
+// Mobile in portrait
 @media (min-width: 0px) {
     .signIn {
         width: 100%;
@@ -87,7 +88,7 @@
                 @include text;
                 @include border;
                 position: absolute;
-                top: clamp(1.125rem, 29.876vw - 4.477rem, 14.625rem);
+                top: clamp(1.125rem, 4.85vw - 0.391rem, 3.75rem);
                 width: 90%;
                 height: auto;
                 flex-direction: column;
@@ -99,56 +100,60 @@
                     font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
                     margin: clamp(0rem, 2.766vw - 0.519rem, 1.25rem) clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem);
                 }
-                svg {
-                    align-self: center;
-                    width: 50vw;
-                    height: 50vw;
-                    min-width: 76px;
-                    min-height: 76px
-                }
-                .string {
-                    @include copy;
-                    display: flex;
-                    flex-direction: row;
-                    width: 60%;
-                    align-self: center;
-                    h3 {
+                .code {
+                    svg {
+                        align-self: center;
+                        width: clamp(9.375rem, 20.718vw + 5.49rem, 18.75rem);
+                        height: clamp(9.375rem, 20.718vw + 5.49rem, 18.75rem);
+                        min-width: 76px;
+                        min-height: 76px
+                    }
+                    .string {
+                        @include copy;
+                        display: flex;
+                        flex-direction: row;
+                        width: 100%;
+                        align-self: center;
+                        justify-content: center;
+                        h3 {
+                            font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                            text-align: center;
+                            align-self: center;
+                            margin: 0 clamp(0.625rem, 1.381vw + 0.366rem, 1.25rem) 0 0;
+                        }
+                    }
+                    input {
+                        width: 60%;
+                        align-self: center;
+                        margin: 5px;
                         font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
                         text-align: center;
-                        align-self: center;
-                        margin: clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem);
                     }
-                }
-                input {
-                    width: 60%;
-                    align-self: center;
-                    margin: 5px;
-                    font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
-                    text-align: center;
-                }
-                button {
-                    @include border;
-                    background: none;
-                    width: 50%;
-                    align-self: center;
-                    margin: clamp(0rem, 3.458vw - 0.648rem, 1.563rem) clamp(0rem, 3.458vw - 0.648rem, 1.563rem) clamp(0.313rem, 2.766vw - 0.206rem, 1.563rem) clamp(0rem, 3.458vw - 0.648rem, 1.563rem);
-                    font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
-                }
-                h4 {
-                    font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
-                    margin: 0;
+                    button {
+                        @include border;
+                        background: none;
+                        width: 50%;
+                        align-self: center;
+                        margin: clamp(0rem, 3.458vw - 0.648rem, 1.563rem) clamp(0rem, 3.458vw - 0.648rem, 1.563rem) clamp(0.313rem, 2.766vw - 0.206rem, 1.563rem) clamp(0rem, 3.458vw - 0.648rem, 1.563rem);
+                        font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                    }
+                    h4 {
+                        font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                        margin: 0;
+                    }
                 }
             }
         }
     }
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 1025px) {
     .signIn {
         height: 75%;
         position: absolute;
         top: clamp(6.563rem, 7.813vw + 1.563rem, 10.938rem);
-        z-index: 10000;
+        z-index: 1000;
         .signInContainer {
             justify-self: center;
             align-self: start;
@@ -197,34 +202,119 @@
                     font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
                     margin: 10px;
                 }
-                svg {
-                    width: 10vw;
-                    height: 10vw;
-                }
-                h3 {
-                    font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
-                    margin: 10px;
-                }
-                .string {
-                    width: 37%;
+                .code {
+                    svg {
+                        width: 10vw;
+                        height: 10vw;
+                    }
                     h3 {
                         font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
                         margin: 10px;
                     }
+                    .string {
+                        width: 100%;
+                        h3 {
+                            font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                            margin: 10px;
+                        }
+                    }
+                    input {
+                        width: 15%;
+                        margin: 0;
+                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                    }
+                    button {
+                        width: 15%;
+                        margin: 10px;
+                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                    }
+                    h4 {
+                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                        margin: 5px;
+                    }
                 }
-                input {
-                    width: 15%;
-                    margin: 0;
-                    font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+            }
+        }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .signIn {
+        top: clamp(4.688rem, 14.434vw + 0.177rem, 12.5rem);
+        .signInContainer {
+            width: clamp(28.125rem, 51.963vw + 11.887rem, 56.25rem);
+            flex-direction: row;
+            .formContainer {
+                height: 100%;
+                width: 100%;
+                justify-items: center;
+                margin: 0 0 clamp(0.625rem, 1.116vw - 0.089rem, 1.25rem);
+                .forms {
+                    width: 80%;
+                    h1 {
+                        font-size: clamp(1.25rem, 2.309vw + 0.528rem, 2.5rem);
+                    }
+                    input {
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    }
+                    button {
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    }
                 }
-                button {
-                    width: 15%;
-                    margin: 10px;
-                    font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                .forgottenButton {
+                    width: auto;
+                    justify-self: center;
+                    font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    margin: 10px 0 0;
                 }
-                h4 {
-                    font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
-                    margin: 5px;
+            }
+            .popUpContainer {
+                width: clamp(28.125rem, 51.963vw + 11.887rem, 56.25rem);
+                h1 {
+                    font-size: clamp(1.25rem, 2.309vw + 0.528rem, 2.5rem);
+                }
+            }
+            .totpContainer {
+                top: calc(clamp(1.25rem, -2.309vw + 1.972rem, 0rem));
+                width: clamp(28.125rem, 51.963vw + 11.887rem, 56.25rem);
+                flex-direction: row;
+                height: clamp(11.938rem, 41.455vw - 1.017rem, 34.375rem);
+                h2 {
+                    font-size: clamp(0.938rem, 2.309vw + 0.216rem, 2.188rem);
+                    width: 50%;
+                }
+                .code {
+                    display: flex;
+                    flex-direction: column;
+                    width: 50%;
+                    align-self: center;
+                    svg {
+                        width: clamp(4.688rem, 23.095vw - 2.53rem, 17.188rem);
+                        height: clamp(4.688rem, 23.095vw - 2.53rem, 17.188rem);
+                    }
+                    .string {
+                        width: 100%;
+                        justify-content: center;
+                        h3 {
+                            font-size: clamp(0.938rem, 2.309vw + 0.216rem, 2.188rem);
+                            margin: clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem) clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) 0;
+                        }
+                    }
+                    input {
+                        width: 35%;
+                        margin: 0;
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    }
+                    button {
+                        width: auto;
+                        margin: clamp(0.5rem, 0.808vw + 0.247rem, 0.938rem);
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    }
+                    h4 {
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                        margin: 0;
+                    }
                 }
             }
         }

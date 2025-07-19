@@ -1,3 +1,4 @@
+// Mobile in portrait
 @media (min-width: 0px) {
     .headerContainer {
         width: 100vw;
@@ -15,12 +16,24 @@
     }
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 1025px) {
     .headerContainer {
         height: clamp(1.563rem, 1.674vw + 0.491rem, 2.5rem);
         p {
             font-size: clamp(0.625rem, 0.558vw + 0.268rem, 0.938rem);
             margin: 0;
+        }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .headerContainer {
+        height: clamp(2.5rem, 2.887vw + 1.598rem, 4.063rem);
+        p {
+            font-size: clamp(0.625rem, 0.577vw + 0.445rem, 0.938rem);
+            margin: clamp(0.188rem, 0.968vw + 0.006rem, 0.625rem) clamp(0.313rem, 0.743vw + 0.15rem, 0.625rem) 0;
         }
     }
 }

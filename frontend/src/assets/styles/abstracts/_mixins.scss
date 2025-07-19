@@ -26,10 +26,13 @@ $border-dark: #2A3C43;
 @mixin container {
     background-color: light-dark($component-light, $component-dark);
     @media (min-width: 0px) { 
-        border-radius: clamp(1.25rem, 8.299vw - 0.306rem, 5rem);
+        border-radius: clamp(1.25rem, 4.144vw + 0.473rem, 3.125rem);
     }
-    @media (min-width: 1024px) { 
+    @media (min-width: 1025px) { 
         border-radius: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
+    }
+    @media (orientation: landscape) and (pointer: coarse) { 
+        border-radius: clamp(0.813rem, 1.963vw + 0.199rem, 1.875rem);
     }
 }
 @mixin logo {
@@ -68,16 +71,25 @@ $border-dark: #2A3C43;
             background: none;
             border: none;
             margin: 0;
+            width: auto;
             img {
-                width: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                width: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
                 height: auto
             }
         }
     }
-    @media (min-width: 1024px) {
+    @media (min-width: 1025px) {
         button {
             img {
                 width: clamp(0.938rem, 0.558vw + 0.58rem, 1.25rem);
+                height: auto
+            }
+        }
+    }
+    @media (orientation: landscape) and (pointer: coarse) { 
+        button {
+            img {
+                width: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
                 height: auto
             }
         }

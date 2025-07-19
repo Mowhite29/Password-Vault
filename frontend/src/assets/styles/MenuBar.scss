@@ -1,5 +1,6 @@
 @use './abstracts/mixins' as *;
 
+// Mobile in portrait
 @media (min-width: 0px) {
     .menuContainer,
     .menuContainerOpen {
@@ -7,16 +8,14 @@
         @include text;
         @include border;
         @include shadow;
-        width: 90%;
+        width: clamp(16.875rem, 62.155vw + 5.221rem, 45rem);
         display: flex;
         flex-direction: column;
         align-self: center;
         margin: 0 0 clamp(2.5rem, 11.065vw + 0.425rem, 7.5rem);
         position: absolute;
         top: clamp(3.75rem, 6.916vw + 2.453rem, 6.875rem);
-        z-index: 200;
-
-
+        z-index: 20000;
         .staticMenuBar {
             width: 90%;
             display: flex;
@@ -24,11 +23,11 @@
             justify-content: space-between;
             align-self: center;
             img {
-                width: clamp(2.938rem, 18.396vw - 0.512rem, 11.25rem);
-                height: clamp(2.938rem, 18.396vw - 0.512rem, 11.25rem);
+                width: clamp(2.938rem, 9.392vw + 1.176rem, 7.188rem);
+                height: clamp(2.938rem, 9.392vw + 1.176rem, 7.188rem);
                 align-self: center;
-                border-radius: clamp(0.625rem, 5.533vw - 0.412rem, 3.125rem);
-                margin: clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) 0 clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) calc(clamp(0.625rem, 2.766vw + 0.106rem, 1.875rem) * -1); 
+                border-radius: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
+                margin: clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) 0 clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) calc(clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem)* -1); 
             }
             .title {
                 display: flex;
@@ -39,10 +38,10 @@
                 margin: clamp(0.313rem, 1.383vw + 0.053rem, 0.938rem) 0 clamp(0.313rem, 1.383vw + 0.053rem, 0.938rem) calc(clamp(3.125rem, 11.065vw + 1.05rem, 8.125rem) * -1);
                 h1 {
                     justify-self: flex-start;
-                    font-size: clamp(1.75rem, 11.342vw - 0.377rem, 6.875rem);
+                    font-size: clamp(1.75rem, 5.801vw + 0.662rem, 4.375rem);
                     font-weight: 700;
                     margin: 0;
-                    line-height: clamp(1.25rem, 8.714vw - 0.384rem, 5.188rem);
+                    line-height: clamp(1.375rem, 4.696vw + 0.494rem, 3.5rem);
                 }
             }
             h2 {
@@ -62,7 +61,6 @@
             }
         }
         .mobileMenu {
-            z-index: 200;
             display: flex;
             justify-content: space-around;
             align-self: center;
@@ -83,10 +81,10 @@
     }
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 1025px) {
     .menuContainer {
         width: clamp(38.75rem, 38.504vw + 14.107rem, 60.313rem);
-        border-radius: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
         top: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
         .staticMenuBar {
             img {
@@ -106,6 +104,51 @@
                 img {
                     height: auto;
                     width: clamp(2.5rem, 2.232vw + 1.071rem, 3.75rem);
+                }
+            }
+        }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .menuContainer, .menuContainerOpen {
+        width: clamp(14.375rem, 31.178vw + 4.632rem, 31.25rem);
+        top: clamp(2.813rem, 4.042vw + 1.55rem, 5rem);
+        .staticMenuBar {
+            img {
+                height: clamp(1.875rem, 4.619vw + 0.432rem, 4.375rem);
+                width: clamp(1.875rem, 4.619vw + 0.432rem, 4.375rem);
+                border-radius: clamp(0.625rem, 0.558vw + 0.268rem, 0.938rem);
+                margin: clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) 0; 
+            }
+            .title {
+                margin: clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) 0 clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) calc(clamp(2.813rem, 5.196vw + 1.189rem, 5.625rem)* -1);
+                h1 {
+                    font-size: clamp(1.25rem, 3.464vw + 0.167rem, 3.125rem);
+                    line-height: clamp(1rem, 2.771vw + 0.134rem, 2.5rem);
+                }
+            }
+            button {
+                img {
+                    height: auto;
+                    width: clamp(1.563rem, 2.887vw + 0.66rem, 3.125rem);
+                }
+            }
+        }
+        .mobileMenu {
+            z-index: 100000;
+            display: flex;
+            justify-content: space-around;
+            align-self: center;
+            height: clamp(2.813rem, 5.196vw + 1.189rem, 5.625rem);
+            width: 90%;
+
+            button {
+                height: auto;
+                img {
+                    width: auto;
+                    height: clamp(1.563rem, 2.887vw + 0.66rem, 3.125rem);
                 }
             }
         }

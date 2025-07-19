@@ -1,5 +1,6 @@
 @use './abstracts/mixins' as *;
 
+// Mobile in portrait
 @media (min-width: 0px) {
     .vaultView {
         width: 100%;
@@ -124,13 +125,6 @@
                 .notes {
                     flex-direction: row;
                     height: auto;
-                    .label, .value {
-                    }
-                    .label {
-                    }
-                    .value {
-
-                    }
                 }
                 .createdAt, .updatedAt {
                     flex-direction: row;
@@ -147,6 +141,7 @@
                     display: flex;
                     justify-content: space-around;
                     margin: 5px;
+                    @include copy;
                 }
             }
         }
@@ -285,7 +280,9 @@
         }
     }
 }
-@media (min-width: 1024px) {
+
+// Desktop
+@media (min-width: 1025px) {
     .vaultView {
         width: 80%;
         align-self: center;
@@ -308,6 +305,248 @@
             height: 100vh;
             top: -98px;
             left: -108px;
+        }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .vaultView {
+        width: clamp(28.125rem, 75.058vw + 4.669rem, 68.75rem);
+        align-self: center;
+        height: 85%;
+        top: clamp(5.625rem, 12.702vw + 1.656rem, 12.5rem);
+        .utilsContainer {
+            width: clamp(17rem, 55.048vw + 6.678rem, 41.875rem);
+            flex-direction: row;
+            input {
+                margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem);
+                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+            }
+            .addButton {
+                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem);
+            }
+        }
+        .vaultDisplay {
+            margin: clamp(0.313rem, 2.887vw - 0.59rem, 1.875rem) 0 0;
+            width: 90%;
+            height: clamp(16.25rem, 130.014vw - 8.128rem, 75rem);
+            .vaultEntry {
+                width: 97%;
+                margin: 5px 0;
+                .tag {
+                    left: clamp(21.313rem, 53.695vw + 4.533rem, 50.375rem);
+                    top: calc(clamp(0.5rem, 0.924vw + 0.211rem, 1rem)* -1);
+                    width: clamp(5rem, 16.166vw - 0.052rem, 13.75rem);
+                    height: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
+                    h3 {
+                        margin: 0;
+                        text-align: center;
+                        color: white;
+                        width: 100%;
+                        align-self: end;
+                        font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
+                    }
+                }
+                .website, .username, .password, .createdAt, .updatedAt, .notes {
+                    @include copy;
+                    flex-direction: row;
+                    width: 80%;
+                    margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem) clamp(0.313rem, 3.458vw - 0.336rem, 1.875rem);
+                    .label, .value {
+                        margin: 0 0 0 5px;
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    }
+                    .value {
+                        width: 90%;
+                    }
+                    button {
+                        @include text;
+                        @include border;
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    }
+                }
+                .website {
+                    margin-top: calc(clamp(1.875rem, -1.383vw + 2.134rem, 1.25rem)* -1);
+                }
+                .notes {
+                    flex-direction: row;
+                    height: auto;
+                    width: 100%;
+                }
+                .createdAt, .updatedAt {
+                    height: 30px;
+                    width: 90%;
+                    .label {
+                        width: clamp(7.188rem, 7.506vw + 4.842rem, 11.25rem);
+                    }
+                    .value {
+                        width: 90%;
+                    }
+                }
+                .buttons {
+                    margin: 5px;
+                }
+            }
+            .hidden {
+                margin: 5px 0;
+                .tag {
+                    left: clamp(21.313rem, 53.695vw + 4.533rem, 50.375rem);
+                    top: calc(clamp(0.5rem, 0.924vw + 0.211rem, 1rem)* -1);
+                    width: clamp(5rem, 16.166vw - 0.052rem, 13.75rem);
+                    height: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
+                    h3 {
+                        margin: 0;
+                        text-align: center;
+                        color: white;
+                        width: 100%;
+                        align-self: end;
+                        font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
+                    }
+                }
+                .username, .password, .createdAt, .updatedAt, .notes {
+                    display: none;
+                }
+                .website {
+                    margin-top: calc(clamp(1.875rem, -1.383vw + 2.134rem, 1.25rem)* -1);
+                }
+                .notes {
+                    flex-direction: row;
+                    height: auto;
+                    width: 100%;
+                }
+                .createdAt, .updatedAt {
+                    height: 30px;
+                    width: 90%;
+                    .label {
+                        width: clamp(7.188rem, 7.506vw + 4.842rem, 11.25rem);
+                    }
+                    .value {
+                        width: 90%;
+                    }
+                }
+                .buttons {
+                    margin: 5px;
+                }
+            };
+        }
+        .keyContainer {
+            width: 70%;
+            h1 {
+                font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
+                margin: clamp(0.625rem, 3.464vw - 0.458rem, 2.5rem);
+            }
+            input {
+                font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
+            }
+            button {
+                font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
+            }
+            h2 {
+                font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
+                margin: clamp(0.625rem, 3.464vw - 0.458rem, 2.5rem);
+            }
+        }
+        .popUpContainer {
+            @include container;
+            @include text;
+            @include border;
+            @include shadow;
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            height: auto;
+            text-align: center;
+            align-self: center;
+            position: absolute;
+            top: 0;
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-content: center ;
+                button {
+                margin: 5px;
+            }
+            }
+            
+        }
+        .entryCreationContainer {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+            align-self: center;
+            position: absolute;
+            top: calc(clamp(7.75rem, 43.015vw - 0.315rem, 27.188rem)* -1);
+            z-index: 1000000;
+            backdrop-filter: blur(clamp(0.063rem, 0.692vw - 0.067rem, 0.375rem));
+            .formContainer {
+                @include container;
+                @include text;
+                @include border;
+                @include shadow;
+                display: flex;
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+                text-align: center;
+                align-self: center;
+                position: absolute;
+                top: clamp(5rem, 44.26vw - 3.299rem, 25rem);
+                .inputs {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 2px 0;
+
+                    label {
+                        text-align: left;
+                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                    }
+                    input, textarea {
+                        justify-self: right;
+                        width: 80%;
+                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                    }
+                    button {
+                        @include border;
+                        @include text;
+                        background: none;
+                        margin: 2px 0 0;
+                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                    }
+                    textarea {
+                        height: clamp(3rem, 15.491vw + 0.095rem, 10rem);
+                        width: 80%;
+                    }
+                    .checkBoxes {
+                        display: flex;
+                        flex-direction: row;
+                    }
+                }
+                .buttons {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                
+                    button {
+                        @include border;
+                        @include text;
+                        background: none;
+                        width: 40%;
+                        align-self: center;
+                        margin: 5px;
+                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                    }
+                }
+                h3 {
+                    font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                    margin: 1px;
+                }
+            }
         }
     }
 }
