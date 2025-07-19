@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setScreen } from './redux/authSlice'
 import { setWaiver } from './redux/waiverSlice'
 import { setTheme } from './redux/appearanceSlice'
-import { deviceType } from 'detect-it'
+import { primaryInput } from 'detect-it'
 import SplashScreen from './components/SplashScreen'
 import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
@@ -186,7 +186,7 @@ export default function Home() {
                 </div>
             )}
             {screen === 'signin' ? (
-                deviceType === 'touchOnly' ? (
+                primaryInput === 'touch' ? (
                     <SignIn />
                 ) : (
                     <>

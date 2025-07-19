@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut, setScreen } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
-import { deviceType } from 'detect-it'
+import { primaryInput } from 'detect-it'
 
 import '../assets/styles/MenuBar.scss'
 import logoDark from '../assets/images/dark/logo.gif'
@@ -49,7 +49,7 @@ export default function MenuBar() {
         }
     }
 
-    if (deviceType === 'touchOnly') {
+    if (primaryInput === 'touch') {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
                 <div className="staticMenuBar">
