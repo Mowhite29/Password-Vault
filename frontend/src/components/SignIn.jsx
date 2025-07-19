@@ -200,7 +200,7 @@ export default function SignIn() {
                         className="forgottenButton"
                         onClick={() => ForgottenPassword()}
                     >
-                        forgotten password
+                        Forgotten password
                     </button>
                 </div>
                 <div className="formContainer">
@@ -256,19 +256,21 @@ export default function SignIn() {
                                 Enter one time passcode as shown in your
                                 authenticator application
                             </h2>
-                            <input
-                                type="text"
-                                value={TOTPToken}
-                                onChange={tokenInput}
-                                alt="totp input"
-                            ></input>
-                            <button
-                                onClick={() => TOTP()}
-                                alt="totp enter button"
-                            >
-                                Enter
-                            </button>
-                            <h4>{TOTPMessage}</h4>
+                            <div className="code">
+                                <input
+                                    type="text"
+                                    value={TOTPToken}
+                                    onChange={tokenInput}
+                                    alt="totp input"
+                                ></input>
+                                <button
+                                    onClick={() => TOTP()}
+                                    alt="totp enter button"
+                                >
+                                    Enter
+                                </button>
+                                <h4>{TOTPMessage}</h4>
+                            </div>
                         </div>
                     ) : (
                         <div className="totpContainer">
@@ -277,43 +279,45 @@ export default function SignIn() {
                                 application to set up multi factor
                                 authentication, then enter the code generated
                             </h2>
-                            <QRCodeSVG
-                                value={TOTPSecret}
-                                height="600"
-                                width="600"
-                            />
-                            <div className="string">
-                                <h3>{TOTPString}</h3>
-                                <button
-                                    onClick={() =>
-                                        navigator.clipboard.writeText(
-                                            TOTPString
-                                        )
-                                    }
-                                >
-                                    <img
-                                        src={
-                                            theme === 'dark'
-                                                ? copyDark
-                                                : copyLight
+                            <div className="code">
+                                <QRCodeSVG
+                                    value={TOTPSecret}
+                                    height="600"
+                                    width="600"
+                                />
+                                <div className="string">
+                                    <h3>{TOTPString}</h3>
+                                    <button
+                                        onClick={() =>
+                                            navigator.clipboard.writeText(
+                                                TOTPString
+                                            )
                                         }
-                                    ></img>
+                                    >
+                                        <img
+                                            src={
+                                                theme === 'dark'
+                                                    ? copyDark
+                                                    : copyLight
+                                            }
+                                        ></img>
+                                    </button>
+                                </div>
+                                <input
+                                    name="token"
+                                    type="text"
+                                    value={TOTPToken}
+                                    onChange={tokenInput}
+                                    alt="totp input"
+                                ></input>
+                                <button
+                                    onClick={() => TOTP()}
+                                    alt="totp enter button"
+                                >
+                                    Enter
                                 </button>
+                                <h4>{TOTPMessage}</h4>
                             </div>
-                            <input
-                                name="token"
-                                type="text"
-                                value={TOTPToken}
-                                onChange={tokenInput}
-                                alt="totp input"
-                            ></input>
-                            <button
-                                onClick={() => TOTP()}
-                                alt="totp enter button"
-                            >
-                                Enter
-                            </button>
-                            <h4>{TOTPMessage}</h4>
                         </div>
                     ))}
             </div>
