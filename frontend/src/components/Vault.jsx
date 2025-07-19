@@ -12,10 +12,17 @@ import {
     VaultFetch,
 } from '../services/api'
 import { Generate, Check } from '../utils/passwordGenerator'
+import copyDark from '../assets/images/dark/copy.png'
+import copyLight from '../assets/images/light/copy.png'
+import deleteDark from '../assets/images/dark/delete.png'
+import deleteLight from '../assets/images/light/delete.png'
+import editDark from '../assets/images/dark/edit.png'
+import editLight from '../assets/images/light/edit.png'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
     const userEmail = useSelector((state) => state.auth.userEmail)
+    const theme = useSelector((state) => state.appearance.theme)
 
     const [messageVisible, setMessageVisible] = useState(false)
     const [popUpMessage, setPopUpMessage] = useState('')
@@ -85,19 +92,21 @@ export default function Vault() {
                 setkeyEntryShown(true)
             }
         }
-
         RetrieveVault()
 
         async function RetrieveVault() {
             const response = await VaultFetch(token)
             setVault(response)
-            setShownVault(response)
+            setShownVault([...response, ])
         }
     }, [token])
 
     useEffect(() => {
         const toShow = []
         if (search != '') {
+            vault.forEach(entry => (
+                entry.active = false
+            ))
             for (let i = 0; i < vault.length; i++) {
                 if (
                     // eslint-disable-next-line security/detect-object-injection
@@ -137,7 +146,7 @@ export default function Vault() {
         setEnteredkey(e.target.value)
     }
 
-    async function KeySet() {
+    const KeySet = async () => {
         const key = await GenerateKeyCheck(enteredKey, userEmail)
         const response = await KeyCreate(
             key.encryptedString,
@@ -157,7 +166,7 @@ export default function Vault() {
         }
     }
 
-    async function KeyEntry() {
+    const KeyEntry = async () => {
         const response = await KeyFetch(token)
         const key = await KeyCheck(
             enteredKey,
@@ -192,7 +201,7 @@ export default function Vault() {
         }
     }
 
-    async function EntryCreation() {
+    const EntryCreation = async () => {
         var ready = true
         label === ''
             ? ((ready = false), setNotification('Please enter website'))
@@ -251,7 +260,7 @@ export default function Vault() {
         }
     }
 
-    async function GeneratePassword() {
+    const GeneratePassword = async () => {
         const generated = await Generate()
         setPassword(generated)
     }
@@ -262,6 +271,7 @@ export default function Vault() {
             elem.innerText = 'Show Password'
             return
         }
+        console.log(vault[elem.value])
         const plaintext = await Decrypt(
             masterKey,
             vault[elem.value]['encrypted_password'],
@@ -279,7 +289,23 @@ export default function Vault() {
         }
     }
 
-    async function EntryEdit(entry) {
+    const CopyPassword = async (e) => {
+        const elem = e.target
+        console.log(elem.value)
+        const plaintext = await Decrypt(
+            masterKey,
+            vault[elem.value]['encrypted_password'],
+            vault[elem.value]['salt'],
+            vault[elem.value]['nonce']
+        )
+        navigator.clipboard.writeText(plaintext)
+    }
+
+    const ShowEntry = () => {
+
+    }
+
+    const EntryEdit = async (entry) => {
         if (entry === 'submit') {
             const check = await Check(userEmail, password)
             if (check != true) {
@@ -336,7 +362,7 @@ export default function Vault() {
         }
     }
 
-    async function EntryDelete(entry) {
+    const EntryDelete = async (entry) => {
         if (entry === 'delete') {
             const response = await VaultDelete(
                 label,
@@ -398,7 +424,7 @@ export default function Vault() {
             <div className="vaultDisplay">
                 {Array.isArray(shownVault) &&
                     shownVault.map((entry) => (
-                        <div className="vaultEntry" key={entry.label}>
+                        <div className={"vaultEntry" + (entry.active? null: " hidden")} key={entry.label} onClick={() => ShowEntry}>
                             {entry.tag === 'Work' ? (
                                 <div className="tag work">
                                     <h3 className="value">{entry.tag}</h3>
@@ -419,10 +445,40 @@ export default function Vault() {
                             <div className="website">
                                 <h3 className="label">Website</h3>
                                 <h3 className="value">{entry.label}</h3>
+                                <button
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(
+                                            entry.label
+                                        )
+                                    }
+                                >
+                                    <img
+                                        src={
+                                            theme === 'dark'
+                                                ? copyDark
+                                                : copyLight
+                                        }
+                                    ></img>
+                                </button>
                             </div>
                             <div className="username">
                                 <h3 className="label">Username</h3>
                                 <h3 className="value">{entry.username}</h3>
+                                <button
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(
+                                            entry.username
+                                        )
+                                    }
+                                >
+                                    <img
+                                        src={
+                                            theme === 'dark'
+                                                ? copyDark
+                                                : copyLight
+                                        }
+                                    ></img>
+                                </button>
                             </div>
                             <div className="password">
                                 <button
@@ -431,6 +487,17 @@ export default function Vault() {
                                     onClick={ShowPassword}
                                 >
                                     Show Password
+                                </button>
+                                <button 
+                                    value={vault.indexOf(entry)}
+                                    onClick={CopyPassword}>
+                                    <img
+                                        src={
+                                            theme === 'dark'
+                                                ? copyDark
+                                                : copyLight
+                                        }
+                                    ></img>
                                 </button>
                             </div>
                             {entry.notes === '' ? null : (
@@ -467,7 +534,7 @@ export default function Vault() {
                                         EntryEdit(vault.indexOf(entry))
                                     }
                                 >
-                                    Edit
+                                    <img src={theme === 'dark'? editDark: editLight} />
                                 </button>
                                 <button
                                     className="deleteButton"
@@ -475,7 +542,7 @@ export default function Vault() {
                                         EntryDelete(vault.indexOf(entry))
                                     }
                                 >
-                                    Delete
+                                    <img src={theme === 'dark'? deleteDark: deleteLight} />
                                 </button>
                             </div>
                         </div>
