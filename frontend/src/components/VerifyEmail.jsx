@@ -17,7 +17,7 @@ export default function VerifyEmail() {
         dispatch(setScreen(newScreen))
     }
 
-    async function Verify() {
+    const Verify = async () => {
         const response = await VerifyEmailAddress(params.uid, params.token)
         if (response == true) {
             setMessage('Email address verified successfully')

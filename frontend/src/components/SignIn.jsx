@@ -72,7 +72,7 @@ export default function SignIn() {
         dispatch(setRefreshToken(refresh))
     }
 
-    async function HandleSignIn() {
+    const HandleSignIn = async () => {
         const login = await Login(username, password)
         if (login != false) {
             if (login !== 'set') {
@@ -89,7 +89,7 @@ export default function SignIn() {
         }
     }
 
-    async function TOTP() {
+    const TOTP = async () => {
         const authenticate = await Authenticate(username, TOTPToken)
         if (authenticate) {
             tokenHandler(authenticate['access'])
@@ -101,7 +101,7 @@ export default function SignIn() {
         }
     }
 
-    async function CreateAccount() {
+    const CreateAccount = async () => {
         setPopUpMessage('Loading')
         setMessageVisible(true)
         if (!newUsername || !newPassword || !name) {
@@ -144,7 +144,7 @@ export default function SignIn() {
         }
     }
 
-    async function ForgottenPassword() {
+    const ForgottenPassword = async () => {
         if (username) {
             const response = await PasswordReset(username)
             if (response) {

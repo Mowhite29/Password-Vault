@@ -22,7 +22,7 @@ export default function Account() {
         dispatch(setScreen(newScreen))
     }
 
-    async function ChangePassword() {
+    const ChangePassword = async () => {
         const response = await PasswordChange(userEmail, token)
         if (response) {
             setPopUpMessage(
@@ -37,7 +37,7 @@ export default function Account() {
         }
     }
 
-    async function ChangeName(done = false) {
+    const ChangeName = async (done = false) => {
         if (done) {
             const response = await NameChange(firstname, lastname, token)
             if (response) {

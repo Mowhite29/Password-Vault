@@ -18,7 +18,7 @@ export default function PasswordChange() {
         dispatch(signOut())
     }
 
-    async function Confirm() {
+    const Confirm = async () => {
         const response = await PasswordChangeConfirm(
             password,
             params.uidb64,

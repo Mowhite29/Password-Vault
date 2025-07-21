@@ -24,7 +24,7 @@ export default function MenuBar() {
     const theme = useSelector((state) => state.appearance.theme)
     const dispatch = useDispatch()
 
-    function OpenMenu() {
+    const OpenMenu = () => {
         setOpen(() => !open)
     }
 
@@ -41,7 +41,7 @@ export default function MenuBar() {
         dispatch(setTheme(newTheme))
     }
 
-    function themeToggle() {
+    const themeToggle = () => {
         if (theme === 'light') {
             handleTheme('dark')
         } else {
