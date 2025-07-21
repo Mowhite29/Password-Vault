@@ -1,7 +1,8 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import '../assets/styles/Vault.scss'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { signOut } from '../redux/authSlice'
 import { KeyCheck, GenerateKeyCheck, Encrypt, Decrypt } from '../utils/crypto'
 import {
     KeyCreate,
@@ -51,6 +52,7 @@ export default function Vault() {
     const [shownVault, setShownVault] = useState([])
 
     const timerRef = useRef(null)
+    const dispatch = useDispatch()
 
     const resetTimer = () => {
         if (timerRef.current) clearTimeout(timerRef.current)
@@ -87,8 +89,10 @@ export default function Vault() {
 
         async function InitialiseVault() {
             const response = await KeyFetch(token)
-            if (response === false) {
+            if (response === 'not set') {
                 setkeySetShown(true)
+            } else if (response === 'error') {
+                dispatch(signOut())
             } else {
                 setkeyEntryShown(true)
             }
@@ -100,7 +104,7 @@ export default function Vault() {
             setVault(response)
             setShownVault(response)
         }
-    }, [token])
+    }, [token, dispatch])
 
     useEffect(() => {
         const toShow = []
@@ -320,7 +324,7 @@ export default function Vault() {
                 setNotification(prompt)
             } else {
                 const cypher = await Encrypt(masterKey, password)
-                const response = VaultEdit(
+                const response = await VaultEdit(
                     label,
                     username,
                     cypher.encryptedPassword,
@@ -332,6 +336,10 @@ export default function Vault() {
                 )
                 if (response === true) {
                     setEditShown(false)
+                    setLabel('')
+                    setUsername('')
+                    setPassword('')
+                    setNotes('')
                     setPopUpMessage('Entry updated successfully')
                     setMessageVisible(true)
                     const response1 = await VaultFetch(token)
@@ -361,6 +369,8 @@ export default function Vault() {
             setPassword(plaintext)
             // eslint-disable-next-line security/detect-object-injection
             setNotes(vault[entry]['notes'])
+            // eslint-disable-next-line security/detect-object-injection
+            setTag(vault[entry]['tag'])
             setEditShown(true)
         }
     }
@@ -498,13 +508,17 @@ export default function Vault() {
                                 <div className="row">
                                     <button
                                         className="showPasswordButton"
-                                        value={vault.indexOf(entry)}
+                                        value={vault.findIndex(
+                                            (v) => v.label === entry.label
+                                        )}
                                         onClick={ShowPassword}
                                     >
                                         Show Password
                                     </button>
                                     <button
-                                        value={vault.indexOf(entry)}
+                                        value={vault.findIndex(
+                                            (v) => v.label === entry.label
+                                        )}
                                         onClick={CopyPassword}
                                     >
                                         <img
@@ -548,7 +562,11 @@ export default function Vault() {
                                 <button
                                     className="editButton"
                                     onClick={() =>
-                                        EntryEdit(vault.indexOf(entry))
+                                        EntryEdit(
+                                            vault.findIndex(
+                                                (v) => v.label === entry.label
+                                            )
+                                        )
                                     }
                                 >
                                     <img
@@ -562,7 +580,11 @@ export default function Vault() {
                                 <button
                                     className="deleteButton"
                                     onClick={() =>
-                                        EntryDelete(vault.indexOf(entry))
+                                        EntryDelete(
+                                            vault.findIndex(
+                                                (v) => v.label === entry.label
+                                            )
+                                        )
                                     }
                                 >
                                     <img
@@ -612,7 +634,7 @@ export default function Vault() {
                         value={enteredKey}
                         onChange={keyInput}
                         autoComplete="none"
-                        autofocus
+                        autoFocus
                     ></input>
                     <button type="button" onClick={() => KeyEntry()}>
                         Enter
@@ -688,6 +710,7 @@ export default function Vault() {
                             <div className="checkBoxes">
                                 <label>Work</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="Work"
@@ -696,6 +719,7 @@ export default function Vault() {
                                 />
                                 <label>Social</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="Social"
@@ -704,6 +728,7 @@ export default function Vault() {
                                 />
                                 <label>School</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="School"
@@ -712,6 +737,7 @@ export default function Vault() {
                                 />
                                 <label>Personal</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="Personal"
@@ -776,50 +802,60 @@ export default function Vault() {
                             <div className="checkBoxes">
                                 <label>Work</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="Work"
                                     onClick={inputHandler}
                                     alt="tag input"
+                                    checked={tag === 'Work'}
                                 />
                                 <label>Social</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="Social"
                                     onChange={inputHandler}
                                     alt="tag input"
+                                    checked={tag === 'Social'}
                                 />
                                 <label>School</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="School"
                                     onChange={inputHandler}
                                     alt="tag input"
+                                    checked={tag === 'School'}
                                 />
                                 <label>Personal</label>
                                 <input
+                                    className="checkBox"
                                     type="radio"
                                     name="tag"
                                     value="Personal"
                                     onChange={inputHandler}
                                     alt="tag input"
+                                    checked={tag === 'Personal'}
                                 />
                             </div>
                         </div>
-                        <button
-                            className="creationButton"
-                            onClick={() => EntryEdit('submit')}
-                        >
-                            Update Entry
-                        </button>
-                        <button
-                            className="creationButton"
-                            onClick={() => EntryEdit('cancel')}
-                        >
-                            Cancel
-                        </button>
+                        <div className="buttons">
+                            <button
+                                className="creationButton"
+                                onClick={() => EntryEdit('submit')}
+                            >
+                                Update Entry
+                            </button>
+                            <button
+                                className="creationButton"
+                                onClick={() => EntryEdit('cancel')}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                         <h3>{notification}</h3>
                     </div>
                 </div>
