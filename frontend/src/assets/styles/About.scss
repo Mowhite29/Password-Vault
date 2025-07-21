@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        top: clamp(8.125rem, 37.344vw + 1.123rem, 25rem);
+        top: clamp(8.125rem, 23.481vw + 3.722rem, 18.75rem);
         align-self: center;
         width: 90%;
         height: 70%;
@@ -73,4 +73,9 @@
             }
         }
     }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+
 }

@@ -68,8 +68,8 @@
 
                 .tag {
                     position: relative;
-                    left: clamp(12.25rem, 71.369vw - 1.132rem, 44.5rem);
-                    top: clamp(-0.25rem, 1.383vw - 0.509rem, 0.375rem);
+                    left: clamp(12.25rem, 70.028vw - 0.88rem, 43.938rem);
+                    top: -4px;
                     margin: 0;
                     width: clamp(5.938rem, 21.438vw + 1.918rem, 15.625rem);
                     height: clamp(2.75rem, 7.746vw + 1.298rem, 6.25rem);
@@ -82,30 +82,40 @@
                         color: white;
                         width: 100%;
                         align-self: end;
-                        font-size: clamp(1.25rem, 4.149vw + 0.472rem, 3.125rem);
                     }
                 }
                 .work {
                     background-color: green;
+                    h3 {
+                        font-size: clamp(1.188rem, 3.315vw + 0.566rem, 2.688rem);
+                    }
                 }
                 .social {
                     background-color: blue;
+                    h3 {
+                        font-size: clamp(1.188rem, 3.315vw + 0.566rem, 2.688rem);
+                    }
                 }
                 .school {
                     background-color: red;
+                    h3 {
+                        font-size: clamp(1.063rem, 3.453vw + 0.415rem, 2.625rem);
+                    }
                 }
                 .personal {
                     background-color: gray;
+                    h3 {
+                        font-size: clamp(0.938rem, 2.901vw + 0.394rem, 2.25rem);
+                    }
                 }
                 .website, .username, .password, .createdAt, .updatedAt, .notes {
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
-                    margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem) clamp(0.313rem, 3.458vw - 0.336rem, 1.875rem);
+                    margin: clamp(0.313rem, 0.691vw + 0.183rem, 0.625rem) clamp(0.313rem, 3.453vw - 0.335rem, 1.875rem);
                     height: auto;
 
                     .label, .value {
-                        height: 100%;
                         align-self: flex-start;
                         justify-self: center;
                         height: 50%;
@@ -116,7 +126,6 @@
                         display: flex;
                         flex-direction: row;
                         .value {
-                            height: 100%;
                             align-self: flex-start;
                             justify-self: center;
                             height: 50%;
@@ -130,7 +139,7 @@
                     }
                 }
                 .website {
-                    margin-top: calc(clamp(1.875rem, -1.383vw + 2.134rem, 1.25rem)* -1);
+                    margin-top: calc(clamp(2.188rem, 5.525vw + 1.152rem, 4.688rem)* -1);
                 }
                 .username {
                     .value {
@@ -143,9 +152,8 @@
                 }
                 .createdAt, .updatedAt {
                     flex-direction: row;
-                    height: 30px;
                     .label {
-                        width: 115px;
+                        width: clamp(6.563rem, 19.337vw + 2.937rem, 15.313rem);
                     }
                     .value {
                         width: 90%;
@@ -171,8 +179,25 @@
                     top: calc(clamp(0.5rem, 0.552vw + 0.396rem, 0.75rem)* -1);
                     width: clamp(5rem, 16.166vw - 0.052rem, 13.75rem);
                     height: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
+                }
+                .work {
                     h3 {
                         font-size: clamp(0.938rem, 2.072vw + 0.549rem, 1.875rem);
+                    }
+                }
+                .social {
+                    h3 {
+                        font-size: clamp(0.813rem, 1.934vw + 0.45rem, 1.688rem);
+                    }
+                }
+                .school {
+                    h3 {
+                        font-size: clamp(0.75rem, 1.934vw + 0.387rem, 1.625rem);
+                    }
+                }
+                .personal {
+                    h3 {
+                        font-size: clamp(0.625rem, 1.657vw + 0.314rem, 1.375rem);
                     }
                 }
                 .username, .password, .createdAt, .updatedAt, .notes {
@@ -221,7 +246,8 @@
             input {
                 font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                 align-self: center;
-                width: 80%
+                width: 80%;
+                text-align: center;
             }
             button {
                 @include text;
@@ -287,9 +313,11 @@
                     align-items: center;
                     margin: 2px 0;
 
-                    label {
+                    label, h2 {
                         text-align: left;
                         font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                        margin: 0;
+                        font-weight: 500;
                     }
                     input, textarea {
                         justify-self: right;
@@ -300,7 +328,7 @@
                         @include border;
                         @include text;
                         background: none;
-                        margin: 2px 0 0;
+                        margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0 0;
                         font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                     }
                     textarea {
@@ -310,20 +338,24 @@
                     .checkBoxes {
                         display: flex;
                         flex-direction: row;
+                        .checkBox {
+                            height: auto;
+                            width: clamp(0.625rem, 2.072vw + 0.237rem, 1.563rem);
+                            margin: 0 clamp(0.313rem, 2.762vw - 0.205rem, 1.563rem) 0 clamp(0.125rem, 1.105vw - 0.082rem, 0.625rem);
+                        }
                     }
                 }
                 .buttons {
                     display: flex;
                     flex-direction: row;
                     justify-content: space-evenly;
-                
+                    margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0;
                     button {
                         @include border;
                         @include text;
                         background: none;
                         width: 40%;
                         align-self: center;
-                        margin: 5px;
                         font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                     }
                 }
@@ -339,27 +371,251 @@
 // Desktop
 @media (min-width: 1025px) {
     .vaultView {
-        width: 80%;
+        width: clamp(51.25rem, 81.564vw - 1.002rem, 96.875rem);
         align-self: center;
-        height: 85%;
+        height: 75%;
+        top: clamp(8.125rem, 8.939vw + 2.399rem, 13.125rem);
 
+        .utilsContainer {
+            width: auto;
+            input {
+                margin: clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem) clamp(3.75rem, 2.235vw + 2.318rem, 5rem);
+                font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+            }
+            .addButton {
+                font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                margin: 0 0 clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem);
+            }
+        }
         .vaultDisplay {
-            height: 100%;
+            margin: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem) 0 0;
+            height: clamp(16.25rem, 130.014vw - 8.128rem, 75rem);
             .vaultEntry {
-                .label, .username, .password, .notes {
+                margin: 5px 0;
+                width: 97%;
+                margin: 5px 0;
+
+                .tag {
+                    left: clamp(37.938rem, 62.793vw - 2.289rem, 73.063rem);
+                    top: clamp(-0.625rem, 1.117vw - 1.341rem, 0rem);
+                    width: clamp(8.75rem, 11.173vw + 1.592rem, 15rem);
+                    height: clamp(4.375rem, 3.352vw + 2.228rem, 6.25rem);
+
+                    h3 {
+                        margin: 0;
+                    }
+                }
+                .work {
+                    h3 {
+                        font-size: clamp(1.875rem, 2.235vw + 0.443rem, 3.125rem);
+                        margin: 0 0 calc(clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem)* -1);
+                    }
+                }
+                .social {
+                    h3 {
+                        font-size: clamp(1.875rem, 2.235vw + 0.443rem, 3.125rem);
+                        margin: 0 0 calc(clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem)* -1);
+                    }
+                }
+                .school {
+                    h3 {
+                        font-size: clamp(1.688rem, 2.235vw + 0.256rem, 2.938rem);
+                        margin: 0 0 calc(clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem)* -1);
+                    }
+                }
+                .personal {
+                    h3 {
+                        font-size: clamp(1.375rem, 1.899vw + 0.158rem, 2.438rem);
+                        margin: 0 0 calc(clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem)* -1);
+                    }
+                }
+                .website, .username, .password, .createdAt, .updatedAt, .notes {
+                    margin: clamp(0.313rem, 0.691vw + 0.183rem, 0.625rem) clamp(0.313rem, 3.453vw - 0.335rem, 1.875rem);
+
+                    .label, .value {
+                        margin: 0 0 0 5px;
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    }
+                    .row {
+                        display: flex;
+                        flex-direction: row;
+                        .value {
+                            height: 100%;
+                            align-self: flex-start;
+                            justify-self: center;
+                            height: 50%;
+                            margin: 0 0 0 5px;
+                            font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                        }
+                    }
+                    button {
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    }
+                }
+                .website {
+                    margin-top: calc(clamp(3.125rem, 2.793vw + 1.336rem, 4.688rem)* -1);
+                }
+                .username {
+                    .value {
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    }
+                }
+                .createdAt, .updatedAt {
                     flex-direction: row;
+                    width: clamp(25rem, 22.346vw + 10.684rem, 37.5rem);
+                }
+                .arrow {
+                    margin: 0 0 clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem);
+                }
+            }
+            .hidden {
+                margin: 5px 0;
+                .tag {
+                    left: clamp(39.375rem, 65.922vw - 2.856rem, 76.25rem);
+                    top: clamp(-0.75rem, 1.341vw - 1.609rem, 0rem);
+                    width: clamp(6.875rem, 6.145vw + 2.938rem, 10.313rem);
+                    height: clamp(3.75rem, 1.117vw + 3.034rem, 4.375rem);
+                }
+                .work {
+                    h3 {
+                        font-size: clamp(1.563rem, 1.117vw + 0.847rem, 2.188rem);
+                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
+                    }
+                }
+                .social {
+                    h3 {
+                        font-size: clamp(1.438rem, 1.229vw + 0.65rem, 2.125rem);
+                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
+                    }
+                }
+                .school {
+                    h3 {
+                        font-size: clamp(1.313rem, 1.117vw + 0.597rem, 1.938rem);
+                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
+                    }
+                }
+                .personal {
+                    h3 {
+                        font-size: clamp(1.063rem, 0.782vw + 0.561rem, 1.5rem);
+                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
+                    }
+                }
+                .username, .password, .createdAt, .updatedAt, .notes {
+                    display: none;
+                }
+                .website {
+                    margin: -45px clamp(1.875rem, 1.117vw + 1.159rem, 2.5rem) 0;
+                    flex-direction: row;
+                    width: clamp(36.25rem, 65.922vw - 5.981rem, 73.125rem);
+                    .label {
+                        margin: 0 clamp(0rem, 2.762vw - 0.518rem, 1.25rem) 0 0;
+                    }
+                    button {
+                        display: none;
+                    }
+                }
+                .buttons {
+                    display: none;
+                }
+                .arrow {
+
+                    transform: unset;
+                    background: none;
+                    border: none;
                 }
             }
         }
+        .keyContainer {
+            width: clamp(27.5rem, 26.816vw + 10.321rem, 42.5rem);
 
-        .keyEntryContainer {
-            width: 40%;
+            h1, h2 {
+                font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                margin: clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem);
+            }
+            input {
+                font-size: clamp(0.938rem, 0.559vw + 0.58rem, 1.25rem);
+                width: clamp(16.875rem, 16.201vw + 6.496rem, 25.938rem);
+            }
+            button {
+                font-size: clamp(0.938rem, 0.559vw + 0.58rem, 1.25rem);
+                margin: clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem) 0 0;
+                width: auto;
+            }
         }
-
+        .popUpContainer {
+            @include container;
+            @include text;
+            @include border;
+            @include shadow;
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            height: auto;
+            text-align: center;
+            align-self: center;
+            position: absolute;
+            top: 0;
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-content: center ;
+                button {
+                margin: 5px;
+            }
+            }
+            
+        }
         .entryCreationContainer {
-            height: 100vh;
-            top: -98px;
-            left: -108px;
+            top: calc(clamp(8.063rem, 8.827vw + 2.408rem, 13rem)* -1);
+            .formContainer {
+                width: clamp(45rem, 48.045vw + 14.221rem, 71.875rem);
+                top: clamp(3.125rem, 16.76vw - 7.612rem, 12.5rem);
+                .inputs {
+                    margin: 2px 0;
+
+                    label, h2 {
+                        text-align: left;
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                        margin: 0;
+                        font-weight: 500;
+                    }
+                    input, textarea {
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    }
+                    button {
+                        margin: clamp(0.625rem, 0.559vw + 0.267rem, 0.938rem);
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    }
+                    textarea {
+                        height: clamp(5rem, 3.352vw + 2.853rem, 6.875rem);
+                    }
+                    .checkBoxes {
+                        .checkBox {
+                            width: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem);
+                            margin: 0 clamp(0.313rem, 2.762vw - 0.205rem, 1.563rem) 0 clamp(0.125rem, 1.105vw - 0.082rem, 0.625rem);
+                        }
+                    }
+                }
+                .buttons {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0;
+                    button {
+                        @include border;
+                        @include text;
+                        background: none;
+                        width: 40%;
+                        align-self: center;
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    }
+                }
+                h3 {
+                    font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    margin: 1px;
+                }
+            }
         }
     }
 }
@@ -369,7 +625,7 @@
     .vaultView {
         width: clamp(28.125rem, 75.058vw + 4.669rem, 68.75rem);
         align-self: center;
-        height: clamp(12.5rem, 64.877vw - 29.102rem, 48.75rem);
+        height: clamp(12.5rem, 65.82vw - 8.069rem, 48.125rem);
         top: clamp(5.625rem, 12.702vw + 1.656rem, 12.5rem);
         .utilsContainer {
             width: clamp(17rem, 55.048vw + 6.678rem, 41.875rem);
@@ -386,7 +642,7 @@
         .vaultDisplay {
             margin: clamp(0.313rem, 2.887vw - 0.59rem, 1.875rem) 0 0;
             width: 90%;
-            height: clamp(16.25rem, 130.014vw - 8.128rem, 75rem);
+            height: clamp(9.375rem, 57.737vw - 8.668rem, 40.625rem);
             .vaultEntry {
                 width: 97%;
                 margin: 5px 0;
@@ -405,11 +661,31 @@
                         font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
                     }
                 }
+                .work {
+                    h3 {
+                        font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
+                    }
+                }
+                .social {
+                    h3 {
+                        font-size: clamp(0.875rem, 2.425vw + 0.117rem, 2.188rem);
+                    }
+                }
+                .school {
+                    h3 {
+                        font-size: clamp(0.75rem, 2.309vw + 0.028rem, 2rem);
+                    }
+                }
+                .personal {
+                    h3 {
+                        font-size: clamp(0.688rem, 1.963vw + 0.074rem, 1.75rem);
+                    }
+                }
                 .website, .username, .password, .createdAt, .updatedAt, .notes {
                     @include copy;
                     flex-direction: row;
                     width: 80%;
-                    margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem) clamp(0.313rem, 3.458vw - 0.336rem, 1.875rem);
+                    margin: clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
                     .label, .value {
                         margin: 0 0 0 5px;
                         font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
@@ -418,13 +694,11 @@
                         width: 90%;
                     }
                     button {
-                        @include text;
-                        @include border;
                         font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
                     }
                 }
                 .website {
-                    margin-top: calc(clamp(1.875rem, -1.383vw + 2.134rem, 1.25rem)* -1);
+                    margin-top: calc(clamp(1.875rem, 5.774vw + 0.071rem, 5rem)* -1);
                 }
                 .notes {
                     flex-direction: row;
@@ -442,7 +716,7 @@
                     }
                 }
                 .buttons {
-                    margin: 5px;
+                    margin: clamp(0rem, 2.309vw - 0.722rem, 1.25rem);
                 }
                 .arrow {
                     transform: rotate(180deg);
@@ -457,20 +731,36 @@
                     top: calc(clamp(0.5rem, 0.924vw + 0.211rem, 1rem)* -1);
                     width: clamp(5rem, 16.166vw - 0.052rem, 13.75rem);
                     height: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
+                }
+                .work {
                     h3 {
-                        margin: 0;
-                        text-align: center;
-                        color: white;
-                        width: 100%;
-                        align-self: end;
-                        font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
+                        font-size: clamp(0.938rem, 2.656vw + 0.108rem, 2.375rem);
+                    }
+                }
+                .social {
+                    h3 {
+                        font-size: clamp(0.875rem, 2.425vw + 0.117rem, 2.188rem);
+                    }
+                }
+                .school {
+                    h3 {
+                        font-size: clamp(0.813rem, 2.309vw + 0.091rem, 2.063rem);
+                    }
+                }
+                .personal {
+                    h3 {
+                        font-size: clamp(0.688rem, 1.963vw + 0.074rem, 1.75rem);
                     }
                 }
                 .username, .password, .createdAt, .updatedAt, .notes {
                     display: none;
                 }
                 .website {
-                    margin-top: calc(clamp(1.875rem, -1.383vw + 2.134rem, 1.25rem)* -1);
+                    margin-top: calc(clamp(1.875rem, 4.619vw + 0.432rem, 4.375rem)* -1);
+                    margin-bottom: calc(clamp(0.625rem, 0.577vw + 0.445rem, 0.938rem)* -1);
+                    .value {
+                        width: auto;
+                    }
                 }
                 .buttons {
                     display: none;
@@ -490,6 +780,7 @@
                 margin: clamp(0.625rem, 3.464vw - 0.458rem, 2.5rem);
             }
             input {
+                width: 80%;
                 font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
             }
             button {
@@ -525,53 +816,34 @@
             
         }
         .entryCreationContainer {
-            display: flex;
-            flex-direction: column;
-            width: 100vw;
-            height: 100vh;
-            text-align: center;
-            align-self: center;
-            position: absolute;
-            top: calc(clamp(7.75rem, 43.015vw - 0.315rem, 27.188rem)* -1);
-            z-index: 1000000;
-            backdrop-filter: blur(clamp(0.063rem, 0.692vw - 0.067rem, 0.375rem));
+            top: calc(clamp(5.625rem, 12.009vw + 1.872rem, 12.125rem)* -1);
             .formContainer {
-                @include container;
-                @include text;
-                @include border;
-                @include shadow;
-                display: flex;
-                flex-direction: column;
-                width: 90%;
-                height: auto;
-                text-align: center;
-                align-self: center;
-                position: absolute;
-                top: clamp(5rem, 44.26vw - 3.299rem, 25rem);
+                top: clamp(0.625rem, 10.393vw - 2.623rem, 6.25rem);
+                width: 80%;
                 .inputs {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    margin: 2px 0;
+                    margin: 0;
 
                     label {
                         text-align: left;
-                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                        font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
+                    }
+                    h2 {
+                        font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
                     }
                     input, textarea {
                         justify-self: right;
                         width: 80%;
-                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                        font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
                     }
                     button {
-                        @include border;
-                        @include text;
-                        background: none;
                         margin: 2px 0 0;
-                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                        font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
                     }
                     textarea {
-                        height: clamp(3rem, 15.491vw + 0.095rem, 10rem);
+                        height: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
                         width: 80%;
                     }
                     .checkBoxes {
@@ -591,11 +863,11 @@
                         width: 40%;
                         align-self: center;
                         margin: 5px;
-                        font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
                     }
                 }
                 h3 {
-                    font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+                    font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
                     margin: 1px;
                 }
             }

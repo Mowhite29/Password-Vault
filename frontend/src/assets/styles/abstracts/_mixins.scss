@@ -29,7 +29,7 @@ $border-dark: #2A3C43;
         border-radius: clamp(1.25rem, 4.144vw + 0.473rem, 3.125rem);
     }
     @media (min-width: 1025px) { 
-        border-radius: clamp(2.188rem, 2.232vw + 0.759rem, 3.438rem);
+        border-radius: clamp(1.563rem, 3.911vw - 0.943rem, 3.75rem);
     }
     @media (orientation: landscape) and (pointer: coarse) { 
         border-radius: clamp(0.813rem, 1.963vw + 0.199rem, 1.875rem);
