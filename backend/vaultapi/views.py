@@ -411,6 +411,7 @@ class VaultView(APIView):
             entry.salt = validated_data.get('salt')
             entry.nonce = validated_data.get('nonce')
             entry.notes = validated_data.get('notes', '')
+            entry.tag = validated_data.get('tag', '')
             entry.updated_at = timezone.now
             entry.save()
             logger.info(f'User {request.user.username} updated entry for {label} {username} at {get_client_ip(request)}')
