@@ -377,11 +377,11 @@ export async function KeyFetch(accessToken) {
         if (response.status === 200) {
             return response.data
         } else {
-            return false
+            return 'not set'
         }
     } catch (error) {
         console.log('Key fetch failed:', error.message)
-        return false
+        return 'error'
     }
 }
 
