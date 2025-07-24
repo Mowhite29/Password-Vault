@@ -9,6 +9,7 @@
         justify-content: center;
         position: absolute;
         top: clamp(6.875rem, 27.663vw + 1.688rem, 19.375rem);
+        z-index: 1;
         .signInContainer {
             @include container;
             @include text;
@@ -69,6 +70,8 @@
             }
 
             .popUpContainer {
+                display: flex;
+                flex-direction: column;
                 width: 90%;
                 position: absolute;
                 top: 100px;
@@ -76,10 +79,17 @@
                 @include container;
                 @include text;
                 @include border;
+                @include copy;
+                button {
+                    border: none;
+                    background: none;
+                    align-self: flex-end;
+                    margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0 0;
+                }
                 h1 {
                         text-align: center;
                         font-size: clamp(1.563rem, 6.224vw + 0.395rem, 4.375rem);
-                        margin: 0;
+                        margin: calc(clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem)* -1) 0 0;
                     }
 
             }
@@ -150,10 +160,9 @@
 // Desktop
 @media (min-width: 1025px) {
     .signIn {
-        height: 75%;
+        height: 0;
         position: absolute;
         top: clamp(6.563rem, 7.813vw + 1.563rem, 10.938rem);
-        z-index: 1000;
         .signInContainer {
             justify-self: center;
             align-self: start;
@@ -161,6 +170,7 @@
             justify-content: space-between;
             flex-direction: row;
             width: clamp(32.188rem, 29.018vw + 13.616rem, 48.438rem);
+            z-index: 1000000;
             .formContainer {
                 height: 100%;
                 width: 100%;
@@ -187,8 +197,13 @@
             }
             .popUpContainer {
                 width: clamp(32.188rem, 29.018vw + 13.616rem, 48.438rem);
+                button {
+                    margin: clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) 0 0;
+                    z-index: 1000000;
+                }
                 h1 {
                     font-size: clamp(1.25rem, 1.116vw + 0.536rem, 1.875rem);
+                    margin: -20px 0 clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem);
                 }
             }
             .totpContainer {
@@ -271,8 +286,12 @@
             }
             .popUpContainer {
                 width: clamp(28.125rem, 51.963vw + 11.887rem, 56.25rem);
+                button {
+                    z-index: 100000;
+                }
                 h1 {
                     font-size: clamp(1.25rem, 2.309vw + 0.528rem, 2.5rem);
+                    margin: -20px 0 clamp(0.313rem, 1.155vw - 0.048rem, 0.938rem);
                 }
             }
             .totpContainer {

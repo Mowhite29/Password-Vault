@@ -272,6 +272,13 @@
             align-self: center;
             position: absolute;
             top: 0;
+            @include copy;
+            button {
+                border: none;
+                background: none;
+                align-self: flex-end;
+                margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0 0;
+            }
             .buttons {
                 display: flex;
                 flex-direction: row;
@@ -555,6 +562,14 @@
             align-self: center;
             position: absolute;
             top: 0;
+            button {
+                    margin: clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) 0 0;
+                    z-index: 1000000;
+                }
+            h1 {
+                font-size: clamp(1.25rem, 1.116vw + 0.536rem, 1.875rem);
+                margin: -20px 0 clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem);
+            }
             .buttons {
                 display: flex;
                 flex-direction: row;

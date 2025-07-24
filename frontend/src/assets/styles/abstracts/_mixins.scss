@@ -25,6 +25,11 @@ $border-dark: #2A3C43;
 
 @mixin container {
     background-color: light-dark($component-light, $component-dark);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    ::-webkit-scrollbar {
+        display: none;
+    }
     @media (min-width: 0px) { 
         border-radius: clamp(1.25rem, 4.144vw + 0.473rem, 3.125rem);
     }
@@ -36,7 +41,7 @@ $border-dark: #2A3C43;
     }
 }
 @mixin logo {
-    background-color: light-dark($logo-light, $logo-dark);
+    color: light-dark($logo-light, $logo-dark);
 }
 @mixin highlight {
     text-decoration: light-dark($highlight-light, $highlight-dark);
@@ -72,6 +77,7 @@ $border-dark: #2A3C43;
             border: none;
             margin: 0;
             width: auto;
+            cursor: pointer;
             img {
                 width: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
                 height: auto
