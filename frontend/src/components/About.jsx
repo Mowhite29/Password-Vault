@@ -143,21 +143,18 @@ export default function About() {
                     >
                         Dark mode icons created by Anggara - Flaticon
                     </a>
-                    <div>
-                        {' '}
-                        Icons made by{' '}
-                        <a
-                            href="https://www.flaticon.com/authors/aswell-studio"
-                            title="Aswell Studio"
-                        >
-                            {' '}
-                            Aswell Studio{' '}
-                        </a>{' '}
-                        from{' '}
-                        <a href="https://www.flaticon.com/" title="Flaticon">
-                            www.flaticon.com'
-                        </a>
-                    </div>
+                    <a
+                        href="https://www.flaticon.com/authors/aswell-studio"
+                        title="Aswell Studio"
+                    >
+                        Icons made by Aswell Studio - Flaticon
+                    </a>
+                    <a
+                        href="https://www.flaticon.com/authors/smashicons"
+                        title="Smashicons"
+                    >
+                        Icons made by Smashicons - Flaticon
+                    </a>
                 </div>
             )}
         </div>
