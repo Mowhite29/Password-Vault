@@ -248,8 +248,6 @@ class RegisterView(APIView):
                 return Response({"error": serializer.errors},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
-                print(activation_link)
-                print(f"Email sent! Message ID: {response['MessageId']}")
                 logger.info(f'Confirmation email sent to {user.username}')
                 return Response({"message":
                                 ("A confirmation email has been sent "
