@@ -20,6 +20,8 @@ import deleteLight from '../assets/images/light/delete.png'
 import editDark from '../assets/images/dark/edit.png'
 import editLight from '../assets/images/light/edit.png'
 import arrow from '../assets/images/dark/arrow.png'
+import closeDark from '../assets/images/dark/close.png'
+import closeLight from '../assets/images/light/close.png'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
@@ -145,10 +147,6 @@ export default function Vault() {
         }
     }, [search, vault])
 
-    const keyInput = (e) => {
-        setEnteredkey(e.target.value)
-    }
-
     const KeySet = async () => {
         const key = await GenerateKeyCheck(enteredKey, userEmail)
         const response = await KeyCreate(
@@ -186,22 +184,6 @@ export default function Vault() {
             setKeyEntryMessage('Invalid master key entered, please try again')
         }
         setEnteredkey('')
-    }
-
-    const inputHandler = (e) => {
-        if (e.target.name === 'label') {
-            setLabel(e.target.value)
-        } else if (e.target.name === 'username') {
-            setUsername(e.target.value)
-        } else if (e.target.name === 'password') {
-            setPassword(e.target.value)
-        } else if (e.target.name === 'notes') {
-            setNotes(e.target.value)
-        } else if (e.target.name === 'tag') {
-            setTag(e.target.value)
-        } else if (e.target.name === 'search') {
-            setSearch(e.target.value)
-        }
     }
 
     const EntryCreation = async () => {
@@ -266,50 +248,6 @@ export default function Vault() {
     const GeneratePassword = async () => {
         const generated = await Generate()
         setPassword(generated)
-    }
-
-    const ShowPassword = async (e) => {
-        const elem = e.target
-        if (elem.innerText != 'Show Password') {
-            elem.innerText = 'Show Password'
-            return
-        }
-        console.log(vault[elem.value])
-        const plaintext = await Decrypt(
-            masterKey,
-            vault[elem.value]['encrypted_password'],
-            vault[elem.value]['salt'],
-            vault[elem.value]['nonce']
-        )
-        elem.innerText = plaintext
-        const check = await Check(userEmail, plaintext)
-        if (check != true) {
-            setPopUpMessage(check['warning'])
-            setMessageVisible(true)
-            setTimeout(() => {
-                setMessageVisible(false)
-            }, 3000)
-        }
-    }
-
-    const CopyPassword = async (e) => {
-        const elem = e.currentTarget
-        console.log(elem.value)
-        const plaintext = await Decrypt(
-            masterKey,
-            vault[elem.value]['encrypted_password'],
-            vault[elem.value]['salt'],
-            vault[elem.value]['nonce']
-        )
-        navigator.clipboard.writeText(plaintext)
-    }
-
-    const ShowEntry = (e) => {
-        const label = e.currentTarget.getAttribute('data-label')
-        const newVault = shownVault.map((entry) =>
-            entry.label === label ? { ...entry, active: !entry.active } : entry
-        )
-        setShownVault(newVault)
     }
 
     const EntryEdit = async (entry) => {
@@ -418,6 +356,85 @@ export default function Vault() {
         }
     }
 
+    const ShowPassword = async (e) => {
+        const elem = e.target
+        if (elem.innerText != 'Show Password') {
+            elem.innerText = 'Show Password'
+            return
+        }
+        console.log(vault[elem.value])
+        const plaintext = await Decrypt(
+            masterKey,
+            vault[elem.value]['encrypted_password'],
+            vault[elem.value]['salt'],
+            vault[elem.value]['nonce']
+        )
+        elem.innerText = plaintext
+        const check = await Check(userEmail, plaintext)
+        if (check != true) {
+            setPopUpMessage(check['warning'])
+            setMessageVisible(true)
+            setTimeout(() => {
+                setMessageVisible(false)
+            }, 3000)
+        }
+    }
+
+    const CopyPassword = async (e) => {
+        const elem = e.currentTarget
+        console.log(elem.value)
+        const plaintext = await Decrypt(
+            masterKey,
+            vault[elem.value]['encrypted_password'],
+            vault[elem.value]['salt'],
+            vault[elem.value]['nonce']
+        )
+        navigator.clipboard.writeText(plaintext)
+    }
+
+    const ShowEntry = (e) => {
+        const label = e.currentTarget.getAttribute('data-label')
+        const newVault = shownVault.map((entry) =>
+            entry.label === label ? { ...entry, active: !entry.active } : entry
+        )
+        setShownVault(newVault)
+    }
+
+    const inputHandler = (e) => {
+        e.preventDefault()
+        if (e.target.name === 'label') {
+            setLabel(e.target.value)
+        } else if (e.target.name === 'username') {
+            setUsername(e.target.value)
+        } else if (e.target.name === 'password') {
+            setPassword(e.target.value)
+        } else if (e.target.name === 'notes') {
+            setNotes(e.target.value)
+        } else if (e.target.name === 'tag') {
+            setTag(e.target.value)
+        } else if (e.target.name === 'search') {
+            setSearch(e.target.value)
+        } else if (e.target.name === 'keyInput') {
+            setEnteredkey(e.target.value)
+        } else if (e.target.name === 'keyEntry') {
+            KeyEntry()
+        } else if (e.target.name === 'keySet') {
+            KeySet()
+        } else if (e.target.name === 'addButton') {
+            setCreationShown(true)
+        } else if (e.currentTarget.name === 'copy') {
+            navigator.clipboard.writeText(e.target.value)
+        } else if (e.currentTarget.name === 'showPasswordButton') {
+            ShowPassword()
+        } else if (e.currentTarget.name === 'editButton') {
+            EntryEdit(e.currentTarget.value)
+        } else if (e.currentTarget.name === 'deleteButton') {
+            EntryDelete(e.currentTarget.value)
+        } else if (e.currentTarget.name === 'popupClose') {
+            setMessageVisible(false)
+        }
+    }
+
     return (
         <div className="vaultView">
             <div className="utilsContainer">
@@ -429,7 +446,10 @@ export default function Vault() {
                 ></input>
                 <button
                     className="addButton"
-                    onClick={() => setCreationShown(true)}
+                    name="addButton"
+                    alt="create new entry"
+                    aria-label="create new entry"
+                    onClick={inputHandler}
                 >
                     Add new password
                 </button>
@@ -466,11 +486,11 @@ export default function Vault() {
                                 <div className="row">
                                     <h3 className="label">Website</h3>
                                     <button
-                                        onClick={() =>
-                                            navigator.clipboard.writeText(
-                                                entry.label
-                                            )
-                                        }
+                                        name="copy"
+                                        value={entry.label}
+                                        onClick={inputHandler}
+                                        alt="copy website"
+                                        aria-label="copy website"
                                     >
                                         <img
                                             src={
@@ -487,11 +507,11 @@ export default function Vault() {
                                 <div className="row">
                                     <h3 className="label">Username</h3>
                                     <button
-                                        onClick={() =>
-                                            navigator.clipboard.writeText(
-                                                entry.username
-                                            )
-                                        }
+                                        name="copy"
+                                        value={entry.username}
+                                        onClick={inputHandler}
+                                        alt="copy username"
+                                        aria-label="copy username"
                                     >
                                         <img
                                             src={
@@ -508,10 +528,13 @@ export default function Vault() {
                                 <div className="row">
                                     <button
                                         className="showPasswordButton"
+                                        name="showPasswordButton"
                                         value={vault.findIndex(
                                             (v) => v.label === entry.label
                                         )}
                                         onClick={ShowPassword}
+                                        alt="show password"
+                                        aria-label="show password"
                                     >
                                         Show Password
                                     </button>
@@ -520,6 +543,8 @@ export default function Vault() {
                                             (v) => v.label === entry.label
                                         )}
                                         onClick={CopyPassword}
+                                        alt="copy password"
+                                        aria-label="copy password"
                                     >
                                         <img
                                             src={
@@ -561,13 +586,13 @@ export default function Vault() {
                             <div className="buttons">
                                 <button
                                     className="editButton"
-                                    onClick={() =>
-                                        EntryEdit(
-                                            vault.findIndex(
-                                                (v) => v.label === entry.label
-                                            )
-                                        )
-                                    }
+                                    name="editButton"
+                                    value={vault.findIndex(
+                                        (v) => v.label === entry.label
+                                    )}
+                                    onClick={inputHandler}
+                                    alt="edit entry"
+                                    aria-label="edit entry"
                                 >
                                     <img
                                         src={
@@ -579,13 +604,13 @@ export default function Vault() {
                                 </button>
                                 <button
                                     className="deleteButton"
-                                    onClick={() =>
-                                        EntryDelete(
-                                            vault.findIndex(
-                                                (v) => v.label === entry.label
-                                            )
-                                        )
-                                    }
+                                    name="deleteButton"
+                                    value={vault.findIndex(
+                                        (v) => v.label === entry.label
+                                    )}
+                                    onClick={inputHandler}
+                                    alt="delete entry"
+                                    aria-label="delete entry"
                                 >
                                     <img
                                         src={
@@ -600,6 +625,8 @@ export default function Vault() {
                                 className="arrow"
                                 data-label={entry.label}
                                 onClick={ShowEntry}
+                                alt="show entry"
+                                aria-label="show entry"
                             >
                                 <img src={arrow} />
                             </button>
@@ -607,7 +634,11 @@ export default function Vault() {
                     ))}
             </div>
             {keySetShown && (
-                <div className="keyContainer">
+                <form
+                    className="keyContainer"
+                    name="keySet"
+                    onSubmit={inputHandler}
+                >
                     <h1>
                         Enter a master key to be used in accessing your saved
                         passwords.{' '}
@@ -617,26 +648,42 @@ export default function Vault() {
                         your saved passwords will be irrecoverable
                     </h2>
                     <input
+                        name="keyInput"
                         type="text"
                         placeholder="master key"
                         value={enteredKey}
-                        onChange={keyInput}
+                        onChange={inputHandler}
                     ></input>
-                    <button onClick={() => KeySet()}>Enter</button>
-                </div>
+                    <button
+                        type="submit"
+                        alt="key set button"
+                        aria-label="key set button"
+                    >
+                        Enter
+                    </button>
+                </form>
             )}
             {keyEntryShown && (
-                <form className="keyContainer">
+                <form
+                    className="keyContainer"
+                    name="keyEntry"
+                    onSubmit={inputHandler}
+                >
                     <h1>Enter your master key:</h1>
                     <input
+                        name="keyInput"
                         type="password"
                         placeholder="master key"
                         value={enteredKey}
-                        onChange={keyInput}
+                        onChange={inputHandler}
                         autoComplete="none"
                         autoFocus
                     ></input>
-                    <button type="button" onClick={() => KeyEntry()}>
+                    <button
+                        type="submit"
+                        alt="key entry button"
+                        aria-label="key entry button"
+                    >
                         Enter
                     </button>
                     <h2>{keyEntryMessage}</h2>
@@ -644,6 +691,14 @@ export default function Vault() {
             )}
             {messageVisible && (
                 <div className="popUpContainer">
+                    <button
+                        name="popupClose"
+                        onClick={inputHandler}
+                        alt="close popup button"
+                        aria-label="close popup button"
+                    >
+                        <img src={theme === 'dark' ? closeDark : closeLight} />
+                    </button>
                     <h1>{popUpMessage}</h1>
                     {deleteShown && (
                         <div className="buttons">

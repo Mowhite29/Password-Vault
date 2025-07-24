@@ -16,6 +16,7 @@ import logout from '../assets/images/dark/logout.png'
 import user from '../assets/images/dark/user.png'
 import mode from '../assets/images/dark/mode.png'
 import home from '../assets/images/dark/home.png'
+import vault from '../assets/images/dark/vault.png'
 
 export default function MenuBar() {
     const [open, setOpen] = useState(false)
@@ -49,6 +50,26 @@ export default function MenuBar() {
         }
     }
 
+    const inputHandler = (e) => {
+        if (e.currentTarget.name === 'home') {
+            handleScreenChange('home')
+        } else if (e.currentTarget.name === 'menu') {
+            OpenMenu()
+        } else if (e.currentTarget.name === 'vault') {
+            handleScreenChange('vault')
+        } else if (e.currentTarget.name === 'account') {
+            handleScreenChange('account')
+        } else if (e.currentTarget.name === 'signInOut') {
+            signedIn
+                ? handleSignOut()
+                : screen === 'signin'
+                  ? handleScreenChange('home')
+                  : handleScreenChange('signin')
+        } else if (e.currentTarget.name === 'about') {
+            handleScreenChange('about')
+        }
+    }
+
     if (primaryInput === 'touch') {
         return (
             <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
@@ -57,14 +78,21 @@ export default function MenuBar() {
                         src={theme === 'dark' ? logoDark : logoLight}
                         alt="logo"
                     ></img>
-                    <div className="title">
+
+                    <div
+                        className="title"
+                        onClick={() => handleScreenChange('home')}
+                        aria-label="return to home"
+                    >
                         <h1>Password</h1>
                         <h1>Vault</h1>
                     </div>
                     <button
                         data-testid="open menu"
+                        name="menu"
+                        alt="open menu"
                         aria-label="open menu"
-                        onClick={() => OpenMenu()}
+                        onClick={inputHandler}
                     >
                         <img src={menu} alt="open menu"></img>
                     </button>
@@ -73,33 +101,49 @@ export default function MenuBar() {
                     <div className="mobileMenu">
                         {screen != 'home' && (
                             <button
+                                name="home"
+                                alt="home"
                                 aria-label="home"
-                                onClick={() => handleScreenChange('home')}
+                                onClick={inputHandler}
                             >
                                 <img src={home} alt="home" />
                             </button>
                         )}
-                        <button
-                            aria-label="about"
-                            onClick={() => handleScreenChange('about')}
-                        >
-                            <img src={info} alt="info" />
-                        </button>
-                        {signedIn ? (
+                        {signedIn && screen != 'vault' ? (
                             <button
+                                name="vault"
+                                alt="vault"
+                                aria-label="vault"
+                                onClick={inputHandler}
+                            >
+                                <img src={vault} alt="vault" />
+                            </button>
+                        ) : null}
+                        {screen != 'about' ? (
+                            <button
+                                name="about"
+                                alt="about"
+                                aria-label="about"
+                                onClick={inputHandler}
+                            >
+                                <img src={info} alt="about" />
+                            </button>
+                        ) : null}
+                        {signedIn && screen != 'account' ? (
+                            <button
+                                name="account"
+                                alt="account"
                                 aria-label="account"
-                                onClick={() => handleScreenChange('account')}
+                                onClick={inputHandler}
                             >
                                 <img src={user} alt="account" />
                             </button>
                         ) : null}
                         <button
+                            name="signInOut"
                             aria-label={signedIn ? 'sign out' : 'sign in'}
-                            onClick={
-                                signedIn
-                                    ? () => handleSignOut()
-                                    : () => handleScreenChange('signin')
-                            }
+                            alt={signedIn ? 'sign out' : 'sign in'}
+                            onClick={inputHandler}
                         >
                             <img
                                 src={
@@ -126,46 +170,66 @@ export default function MenuBar() {
         return (
             <div className="menuContainer">
                 <div className="staticMenuBar">
-                    <img
-                        src={theme === 'dark' ? logoDark : logoLight}
-                        alt="logo"
-                    ></img>
-                    <div className="title">
-                        <h1>Password</h1>
-                        <h1>Vault</h1>
+                    <div className="logoTitle">
+                        <img
+                            src={theme === 'dark' ? logoDark : logoLight}
+                            alt="logo"
+                        ></img>
+                        <div
+                            className="title"
+                            onClick={() => handleScreenChange('home')}
+                            aria-label="return to home"
+                        >
+                            <h1>Password</h1>
+                            <h1>Vault</h1>
+                        </div>
                     </div>
                     {screen != 'home' && screen != 'signin' && (
                         <button
+                            name="home"
+                            alt="home"
                             aria-label="home"
-                            onClick={() => handleScreenChange('home')}
+                            onClick={inputHandler}
                         >
                             <img src={home} alt="home" />
                         </button>
                     )}
-                    <button
-                        aria-label="info"
-                        onClick={() => handleScreenChange('about')}
-                    >
-                        <img src={info} alt="info" />
-                    </button>
-                    {signedIn ? (
+                    {signedIn && screen != 'vault' ? (
                         <button
+                            name="vault"
+                            alt="vault"
+                            aria-label="vault"
+                            onClick={inputHandler}
+                        >
+                            <img src={vault} alt="vault" />
+                        </button>
+                    ) : null}
+                    {screen != 'about' ? (
+                        <button
+                            name="about"
+                            alt="about"
+                            aria-label="about"
+                            onClick={inputHandler}
+                        >
+                            <img src={info} alt="about" />
+                        </button>
+                    ) : null}
+                    {signedIn && screen != 'account' ? (
+                        <button
+                            name="account"
+                            alt="account"
                             aria-label="account"
-                            onClick={() => handleScreenChange('account')}
+                            onClick={inputHandler}
                         >
                             <img src={user} alt="account" />
                         </button>
                     ) : null}
                     <button
                         data-testid="sign in"
+                        name="signInOut"
                         aria-label={signedIn ? 'sign out' : 'sign in'}
-                        onClick={
-                            signedIn
-                                ? () => handleSignOut()
-                                : screen === 'signin'
-                                  ? () => handleScreenChange('home')
-                                  : () => handleScreenChange('signin')
-                        }
+                        alt={signedIn ? 'sign out' : 'sign in'}
+                        onClick={inputHandler}
                     >
                         <img
                             src={

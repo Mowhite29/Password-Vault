@@ -13,6 +13,8 @@ import { Check } from '../utils/passwordGenerator'
 import '../assets/styles/SignIn.scss'
 import copyDark from '../assets/images/dark/copy.png'
 import copyLight from '../assets/images/light/copy.png'
+import closeDark from '../assets/images/dark/close.png'
+import closeLight from '../assets/images/light/close.png'
 
 export default function SignIn() {
     const theme = useSelector((state) => state.appearance.theme)
@@ -32,30 +34,6 @@ export default function SignIn() {
 
     const dispatch = useDispatch()
 
-    const usernameInput = (e) => {
-        setUsername(e.target.value)
-    }
-
-    const passwordInput = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const newUsernameInput = (e) => {
-        setNewUsername(e.target.value)
-    }
-
-    const newPasswordInput = (e) => {
-        setNewPassword(e.target.value)
-    }
-
-    const nameInput = (e) => {
-        setName(e.target.value)
-    }
-
-    const tokenInput = (e) => {
-        setTOTPToken(e.target.value)
-    }
-
     const handleScreenChange = (newScreen) => {
         dispatch(setScreen(newScreen))
     }
@@ -73,19 +51,25 @@ export default function SignIn() {
     }
 
     const HandleSignIn = async () => {
-        const login = await Login(username, password)
-        if (login != false) {
-            if (login !== 'set') {
-                setTOTPSecret(login)
-                var string = /secret=([A-Za-z0-9]+)/.exec(login)
-                console.log(string[1])
-                setTOTPString(string[1])
-            }
-            setTOTPVisible(true)
-        } else {
-            setPopUpMessage('Cannot sign in, check credentials')
+        if (username === '' || password === '') {
+            setPopUpMessage('Please enter credentials')
             setMessageVisible(true)
             setTimeout(() => setMessageVisible(false), 4000)
+        } else {
+            const login = await Login(username, password)
+            if (login != false) {
+                if (login !== 'set') {
+                    setTOTPSecret(login)
+                    var string = /secret=([A-Za-z0-9]+)/.exec(login)
+                    console.log(string[1])
+                    setTOTPString(string[1])
+                }
+                setTOTPVisible(true)
+            } else {
+                setPopUpMessage('Cannot sign in, check credentials')
+                setMessageVisible(true)
+                setTimeout(() => setMessageVisible(false), 4000)
+            }
         }
     }
 
@@ -130,7 +114,7 @@ export default function SignIn() {
                     'Account creation successful, please verify email address to sign in'
                 )
                 setMessageVisible(true)
-                setTimeout(() => setMessageVisible(false), 4000)
+                setTimeout(() => setMessageVisible(false), 3000)
                 handleScreenChange('home')
             } else {
                 setNewPassword('')
@@ -139,7 +123,7 @@ export default function SignIn() {
                 setPopUpMessage(
                     'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
                 )
-                setTimeout(() => setMessageVisible(false), 4000)
+                setTimeout(() => setMessageVisible(false), 3000)
             }
         }
     }
@@ -153,7 +137,7 @@ export default function SignIn() {
                 )
                 setMessageVisible(true)
 
-                setTimeout(() => setMessageVisible(false), 4000)
+                setTimeout(() => setMessageVisible(false), 3000)
             }
         } else {
             setPopUpMessage('Please enter email address')
@@ -162,56 +146,99 @@ export default function SignIn() {
         }
     }
 
+    const inputHandler = (e) => {
+        e.preventDefault()
+        if (e.target.name === 'signIn') {
+            HandleSignIn()
+        } else if (e.target.name === 'usernameInput') {
+            setUsername(e.target.value)
+        } else if (e.target.name === 'passwordInput') {
+            setPassword(e.target.value)
+        } else if (e.target.name === 'newUsernameInput') {
+            setNewUsername(e.target.value)
+        } else if (e.target.name === 'newPasswordInput') {
+            setNewPassword(e.target.value)
+        } else if (e.target.name === 'nameInput') {
+            setName(e.target.value)
+        } else if (e.target.name === 'forgottenPassword') {
+            ForgottenPassword()
+        } else if (e.target.name === 'createAccount') {
+            CreateAccount()
+        } else if (e.currentTarget.name === 'popupClose') {
+            setMessageVisible(false)
+        } else if (e.target.name === 'totp') {
+            TOTP()
+        } else if (e.target.name === 'totpInput') {
+            setTOTPToken(e.target.value)
+        } else if (e.currentTarget.name === 'totpCopy') {
+            navigator.clipboard.writeText(TOTPString)
+        }
+    }
+
     return (
         <div className="signIn">
             <div className="signInContainer">
                 <div className="formContainer">
-                    <form className="forms" action={() => HandleSignIn()}>
+                    <form
+                        className="forms"
+                        name="signIn"
+                        onSubmit={inputHandler}
+                    >
                         <h1>Sign in</h1>
                         <input
                             className="usernameInput"
                             type="email"
-                            name="username"
+                            name="usernameInput"
                             value={username}
-                            onChange={usernameInput}
+                            onChange={inputHandler}
                             placeholder="Email address"
                             autoComplete="off"
                             alt="sign in username input"
+                            aria-label="sign in username input"
                         ></input>
                         <input
                             className="passwordinput"
                             type="password"
-                            name="password"
+                            name="passwordInput"
                             value={password}
-                            onChange={passwordInput}
+                            onChange={inputHandler}
                             placeholder="Password"
                             autoComplete="off"
                             alt="sign in password input"
+                            aria-label="sign in password input"
                         ></input>
                         <button
                             className="signInButton"
                             type="submit"
                             alt="sign in button"
+                            aria-label="sign in button"
                         >
                             Sign In
                         </button>
                     </form>
                     <button
                         className="forgottenButton"
-                        onClick={() => ForgottenPassword()}
+                        name="forgottenButton"
+                        onClick={inputHandler}
+                        alt="forgotten password button"
+                        aria-label="forgotten password button"
                     >
                         Forgotten password
                     </button>
                 </div>
                 <div className="formContainer">
-                    <form className="forms" action={() => CreateAccount()}>
+                    <form
+                        className="forms"
+                        name="createAccount"
+                        onSubmit={inputHandler}
+                    >
                         <h1>Create account</h1>
                         <input
                             className="usernameInput"
                             type="email"
-                            name="username"
+                            name="newUsernameInput"
                             value={newUsername}
-                            onChange={newUsernameInput}
+                            onChange={inputHandler}
                             placeholder="Email address"
                             autoComplete="off"
                             alt="create account username input"
@@ -219,9 +246,9 @@ export default function SignIn() {
                         <input
                             className="passwordinput"
                             type="password"
-                            name="password"
+                            name="newPasswordInput"
                             value={newPassword}
-                            onChange={newPasswordInput}
+                            onChange={inputHandler}
                             placeholder="Password"
                             autoComplete="off"
                             alt="create account password input"
@@ -229,9 +256,9 @@ export default function SignIn() {
                         <input
                             className="nameInput"
                             type="text"
-                            name="name"
+                            name="nameInput"
                             value={name}
-                            onChange={nameInput}
+                            onChange={inputHandler}
                             placeholder="Name"
                             autoComplete="off"
                         ></input>
@@ -239,6 +266,7 @@ export default function SignIn() {
                             className="createAccountButton"
                             type="submit"
                             alt="create account button"
+                            aria-label="create account button"
                         >
                             Create Account
                         </button>
@@ -246,6 +274,16 @@ export default function SignIn() {
                 </div>
                 {messageVisible && (
                     <div className="popUpContainer">
+                        <button
+                            name="popupClose"
+                            onClick={inputHandler}
+                            alt="close popup button"
+                            aria-label="close popup button"
+                        >
+                            <img
+                                src={theme === 'dark' ? closeDark : closeLight}
+                            />
+                        </button>
                         <h1>{popUpMessage}</h1>
                     </div>
                 )}
@@ -256,21 +294,27 @@ export default function SignIn() {
                                 Enter one time passcode as shown in your
                                 authenticator application
                             </h2>
-                            <div className="code">
+                            <form
+                                className="code"
+                                name="totp"
+                                onSubmit={inputHandler}
+                            >
                                 <input
                                     type="text"
+                                    name="totpInput"
                                     value={TOTPToken}
-                                    onChange={tokenInput}
+                                    onChange={inputHandler}
                                     alt="totp input"
                                 ></input>
                                 <button
-                                    onClick={() => TOTP()}
+                                    type="submit"
                                     alt="totp enter button"
+                                    aria-label="totp enter button"
                                 >
                                     Enter
                                 </button>
                                 <h4>{TOTPMessage}</h4>
-                            </div>
+                            </form>
                         </div>
                     ) : (
                         <div className="totpContainer">
@@ -279,7 +323,7 @@ export default function SignIn() {
                                 application to set up multi factor
                                 authentication, then enter the code generated
                             </h2>
-                            <div className="code">
+                            <form className="code">
                                 <QRCodeSVG
                                     value={TOTPSecret}
                                     height="600"
@@ -288,11 +332,10 @@ export default function SignIn() {
                                 <div className="string">
                                     <h3>{TOTPString}</h3>
                                     <button
-                                        onClick={() =>
-                                            navigator.clipboard.writeText(
-                                                TOTPString
-                                            )
-                                        }
+                                        name="totpCopy"
+                                        onClick={inputHandler}
+                                        alt="copy TOTP string"
+                                        aria-label="copy TOTP string"
                                     >
                                         <img
                                             src={
@@ -304,20 +347,21 @@ export default function SignIn() {
                                     </button>
                                 </div>
                                 <input
-                                    name="token"
                                     type="text"
+                                    name="totpInput"
                                     value={TOTPToken}
-                                    onChange={tokenInput}
+                                    onChange={inputHandler}
                                     alt="totp input"
                                 ></input>
                                 <button
-                                    onClick={() => TOTP()}
+                                    type="submit"
                                     alt="totp enter button"
+                                    aria-label="totp enter button"
                                 >
                                     Enter
                                 </button>
                                 <h4>{TOTPMessage}</h4>
-                            </div>
+                            </form>
                         </div>
                     ))}
             </div>
