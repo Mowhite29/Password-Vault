@@ -15,6 +15,8 @@ import copyDark from '../assets/images/dark/copy.png'
 import copyLight from '../assets/images/light/copy.png'
 import closeDark from '../assets/images/dark/close.png'
 import closeLight from '../assets/images/light/close.png'
+import loadingDark from '../assets/images/dark/auth.gif'
+import loadingLight from '../assets/images/light/auth.gif'
 
 export default function SignIn() {
     const theme = useSelector((state) => state.appearance.theme)
@@ -31,6 +33,7 @@ export default function SignIn() {
     const [TOTPSecret, setTOTPSecret] = useState('')
     const [TOTPString, setTOTPString] = useState('')
     const [TOTPMessage, setTOTPMessage] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -56,6 +59,7 @@ export default function SignIn() {
             setMessageVisible(true)
             setTimeout(() => setMessageVisible(false), 4000)
         } else {
+            setLoading(true)
             const login = await Login(username, password)
             if (login != false) {
                 if (login !== 'set') {
@@ -64,8 +68,10 @@ export default function SignIn() {
                     console.log(string[1])
                     setTOTPString(string[1])
                 }
+                setLoading(false)
                 setTOTPVisible(true)
             } else {
+                setLoading(false)
                 setPopUpMessage('Cannot sign in, check credentials')
                 setMessageVisible(true)
                 setTimeout(() => setMessageVisible(false), 4000)
@@ -74,22 +80,25 @@ export default function SignIn() {
     }
 
     const TOTP = async () => {
+        setLoading(true)
         const authenticate = await Authenticate(username, TOTPToken)
         if (authenticate) {
             tokenHandler(authenticate['access'])
             refreshToken(authenticate['refresh'])
             userDetails(username)
+            setLoading(false)
             handleScreenChange('vault')
         } else {
+            setLoading(false)
             setTOTPMessage('Cannot sign in, check code')
         }
     }
 
     const CreateAccount = async () => {
-        setPopUpMessage('Loading')
-        setMessageVisible(true)
+        setLoading(true)
         if (!newUsername || !newPassword || !name) {
             setPopUpMessage('Please complete all required fields')
+            setLoading(false)
             setMessageVisible(true)
             setTimeout(() => {
                 setMessageVisible(false)
@@ -98,6 +107,7 @@ export default function SignIn() {
             const check = await Check(newUsername, newPassword)
             if (check != true) {
                 setPopUpMessage('Please enter a secure password')
+                setLoading(false)
                 setMessageVisible(true)
                 setTimeout(() => {
                     setMessageVisible(false)
@@ -113,6 +123,7 @@ export default function SignIn() {
                 setPopUpMessage(
                     'Account creation successful, please verify email address to sign in'
                 )
+                setLoading(false)
                 setMessageVisible(true)
                 setTimeout(() => setMessageVisible(false), 3000)
                 handleScreenChange('home')
@@ -123,6 +134,7 @@ export default function SignIn() {
                 setPopUpMessage(
                     'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
                 )
+                setLoading(false)
                 setTimeout(() => setMessageVisible(false), 3000)
             }
         }
@@ -130,17 +142,20 @@ export default function SignIn() {
 
     const ForgottenPassword = async () => {
         if (username) {
+            setLoading(true)
             const response = await PasswordReset(username)
             if (response) {
                 setPopUpMessage(
                     'Password reset request successful, if there is an account associated with this email address, a password reset email has been sent'
                 )
+                setLoading(false)
                 setMessageVisible(true)
 
                 setTimeout(() => setMessageVisible(false), 3000)
             }
         } else {
             setPopUpMessage('Please enter email address')
+            setLoading(false)
             setMessageVisible(true)
             setTimeout(() => setMessageVisible(false), 3000)
         }
@@ -176,195 +191,211 @@ export default function SignIn() {
     }
 
     return (
-        <div className="signIn">
-            <div className="signInContainer">
-                <div className="formContainer">
-                    <form
-                        className="forms"
-                        name="signIn"
-                        onSubmit={inputHandler}
-                    >
-                        <h1>Sign in</h1>
-                        <input
-                            className="usernameInput"
-                            type="email"
-                            name="usernameInput"
-                            value={username}
-                            onChange={inputHandler}
-                            placeholder="Email address"
-                            autoComplete="off"
-                            alt="sign in username input"
-                            aria-label="sign in username input"
-                        ></input>
-                        <input
-                            className="passwordinput"
-                            type="password"
-                            name="passwordInput"
-                            value={password}
-                            onChange={inputHandler}
-                            placeholder="Password"
-                            autoComplete="off"
-                            alt="sign in password input"
-                            aria-label="sign in password input"
-                        ></input>
-                        <button
-                            className="signInButton"
-                            type="submit"
-                            alt="sign in button"
-                            aria-label="sign in button"
+        <>
+            <div className="signIn">
+                <div className="signInContainer">
+                    <div className="formContainer">
+                        <form
+                            className="forms"
+                            name="signIn"
+                            onSubmit={inputHandler}
                         >
-                            Sign In
-                        </button>
-                    </form>
-                    <button
-                        className="forgottenButton"
-                        name="forgottenButton"
-                        onClick={inputHandler}
-                        alt="forgotten password button"
-                        aria-label="forgotten password button"
-                    >
-                        Forgotten password
-                    </button>
-                </div>
-                <div className="formContainer">
-                    <form
-                        className="forms"
-                        name="createAccount"
-                        onSubmit={inputHandler}
-                    >
-                        <h1>Create account</h1>
-                        <input
-                            className="usernameInput"
-                            type="email"
-                            name="newUsernameInput"
-                            value={newUsername}
-                            onChange={inputHandler}
-                            placeholder="Email address"
-                            autoComplete="off"
-                            alt="create account username input"
-                        ></input>
-                        <input
-                            className="passwordinput"
-                            type="password"
-                            name="newPasswordInput"
-                            value={newPassword}
-                            onChange={inputHandler}
-                            placeholder="Password"
-                            autoComplete="off"
-                            alt="create account password input"
-                        ></input>
-                        <input
-                            className="nameInput"
-                            type="text"
-                            name="nameInput"
-                            value={name}
-                            onChange={inputHandler}
-                            placeholder="Name"
-                            autoComplete="off"
-                        ></input>
-                        <button
-                            className="createAccountButton"
-                            type="submit"
-                            alt="create account button"
-                            aria-label="create account button"
-                        >
-                            Create Account
-                        </button>
-                    </form>
-                </div>
-                {messageVisible && (
-                    <div className="popUpContainer">
-                        <button
-                            name="popupClose"
-                            onClick={inputHandler}
-                            alt="close popup button"
-                            aria-label="close popup button"
-                        >
-                            <img
-                                src={theme === 'dark' ? closeDark : closeLight}
-                            />
-                        </button>
-                        <h1>{popUpMessage}</h1>
-                    </div>
-                )}
-                {TOTPVisible &&
-                    (TOTPSecret === '' ? (
-                        <div className="totpContainer">
-                            <h2>
-                                Enter one time passcode as shown in your
-                                authenticator application
-                            </h2>
-                            <form
-                                className="code"
-                                name="totp"
-                                onSubmit={inputHandler}
+                            <h1>Sign in</h1>
+                            <input
+                                className="usernameInput"
+                                type="email"
+                                name="usernameInput"
+                                value={username}
+                                onChange={inputHandler}
+                                placeholder="Email address"
+                                autoComplete="off"
+                                alt="sign in username input"
+                                aria-label="sign in username input"
+                            ></input>
+                            <input
+                                className="passwordinput"
+                                type="password"
+                                name="passwordInput"
+                                value={password}
+                                onChange={inputHandler}
+                                placeholder="Password"
+                                autoComplete="off"
+                                alt="sign in password input"
+                                aria-label="sign in password input"
+                            ></input>
+                            <button
+                                className="signInButton"
+                                type="submit"
+                                alt="sign in button"
+                                aria-label="sign in button"
                             >
-                                <input
-                                    type="text"
-                                    name="totpInput"
-                                    value={TOTPToken}
-                                    onChange={inputHandler}
-                                    alt="totp input"
-                                ></input>
-                                <button
-                                    type="submit"
-                                    alt="totp enter button"
-                                    aria-label="totp enter button"
-                                >
-                                    Enter
-                                </button>
-                                <h4>{TOTPMessage}</h4>
-                            </form>
-                        </div>
-                    ) : (
-                        <div className="totpContainer">
-                            <h2>
-                                Use QR or text code with an authenticator
-                                application to set up multi factor
-                                authentication, then enter the code generated
-                            </h2>
-                            <form className="code">
-                                <QRCodeSVG
-                                    value={TOTPSecret}
-                                    height="600"
-                                    width="600"
+                                Sign In
+                            </button>
+                        </form>
+                        <button
+                            className="forgottenButton"
+                            name="forgottenButton"
+                            onClick={inputHandler}
+                            alt="forgotten password button"
+                            aria-label="forgotten password button"
+                        >
+                            Forgotten password
+                        </button>
+                    </div>
+                    <div className="formContainer">
+                        <form
+                            className="forms"
+                            name="createAccount"
+                            onSubmit={inputHandler}
+                        >
+                            <h1>Create account</h1>
+                            <input
+                                className="usernameInput"
+                                type="email"
+                                name="newUsernameInput"
+                                value={newUsername}
+                                onChange={inputHandler}
+                                placeholder="Email address"
+                                autoComplete="off"
+                                alt="create account username input"
+                            ></input>
+                            <input
+                                className="passwordinput"
+                                type="password"
+                                name="newPasswordInput"
+                                value={newPassword}
+                                onChange={inputHandler}
+                                placeholder="Password"
+                                autoComplete="off"
+                                alt="create account password input"
+                            ></input>
+                            <input
+                                className="nameInput"
+                                type="text"
+                                name="nameInput"
+                                value={name}
+                                onChange={inputHandler}
+                                placeholder="Name"
+                                autoComplete="off"
+                            ></input>
+                            <button
+                                className="createAccountButton"
+                                type="submit"
+                                alt="create account button"
+                                aria-label="create account button"
+                            >
+                                Create Account
+                            </button>
+                        </form>
+                    </div>
+                    {messageVisible && (
+                        <div className="popUpContainer">
+                            <button
+                                name="popupClose"
+                                onClick={inputHandler}
+                                alt="close popup button"
+                                aria-label="close popup button"
+                            >
+                                <img
+                                    src={
+                                        theme === 'dark'
+                                            ? closeDark
+                                            : closeLight
+                                    }
                                 />
-                                <div className="string">
-                                    <h3>{TOTPString}</h3>
-                                    <button
-                                        name="totpCopy"
-                                        onClick={inputHandler}
-                                        alt="copy TOTP string"
-                                        aria-label="copy TOTP string"
-                                    >
-                                        <img
-                                            src={
-                                                theme === 'dark'
-                                                    ? copyDark
-                                                    : copyLight
-                                            }
-                                        ></img>
-                                    </button>
-                                </div>
-                                <input
-                                    type="text"
-                                    name="totpInput"
-                                    value={TOTPToken}
-                                    onChange={inputHandler}
-                                    alt="totp input"
-                                ></input>
-                                <button
-                                    type="submit"
-                                    alt="totp enter button"
-                                    aria-label="totp enter button"
-                                >
-                                    Enter
-                                </button>
-                                <h4>{TOTPMessage}</h4>
-                            </form>
+                            </button>
+                            <h1>{popUpMessage}</h1>
                         </div>
-                    ))}
+                    )}
+                    {TOTPVisible &&
+                        (TOTPSecret === '' ? (
+                            <div className="totpContainer">
+                                <h2>
+                                    Enter one time passcode as shown in your
+                                    authenticator application
+                                </h2>
+                                <form
+                                    className="code"
+                                    name="totp"
+                                    onSubmit={inputHandler}
+                                >
+                                    <input
+                                        type="text"
+                                        name="totpInput"
+                                        value={TOTPToken}
+                                        onChange={inputHandler}
+                                        alt="totp input"
+                                    ></input>
+                                    <button
+                                        type="submit"
+                                        alt="totp enter button"
+                                        aria-label="totp enter button"
+                                    >
+                                        Enter
+                                    </button>
+                                    <h4>{TOTPMessage}</h4>
+                                </form>
+                            </div>
+                        ) : (
+                            <div className="totpContainer">
+                                <h2>
+                                    Use QR or text code with an authenticator
+                                    application to set up multi factor
+                                    authentication, then enter the code
+                                    generated
+                                </h2>
+                                <form className="code">
+                                    <QRCodeSVG
+                                        value={TOTPSecret}
+                                        height="600"
+                                        width="600"
+                                    />
+                                    <div className="string">
+                                        <h3>{TOTPString}</h3>
+                                        <button
+                                            name="totpCopy"
+                                            onClick={inputHandler}
+                                            alt="copy TOTP string"
+                                            aria-label="copy TOTP string"
+                                        >
+                                            <img
+                                                src={
+                                                    theme === 'dark'
+                                                        ? copyDark
+                                                        : copyLight
+                                                }
+                                            ></img>
+                                        </button>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="totpInput"
+                                        value={TOTPToken}
+                                        onChange={inputHandler}
+                                        alt="totp input"
+                                    ></input>
+                                    <button
+                                        type="submit"
+                                        alt="totp enter button"
+                                        aria-label="totp enter button"
+                                    >
+                                        Enter
+                                    </button>
+                                    <h4>{TOTPMessage}</h4>
+                                </form>
+                            </div>
+                        ))}
+                </div>
             </div>
-        </div>
+            {loading && (
+                <div className="loading">
+                    <div className="badge">
+                        <img
+                            src={theme === 'dark' ? loadingDark : loadingLight}
+                        />
+                    </div>
+                </div>
+            )}
+        </>
     )
 }
