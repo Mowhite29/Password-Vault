@@ -248,7 +248,7 @@ class RegisterView(APIView):
                 return Response({"error": serializer.errors},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
-                logger.info(f'Confirmation email sent to {user.username}')
+                logger.info(f'Confirmation email sent to {user.username} by {get_client_ip(request)}. Message ID: {response['MessageId']}')
                 return Response({"message":
                                 ("A confirmation email has been sent "
                                     "to your email address.")},
@@ -490,8 +490,7 @@ class PasswordChange(APIView):
             return Response({"error": e.response['Error']['Message']},
                             status=status.HTTP_400_BAD_REQUEST)
         else:
-            print(f"Email sent! Message ID: {response['MessageId']}")
-            logger.info(f'User {user.username} requested password change at {get_client_ip(request)}.')
+            logger.info(f'User {user.username} requested password change at {get_client_ip(request)}. Message ID: {response['MessageId']}')
             return Response({"message":
                                 "A confirmation email has been "
                                 "sent to your email address."},
