@@ -190,7 +190,10 @@ export default function Home() {
                     <SignIn />
                 ) : (
                     <>
-                        <div className="home">
+                        <div
+                            className="home"
+                            onClick={() => handleScreenChange('home')}
+                        >
                             <div className="homeContainer">
                                 <h1>Secure Your Digital Life with Ease</h1>
                                 <h2>
