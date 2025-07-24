@@ -15,7 +15,7 @@
         margin: 0 0 clamp(2.5rem, 11.065vw + 0.425rem, 7.5rem);
         position: absolute;
         top: clamp(3.75rem, 6.916vw + 2.453rem, 6.875rem);
-        z-index: 100000;
+        z-index: 1;
         .staticMenuBar {
             width: 90%;
             display: flex;
