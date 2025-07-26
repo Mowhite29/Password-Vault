@@ -6,7 +6,7 @@ A full-stack, secure password management application built with React.js (fronte
 
 This project is not intended for production use. It is provided as a demonstration of software development abilities only.
 
-**So not store real passwords or sensitive information in this system. No security guarantees are provided, and the author accepts no liability for misuse or data loss.**
+**Do not store real passwords or sensitive information in this system. No security guarantees are provided, and the author accepts no liability for misuse or data loss.**
 
 ## Features
 
