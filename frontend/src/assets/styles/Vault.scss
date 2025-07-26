@@ -68,7 +68,7 @@
 
                 .tag {
                     position: relative;
-                    left: clamp(12.25rem, 70.028vw - 0.88rem, 43.938rem);
+                    left: clamp(12.25rem, 72.376vw - 1.32rem, 45rem);
                     top: -4px;
                     margin: 0;
                     width: clamp(5.938rem, 21.438vw + 1.918rem, 15.625rem);
@@ -175,27 +175,10 @@
             .hidden {
                 margin: 5px 0;
                 .tag {
-                    left: clamp(13.25rem, 77.486vw - 1.279rem, 48.313rem);
+                    left: clamp(13.25rem, 78.453vw - 1.46rem, 48.75rem);
                     top: calc(clamp(0.5rem, 0.552vw + 0.396rem, 0.75rem)* -1);
                     width: clamp(5rem, 16.166vw - 0.052rem, 13.75rem);
                     height: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
-                }
-                .work {
-                    h3 {
-                        font-size: clamp(0.938rem, 2.072vw + 0.549rem, 1.875rem);
-                    }
-                }
-                .social {
-                    h3 {
-                        font-size: clamp(0.813rem, 1.934vw + 0.45rem, 1.688rem);
-                    }
-                }
-                .school {
-                    h3 {
-                        font-size: clamp(0.75rem, 1.934vw + 0.387rem, 1.625rem);
-                    }
-                }
-                .personal {
                     h3 {
                         font-size: clamp(0.625rem, 1.657vw + 0.314rem, 1.375rem);
                     }
@@ -273,10 +256,16 @@
             position: absolute;
             top: 0;
             @include copy;
+            h1 {
+                font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
+            }
             button {
+                @include border;
+                @include text;
                 border: none;
                 background: none;
                 align-self: flex-end;
+                font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                 margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0 0;
             }
             .buttons {
@@ -403,7 +392,7 @@
                 margin: 5px 0;
 
                 .tag {
-                    left: clamp(37.938rem, 62.793vw - 2.289rem, 73.063rem);
+                    left: clamp(38.75rem, 63.017vw - 1.62rem, 74rem);
                     top: clamp(-0.625rem, 1.117vw - 1.341rem, 0rem);
                     width: clamp(8.75rem, 11.173vw + 1.592rem, 15rem);
                     height: clamp(4.375rem, 3.352vw + 2.228rem, 6.25rem);
@@ -478,30 +467,10 @@
             .hidden {
                 margin: 5px 0;
                 .tag {
-                    left: clamp(39.375rem, 65.922vw - 2.856rem, 76.25rem);
+                    left: clamp(40.313rem, 67.039vw - 2.634rem, 77.813rem);
                     top: clamp(-0.75rem, 1.341vw - 1.609rem, 0rem);
                     width: clamp(6.875rem, 6.145vw + 2.938rem, 10.313rem);
                     height: clamp(3.75rem, 1.117vw + 3.034rem, 4.375rem);
-                }
-                .work {
-                    h3 {
-                        font-size: clamp(1.563rem, 1.117vw + 0.847rem, 2.188rem);
-                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
-                    }
-                }
-                .social {
-                    h3 {
-                        font-size: clamp(1.438rem, 1.229vw + 0.65rem, 2.125rem);
-                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
-                    }
-                }
-                .school {
-                    h3 {
-                        font-size: clamp(1.313rem, 1.117vw + 0.597rem, 1.938rem);
-                        margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
-                    }
-                }
-                .personal {
                     h3 {
                         font-size: clamp(1.063rem, 0.782vw + 0.561rem, 1.5rem);
                         margin: 0 0 -5px calc(clamp(0.188rem, 0.223vw + 0.044rem, 0.313rem) * -1);
@@ -742,27 +711,10 @@
             .hidden {
                 margin: 5px 0;
                 .tag {
-                    left: clamp(21.313rem, 53.695vw + 4.533rem, 50.375rem);
+                    left: clamp(21.25rem, 54.965vw + 4.073rem, 51rem);
                     top: calc(clamp(0.5rem, 0.924vw + 0.211rem, 1rem)* -1);
                     width: clamp(5rem, 16.166vw - 0.052rem, 13.75rem);
                     height: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
-                }
-                .work {
-                    h3 {
-                        font-size: clamp(0.938rem, 2.656vw + 0.108rem, 2.375rem);
-                    }
-                }
-                .social {
-                    h3 {
-                        font-size: clamp(0.875rem, 2.425vw + 0.117rem, 2.188rem);
-                    }
-                }
-                .school {
-                    h3 {
-                        font-size: clamp(0.813rem, 2.309vw + 0.091rem, 2.063rem);
-                    }
-                }
-                .personal {
                     h3 {
                         font-size: clamp(0.688rem, 1.963vw + 0.074rem, 1.75rem);
                     }
@@ -792,7 +744,7 @@
             width: 70%;
             h1 {
                 font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
-                margin: clamp(0.625rem, 3.464vw - 0.458rem, 2.5rem);
+                margin: clamp(0.313rem, 1.732vw - 0.229rem, 1.25rem) clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem);
             }
             input {
                 width: 80%;
@@ -800,10 +752,11 @@
             }
             button {
                 font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
+                margin: clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem) 0 clamp(0.313rem, 1.732vw - 0.229rem, 1.25rem);
             }
             h2 {
                 font-size: clamp(0.875rem, 3.002vw - 0.063rem, 2.5rem);
-                margin: clamp(0.625rem, 3.464vw - 0.458rem, 2.5rem);
+                margin: clamp(0.313rem, 1.732vw - 0.229rem, 1.25rem) clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem);
             }
         }
         .popUpContainer {
@@ -819,6 +772,9 @@
             align-self: center;
             position: absolute;
             top: 0;
+            h1 {
+                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+            }
             .buttons {
                 display: flex;
                 flex-direction: row;
@@ -826,6 +782,7 @@
                 align-content: center ;
                 button {
                 margin: 5px;
+                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
             }
             }
             
