@@ -125,8 +125,10 @@ export default function SignIn() {
                 )
                 setLoading(false)
                 setMessageVisible(true)
-                setTimeout(() => setMessageVisible(false), 3000)
-                handleScreenChange('home')
+                setTimeout(() => {
+                    setMessageVisible(false)
+                    handleScreenChange('home')
+                }, 3000)
             } else {
                 setNewPassword('')
                 setNewUsername('')
