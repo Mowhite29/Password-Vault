@@ -100,7 +100,7 @@ export async function Check(user, password) {
     zxcvbnOptions.setOptions(options)
 
     const response = await zxcvbnAsync(password)
-    if (response.score === 4) {
+    if (response.score >= 2) {
         return true
     } else {
         return response.feedback
