@@ -5,7 +5,6 @@ const backEndURL = import.meta.env.VITE_BACKEND_URL
 export async function Register(username, password, firstname, lastname = '') {
     try {
         const url = backEndURL + '/user/'
-        console.log('1')
         const response = await axios.post(
             url,
             {
@@ -19,7 +18,7 @@ export async function Register(username, password, firstname, lastname = '') {
         )
 
         if (response.status === 200) {
-            return response.data
+            return true
         } else {
             console.log(response.status)
             return false
