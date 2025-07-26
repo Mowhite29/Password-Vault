@@ -390,6 +390,14 @@ export default function Vault() {
             vault[elem.value]['nonce']
         )
         navigator.clipboard.writeText(plaintext)
+        theme === 'dark'
+            ? (e.target.src = copyLight)
+            : (e.target.src = copyDark)
+        setTimeout(() => {
+            theme === 'dark'
+                ? (e.target.src = copyDark)
+                : (e.target.src = copyLight)
+        }, 1000)
     }
 
     const ShowEntry = (e) => {
@@ -424,6 +432,14 @@ export default function Vault() {
             setCreationShown(true)
         } else if (e.currentTarget.name === 'copy') {
             navigator.clipboard.writeText(e.target.value)
+            theme === 'dark'
+                ? (e.target.src = copyLight)
+                : (e.target.src = copyDark)
+            setTimeout(() => {
+                theme === 'dark'
+                    ? (e.target.src = copyDark)
+                    : (e.target.src = copyLight)
+            }, 1000)
         } else if (e.currentTarget.name === 'showPasswordButton') {
             ShowPassword()
         } else if (e.currentTarget.name === 'editButton') {
