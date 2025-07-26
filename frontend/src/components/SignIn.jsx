@@ -327,6 +327,7 @@ export default function SignIn() {
                                         value={TOTPToken}
                                         onChange={inputHandler}
                                         alt="totp input"
+                                        autoFocus
                                     ></input>
                                     <button
                                         type="submit"
@@ -346,7 +347,11 @@ export default function SignIn() {
                                     authentication, then enter the code
                                     generated
                                 </h2>
-                                <form className="code">
+                                <form
+                                    className="code"
+                                    name="totp"
+                                    onSubmit={inputHandler}
+                                >
                                     <QRCodeSVG
                                         value={TOTPSecret}
                                         height="600"
@@ -355,6 +360,7 @@ export default function SignIn() {
                                     <div className="string">
                                         <h3>{TOTPString}</h3>
                                         <button
+                                            type="button"
                                             name="totpCopy"
                                             onClick={inputHandler}
                                             alt="copy TOTP string"
@@ -375,6 +381,7 @@ export default function SignIn() {
                                         value={TOTPToken}
                                         onChange={inputHandler}
                                         alt="totp input"
+                                        autoFocus
                                     ></input>
                                     <button
                                         type="submit"
