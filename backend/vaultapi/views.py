@@ -17,11 +17,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils import timezone
-import boto3
 from botocore.exceptions import ClientError
 import logging
 import jwt
 import pyotp
+import resend
 from .models import VaultEntry, UserKeys, UserProfile
 from .serializers import (
     VaultSerializer, RegisterSerializer,
@@ -29,6 +29,8 @@ from .serializers import (
 )
 
 logger = logging.getLogger(__name__)
+
+resend.api_key = settings.RESEND_KEY
 
 
 def trigger_user_cleanup(request):
@@ -221,34 +223,41 @@ class RegisterView(APIView):
                 f"{settings.FRONTEND_URL}/verify-email/{uid}/{token}"
             )
 
-            email_subject = "Verify your email"
-            email_message = render_to_string("email/verify_email.html",
+            email_message_html = render_to_string("email/verify_email.html",
+                                        {
+                                            'user': user,
+                                            'activation_link': activation_link
+                                        })
+            email_message_txt = render_to_string("email/verify_email.txt",
                                         {
                                             'user': user,
                                             'activation_link': activation_link
                                         })
 
-            client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
+            params: resend.Emails.SendParams = {
+                "from": f'Password Vault <verify-email{settings.DEFAULT_FROM_EMAIL}>',
+                "to": [user.email],
+                "subject": "Verify your email",
+                "html": email_message_html,
+                "text": email_message_txt
+            }
 
             try:
-                response = client.send_email(
-                    Destination={'ToAddresses': [user.email]},
-                    Message={
-                        'Body': {
-                            'Html': {'Charset': 'UTF-8', 'Data': email_message}
-                        },
-                        'Subject': {'Charset': 'UTF-8', 'Data': email_subject},
-                    },
-                    Source='verify-email' + settings.DEFAULT_FROM_EMAIL,
-                )
+                response = resend.Emails.send(params)
 
             except ClientError as e:
                 print(f"An error occurred: {e.response['Error']['Message']}")
                 logger.error(f'{user.username} {e.response['Error']['Message']}')
-                return Response({"error": serializer.errors},
+                return Response({"error": {e.response['Error']['Message']}},
                                 status=status.HTTP_400_BAD_REQUEST)
+
+            except Exception as e:
+                error_message = f"Unexpected error: {str(e)}"
+                logger.error(error_message)
+                return Response({"error": error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
             else:
-                logger.info(f'Confirmation email sent to {user.username} by {get_client_ip(request)}. Message ID: {response['MessageId']}')
+                logger.info(f'Confirmation email sent to {user.username} by {get_client_ip(request)}. Message ID: {response['id']}')
                 return Response({"message":
                                 ("A confirmation email has been sent "
                                     "to your email address.")},
@@ -453,42 +462,45 @@ class PasswordChange(APIView):
     def post(self, request):
         logger.info("Password change request accessed.")
         user = request.user
+
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-
         password_change_url = (
             f"{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}")
 
-        email_subject = "Confirm Your Password Change"
-        email_message = render_to_string(
-                        "email/password_change.html",
-                        {
-                            'user': user,
-                            'password_change_url': password_change_url
-                        })
-        client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
+        email_message_html = render_to_string("email/password_change.html",
+                                        {
+                                            'user': user,
+                                            'password_change_url': password_change_url
+                                        })
+        email_message_txt = render_to_string("email/password_change.txt",
+                                        {
+                                            'user': user,
+                                            'password_change_url': password_change_url
+                                        })
+
+        params: resend.Emails.SendParams = {
+                "from": f'Password Vault <change-password{settings.DEFAULT_FROM_EMAIL}>',
+                "to": [user.email],
+                "subject": "Confirm your password change",
+                "html": email_message_html,
+                "text": email_message_txt
+            }
+
         try:
-            response = client.send_email(
-                Destination={'ToAddresses': [user.email]},
-                Message={
-                    'Body': {
-                        'Html': {
-                            'Charset': 'UTF-8',
-                            'Data': email_message
-                        }
-                    },
-                    'Subject': {
-                        'Charset': 'UTF-8',
-                        'Data': email_subject,
-                    },
-                },
-                Source='password-change' + settings.DEFAULT_FROM_EMAIL,
-            )
+            response = resend.Emails.send(params)
+
         except ClientError as e:
             print(f"An error occurred: {e.response['Error']['Message']}")
             logger.error(e.response['Error']['Message'])
             return Response({"error": e.response['Error']['Message']},
                             status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            error_message = f"Unexpected error: {str(e)}"
+            logger.error(error_message)
+            return Response({"error": error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
             logger.info(f'User {user.username} requested password change at {get_client_ip(request)}. Message ID: {response['MessageId']}')
             return Response({"message":
@@ -532,39 +544,39 @@ class PasswordReset(APIView):
         password_change_url = (
             f'{settings.FRONTEND_URL}/confirm-password-change/{uid}/{token}')
 
-        email_subject = "Confirm Your Password Change"
-        email_message = render_to_string(
-            "email/password_change.html",
-            {
-                'user': user,
-                'password_change_url': password_change_url
-            })
-        client = boto3.client('ses', region_name=settings.AWS_REGION_NAME)
+        email_message_html = render_to_string("email/password_change.html",
+                                        {
+                                            'user': user,
+                                            'password_change_url': password_change_url
+                                        })
+        email_message_txt = render_to_string("email/password_change.txt",
+                                        {
+                                            'user': user,
+                                            'password_change_url': password_change_url
+                                        })
+
+        params: resend.Emails.SendParams = {
+                "from": f'Password Vault <change-password{settings.DEFAULT_FROM_EMAIL}>',
+                "to": [user.email],
+                "subject": "Confirm your password change",
+                "html": email_message_html,
+                "text": email_message_txt
+            }
+
         try:
-            response = client.send_email(
-                Destination={
-                    'ToAddresses': [user.email]
-                },
-                Message={
-                    'Body': {
-                        'Html': {
-                            'Charset': 'UTF-8',
-                            'Data': email_message
-                        }
-                    },
-                    'Subject': {
-                        'Charset': 'UTF-8',
-                        'Data': email_subject
-                    },
-                },
-                Source='password-reset' + settings.DEFAULT_FROM_EMAIL
-            )
+            response = resend.Emails.send(params)
 
         except ClientError as e:
             print(f"An error occurred: {e.response['Error']['Message']}")
             logger.error(e.response['Error']['Message'])
             return Response({"error": e.response['Error']['Message']},
                             status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            error_message = f"Unexpected error: {str(e)}"
+            logger.error(error_message)
+            return Response({"error": error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
             print(f"Email sent! Message ID: {response['MessageId']}")
             logger.info(f'User {username} requested password change at {get_client_ip(request)}.')

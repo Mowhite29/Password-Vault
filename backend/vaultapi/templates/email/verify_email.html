@@ -1,7 +1,9 @@
-Hi {{ user.first_name }},</br>
-
-Please verify your email by clicking the link below:</br>
-
-<a href="{{ activation_link }}">{{ activation_link }}</a></br>
-
-If you didn't register, please ignore this email.
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>Hi {{ user.first_name }},</p></br>
+        <p>Please verify your email by clicking the link below:</br></p>
+        <a href="{{ activation_link }}">{{ activation_link }}</a></br>
+        <p>If you didn't register, please ignore this email.</p>
+    </body> 
+</html>

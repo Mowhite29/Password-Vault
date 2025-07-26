@@ -177,11 +177,9 @@ CRSF_TRUSTED_ORIGINS = {
     'http://localhost'
 }
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_REGION_NAME = os.getenv('AWS_REGION_NAME')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 FRONTEND_URL = os.getenv('FRONTEND_URL')
+RESEND_KEY = os.getenv('RESEND_KEY')
 
 LOGGING = {
     'version': 1,
