@@ -90,6 +90,8 @@
                         text-align: center;
                         font-size: clamp(1.563rem, 6.224vw + 0.395rem, 4.375rem);
                         margin: calc(clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem)* -1) 0 0;
+                        align-self: center;
+                        max-width: clamp(13.125rem, 74.586vw - 0.86rem, 46.875rem);
                     }
 
             }
@@ -229,6 +231,7 @@
                 h1 {
                     font-size: clamp(1.25rem, 1.116vw + 0.536rem, 1.875rem);
                     margin: -20px 0 clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem);
+                    max-width: clamp(26.875rem, 27.933vw + 8.98rem, 42.5rem);
                 }
             }
             .totpContainer {
@@ -327,6 +330,7 @@
                 h1 {
                     font-size: clamp(1.25rem, 2.309vw + 0.528rem, 2.5rem);
                     margin: -20px 0 clamp(0.313rem, 1.155vw - 0.048rem, 0.938rem);
+                    max-width: clamp(21.875rem, 46.189vw + 7.441rem, 46.875rem);
                 }
             }
             .totpContainer {
