@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { signOut, setScreen } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
 import { primaryInput } from 'detect-it'
-
 import '../assets/styles/MenuBar.scss'
 import logoDark from '../assets/images/dark/logo.gif'
 import logoLight from '../assets/images/light/logo.gif'
