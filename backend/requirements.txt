@@ -61,6 +61,7 @@ python-dotenv==1.1.0
 PyYAML==6.0.2
 referencing==0.36.2
 requests==2.32.4
+resend==2.11.0
 rich==13.5.3
 rpds-py==0.25.1
 ruamel.yaml==0.18.14
