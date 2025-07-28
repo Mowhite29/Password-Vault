@@ -16,7 +16,7 @@ class VaultEntry(models.Model):
     nonce = models.BinaryField(blank=True, null=True,
                         help_text='Crypto nonce')
     notes = models.TextField(blank=True, help_text="Optional notes or hints")
-    tag = models.TextField(blank=True,
+    tag = models.TextField(blank=True, null=True,
                            help_text="optional tag added to entry")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

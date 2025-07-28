@@ -318,7 +318,7 @@ class EmailVerifyView(APIView):
 
 
 class UserKeysView(APIView):
-    authentication_classes = [DeviceAuthentication, JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
@@ -358,7 +358,7 @@ class UserKeysView(APIView):
 
 
 class VaultView(APIView):
-    authentication_classes = [DeviceAuthentication, JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
@@ -454,7 +454,7 @@ class VaultView(APIView):
 
 
 class PasswordChange(APIView):
-    authentication_classes = [DeviceAuthentication, JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
@@ -502,7 +502,7 @@ class PasswordChange(APIView):
             return Response({"error": error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         else:
-            logger.info(f'User {user.username} requested password change at {get_client_ip(request)}. Message ID: {response['MessageId']}')
+            logger.info(f'User {user.username} requested password change at {get_client_ip(request)}. Message ID: {response['id']}')
             return Response({"message":
                                 "A confirmation email has been "
                                 "sent to your email address."},
@@ -510,7 +510,7 @@ class PasswordChange(APIView):
 
 
 class PasswordChangeDemo(APIView):
-    authentication_classes = [DeviceAuthentication, JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
@@ -640,7 +640,7 @@ class PasswordChangeConfirm(APIView):
 
 
 class NameChange(APIView):
-    authentication_classes = [DeviceAuthentication, JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
 
