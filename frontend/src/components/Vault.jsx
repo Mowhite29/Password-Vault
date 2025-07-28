@@ -155,10 +155,6 @@ export default function Vault() {
         }
     }, [search, vault])
 
-    useEffect(() => {
-        console.log('change')
-    }, [tag])
-
     const KeySet = async () => {
         setLoading(true)
         const key = await GenerateKeyCheck(enteredKey, userEmail)
