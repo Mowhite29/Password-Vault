@@ -46,9 +46,9 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 
 ## Phase 4: Frontend buildout
 
-- [ ] Responsive design with a mobile-first approach
-- [ ] Dark mode/Light mode
-- [ ] Accessibility
+- [x] Responsive design with a mobile-first approach
+- [x] Dark mode/Light mode
+- [x] Accessibility
 - [ ] SEO
 - [ ] Site performance optimisation
 
