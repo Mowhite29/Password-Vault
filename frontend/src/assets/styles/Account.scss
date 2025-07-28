@@ -1,62 +1,114 @@
+@use './abstracts/mixins' as *;
+
+// Mobile in Portrait
 @media (min-width: 0px) {
     .accountContainer {
+        @include container;
+        @include text;
+        @include border;
+        @include shadow;
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 130px;
-        width: 100%;
-        height: 80%;
+        top: clamp(8.125rem, 23.481vw + 3.722rem, 18.75rem);
+        width: 90%;
+        height: clamp(15.625rem, 40.746vw + 7.985rem, 34.063rem);
         justify-content: space-around;
         align-items: center;
-
-        button {
-            width: 30%;
-        }
-
+        align-self: center;
         .popUpContainer {
-            display: flex;
-            flex-direction: column;
-            align-self: center;
-            width: 80%;
-            position: absolute;
-            top: 0px;
-            background-color: white;
-            border: 2px solid gray;
-            .buttons {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-content: center ;
-                button {
-                    margin: 5px;
-                }
-            }
-            
+            @include popup;
         }
-
-        .screen {
-            left: 0;
-            top: -125px;
-        }
-
         .nameChange {
             display: flex;
             flex-direction: column;
-            background-color: white;
-            border: 2px solid gray;
-            position: absolute;
-            top: 200px;
-            width: 60%;
+            width: 100%;
             justify-content: center;
             align-items: center;
-
+            align-self: center;
+            div {
+                h2 {
+                    font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
+                    margin: clamp(0.625rem, 2.072vw + 0.237rem, 1.563rem) 0;
+                }
+                input {
+                    font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
+                }
+            }
             button {
-                width: 40%;
-                margin: 5px;
+                @include text;
+                @include border;
+                background: none;
+                width: 30%;
+                margin: clamp(0.625rem, 2.072vw + 0.237rem, 1.563rem) 0;
+                font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
             }
         }
+        button {
+                @include text;
+                @include border;
+                background: none;
+                width: auto;
+                margin: clamp(0.625rem, 2.072vw + 0.237rem, 1.563rem) 0;
+                font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
+            }
     }
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 1025px) {
+    .accountContainer {
+        top: clamp(9.375rem, 16.76vw - 1.362rem, 18.75rem);
+        width: clamp(51.25rem, 81.564vw - 1.002rem, 96.875rem);
+        height: clamp(21.25rem, 26.816vw + 4.071rem, 36.25rem);
+        .nameChange {
+            div {
+                h2 {
+                    font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                    margin: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem) 0;
+                }
+                input {
+                    font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+                }
+            }
+            button {
+                width: 30%;
+                margin: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem) 0;
+                font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+            }
+        }
+        button {
+                margin: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem) 0;
+                font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+            }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .accountContainer {
+        top: clamp(6.25rem, 12.356vw + 2.389rem, 12.938rem);
+        width: clamp(25rem, 80.831vw - 0.26rem, 68.75rem);
+        height: clamp(11.625rem, 30.485vw + 2.098rem, 28.125rem);
+        .nameChange {
+            div {
+                h2 {
+                    font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    margin: clamp(0rem, 2.309vw - 0.722rem, 1.25rem) 0;
+                }
+                input {
+                    font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                }
+            }
+            button {
+                width: clamp(8rem, 13.164vw + 3.886rem, 15.125rem);
+                margin: clamp(0.188rem, 1.963vw - 0.426rem, 1.25rem) 0;
+                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+            }
+        }
+        button {
+                margin: clamp(0.188rem, 1.963vw - 0.426rem, 1.25rem) 0;
+                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+            }
+    }
 }

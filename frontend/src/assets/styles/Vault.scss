@@ -108,6 +108,9 @@
                         font-size: clamp(0.938rem, 2.901vw + 0.394rem, 2.25rem);
                     }
                 }
+                .none {
+                    background-color: none;
+                }
                 .website, .username, .password, .createdAt, .updatedAt, .notes {
                     display: flex;
                     flex-direction: column;
@@ -135,6 +138,7 @@
                     }
                     button {
                         @include text;
+                        width: auto;
                         font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                     }
                 }
@@ -167,6 +171,7 @@
                     @include copy;
                 }
                 .arrow {
+                    align-self: center;
                     transform: rotate(180deg);
                     background: none;
                     border: none;
@@ -201,7 +206,7 @@
                     display: none;
                 }
                 .arrow {
-
+                    align-self: center;
                     transform: unset;
                     background: none;
                     border: none;
@@ -243,38 +248,20 @@
             }
         }
         .popUpContainer {
-            @include container;
-            @include text;
-            @include border;
-            @include shadow;
-            display: flex;
-            flex-direction: column;
-            width: 90%;
-            height: auto;
-            text-align: center;
-            align-self: center;
-            position: absolute;
-            top: 0;
-            @include copy;
-            h1 {
-                font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
-            }
-            button {
-                @include border;
-                @include text;
-                border: none;
-                background: none;
-                align-self: flex-end;
-                font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
-                margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) 0 0;
-            }
+            @include popup;
             .buttons {
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-content: center ;
                 button {
-                margin: 5px;
+                    @include border;
+                    @include text;
+                    background: none;
+                    margin: 5px;
+                    width: auto;
+                    height: auto;
+                    font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
             }
             }
             
@@ -358,6 +345,32 @@
                 h3 {
                     font-size: clamp(0.938rem, 3.458vw + 0.289rem, 2.5rem);
                     margin: 1px;
+                }
+            }
+        }
+        .loading {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: calc(clamp(7.75rem, 31.906vw + 1.768rem, 22.188rem)* -1);
+            backdrop-filter: blur(clamp(0.125rem, 0.414vw + 0.047rem, 0.313rem));
+            z-index: 10;
+            justify-content: center;
+            align-self: center;
+            .badge {
+                @include container;
+                @include background;
+                @include border;
+                width: 30%;
+                aspect-ratio: 1 / 1;
+                align-self: center;
+                display: flex;
+                justify-content: center;
+                video {
+                    width: 80%;
+                    height: 80%;
+                    align-self: center;
                 }
             }
         }
@@ -519,36 +532,15 @@
             }
         }
         .popUpContainer {
-            @include container;
-            @include text;
-            @include border;
-            @include shadow;
-            display: flex;
-            flex-direction: column;
-            width: 90%;
-            height: auto;
-            text-align: center;
-            align-self: center;
-            position: absolute;
-            top: 0;
-            button {
-                    margin: clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) 0 0;
-                    z-index: 1000000;
+                .buttons {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-content: center ;
+                    button {
+                        margin: 5px;
+                    }
                 }
-            h1 {
-                font-size: clamp(1.25rem, 1.116vw + 0.536rem, 1.875rem);
-                margin: -20px 0 clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem);
-            }
-            .buttons {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-content: center ;
-                button {
-                margin: 5px;
-            }
-            }
-            
         }
         .entryCreationContainer {
             top: calc(clamp(8.063rem, 8.827vw + 2.408rem, 13rem)* -1);
@@ -598,6 +590,17 @@
                 h3 {
                     font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
                     margin: 1px;
+                }
+            }
+        }
+        .loading {
+            top: calc(clamp(8.063rem, 8.268vw + 2.766rem, 12.688rem)* -1);
+            .badge {
+                width: 15%;
+                max-width: 300px;
+                video {
+                    width: 80%;
+                    height: 80%;
                 }
             }
         }
@@ -677,8 +680,11 @@
                     .value {
                         width: 90%;
                     }
-                    button {
-                        font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                    .row {
+                        button {
+                            font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+                            width: auto
+                        }
                     }
                 }
                 .website {
@@ -759,34 +765,6 @@
                 margin: clamp(0.313rem, 1.732vw - 0.229rem, 1.25rem) clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem);
             }
         }
-        .popUpContainer {
-            @include container;
-            @include text;
-            @include border;
-            @include shadow;
-            display: flex;
-            flex-direction: column;
-            width: 90%;
-            height: auto;
-            text-align: center;
-            align-self: center;
-            position: absolute;
-            top: 0;
-            h1 {
-                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
-            }
-            .buttons {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-content: center ;
-                button {
-                margin: 5px;
-                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
-            }
-            }
-            
-        }
         .entryCreationContainer {
             top: calc(clamp(5.625rem, 12.009vw + 1.872rem, 12.125rem)* -1);
             .formContainer {
@@ -841,6 +819,17 @@
                 h3 {
                     font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
                     margin: 1px;
+                }
+            }
+        }
+        .loading {
+            top: calc(clamp(5.5rem, 12.125vw + 1.711rem, 11.563rem)* -1);
+            .badge {
+                width: 15%;
+                max-width: 300px;
+                video {
+                    width: 80%;
+                    height: 80%;
                 }
             }
         }

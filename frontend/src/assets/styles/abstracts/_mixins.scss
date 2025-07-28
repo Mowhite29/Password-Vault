@@ -76,11 +76,12 @@ $border-dark: #2A3C43;
             background: none;
             border: none;
             margin: 0;
-            width: auto;
             cursor: pointer;
+            width: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
+            height: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
             img {
                 width: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
-                height: auto
+                height: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem)
             }
         }
     }
@@ -99,5 +100,57 @@ $border-dark: #2A3C43;
                 height: auto
             }
         }
+    }
+}
+@mixin popup {
+    @media (min-width: 0px) {
+        display: flex;
+                flex-direction: column;
+                width: 90%;
+                position: absolute;
+                top: 100px;
+                align-self: center;
+                @include container;
+                @include text;
+                @include border;
+                @include copy;
+                button {
+                    border: none;
+                    background: none;
+                    align-self: flex-end;
+                    margin: clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem) clamp(0.938rem, 1.381vw + 0.679rem, 1.563rem) 0 0;
+                }
+                h1 {
+                        text-align: center;
+                        font-size: clamp(1.563rem, 6.224vw + 0.395rem, 4.375rem);
+                        margin: calc(clamp(0.313rem, 1.381vw + 0.054rem, 0.938rem)* -1) 0 0;
+                        align-self: center;
+                        max-width: clamp(13.125rem, 74.586vw - 0.86rem, 46.875rem);
+                    }
+    }
+    @media (min-width: 1025px) {
+        width: clamp(32.188rem, 29.018vw + 13.616rem, 48.438rem);
+                button {
+                    margin: 0 clamp(0rem, 1.117vw - 0.716rem, 0.625rem) 0 0;
+                    z-index: 1000000;
+                }
+                h1 {
+                    font-size: clamp(1.25rem, 1.116vw + 0.536rem, 1.875rem);
+                    margin: calc(clamp(1.875rem, -0.559vw + 2.233rem, 1.563rem) * -1) 0 clamp(0.625rem, 0.559vw + 0.267rem, 0.938rem);
+                    max-width: clamp(26.875rem, 27.933vw + 8.98rem, 42.5rem);
+                }
+    }
+    @media (orientation: landscape) and (pointer: coarse) { 
+        width: clamp(28.125rem, 51.963vw + 11.887rem, 56.25rem);
+        top: clamp(2.5rem, 6.928vw + 0.335rem, 6.25rem);
+                button {
+                    margin: 5px clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem) 0 0;
+                    z-index: 100000;
+                }
+                h1 {
+                    font-size: clamp(1.25rem, 2.309vw + 0.528rem, 2.5rem);
+                    margin: calc(clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem)* -1) 0 clamp(0.313rem, 1.155vw - 0.048rem, 0.938rem);
+                    max-width: clamp(21.875rem, 46.189vw + 7.441rem, 46.875rem);
+                }
     }
 }

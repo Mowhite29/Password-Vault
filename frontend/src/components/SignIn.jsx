@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { QRCodeSVG } from 'qrcode.react'
+import { primaryInput } from 'detect-it'
 import {
     signIn,
     setScreen,
@@ -15,8 +16,12 @@ import copyDark from '../assets/images/dark/copy.png'
 import copyLight from '../assets/images/light/copy.png'
 import closeDark from '../assets/images/dark/close.png'
 import closeLight from '../assets/images/light/close.png'
-import loadingDark from '../assets/images/dark/auth.gif'
-import loadingLight from '../assets/images/light/auth.gif'
+import loadingDark95w from '../assets/images/dark/auth-dark-95w.webm'
+import loadingDark125w from '../assets/images/dark/auth-dark-125w.webm'
+import loadingDark245w from '../assets/images/dark/auth-dark-245w.webm'
+import loadingLight95w from '../assets/images/light/auth-light-95w.webm'
+import loadingLight125w from '../assets/images/light/auth-light-125w.webm'
+import loadingLight245w from '../assets/images/light/auth-light-245w.webm'
 
 export default function SignIn() {
     const theme = useSelector((state) => state.appearance.theme)
@@ -143,7 +148,7 @@ export default function SignIn() {
     }
 
     const ForgottenPassword = async () => {
-        if (username) {
+        if (username != '') {
             setLoading(true)
             const response = await PasswordReset(username)
             if (response) {
@@ -159,7 +164,7 @@ export default function SignIn() {
             setPopUpMessage('Please enter email address')
             setLoading(false)
             setMessageVisible(true)
-            setTimeout(() => setMessageVisible(false), 3000)
+            // setTimeout(() => setMessageVisible(false), 3000)
         }
     }
 
@@ -177,7 +182,7 @@ export default function SignIn() {
             setNewPassword(e.target.value)
         } else if (e.target.name === 'nameInput') {
             setName(e.target.value)
-        } else if (e.target.name === 'forgottenPassword') {
+        } else if (e.target.name === 'forgottenButton') {
             ForgottenPassword()
         } else if (e.target.name === 'createAccount') {
             CreateAccount()
@@ -399,8 +404,28 @@ export default function SignIn() {
             {loading && (
                 <div className="loading">
                     <div className="badge">
-                        <img
-                            src={theme === 'dark' ? loadingDark : loadingLight}
+                        <video
+                            src={
+                                primaryInput === 'touch'
+                                    ? window.Screen.width < 530
+                                        ? theme === 'dark'
+                                            ? loadingDark125w
+                                            : loadingLight125w
+                                        : window.Screen.width < 400
+                                          ? theme === 'dark'
+                                              ? loadingDark95w
+                                              : loadingLight95w
+                                          : theme === 'dark'
+                                            ? loadingDark245w
+                                            : loadingLight245w
+                                    : theme === 'dark'
+                                      ? loadingDark245w
+                                      : loadingLight245w
+                            }
+                            alt="loading"
+                            autoPlay
+                            muted
+                            playsInline
                         />
                     </div>
                 </div>

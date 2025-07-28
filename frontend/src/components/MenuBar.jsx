@@ -5,8 +5,14 @@ import { signOut, setScreen } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
 import { primaryInput } from 'detect-it'
 import '../assets/styles/MenuBar.scss'
-import logoDark from '../assets/images/dark/logo.gif'
-import logoLight from '../assets/images/light/logo.gif'
+import logoDark115w from '../assets/images/dark/logo-dark-115w.webm'
+import logoDark95w from '../assets/images/dark/logo-dark-95w.webm'
+import logoDark75w from '../assets/images/dark/logo-dark-75w.webm'
+import logoDark55w from '../assets/images/dark/logo-dark-55w.webm'
+import logoLight115w from '../assets/images/light/logo-light-115w.webm'
+import logoLight95w from '../assets/images/light/logo-light-95w.webm'
+import logoLight75w from '../assets/images/light/logo-light-75w.webm'
+import logoLight55w from '../assets/images/light/logo-light-55w.webm'
 import menu from '../assets/images/dark/menu.png'
 import info from '../assets/images/dark/info.png'
 import loginDark from '../assets/images/dark/login.gif'
@@ -71,12 +77,35 @@ export default function MenuBar() {
 
     if (primaryInput === 'touch') {
         return (
-            <div className={open ? 'menuContainerOpen' : 'menuContainer'}>
+            <div
+                className={open ? 'menuContainerOpen' : 'menuContainer'}
+                role="region"
+                aria-label="Menu bar"
+            >
                 <div className="staticMenuBar">
-                    <img
-                        src={theme === 'dark' ? logoDark : logoLight}
+                    <video
+                        src={
+                            window.Screen.width < 800
+                                ? theme === 'dark'
+                                    ? logoDark95w
+                                    : logoLight95w
+                                : window.Screen.width < 600
+                                  ? theme === 'dark'
+                                      ? logoDark75w
+                                      : logoLight75w
+                                  : window.Screen.width < 400
+                                    ? theme === 'dark'
+                                        ? logoDark55w
+                                        : logoLight55w
+                                    : theme === 'dark'
+                                      ? logoDark115w
+                                      : logoLight115w
+                        }
                         alt="logo"
-                    ></img>
+                        autoPlay
+                        muted
+                        playsInline
+                    ></video>
 
                     <div
                         className="title"
@@ -167,13 +196,28 @@ export default function MenuBar() {
         )
     } else {
         return (
-            <div className="menuContainer">
+            <div
+                className="menuContainer"
+                role="navigation"
+                aria-label="Menu bar"
+            >
                 <div className="staticMenuBar">
                     <div className="logoTitle">
-                        <img
-                            src={theme === 'dark' ? logoDark : logoLight}
+                        <video
+                            src={
+                                window.Screen.width < 1450
+                                    ? theme === 'dark'
+                                        ? logoDark75w
+                                        : logoLight75w
+                                    : theme === 'dark'
+                                      ? logoDark95w
+                                      : logoLight95w
+                            }
                             alt="logo"
-                        ></img>
+                            autoPlay
+                            muted
+                            playsInline
+                        ></video>
                         <div
                             className="title"
                             onClick={() => handleScreenChange('home')}

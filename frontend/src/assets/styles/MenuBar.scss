@@ -22,7 +22,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-self: center;
-            img {
+            video {
                 width: clamp(2.938rem, 9.392vw + 1.176rem, 7.188rem);
                 height: clamp(2.938rem, 9.392vw + 1.176rem, 7.188rem);
                 align-self: center;
@@ -91,7 +91,7 @@
             .logoTitle {
                 display: flex;
                 flex-direction: row;
-                img {
+                video {
                     height: clamp(3.438rem, 4.464vw + 0.58rem, 5.938rem);
                     width: clamp(3.438rem, 4.464vw + 0.58rem, 5.938rem);
                     border-radius: clamp(0.625rem, 0.558vw + 0.268rem, 0.938rem);
@@ -121,7 +121,7 @@
         width: clamp(14.375rem, 31.178vw + 4.632rem, 31.25rem);
         top: clamp(2.813rem, 4.042vw + 1.55rem, 5rem);
         .staticMenuBar {
-            img {
+            video {
                 height: clamp(1.875rem, 4.619vw + 0.432rem, 4.375rem);
                 width: clamp(1.875rem, 4.619vw + 0.432rem, 4.375rem);
                 border-radius: clamp(0.625rem, 0.558vw + 0.268rem, 0.938rem);
