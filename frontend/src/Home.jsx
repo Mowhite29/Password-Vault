@@ -164,7 +164,12 @@ export default function Home() {
                             If you agree with the terms outlined, please select
                             "I Agree" to continue to the application.
                         </h3>
-                        <button onClick={() => handleWaiver()}>I Agree</button>
+                        <button
+                            onClick={() => handleWaiver()}
+                            aria-label="sign in"
+                        >
+                            I Agree
+                        </button>
                     </div>
                 </div>
             )}
@@ -172,7 +177,7 @@ export default function Home() {
             <MenuBar />
             {screen === 'home' && (
                 <div className="home">
-                    <div className="homeContainer">
+                    <div className="homeContainer" role="main">
                         <h1>Secure Your Digital Life with Ease</h1>
                         <h2>
                             Keep your passwords safe, organized, and
