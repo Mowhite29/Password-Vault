@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
+import { primaryInput } from 'detect-it'
 import '../assets/styles/Vault.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut } from '../redux/authSlice'
@@ -22,6 +23,12 @@ import editLight from '../assets/images/light/edit.png'
 import arrow from '../assets/images/dark/arrow.png'
 import closeDark from '../assets/images/dark/close.png'
 import closeLight from '../assets/images/light/close.png'
+import loadingDark95w from '../assets/images/dark/loading-dark-95w.webm'
+import loadingDark125w from '../assets/images/dark/loading-dark-125w.webm'
+import loadingDark245w from '../assets/images/dark/loading-dark-245w.webm'
+import loadingLight95w from '../assets/images/light/loading-light-95w.webm'
+import loadingLight125w from '../assets/images/light/loading-light-125w.webm'
+import loadingLight245w from '../assets/images/light/loading-light-245w.webm'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
@@ -52,6 +59,7 @@ export default function Vault() {
 
     const [vault, setVault] = useState([])
     const [shownVault, setShownVault] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const timerRef = useRef(null)
     const dispatch = useDispatch()
@@ -147,7 +155,12 @@ export default function Vault() {
         }
     }, [search, vault])
 
+    useEffect(() => {
+        console.log('change')
+    }, [tag])
+
     const KeySet = async () => {
+        setLoading(true)
         const key = await GenerateKeyCheck(enteredKey, userEmail)
         const response = await KeyCreate(
             key.encryptedString,
@@ -158,6 +171,7 @@ export default function Vault() {
         )
         if (response) {
             setMasterKey(enteredKey)
+            setLoading(false)
             setPopUpMessage('Master key set successfully')
             setMessageVisible(true)
             setTimeout(() => {
@@ -168,6 +182,7 @@ export default function Vault() {
     }
 
     const KeyEntry = async () => {
+        setLoading(true)
         const response = await KeyFetch(token)
         const key = await KeyCheck(
             enteredKey,
@@ -180,8 +195,10 @@ export default function Vault() {
         if (key) {
             setMasterKey(enteredKey)
             setkeyEntryShown(false)
+            setLoading(false)
         } else {
             setKeyEntryMessage('Invalid master key entered, please try again')
+            setLoading(false)
         }
         setEnteredkey('')
     }
@@ -197,6 +214,7 @@ export default function Vault() {
                 : null
 
         if (ready) {
+            setLoading(true)
             const check = await Check(userEmail, password)
             if (check != true) {
                 let prompt = ''
@@ -205,10 +223,10 @@ export default function Vault() {
                     prompt = prompt + ' ' + check['suggestions'][i]
                 }
                 setNotification(prompt)
+                setLoading(false)
             } else {
                 setNotification('')
                 const cypher = await Encrypt(masterKey, password)
-                console.log(tag)
                 try {
                     const response = await VaultCreate(
                         label,
@@ -237,9 +255,11 @@ export default function Vault() {
                         }, 3000)
                     } else {
                         setNotification(response)
+                        setLoading(false)
                     }
                 } catch (error) {
                     console.error('Error during VaultCreate:', error)
+                    setLoading(false)
                 }
             }
         }
@@ -252,6 +272,7 @@ export default function Vault() {
 
     const EntryEdit = async (entry) => {
         if (entry === 'submit') {
+            setLoading(true)
             const check = await Check(userEmail, password)
             if (check != true) {
                 let prompt = ''
@@ -260,6 +281,7 @@ export default function Vault() {
                     prompt = prompt + ' ' + check['suggestions'][i]
                 }
                 setNotification(prompt)
+                setLoading(false)
             } else {
                 const cypher = await Encrypt(masterKey, password)
                 const response = await VaultEdit(
@@ -283,6 +305,7 @@ export default function Vault() {
                     const response1 = await VaultFetch(token)
                     setVault(response1)
                     setShownVault(response1)
+                    setLoading(false)
                     setTimeout(() => {
                         setMessageVisible(false)
                     }, 3000)
@@ -315,6 +338,7 @@ export default function Vault() {
 
     const EntryDelete = async (entry) => {
         if (entry === 'delete') {
+            setLoading(true)
             const response = await VaultDelete(
                 label,
                 username,
@@ -323,13 +347,14 @@ export default function Vault() {
                 nonce,
                 token
             )
-            console.log(response)
             if (response === true) {
                 setDeleteShown(false)
                 setPopUpMessage('Entry deleted successfully')
+
                 const response1 = await VaultFetch(token)
                 setVault(response1)
                 setShownVault(response1)
+                setLoading(false)
                 setTimeout(() => {
                     setMessageVisible(false)
                 }, 3000)
@@ -362,7 +387,6 @@ export default function Vault() {
             elem.innerText = 'Show Password'
             return
         }
-        console.log(vault[elem.value])
         const plaintext = await Decrypt(
             masterKey,
             vault[elem.value]['encrypted_password'],
@@ -418,8 +442,6 @@ export default function Vault() {
             setPassword(e.target.value)
         } else if (e.target.name === 'notes') {
             setNotes(e.target.value)
-        } else if (e.target.name === 'tag') {
-            setTag(e.target.value)
         } else if (e.target.name === 'search') {
             setSearch(e.target.value)
         } else if (e.target.name === 'keyInput') {
@@ -429,6 +451,11 @@ export default function Vault() {
         } else if (e.target.name === 'keySet') {
             KeySet()
         } else if (e.target.name === 'addButton') {
+            setLabel('')
+            setUsername('')
+            setPassword('')
+            setNotes('')
+            setTag('')
             setCreationShown(true)
         } else if (e.currentTarget.name === 'copy') {
             navigator.clipboard.writeText(e.target.value)
@@ -449,6 +476,14 @@ export default function Vault() {
         } else if (e.currentTarget.name === 'popupClose') {
             setMessageVisible(false)
         }
+    }
+
+    const radioHandler = (e) => {
+        console.log('tag', tag)
+        if (tag != e.target.value) {
+            setTag(e.target.value)
+        }
+        console.log(e.target.value)
     }
 
     return (
@@ -497,7 +532,11 @@ export default function Vault() {
                                 <div className="tag personal">
                                     <h3 className="value">{entry.tag}</h3>
                                 </div>
-                            ) : null}
+                            ) : (
+                                <div className="tag none">
+                                    <h3 className="value">{entry.tag}</h3>
+                                </div>
+                            )}
                             <div className="website">
                                 <div className="row">
                                     <h3 className="label">Website</h3>
@@ -785,7 +824,7 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="Work"
-                                    onClick={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                 />
                                 <label>Social</label>
@@ -794,7 +833,7 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="Social"
-                                    onChange={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                 />
                                 <label>School</label>
@@ -803,7 +842,7 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="School"
-                                    onChange={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                 />
                                 <label>Personal</label>
@@ -812,8 +851,18 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="Personal"
-                                    onChange={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
+                                />
+                                <label>None</label>
+                                <input
+                                    className="checkBox"
+                                    type="radio"
+                                    name="tag"
+                                    value=""
+                                    onChange={radioHandler}
+                                    alt="tag input"
+                                    checked={tag === ''}
                                 />
                             </div>
                         </div>
@@ -877,7 +926,7 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="Work"
-                                    onClick={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                     checked={tag === 'Work'}
                                 />
@@ -887,7 +936,7 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="Social"
-                                    onChange={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                     checked={tag === 'Social'}
                                 />
@@ -897,7 +946,7 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="School"
-                                    onChange={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                     checked={tag === 'School'}
                                 />
@@ -907,9 +956,19 @@ export default function Vault() {
                                     type="radio"
                                     name="tag"
                                     value="Personal"
-                                    onChange={inputHandler}
+                                    onChange={radioHandler}
                                     alt="tag input"
                                     checked={tag === 'Personal'}
+                                />
+                                <label>None</label>
+                                <input
+                                    className="checkBox"
+                                    type="radio"
+                                    name="tag"
+                                    value=""
+                                    onChange={radioHandler}
+                                    alt="tag input"
+                                    checked={tag === ''}
                                 />
                             </div>
                         </div>
@@ -928,6 +987,35 @@ export default function Vault() {
                             </button>
                         </div>
                         <h3>{notification}</h3>
+                    </div>
+                </div>
+            )}
+            {loading && (
+                <div className="loading">
+                    <div className="badge">
+                        <video
+                            src={
+                                primaryInput === 'touch'
+                                    ? window.Screen.width < 530
+                                        ? theme === 'dark'
+                                            ? loadingDark125w
+                                            : loadingLight125w
+                                        : window.Screen.width < 400
+                                          ? theme === 'dark'
+                                              ? loadingDark95w
+                                              : loadingLight95w
+                                          : theme === 'dark'
+                                            ? loadingDark245w
+                                            : loadingLight245w
+                                    : theme === 'dark'
+                                      ? loadingDark245w
+                                      : loadingLight245w
+                            }
+                            alt="loading"
+                            autoPlay
+                            muted
+                            playsInline
+                        />
                     </div>
                 </div>
             )}
