@@ -1,18 +1,55 @@
+@use './abstracts/mixins' as *;
+
+:root {
+    --theme: light;
+    color-scheme: var(--theme);
+    overflow: hidden;
+    @include background;
+}
+
+//Mobile in Portrait
 @media (min-width: 0px) {
     .verifyContainer {
+        @include container;
+        @include text;
+        @include border;
+        @include shadow;
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
         margin: 10px;
+        width: auto;
+        height: auto;
         h1 {
-            font-size: 30px;
+            font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
         }
         h2 {
-            font-size: 20px;
+            font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
         }
     }
 }
 
-@media (min-width: 1024px) {
+// Desktop
+@media (min-width: 1025px) {
+    .verifyContainer {
+        h1 {
+            font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+        }
+        h2 {
+            font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
+        }
+    }
+}
+
+// Mobile in landscape
+@media (orientation = landscape) and (pointer: coarse){
+    .verifyContainer {
+        h1 {
+            font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+        }
+        h2 {
+            font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
+        }
+    }
 }

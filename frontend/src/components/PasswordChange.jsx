@@ -1,12 +1,14 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signOut } from '../redux/authSlice'
+import { setTheme } from '../redux/appearanceSlice'
 import { PasswordChangeConfirm } from '../services/api'
 import '../assets/styles/PasswordChange.scss'
 
 export default function PasswordChange() {
+    const theme = useSelector((state) => state.appearance.theme)
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
 
@@ -17,6 +19,27 @@ export default function PasswordChange() {
     const handleSignOut = () => {
         dispatch(signOut())
     }
+
+    const handleTheme = (newTheme) => {
+        dispatch(setTheme(newTheme))
+    }
+
+    useEffect(() => {
+        if (theme === '') {
+            const colorScheme = window.matchMedia(
+                '(prefers-color-scheme: dark)'
+            )
+            if (colorScheme.matches) {
+                handleTheme('dark')
+            } else {
+                handleTheme('light')
+            }
+        }
+    })
+
+    useEffect(() => {
+        document.documentElement.style.setProperty('--theme', theme)
+    }, [theme])
 
     const Confirm = async () => {
         const response = await PasswordChangeConfirm(
@@ -49,8 +72,8 @@ export default function PasswordChange() {
                 onChange={inputHandler}
                 value={password}
             ></input>
-            <h2>{message}</h2>
             <button onClick={() => Confirm()}>Confirm</button>
+            <h2>{message}</h2>
         </div>
     )
 }
