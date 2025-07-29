@@ -115,9 +115,15 @@ export default function Home() {
                             target="_blank"
                         >
                             <img
-                                srcSet={theme === 'dark' ? `${githubDark50w} 50w, ${githubDark100w} 100w, ${githubDark140w} 140w` : `${githubLight50w} 50w, ${githubLight100w} 100w, ${githubLight140w} 140w`}
+                                srcSet={
+                                    theme === 'dark'
+                                        ? `${githubDark50w} 50w, ${githubDark100w} 100w, ${githubDark140w} 140w`
+                                        : `${githubLight50w} 50w, ${githubLight100w} 100w, ${githubLight140w} 140w`
+                                }
                                 src={
-                                    theme === 'dark' ? githubDark140w : githubLight140w
+                                    theme === 'dark'
+                                        ? githubDark140w
+                                        : githubLight140w
                                 }
                             />
                         </a>

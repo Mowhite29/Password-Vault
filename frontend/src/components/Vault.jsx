@@ -687,7 +687,11 @@ export default function Vault() {
                                     aria-label="edit entry"
                                 >
                                     <img
-                                        scrSet={theme === 'dark'? `${editDark20w} 20w, ${editDark40w} 40w` : `${editLight20w} 20w, ${editLight40w} 40w`}
+                                        scrSet={
+                                            theme === 'dark'
+                                                ? `${editDark20w} 20w, ${editDark40w} 40w`
+                                                : `${editLight20w} 20w, ${editLight40w} 40w`
+                                        }
                                         src={
                                             theme === 'dark'
                                                 ? editDark40w
@@ -706,7 +710,11 @@ export default function Vault() {
                                     aria-label="delete entry"
                                 >
                                     <img
-                                        scrSet={theme === 'dark'? `${deleteDark20w} 20w, ${deleteDark40w} 40w` : `${deleteLight20w} 20w, ${deleteLight40w} 40w`}
+                                        scrSet={
+                                            theme === 'dark'
+                                                ? `${deleteDark20w} 20w, ${deleteDark40w} 40w`
+                                                : `${deleteLight20w} 20w, ${deleteLight40w} 40w`
+                                        }
                                         src={
                                             theme === 'dark'
                                                 ? deleteDark40w

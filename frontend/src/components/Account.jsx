@@ -100,15 +100,15 @@ export default function Account() {
                         aria-label="close popup button"
                     >
                         <img
-                                                    srcSet={
-                                                        theme === 'dark'
-                                                            ? `${closeDark20w} 20w, ${closeDark40w} 40w`
-                                                            : `${closeLight20w} 20w, ${closeLight40w} 40w`
-                                                    }
-                                                    src={
-                                                        theme === 'dark' ? closeDark40w : closeLight40w
-                                                    }
-                                                />
+                            srcSet={
+                                theme === 'dark'
+                                    ? `${closeDark20w} 20w, ${closeDark40w} 40w`
+                                    : `${closeLight20w} 20w, ${closeLight40w} 40w`
+                            }
+                            src={
+                                theme === 'dark' ? closeDark40w : closeLight40w
+                            }
+                        />
                     </button>
                     <h1>{popUpMessage}</h1>
                 </div>
