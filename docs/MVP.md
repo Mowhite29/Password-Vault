@@ -93,5 +93,4 @@ This application is a **portfolio project only** and should **not be used to sto
 | Area                     | Location                            |
 |--------------------------|-------------------------------------|
 | Full project overview    | [README.md](./README.md)            |
-| Mock email view          | `/demo/email-verification`          |
 | Legal disclaimer         | [LEGAL.md](./LEGAL.md)              |
