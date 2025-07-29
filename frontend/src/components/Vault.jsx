@@ -524,7 +524,11 @@ export default function Vault() {
                     aria-label="create new entry"
                     onClick={inputHandler}
                 >
-                    <img srcSet={`${add30w} 30w, ${add60w} 60w`} src={add60w} />
+                    <img
+                        srcSet={`${add30w} 30w, ${add60w} 60w`}
+                        src={add60w}
+                        alt="create new entry"
+                    />
                 </button>
             </div>
             <div className="vaultDisplay">

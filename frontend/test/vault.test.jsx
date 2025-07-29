@@ -33,7 +33,7 @@ describe('Vault Component', () => {
         )
 
         expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument()
-        expect(screen.getByText(/Add new password/i)).toBeInTheDocument()
+        expect(screen.getByAltText(/create new entry/i)).toBeInTheDocument()
     })
 
     it('should show new password menu when button is clicked', async () => {
@@ -43,7 +43,7 @@ describe('Vault Component', () => {
             </Provider>
         )
 
-        const newPasswordbutton = screen.getByText(/Add new password/i)
+        const newPasswordbutton = screen.getByAltText(/create new entry/i)
         await user.click(newPasswordbutton).then(() => {
             expect(screen.getByAltText(/website input/i)).toBeInTheDocument()
         })
@@ -56,7 +56,7 @@ describe('Vault Component', () => {
             </Provider>
         )
 
-        const newPasswordbutton = screen.getByText(/Add new password/i)
+        const newPasswordbutton = screen.getByAltText(/create new entry/i)
         await user.click(newPasswordbutton).then(async () => {
             await user.type(screen.getByAltText(/website input/i), 'google.com')
             await user.type(screen.getByAltText(/username input/i), 'testuser')
@@ -81,7 +81,7 @@ describe('Vault Component', () => {
             </Provider>
         )
 
-        const newPasswordbutton = screen.getByText(/Add new password/i)
+        const newPasswordbutton = screen.getByAltText(/Add new password/i)
         await user.click(newPasswordbutton).then(async () => {
             await user.type(screen.getByAltText(/website input/i), 'google.com')
             await user.type(screen.getByAltText(/username input/i), 'testuser')
