@@ -13,15 +13,24 @@ import logoLight115w from '../assets/images/light/logo-light-115w.webm'
 import logoLight95w from '../assets/images/light/logo-light-95w.webm'
 import logoLight75w from '../assets/images/light/logo-light-75w.webm'
 import logoLight55w from '../assets/images/light/logo-light-55w.webm'
-import menu from '../assets/images/dark/menu.png'
-import info from '../assets/images/dark/info.png'
-import loginDark from '../assets/images/dark/login.gif'
-import loginLight from '../assets/images/light/login.gif'
-import logout from '../assets/images/dark/logout.png'
-import user from '../assets/images/dark/user.png'
-import mode from '../assets/images/dark/mode.png'
-import home from '../assets/images/dark/home.png'
-import vault from '../assets/images/dark/vault.png'
+import menu45w from '../assets/images/dark/menu-45w.webp'
+import menu85w from '../assets/images/dark/menu-85w.webp'
+import info30w from '../assets/images/dark/info-30w.webp'
+import info60w from '../assets/images/dark/info-60w.webp'
+import loginDark30w from '../assets/images/dark/login-dark-30w.webm'
+import loginDark60w from '../assets/images/dark/login-dark-60w.webm'
+import loginLight30w from '../assets/images/light/login-light-30w.webm'
+import loginLight60w from '../assets/images/light/login-light-60w.webm'
+import logout30w from '../assets/images/dark/logout-30w.webp'
+import logout60w from '../assets/images/dark/logout-60w.webp'
+import user30w from '../assets/images/dark/user-30w.webp'
+import user60w from '../assets/images/dark/user-60w.webp'
+import mode30w from '../assets/images/dark/mode-30w.webp'
+import mode60w from '../assets/images/dark/mode-60w.webp'
+import home30w from '../assets/images/dark/home-30w.webp'
+import home60w from '../assets/images/dark/home-60w.webp'
+import vault30w from '../assets/images/dark/vault-30w.webp'
+import vault60w from '../assets/images/dark/vault-60w.webp'
 
 export default function MenuBar() {
     const [open, setOpen] = useState(false)
@@ -84,6 +93,7 @@ export default function MenuBar() {
             >
                 <div className="staticMenuBar">
                     <video
+                        className="logo"
                         src={
                             window.Screen.width < 800
                                 ? theme === 'dark'
@@ -122,7 +132,11 @@ export default function MenuBar() {
                         aria-label="open menu"
                         onClick={inputHandler}
                     >
-                        <img src={menu} alt="open menu"></img>
+                        <img
+                            srcSet={`${menu45w} 45w, ${menu85w} 85w`}
+                            src={menu85w}
+                            alt="open menu"
+                        ></img>
                     </button>
                 </div>
                 {open ? (
@@ -134,7 +148,11 @@ export default function MenuBar() {
                                 aria-label="home"
                                 onClick={inputHandler}
                             >
-                                <img src={home} alt="home" />
+                                <img
+                                    srcSet={`${home30w} 30w, ${home60w} 60w`}
+                                    src={home60w}
+                                    alt="home"
+                                />
                             </button>
                         )}
                         {signedIn && screen != 'vault' ? (
@@ -144,7 +162,11 @@ export default function MenuBar() {
                                 aria-label="vault"
                                 onClick={inputHandler}
                             >
-                                <img src={vault} alt="vault" />
+                                <img
+                                    srcSet={`${vault30w} 30w, ${vault60w} 60w`}
+                                    src={vault60w}
+                                    alt="vault"
+                                />
                             </button>
                         ) : null}
                         {screen != 'about' ? (
@@ -154,7 +176,11 @@ export default function MenuBar() {
                                 aria-label="about"
                                 onClick={inputHandler}
                             >
-                                <img src={info} alt="about" />
+                                <img
+                                    srcSet={`${info30w} 30w, ${info60w} 60w`}
+                                    src={info60w}
+                                    alt="about"
+                                />
                             </button>
                         ) : null}
                         {signedIn && screen != 'account' ? (
@@ -164,7 +190,11 @@ export default function MenuBar() {
                                 aria-label="account"
                                 onClick={inputHandler}
                             >
-                                <img src={user} alt="account" />
+                                <img
+                                    srcSet={`${user30w} 30w, ${user60w} 60w`}
+                                    src={user60w}
+                                    alt="account"
+                                />
                             </button>
                         ) : null}
                         <button
@@ -173,22 +203,40 @@ export default function MenuBar() {
                             alt={signedIn ? 'sign out' : 'sign in'}
                             onClick={inputHandler}
                         >
-                            <img
-                                src={
-                                    signedIn
-                                        ? logout
-                                        : theme === 'dark'
-                                          ? loginDark
-                                          : loginLight
-                                }
-                                alt={signedIn ? 'sign out' : 'sign in'}
-                            />
+                            {signedIn ? (
+                                <img
+                                    srcSet={`${logout30w} 30w, ${logout60w} 60w`}
+                                    src={logout60w}
+                                    alt={signedIn ? 'sign out' : 'sign in'}
+                                />
+                            ) : (
+                                <video
+                                    srcSet={
+                                        theme === 'dark'
+                                            ? `${loginDark30w} 30w, ${loginDark60w} 60w`
+                                            : `${loginLight30w} 30w, ${loginLight60w} 60w`
+                                    }
+                                    src={
+                                        theme === 'dark'
+                                            ? loginDark60w
+                                            : loginLight60w
+                                    }
+                                    alt={signedIn ? 'sign out' : 'sign in'}
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                />
+                            )}
                         </button>
                         <button
                             aria-label="dark mode/light mode toggle"
                             onClick={() => themeToggle()}
                         >
-                            <img src={mode} alt="dark mode/light mode toggle" />
+                            <img
+                                srcSet={`${mode30w} 30w, ${mode60w} 60w`}
+                                src={mode60w}
+                                alt="dark mode/light mode toggle"
+                            />
                         </button>
                     </div>
                 ) : null}
@@ -204,6 +252,7 @@ export default function MenuBar() {
                 <div className="staticMenuBar">
                     <div className="logoTitle">
                         <video
+                            className="logo"
                             src={
                                 window.Screen.width < 1450
                                     ? theme === 'dark'
@@ -234,7 +283,11 @@ export default function MenuBar() {
                             aria-label="home"
                             onClick={inputHandler}
                         >
-                            <img src={home} alt="home" />
+                            <img
+                                srcSet={`${home30w} 30w, ${home60w} 60w`}
+                                src={home60w}
+                                alt="home"
+                            />
                         </button>
                     )}
                     {signedIn && screen != 'vault' ? (
@@ -244,7 +297,11 @@ export default function MenuBar() {
                             aria-label="vault"
                             onClick={inputHandler}
                         >
-                            <img src={vault} alt="vault" />
+                            <img
+                                srcSet={`${vault30w} 30w, ${vault60w} 60w`}
+                                src={vault60w}
+                                alt="vault"
+                            />
                         </button>
                     ) : null}
                     {screen != 'about' ? (
@@ -254,7 +311,11 @@ export default function MenuBar() {
                             aria-label="about"
                             onClick={inputHandler}
                         >
-                            <img src={info} alt="about" />
+                            <img
+                                srcSet={`${info30w} 30w, ${info60w} 60w`}
+                                src={info60w}
+                                alt="about"
+                            />
                         </button>
                     ) : null}
                     {signedIn && screen != 'account' ? (
@@ -264,7 +325,11 @@ export default function MenuBar() {
                             aria-label="account"
                             onClick={inputHandler}
                         >
-                            <img src={user} alt="account" />
+                            <img
+                                srcSet={`${user30w} 30w, ${user60w} 60w`}
+                                src={user60w}
+                                alt="account"
+                            />
                         </button>
                     ) : null}
                     <button
@@ -274,22 +339,40 @@ export default function MenuBar() {
                         alt={signedIn ? 'sign out' : 'sign in'}
                         onClick={inputHandler}
                     >
-                        <img
-                            src={
-                                signedIn
-                                    ? logout
-                                    : theme === 'dark'
-                                      ? loginDark
-                                      : loginLight
-                            }
-                            alt={signedIn ? 'sign out' : 'sign in'}
-                        />
+                        {signedIn ? (
+                            <img
+                                srcSet={`${logout30w} 30w, ${logout60w} 60w`}
+                                src={logout60w}
+                                alt={signedIn ? 'sign out' : 'sign in'}
+                            />
+                        ) : (
+                            <video
+                                srcSet={
+                                    theme === 'dark'
+                                        ? `${loginDark30w} 30w, ${loginDark60w} 60w`
+                                        : `${loginLight30w} 30w, ${loginLight60w} 60w`
+                                }
+                                src={
+                                    theme === 'dark'
+                                        ? loginDark60w
+                                        : loginLight60w
+                                }
+                                alt={signedIn ? 'sign out' : 'sign in'}
+                                autoPlay
+                                muted
+                                playsInline
+                            />
+                        )}
                     </button>
                     <button
                         aria-label="dark mode/light mode toggle"
                         onClick={() => themeToggle()}
                     >
-                        <img src={mode} alt="dark mode/light mode toggle" />
+                        <img
+                            srcSet={`${mode30w} 30w, ${mode60w} 60w`}
+                            src={mode60w}
+                            alt="dark mode/light mode toggle"
+                        />
                     </button>
                 </div>
             </div>

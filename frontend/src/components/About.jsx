@@ -2,8 +2,12 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../assets/styles/About.scss'
-import githubDark from '../assets/images/dark/github.png'
-import githubLight from '../assets/images/light/github.png'
+import githubDark50w from '../assets/images/dark/Github-dark-50w.webp'
+import githubDark100w from '../assets/images/dark/Github-dark-100w.webp'
+import githubDark140w from '../assets/images/dark/Github-dark-140w.webp'
+import githubLight50w from '../assets/images/light/Github-light-50w.webp'
+import githubLight100w from '../assets/images/light/Github-light-100w.webp'
+import githubLight140w from '../assets/images/light/Github-light-140w.webp'
 
 export default function About() {
     const theme = useSelector((state) => state.appearance.theme)
@@ -49,8 +53,11 @@ export default function About() {
                         target="_blank"
                     >
                         <img
-                            src={theme === 'dark' ? githubDark : githubLight}
-                        />
+                                                        srcSet={theme === 'dark' ? `${githubDark50w} 50w, ${githubDark100w} 100w, ${githubDark140w} 140w` : `${githubLight50w} 50w, ${githubLight100w} 100w, ${githubLight140w} 140w`}
+                                                        src={
+                                                            theme === 'dark' ? githubDark140w : githubLight140w
+                                                        }
+                                                    />
                     </a>
                 </div>
             )}

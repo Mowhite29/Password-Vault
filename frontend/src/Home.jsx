@@ -16,8 +16,12 @@ import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
 import useTokenTimeout from './hooks/useTokenTimeout'
 import './assets/styles/Home.scss'
-import githubDark from './assets/images/dark/github.png'
-import githubLight from './assets/images/light/github.png'
+import githubDark50w from './assets/images/dark/Github-dark-50w.webp'
+import githubDark100w from './assets/images/dark/Github-dark-100w.webp'
+import githubDark140w from './assets/images/dark/Github-dark-140w.webp'
+import githubLight50w from './assets/images/light/Github-light-50w.webp'
+import githubLight100w from './assets/images/light/Github-light-100w.webp'
+import githubLight140w from './assets/images/light/Github-light-140w.webp'
 
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
@@ -111,8 +115,9 @@ export default function Home() {
                             target="_blank"
                         >
                             <img
+                                srcSet={theme === 'dark' ? `${githubDark50w} 50w, ${githubDark100w} 100w, ${githubDark140w} 140w` : `${githubLight50w} 50w, ${githubLight100w} 100w, ${githubLight140w} 140w`}
                                 src={
-                                    theme === 'dark' ? githubDark : githubLight
+                                    theme === 'dark' ? githubDark140w : githubLight140w
                                 }
                             />
                         </a>

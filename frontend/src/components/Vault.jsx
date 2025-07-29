@@ -14,21 +14,32 @@ import {
     VaultFetch,
 } from '../services/api'
 import { Generate, Check } from '../utils/passwordGenerator'
-import copyDark from '../assets/images/dark/copy.png'
-import copyLight from '../assets/images/light/copy.png'
-import deleteDark from '../assets/images/dark/delete.png'
-import deleteLight from '../assets/images/light/delete.png'
-import editDark from '../assets/images/dark/edit.png'
-import editLight from '../assets/images/light/edit.png'
-import arrow from '../assets/images/dark/arrow.png'
-import closeDark from '../assets/images/dark/close.png'
-import closeLight from '../assets/images/light/close.png'
+import copyDark20w from '../assets/images/dark/copy-dark-20w.webp'
+import copyDark40w from '../assets/images/dark/copy-dark-40w.webp'
+import copyLight20w from '../assets/images/light/copy-light-20w.webp'
+import copyLight40w from '../assets/images/light/copy-light-40w.webp'
+import deleteDark20w from '../assets/images/dark/delete-dark-20w.webp'
+import deleteDark40w from '../assets/images/dark/delete-dark-40w.webp'
+import deleteLight20w from '../assets/images/light/delete-light-20w.webp'
+import deleteLight40w from '../assets/images/light/delete-light-40w.webp'
+import editDark20w from '../assets/images/dark/edit-dark-20w.webp'
+import editDark40w from '../assets/images/dark/edit-dark-40w.webp'
+import editLight20w from '../assets/images/light/edit-light-20w.webp'
+import editLight40w from '../assets/images/light/edit-light-40w.webp'
+import arrow20w from '../assets/images/dark/arrow-20w.webp'
+import arrow40w from '../assets/images/dark/arrow-40w.webp'
+import closeDark20w from '../assets/images/dark/close-dark-20w.webp'
+import closeDark40w from '../assets/images/dark/close-dark-40w.webp'
+import closeLight20w from '../assets/images/light/close-light-20w.webp'
+import closeLight40w from '../assets/images/light/close-light-40w.webp'
 import loadingDark95w from '../assets/images/dark/loading-dark-95w.webm'
 import loadingDark125w from '../assets/images/dark/loading-dark-125w.webm'
 import loadingDark245w from '../assets/images/dark/loading-dark-245w.webm'
 import loadingLight95w from '../assets/images/light/loading-light-95w.webm'
 import loadingLight125w from '../assets/images/light/loading-light-125w.webm'
 import loadingLight245w from '../assets/images/light/loading-light-245w.webm'
+import add30w from '../assets/images/dark/add-30w.webp'
+import add60w from '../assets/images/dark/add-60w.webp'
 
 export default function Vault() {
     const token = useSelector((state) => state.auth.token)
@@ -410,13 +421,21 @@ export default function Vault() {
             vault[elem.value]['nonce']
         )
         navigator.clipboard.writeText(plaintext)
-        theme === 'dark'
-            ? (e.target.src = copyLight)
-            : (e.target.src = copyDark)
+        if (theme === 'dark') {
+            e.target.src = copyLight40w
+            e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+        } else {
+            e.target.src = copyDark40w
+            e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+        }
         setTimeout(() => {
-            theme === 'dark'
-                ? (e.target.src = copyDark)
-                : (e.target.src = copyLight)
+            if (theme === 'dark') {
+                e.target.src = copyDark40w
+                e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+            } else {
+                e.target.src = copyLight40w
+                e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+            }
         }, 1000)
     }
 
@@ -446,7 +465,7 @@ export default function Vault() {
             KeyEntry()
         } else if (e.target.name === 'keySet') {
             KeySet()
-        } else if (e.target.name === 'addButton') {
+        } else if (e.currentTarget.name === 'addButton') {
             setLabel('')
             setUsername('')
             setPassword('')
@@ -455,13 +474,21 @@ export default function Vault() {
             setCreationShown(true)
         } else if (e.currentTarget.name === 'copy') {
             navigator.clipboard.writeText(e.target.value)
-            theme === 'dark'
-                ? (e.target.src = copyLight)
-                : (e.target.src = copyDark)
+            if (theme === 'dark') {
+                e.target.src = copyLight40w
+                e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+            } else {
+                e.target.src = copyDark40w
+                e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+            }
             setTimeout(() => {
-                theme === 'dark'
-                    ? (e.target.src = copyDark)
-                    : (e.target.src = copyLight)
+                if (theme === 'dark') {
+                    e.target.src = copyDark40w
+                    e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                } else {
+                    e.target.src = copyLight40w
+                    e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                }
             }, 1000)
         } else if (e.currentTarget.name === 'showPasswordButton') {
             ShowPassword()
@@ -492,13 +519,12 @@ export default function Vault() {
                     placeholder="search"
                 ></input>
                 <button
-                    className="addButton"
                     name="addButton"
                     alt="create new entry"
                     aria-label="create new entry"
                     onClick={inputHandler}
                 >
-                    Add new password
+                    <img srcSet={`${add30w} 30w, ${add60w} 60w`} src={add60w} />
                 </button>
             </div>
             <div className="vaultDisplay">
@@ -544,12 +570,17 @@ export default function Vault() {
                                         aria-label="copy website"
                                     >
                                         <img
+                                            srcSet={
+                                                theme === 'dark'
+                                                    ? `${copyDark20w} 20w, ${copyDark40w} 40w`
+                                                    : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                            }
                                             src={
                                                 theme === 'dark'
-                                                    ? copyDark
-                                                    : copyLight
+                                                    ? copyDark40w
+                                                    : copyLight40w
                                             }
-                                        ></img>
+                                        />
                                     </button>
                                 </div>
                                 <h3 className="value">{entry.label}</h3>
@@ -565,12 +596,17 @@ export default function Vault() {
                                         aria-label="copy username"
                                     >
                                         <img
+                                            srcSet={
+                                                theme === 'dark'
+                                                    ? `${copyDark20w} 20w, ${copyDark40w} 40w`
+                                                    : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                            }
                                             src={
                                                 theme === 'dark'
-                                                    ? copyDark
-                                                    : copyLight
+                                                    ? copyDark40w
+                                                    : copyLight40w
                                             }
-                                        ></img>
+                                        />
                                     </button>
                                 </div>
                                 <h3 className="value">{entry.username}</h3>
@@ -598,12 +634,17 @@ export default function Vault() {
                                         aria-label="copy password"
                                     >
                                         <img
+                                            srcSet={
+                                                theme === 'dark'
+                                                    ? `${copyDark20w} 20w, ${copyDark40w} 40w`
+                                                    : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                            }
                                             src={
                                                 theme === 'dark'
-                                                    ? copyDark
-                                                    : copyLight
+                                                    ? copyDark40w
+                                                    : copyLight40w
                                             }
-                                        ></img>
+                                        />
                                     </button>
                                 </div>
                             </div>
@@ -646,10 +687,11 @@ export default function Vault() {
                                     aria-label="edit entry"
                                 >
                                     <img
+                                        scrSet={theme === 'dark'? `${editDark20w} 20w, ${editDark40w} 40w` : `${editLight20w} 20w, ${editLight40w} 40w`}
                                         src={
                                             theme === 'dark'
-                                                ? editDark
-                                                : editLight
+                                                ? editDark40w
+                                                : editLight40w
                                         }
                                     />
                                 </button>
@@ -664,10 +706,11 @@ export default function Vault() {
                                     aria-label="delete entry"
                                 >
                                     <img
+                                        scrSet={theme === 'dark'? `${deleteDark20w} 20w, ${deleteDark40w} 40w` : `${deleteLight20w} 20w, ${deleteLight40w} 40w`}
                                         src={
                                             theme === 'dark'
-                                                ? deleteDark
-                                                : deleteLight
+                                                ? deleteDark40w
+                                                : deleteLight40w
                                         }
                                     />
                                 </button>
@@ -679,7 +722,10 @@ export default function Vault() {
                                 alt="show entry"
                                 aria-label="show entry"
                             >
-                                <img src={arrow} />
+                                <img
+                                    srcSet={`${arrow20w} 20w, ${arrow40w} 40w`}
+                                    src={arrow40w}
+                                />
                             </button>
                         </div>
                     ))}
@@ -748,7 +794,16 @@ export default function Vault() {
                         alt="close popup button"
                         aria-label="close popup button"
                     >
-                        <img src={theme === 'dark' ? closeDark : closeLight} />
+                        <img
+                            srcSet={
+                                theme === 'dark'
+                                    ? `${closeDark20w} 20w, ${closeDark40w} 40w`
+                                    : `${closeLight20w} 20w, ${closeLight40w} 40w`
+                            }
+                            src={
+                                theme === 'dark' ? closeDark40w : closeLight40w
+                            }
+                        />
                     </button>
                     <h1>{popUpMessage}</h1>
                     {deleteShown && (

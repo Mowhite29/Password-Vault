@@ -154,3 +154,34 @@ $border-dark: #2A3C43;
                 }
     }
 }
+@mixin icon {
+    @media (min-width: 0px) {
+        button {
+                height: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
+                align-self: center;
+                background: none;
+                border: none;
+                img, video {
+                    width: auto;
+                    height: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
+                }
+            }
+    }
+    @media (min-width: 1025px) {
+        button {
+                img, video {
+                    width: auto;
+                    height: clamp(2.5rem, 2.232vw + 1.071rem, 3.75rem);
+                }
+            }
+    }
+    @media (orientation: landscape) and (pointer: coarse) { 
+        button {
+                height: auto;
+                img, video {
+                    width: auto;
+                    height: clamp(1.563rem, 2.887vw + 0.66rem, 3.125rem);
+                }
+            }
+    }
+}

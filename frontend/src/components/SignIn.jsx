@@ -12,10 +12,14 @@ import {
 import { Register, Login, PasswordReset, Authenticate } from '../services/api'
 import { Check } from '../utils/passwordGenerator'
 import '../assets/styles/SignIn.scss'
-import copyDark from '../assets/images/dark/copy.png'
-import copyLight from '../assets/images/light/copy.png'
-import closeDark from '../assets/images/dark/close.png'
-import closeLight from '../assets/images/light/close.png'
+import copyDark20w from '../assets/images/dark/copy-dark-20w.webp'
+import copyDark40w from '../assets/images/dark/copy-dark-40w.webp'
+import copyLight20w from '../assets/images/light/copy-light-20w.webp'
+import copyLight40w from '../assets/images/light/copy-light-40w.webp'
+import closeDark20w from '../assets/images/dark/close-dark-20w.webp'
+import closeDark40w from '../assets/images/dark/close-dark-40w.webp'
+import closeLight20w from '../assets/images/light/close-light-20w.webp'
+import closeLight40w from '../assets/images/light/close-light-40w.webp'
 import loadingDark95w from '../assets/images/dark/auth-dark-95w.webm'
 import loadingDark125w from '../assets/images/dark/auth-dark-125w.webm'
 import loadingDark245w from '../assets/images/dark/auth-dark-245w.webm'
@@ -194,6 +198,22 @@ export default function SignIn() {
             setTOTPToken(e.target.value)
         } else if (e.currentTarget.name === 'totpCopy') {
             navigator.clipboard.writeText(TOTPString)
+            if (theme === 'dark') {
+                e.target.src = copyLight40w
+                e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+            } else {
+                e.target.src = copyDark40w
+                e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+            }
+            setTimeout(() => {
+                if (theme === 'dark') {
+                    e.target.src = copyDark40w
+                    e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                } else {
+                    e.target.src = copyLight40w
+                    e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                }
+            }, 1000)
         }
     }
 
@@ -304,10 +324,15 @@ export default function SignIn() {
                                 aria-label="close popup button"
                             >
                                 <img
+                                    srcSet={
+                                        theme === 'dark'
+                                            ? `${closeDark20w} 20w, ${closeDark40w} 40w`
+                                            : `${closeLight20w} 20w, ${closeLight40w} 40w`
+                                    }
                                     src={
                                         theme === 'dark'
-                                            ? closeDark
-                                            : closeLight
+                                            ? closeDark40w
+                                            : closeLight40w
                                     }
                                 />
                             </button>
@@ -372,12 +397,17 @@ export default function SignIn() {
                                             aria-label="copy TOTP string"
                                         >
                                             <img
+                                                srcSet={
+                                                    theme === 'dark'
+                                                        ? `${copyDark20w} 20w, ${copyDark40w} 40w`
+                                                        : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                                }
                                                 src={
                                                     theme === 'dark'
-                                                        ? copyDark
-                                                        : copyLight
+                                                        ? copyDark40w
+                                                        : copyLight40w
                                                 }
-                                            ></img>
+                                            />
                                         </button>
                                     </div>
                                     <input

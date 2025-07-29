@@ -4,11 +4,11 @@
 @media (min-width: 0px) {
     .vaultView {
         width: 100%;
-        height: clamp(23.125rem, 80.11vw + 8.104rem, 59.375rem);
+        height: clamp(23.125rem, 89.779vw + 6.291rem, 63.75rem);
         display: flex;
         justify-content: center;
         position: absolute;
-        top: clamp(7.813rem, 32.503vw + 1.718rem, 22.5rem);
+        top: clamp(7.813rem, 24.171vw + 3.28rem, 18.75rem);
         flex-direction: column;
 
         .utilsContainer {
@@ -16,26 +16,23 @@
             @include border;
             @include shadow;
             @include text;
+            @include icon;
             width: clamp(17rem, 55.048vw + 6.678rem, 41.875rem);
             align-self: center;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             margin: 0;
-
+            justify-content: space-evenly;
             input {
                 @include text;
                 text-align: center;
-                margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem);
-                font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
+                margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem) 0;
+                font-size: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
+                height: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
             }
-            .addButton {
-                width: auto;
-                @include border;
-                @include text;
-                background: none;
-                font-size: clamp(0.938rem, 2.075vw + 0.548rem, 1.875rem);
-                margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem);
+            button {
+                align-self: center
             }
         }
         .vaultDisplay {
@@ -51,7 +48,7 @@
             overflow-y: scroll;
             display: flex;
             width: 90%;
-            height: clamp(16.25rem, 130.014vw - 8.128rem, 75rem);
+            height: clamp(18.75rem, 77.348vw + 4.247rem, 53.75rem);
             align-self: center;
             .vaultEntry {
                 @include container;
@@ -210,6 +207,7 @@
                     transform: unset;
                     background: none;
                     border: none;
+                    height: auto;
                 }
             }
         }
@@ -383,21 +381,18 @@
         width: clamp(51.25rem, 81.564vw - 1.002rem, 96.875rem);
         align-self: center;
         height: 75%;
-        top: clamp(8.125rem, 8.939vw + 2.399rem, 13.125rem);
+        top: clamp(8.75rem, 7.821vw + 3.74rem, 13.125rem);
 
         .utilsContainer {
-            width: auto;
+            width: clamp(21.875rem, 20.112vw + 8.991rem, 33.125rem);
             input {
-                margin: clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem) clamp(3.75rem, 2.235vw + 2.318rem, 5rem);
+                margin: clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem) 0;
                 font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
-            }
-            .addButton {
-                font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
-                margin: 0 0 clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem);
+                height: clamp(2.5rem, 2.232vw + 1.071rem, 3.75rem);
             }
         }
         .vaultDisplay {
-            margin: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem) 0 0;
+            margin: clamp(0.938rem, 1.676vw - 0.136rem, 1.875rem) 0 0;
             height: clamp(16.25rem, 130.014vw - 8.128rem, 75rem);
             .vaultEntry {
                 margin: 5px 0;
@@ -507,7 +502,6 @@
                     display: none;
                 }
                 .arrow {
-
                     transform: unset;
                     background: none;
                     border: none;
@@ -616,14 +610,10 @@
         top: clamp(5.625rem, 12.702vw + 1.656rem, 12.5rem);
         .utilsContainer {
             width: clamp(17rem, 55.048vw + 6.678rem, 41.875rem);
-            flex-direction: row;
             input {
                 margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem);
                 font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
-            }
-            .addButton {
-                font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
-                margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem);
+                height: clamp(1.563rem, 2.887vw + 0.66rem, 3.125rem);
             }
         }
         .vaultDisplay {
@@ -739,7 +729,6 @@
                     display: none;
                 }
                 .arrow {
-
                     transform: unset;
                     background: none;
                     border: none;

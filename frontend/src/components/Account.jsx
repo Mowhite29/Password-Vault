@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { PasswordChange, NameChange, NameRequest } from '../services/api'
 import '../assets/styles/Account.scss'
-import closeDark from '../assets/images/dark/close.png'
-import closeLight from '../assets/images/light/close.png'
+import closeDark20w from '../assets/images/dark/close-dark-20w.webp'
+import closeDark40w from '../assets/images/dark/close-dark-40w.webp'
+import closeLight20w from '../assets/images/light/close-light-20w.webp'
+import closeLight40w from '../assets/images/light/close-light-40w.webp'
 
 export default function Account() {
     const userEmail = useSelector((state) => state.auth.userEmail)
@@ -97,7 +99,16 @@ export default function Account() {
                         alt="close popup button"
                         aria-label="close popup button"
                     >
-                        <img src={theme === 'dark' ? closeDark : closeLight} />
+                        <img
+                                                    srcSet={
+                                                        theme === 'dark'
+                                                            ? `${closeDark20w} 20w, ${closeDark40w} 40w`
+                                                            : `${closeLight20w} 20w, ${closeLight40w} 40w`
+                                                    }
+                                                    src={
+                                                        theme === 'dark' ? closeDark40w : closeLight40w
+                                                    }
+                                                />
                     </button>
                     <h1>{popUpMessage}</h1>
                 </div>
