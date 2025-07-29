@@ -2,12 +2,12 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../assets/styles/About.scss'
-import githubDark50w from './assets/images/dark/github-dark-50w.webp'
-import githubDark100w from './assets/images/dark/github-dark-100w.webp'
-import githubDark140w from './assets/images/dark/github-dark-140w.webp'
-import githubLight50w from './assets/images/light/github-light-50w.webp'
-import githubLight100w from './assets/images/light/github-light-100w.webp'
-import githubLight140w from './assets/images/light/github-light-140w.webp'
+import githubDark50w from '../assets/images/dark/github-dark-50w.webp'
+import githubDark100w from '../assets/images/dark/github-dark-100w.webp'
+import githubDark140w from '../assets/images/dark/github-dark-140w.webp'
+import githubLight50w from '../assets/images/light/github-light-50w.webp'
+import githubLight100w from '../assets/images/light/github-light-100w.webp'
+import githubLight140w from '../assets/images/light/github-light-140w.webp'
 
 export default function About() {
     const theme = useSelector((state) => state.appearance.theme)
