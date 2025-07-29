@@ -70,6 +70,7 @@ export default function Vault() {
 
     const [vault, setVault] = useState([])
     const [shownVault, setShownVault] = useState([])
+
     const [loading, setLoading] = useState(false)
 
     const timerRef = useRef(null)

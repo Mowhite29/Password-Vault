@@ -36,12 +36,12 @@ Object.defineProperty(window, 'matchMedia', {
     })),
 })
 
-vi.mock('@/assets/images/dark/Github-dark-50w.webp', () => ({ default: '' }))
-vi.mock('@/assets/images/dark/Github-dark-100w.webp', () => ({ default: '' }))
-vi.mock('@/assets/images/dark/Github-dark-140w.webp', () => ({ default: '' }))
-vi.mock('@/assets/images/light/Github-light-50w.webp', () => ({ default: '' }))
-vi.mock('@/assets/images/light/Github-light-100w.webp', () => ({ default: '' }))
-vi.mock('@/assets/images/light/Github-light-140w.webp', () => ({ default: '' }))
+vi.mock('@/assets/images/dark/github-dark-50w.webp', () => ({ default: '' }))
+vi.mock('@/assets/images/dark/github-dark-100w.webp', () => ({ default: '' }))
+vi.mock('@/assets/images/dark/github-dark-140w.webp', () => ({ default: '' }))
+vi.mock('@/assets/images/light/github-light-50w.webp', () => ({ default: '' }))
+vi.mock('@/assets/images/light/github-light-100w.webp', () => ({ default: '' }))
+vi.mock('@/assets/images/light/github-light-140w.webp', () => ({ default: '' }))
 vi.mock('@/assets/images/dark/copy-dark-20w.webp', () => ({ default: '' }))
 vi.mock('@/assets/images/dark/copy-dark-40w.webp', () => ({ default: '' }))
 vi.mock('@/assets/images/light/copy-light-20w.webp', () => ({ default: '' }))
