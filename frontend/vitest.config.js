@@ -24,13 +24,13 @@ export default defineConfig({
           name: 'mock-static-assets',
           enforce: 'pre',
           resolveId(source) {
-            if (/\.(png|jpe?g|svg|gif)$/.test(source)) {
+            if (/\.(png|jpe?g|svg|gif|webp|webm)$/.test(source)) {
               return source
             }
             return null
           },
           load(id) {
-            if (/\.(png|jpe?g|svg|gif)$/.test(id)) {
+            if (/\.(png|jpe?g|svg|gif|webp|webm)$/.test(id)) {
               return 'export default ""'
             }
             return null
