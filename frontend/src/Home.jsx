@@ -16,12 +16,12 @@ import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
 import useTokenTimeout from './hooks/useTokenTimeout'
 import './assets/styles/Home.scss'
-import githubDark50w from './assets/images/dark/Github-dark-50w.webp'
-import githubDark100w from './assets/images/dark/Github-dark-100w.webp'
-import githubDark140w from './assets/images/dark/Github-dark-140w.webp'
-import githubLight50w from './assets/images/light/Github-light-50w.webp'
-import githubLight100w from './assets/images/light/Github-light-100w.webp'
-import githubLight140w from './assets/images/light/Github-light-140w.webp'
+import githubDark50w from './assets/images/dark/github-dark-50w.webp'
+import githubDark100w from './assets/images/dark/github-dark-100w.webp'
+import githubDark140w from './assets/images/dark/github-dark-140w.webp'
+import githubLight50w from './assets/images/light/github-light-50w.webp'
+import githubLight100w from './assets/images/light/github-light-100w.webp'
+import githubLight140w from './assets/images/light/github-light-140w.webp'
 
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
