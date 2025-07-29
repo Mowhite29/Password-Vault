@@ -95,5 +95,5 @@ class APITests(APITestCase):
                          **self.auth_headers)
         response = self.client.get(url,
                         {'HTTP_AUTHORIZATION': f'Bearer {'invalid_token'}'})
-        self.assertEqual(response.status_code, 403,
-                         "GET request failed to return status 403")
+        self.assertEqual(response.status_code, 401,
+                         "GET request failed to return status 401")
