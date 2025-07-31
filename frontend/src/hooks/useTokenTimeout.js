@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setToken } from '../redux/authSlice'
 import { TokenRefresh, TokenObtain } from '../services/api'
@@ -18,11 +18,28 @@ const useTokenTimeout = () => {
         const response = await TokenRefresh(refresh)
         newToken(response['access'])
     }
-    timeOut.current = setInterval(() => {
+
+    useEffect(() => {
         if (signedIn) {
-            TokenGet()
+            const startInterval = () => {
+                timeOut.current = setInterval(async () => {
+                    await TokenGet()
+                }, 180000)
+            }
+            startInterval()
+
+            return () => {
+                if (timeOut.current) {
+                    clearInterval(timeOut.current)
+                }
+            }
+        } else {
+            if (timeOut.current) {
+                clearInterval(timeOut.current)
+            }
         }
-    }, 1800000)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [signedIn, refresh])
 }
 
 export default useTokenTimeout
