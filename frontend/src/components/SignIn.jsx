@@ -2,7 +2,6 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { QRCodeSVG } from 'qrcode.react'
-import { primaryInput } from 'detect-it'
 import { useNavigate } from 'react-router'
 import {
     signIn,
@@ -13,16 +12,6 @@ import {
 import { Register, Login, PasswordReset, Authenticate } from '../services/api'
 import { Check } from '../utils/passwordGenerator'
 import '../assets/styles/SignIn.scss'
-import copyDark20w from '../assets/images/dark/copy-dark-20w.webp'
-import copyDark40w from '../assets/images/dark/copy-dark-40w.webp'
-import copyLight20w from '../assets/images/light/copy-light-20w.webp'
-import copyLight40w from '../assets/images/light/copy-light-40w.webp'
-import loadingDark95w from '../assets/images/dark/auth-dark-95w.webm'
-import loadingDark125w from '../assets/images/dark/auth-dark-125w.webm'
-import loadingDark245w from '../assets/images/dark/auth-dark-245w.webm'
-import loadingLight95w from '../assets/images/light/auth-light-95w.webm'
-import loadingLight125w from '../assets/images/light/auth-light-125w.webm'
-import loadingLight245w from '../assets/images/light/auth-light-245w.webm'
 
 export default function SignIn() {
     const theme = useSelector((state) => state.appearance.theme)
@@ -198,19 +187,23 @@ export default function SignIn() {
         } else if (e.currentTarget.name === 'totpCopy') {
             navigator.clipboard.writeText(TOTPString)
             if (theme === 'dark') {
-                e.target.src = copyLight40w
-                e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                e.target.src = '/light/copy-light-40w.webp'
+                e.target.srcset =
+                    '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
             } else {
-                e.target.src = copyDark40w
-                e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                e.target.src = '/dark/copy-dark-40w.webp'
+                e.target.srcset =
+                    '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
             }
             setTimeout(() => {
                 if (theme === 'dark') {
-                    e.target.src = copyDark40w
-                    e.target.srcSet = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                    e.target.src = '/dark/copy-dark-40w.webp'
+                    e.target.srcset =
+                        '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
                 } else {
-                    e.target.src = copyLight40w
-                    e.target.srcSet = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                    e.target.src = '/light/copy-light-40w.webp'
+                    e.target.srcset =
+                        '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
                 }
             }, 1000)
         }
@@ -399,13 +392,14 @@ export default function SignIn() {
                                             <img
                                                 srcSet={
                                                     theme === 'dark'
-                                                        ? `${copyDark20w} 20w, ${copyDark40w} 40w`
-                                                        : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                                        ? '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
+                                                        : '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
                                                 }
+                                                size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
                                                 src={
                                                     theme === 'dark'
-                                                        ? copyDark40w
-                                                        : copyLight40w
+                                                        ? '/dark/copy-dark-40w.webp'
+                                                        : '/light/copy-light-40w.webp'
                                                 }
                                             />
                                         </button>
@@ -434,29 +428,32 @@ export default function SignIn() {
             {loading && (
                 <div className="loading">
                     <div className="badge">
-                        <video
-                            src={
-                                primaryInput === 'touch'
-                                    ? window.Screen.width < 530
-                                        ? theme === 'dark'
-                                            ? loadingDark125w
-                                            : loadingLight125w
-                                        : window.Screen.width < 400
-                                          ? theme === 'dark'
-                                              ? loadingDark95w
-                                              : loadingLight95w
-                                          : theme === 'dark'
-                                            ? loadingDark245w
-                                            : loadingLight245w
-                                    : theme === 'dark'
-                                      ? loadingDark245w
-                                      : loadingLight245w
-                            }
-                            alt="loading"
-                            autoPlay
-                            muted
-                            playsInline
-                        />
+                        <video alt="loading" autoPlay muted playsInline>
+                            <source
+                                src={
+                                    theme === 'dark'
+                                        ? '/dark/loading-dark-95w.webm'
+                                        : '/light/loading-light-95w.webm'
+                                }
+                                media="(max-width: 400px)"
+                            />
+                            <source
+                                src={
+                                    theme === 'dark'
+                                        ? '/dark/loading-dark-125w.webm'
+                                        : '/light/loading-light-125w.webm'
+                                }
+                                media="(max-width: 520px)"
+                            />
+                            <source
+                                src={
+                                    theme === 'dark'
+                                        ? '/dark/loading-dark-95w.webm'
+                                        : '/light/loading-light-95w.webm'
+                                }
+                                media="(max-width: 400px)"
+                            />
+                        </video>
                     </div>
                 </div>
             )}
