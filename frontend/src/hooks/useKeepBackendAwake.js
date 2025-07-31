@@ -32,7 +32,7 @@ const useKeepBackendAwake = () => {
 
         const interval = setInterval(() => {
             pingBackend()
-        }, 240000)
+        }, 300000)
 
         return () => clearInterval(interval)
     })
