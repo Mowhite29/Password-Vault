@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { primaryInput } from 'detect-it'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
@@ -13,36 +12,14 @@ import {
     VaultEdit,
     VaultFetch,
 } from '../services/api'
-import useKeepBackendAwake from './hooks/useKeepBackendAwake'
-import useInactivityLogout from './hooks/useInactivityLogout'
-import useTokenTimeout from './hooks/useTokenTimeout'
+import useKeepBackendAwake from '../hooks/useKeepBackendAwake'
+import useInactivityLogout from '../hooks/useInactivityLogout'
+import useTokenTimeout from '../hooks/useTokenTimeout'
 import HeaderBar from './HeaderBar'
 import MenuBar from './MenuBar'
 import Account from './Account'
 import '../assets/styles/Vault.scss'
 import { Generate, Check } from '../utils/passwordGenerator'
-import copyDark20w from '../assets/images/dark/copy-dark-20w.webp'
-import copyDark40w from '../assets/images/dark/copy-dark-40w.webp'
-import copyLight20w from '../assets/images/light/copy-light-20w.webp'
-import copyLight40w from '../assets/images/light/copy-light-40w.webp'
-import deleteDark20w from '../assets/images/dark/delete-dark-20w.webp'
-import deleteDark40w from '../assets/images/dark/delete-dark-40w.webp'
-import deleteLight20w from '../assets/images/light/delete-light-20w.webp'
-import deleteLight40w from '../assets/images/light/delete-light-40w.webp'
-import editDark20w from '../assets/images/dark/edit-dark-20w.webp'
-import editDark40w from '../assets/images/dark/edit-dark-40w.webp'
-import editLight20w from '../assets/images/light/edit-light-20w.webp'
-import editLight40w from '../assets/images/light/edit-light-40w.webp'
-import arrow20w from '../assets/images/dark/arrow-20w.webp'
-import arrow40w from '../assets/images/dark/arrow-40w.webp'
-import loadingDark95w from '../assets/images/dark/loading-dark-95w.webm'
-import loadingDark125w from '../assets/images/dark/loading-dark-125w.webm'
-import loadingDark245w from '../assets/images/dark/loading-dark-245w.webm'
-import loadingLight95w from '../assets/images/light/loading-light-95w.webm'
-import loadingLight125w from '../assets/images/light/loading-light-125w.webm'
-import loadingLight245w from '../assets/images/light/loading-light-245w.webm'
-import add30w from '../assets/images/dark/add-30w.webp'
-import add60w from '../assets/images/dark/add-60w.webp'
 
 export default function Vault() {
     const screen = useSelector((state) => state.auth.screen)
@@ -452,19 +429,23 @@ export default function Vault() {
         )
         navigator.clipboard.writeText(plaintext)
         if (theme === 'dark') {
-            e.target.src = copyLight40w
-            e.target.srcset = `${copyLight20w} 20w, ${copyLight40w} 40w`
+            e.target.src = '/light/copy-light-40w.webp'
+            e.target.srcset =
+                '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
         } else {
-            e.target.src = copyDark40w
-            e.target.srcset = `${copyDark20w} 20w, ${copyDark40w} 40w`
+            e.target.src = '/dark/copy-dark-40w.webp'
+            e.target.srcset =
+                '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
         }
         setTimeout(() => {
             if (theme === 'dark') {
-                e.target.src = copyDark40w
-                e.target.srcset = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                e.target.src = '/dark/copy-dark-40w.webp'
+                e.target.srcset =
+                    '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
             } else {
-                e.target.src = copyLight40w
-                e.target.srcset = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                e.target.src = '/light/copy-light-40w.webp'
+                e.target.srcset =
+                    '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
             }
         }, 1000)
     }
@@ -505,19 +486,23 @@ export default function Vault() {
         } else if (e.currentTarget.name === 'copy') {
             navigator.clipboard.writeText(e.currentTarget.value)
             if (theme === 'dark') {
-                e.target.src = copyLight40w
-                e.target.srcset = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                e.target.src = '/light/copy-light-40w.webp'
+                e.target.srcset =
+                    '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
             } else {
-                e.target.src = copyDark40w
-                e.target.srcset = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                e.target.src = '/dark/copy-dark-40w.webp'
+                e.target.srcset =
+                    '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
             }
             setTimeout(() => {
                 if (theme === 'dark') {
-                    e.target.src = copyDark40w
-                    e.target.srcset = `${copyDark20w} 20w, ${copyDark40w} 40w`
+                    e.target.src = '/dark/copy-dark-40w.webp'
+                    e.target.srcset =
+                        '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
                 } else {
-                    e.target.src = copyLight40w
-                    e.target.srcset = `${copyLight20w} 20w, ${copyLight40w} 40w`
+                    e.target.src = '/light/copy-light-40w.webp'
+                    e.target.srcset =
+                        '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
                 }
             }, 1000)
         } else if (e.currentTarget.name === 'showPasswordButton') {
@@ -558,8 +543,7 @@ export default function Vault() {
                             onClick={inputHandler}
                         >
                             <img
-                                srcSet={`${add30w} 30w, ${add60w} 60w`}
-                                src={add60w}
+                                src="/dark/add-60w.webp"
                                 alt="create new entry"
                             />
                         </button>
@@ -619,13 +603,14 @@ export default function Vault() {
                                                 <img
                                                     srcSet={
                                                         theme === 'dark'
-                                                            ? `${copyDark20w} 20w, ${copyDark40w} 40w`
-                                                            : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                                            ? '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
+                                                            : '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
                                                     }
+                                                    size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
                                                     src={
                                                         theme === 'dark'
-                                                            ? copyDark40w
-                                                            : copyLight40w
+                                                            ? '/dark/copy-dark-40w.webp'
+                                                            : '/light/copy-light-40w.webp'
                                                     }
                                                 />
                                             </button>
@@ -645,13 +630,14 @@ export default function Vault() {
                                                 <img
                                                     srcSet={
                                                         theme === 'dark'
-                                                            ? `${copyDark20w} 20w, ${copyDark40w} 40w`
-                                                            : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                                            ? '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
+                                                            : '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
                                                     }
+                                                    size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
                                                     src={
                                                         theme === 'dark'
-                                                            ? copyDark40w
-                                                            : copyLight40w
+                                                            ? '/dark/copy-dark-40w.webp'
+                                                            : '/light/copy-light-40w.webp'
                                                     }
                                                 />
                                             </button>
@@ -687,13 +673,14 @@ export default function Vault() {
                                                 <img
                                                     srcSet={
                                                         theme === 'dark'
-                                                            ? `${copyDark20w} 20w, ${copyDark40w} 40w`
-                                                            : `${copyLight20w} 20w, ${copyLight40w} 40w`
+                                                            ? '/dark/copy-dark-20w.webp 20w, /dark/copy-dark-40w.webp 40w'
+                                                            : '/light/copy-light-20w.webp 20w, /light/copy-light-40w.webp 40w'
                                                     }
+                                                    size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
                                                     src={
                                                         theme === 'dark'
-                                                            ? copyDark40w
-                                                            : copyLight40w
+                                                            ? '/dark/copy-dark-40w.webp'
+                                                            : '/light/copy-light-40w.webp'
                                                     }
                                                 />
                                             </button>
@@ -744,15 +731,16 @@ export default function Vault() {
                                             aria-label="edit entry"
                                         >
                                             <img
-                                                scrSet={
+                                                srcSet={
                                                     theme === 'dark'
-                                                        ? `${editDark20w} 20w, ${editDark40w} 40w`
-                                                        : `${editLight20w} 20w, ${editLight40w} 40w`
+                                                        ? '/dark/edit-dark-20w.webp 20w, /dark/edit-dark-40w.webp 40w'
+                                                        : '/light/edit-light-20w.webp 20w, /light/edit-light-40w.webp 40w'
                                                 }
+                                                size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
                                                 src={
                                                     theme === 'dark'
-                                                        ? editDark40w
-                                                        : editLight40w
+                                                        ? '/dark/edit-dark-40w.webp'
+                                                        : '/light/edit-light-40w.webp'
                                                 }
                                             />
                                         </button>
@@ -767,15 +755,16 @@ export default function Vault() {
                                             aria-label="delete entry"
                                         >
                                             <img
-                                                scrSet={
+                                                srcSet={
                                                     theme === 'dark'
-                                                        ? `${deleteDark20w} 20w, ${deleteDark40w} 40w`
-                                                        : `${deleteLight20w} 20w, ${deleteLight40w} 40w`
+                                                        ? '/dark/delete-dark-20w.webp 20w, /dark/delete-dark-40w.webp 40w'
+                                                        : '/light/delete-light-20w.webp 20w, /light/delete-light-40w.webp 40w'
                                                 }
+                                                size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
                                                 src={
                                                     theme === 'dark'
-                                                        ? deleteDark40w
-                                                        : deleteLight40w
+                                                        ? '/dark/delete-dark-40w.webp'
+                                                        : '/light/delete-light-40w.webp'
                                                 }
                                             />
                                         </button>
@@ -788,8 +777,9 @@ export default function Vault() {
                                         aria-label="show entry"
                                     >
                                         <img
-                                            srcSet={`${arrow20w} 20w, ${arrow40w} 40w`}
-                                            src={arrow40w}
+                                            srcSet="/dark/arrow-20w.webp 20w, /dark/arrow-40w.webp 40w"
+                                            size="(pointer: fine) 20w, (max-width: 445) 20w, 40w"
+                                            src="/dark/arrow-40w.webp"
                                         />
                                     </button>
                                 </div>
@@ -1121,29 +1111,32 @@ export default function Vault() {
                     {loading && (
                         <div className="loading">
                             <div className="badge">
-                                <video
-                                    src={
-                                        primaryInput === 'touch'
-                                            ? window.Screen.width < 530
-                                                ? theme === 'dark'
-                                                    ? loadingDark125w
-                                                    : loadingLight125w
-                                                : window.Screen.width < 400
-                                                  ? theme === 'dark'
-                                                      ? loadingDark95w
-                                                      : loadingLight95w
-                                                  : theme === 'dark'
-                                                    ? loadingDark245w
-                                                    : loadingLight245w
-                                            : theme === 'dark'
-                                              ? loadingDark245w
-                                              : loadingLight245w
-                                    }
-                                    alt="loading"
-                                    autoPlay
-                                    muted
-                                    playsInline
-                                />
+                                <video alt="loading" autoPlay muted playsInline>
+                                    <source
+                                        src={
+                                            theme === 'dark'
+                                                ? '/dark/loading-dark-95w.webm'
+                                                : '/light/loading-light-95w.webm'
+                                        }
+                                        media="(max-width: 400px)"
+                                    />
+                                    <source
+                                        src={
+                                            theme === 'dark'
+                                                ? '/dark/loading-dark-125w.webm'
+                                                : '/light/loading-light-125w.webm'
+                                        }
+                                        media="(max-width: 520px)"
+                                    />
+                                    <source
+                                        src={
+                                            theme === 'dark'
+                                                ? '/dark/loading-dark-95w.webm'
+                                                : '/light/loading-light-95w.webm'
+                                        }
+                                        media="(max-width: 400px)"
+                                    />
+                                </video>
                             </div>
                         </div>
                     )}
