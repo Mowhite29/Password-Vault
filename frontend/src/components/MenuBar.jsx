@@ -4,33 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { signOut, setScreen } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
 import { primaryInput } from 'detect-it'
+import { useNavigate } from 'react-router'
 import '../assets/styles/MenuBar.scss'
-import logoDark115w from '../assets/images/dark/logo-dark-115w.webm'
-import logoDark95w from '../assets/images/dark/logo-dark-95w.webm'
-import logoDark75w from '../assets/images/dark/logo-dark-75w.webm'
-import logoDark55w from '../assets/images/dark/logo-dark-55w.webm'
-import logoLight115w from '../assets/images/light/logo-light-115w.webm'
-import logoLight95w from '../assets/images/light/logo-light-95w.webm'
-import logoLight75w from '../assets/images/light/logo-light-75w.webm'
-import logoLight55w from '../assets/images/light/logo-light-55w.webm'
-import menu45w from '../assets/images/dark/menu-45w.webp'
-import menu85w from '../assets/images/dark/menu-85w.webp'
-import info30w from '../assets/images/dark/info-30w.webp'
-import info60w from '../assets/images/dark/info-60w.webp'
-import loginDark30w from '../assets/images/dark/login-dark-30w.webm'
-import loginDark60w from '../assets/images/dark/login-dark-60w.webm'
-import loginLight30w from '../assets/images/light/login-light-30w.webm'
-import loginLight60w from '../assets/images/light/login-light-60w.webm'
-import logout30w from '../assets/images/dark/logout-30w.webp'
-import logout60w from '../assets/images/dark/logout-60w.webp'
-import user30w from '../assets/images/dark/user-30w.webp'
-import user60w from '../assets/images/dark/user-60w.webp'
-import mode30w from '../assets/images/dark/mode-30w.webp'
-import mode60w from '../assets/images/dark/mode-60w.webp'
-import home30w from '../assets/images/dark/home-30w.webp'
-import home60w from '../assets/images/dark/home-60w.webp'
-import vault30w from '../assets/images/dark/vault-30w.webp'
-import vault60w from '../assets/images/dark/vault-60w.webp'
 
 export default function MenuBar() {
     const [open, setOpen] = useState(false)
@@ -38,6 +13,7 @@ export default function MenuBar() {
     const screen = useSelector((state) => state.auth.screen)
     const theme = useSelector((state) => state.appearance.theme)
     const dispatch = useDispatch()
+    let navigate = useNavigate()
 
     const OpenMenu = () => {
         setOpen(() => !open)
@@ -67,20 +43,27 @@ export default function MenuBar() {
     const inputHandler = (e) => {
         if (e.currentTarget.name === 'home') {
             handleScreenChange('home')
+            return navigate('/')
         } else if (e.currentTarget.name === 'menu') {
             OpenMenu()
         } else if (e.currentTarget.name === 'vault') {
             handleScreenChange('vault')
+            navigate('/vault')
         } else if (e.currentTarget.name === 'account') {
             handleScreenChange('account')
+            navigate('/vault')
         } else if (e.currentTarget.name === 'signInOut') {
-            signedIn
-                ? handleSignOut()
-                : screen === 'signin'
-                  ? handleScreenChange('home')
-                  : handleScreenChange('signin')
+            if (signedIn) {
+                handleSignOut()
+                navigate('/')
+            } else {
+                screen === 'signin'
+                    ? handleScreenChange('home')
+                    : handleScreenChange('signin')
+            }
         } else if (e.currentTarget.name === 'about') {
             handleScreenChange('about')
+            navigate('/')
         }
     }
 
@@ -94,32 +77,50 @@ export default function MenuBar() {
                 <div className="staticMenuBar">
                     <video
                         className="logo"
-                        src={
-                            window.Screen.width < 800
-                                ? theme === 'dark'
-                                    ? logoDark95w
-                                    : logoLight95w
-                                : window.Screen.width < 600
-                                  ? theme === 'dark'
-                                      ? logoDark75w
-                                      : logoLight75w
-                                  : window.Screen.width < 400
-                                    ? theme === 'dark'
-                                        ? logoDark55w
-                                        : logoLight55w
-                                    : theme === 'dark'
-                                      ? logoDark115w
-                                      : logoLight115w
-                        }
                         alt="logo"
                         autoPlay
                         muted
                         playsInline
-                    ></video>
+                        onClick={() => {
+                            handleScreenChange('home')
+                            navigate('/')
+                        }}
+                    >
+                        <source
+                            src={
+                                theme === 'dark'
+                                    ? '/dark/logo-dark-95w.webm'
+                                    : '/light/logo-light-95w.webm'
+                            }
+                            media="(max-width: 800px)"
+                            type="video/webm"
+                        />
+                        <source
+                            src={
+                                theme === 'dark'
+                                    ? '/dark/logo-dark-75w.webm'
+                                    : '/light/logo-light-75w.webm'
+                            }
+                            media="(max-width: 600px)"
+                            type="video/webm"
+                        />
+                        <source
+                            src={
+                                theme === 'dark'
+                                    ? '/dark/logo-dark-115w.webm'
+                                    : '/light/logo-light-115w.webm'
+                            }
+                            media="(min-width: 800px)"
+                            type="video/webm"
+                        />
+                    </video>
 
                     <div
                         className="title"
-                        onClick={() => handleScreenChange('home')}
+                        onClick={() => {
+                            handleScreenChange('home')
+                            navigate('/')
+                        }}
                         aria-label="return to home"
                     >
                         <h1>Password</h1>
@@ -133,8 +134,11 @@ export default function MenuBar() {
                         onClick={inputHandler}
                     >
                         <img
-                            srcSet={`${menu45w} 45w, ${menu85w} 85w`}
-                            src={menu85w}
+                            srcSet={
+                                '/dark/menu-45w.webp 45w, /dark/menu-85w.webp 85w'
+                            }
+                            size="(max-width: 540px) 45w, 85w"
+                            src="/dark/menu-85w.webp"
                             alt="open menu"
                         ></img>
                     </button>
@@ -148,11 +152,7 @@ export default function MenuBar() {
                                 aria-label="home"
                                 onClick={inputHandler}
                             >
-                                <img
-                                    srcSet={`${home30w} 30w, ${home60w} 60w`}
-                                    src={home60w}
-                                    alt="home"
-                                />
+                                <img src="/dark/home-60w.webp" alt="home" />
                             </button>
                         )}
                         {signedIn && screen != 'vault' ? (
@@ -162,11 +162,7 @@ export default function MenuBar() {
                                 aria-label="vault"
                                 onClick={inputHandler}
                             >
-                                <img
-                                    srcSet={`${vault30w} 30w, ${vault60w} 60w`}
-                                    src={vault60w}
-                                    alt="vault"
-                                />
+                                <img src="/dark/vault-60w.webp" alt="vault" />
                             </button>
                         ) : null}
                         {screen != 'about' ? (
@@ -176,11 +172,7 @@ export default function MenuBar() {
                                 aria-label="about"
                                 onClick={inputHandler}
                             >
-                                <img
-                                    srcSet={`${info30w} 30w, ${info60w} 60w`}
-                                    src={info60w}
-                                    alt="about"
-                                />
+                                <img src="/dark/info-60w.webp" alt="about" />
                             </button>
                         ) : null}
                         {signedIn && screen != 'account' ? (
@@ -190,11 +182,7 @@ export default function MenuBar() {
                                 aria-label="account"
                                 onClick={inputHandler}
                             >
-                                <img
-                                    srcSet={`${user30w} 30w, ${user60w} 60w`}
-                                    src={user60w}
-                                    alt="account"
-                                />
+                                <img src="/dark/user-60w.webp" alt="account" />
                             </button>
                         ) : null}
                         <button
@@ -205,27 +193,35 @@ export default function MenuBar() {
                         >
                             {signedIn ? (
                                 <img
-                                    srcSet={`${logout30w} 30w, ${logout60w} 60w`}
-                                    src={logout60w}
-                                    alt={signedIn ? 'sign out' : 'sign in'}
+                                    src="/dark/logout-60w.webp"
+                                    alt="sign out"
                                 />
                             ) : (
                                 <video
-                                    srcSet={
-                                        theme === 'dark'
-                                            ? `${loginDark30w} 30w, ${loginDark60w} 60w`
-                                            : `${loginLight30w} 30w, ${loginLight60w} 60w`
-                                    }
-                                    src={
-                                        theme === 'dark'
-                                            ? loginDark60w
-                                            : loginLight60w
-                                    }
                                     alt={signedIn ? 'sign out' : 'sign in'}
                                     autoPlay
                                     muted
                                     playsInline
-                                />
+                                >
+                                    <source
+                                        src={
+                                            theme === 'dark'
+                                                ? '/dark/login-dark-60w.webm'
+                                                : '/light/login-light-60w.webm'
+                                        }
+                                        media="(max-width: 730px)"
+                                        type="video/webm"
+                                    />
+                                    <source
+                                        src={
+                                            theme === 'dark'
+                                                ? '/dark/login-dark-80w.webm'
+                                                : '/light/login-light-80w.webm'
+                                        }
+                                        media="(min-width: 730px)"
+                                        type="video/webm"
+                                    />
+                                </video>
                             )}
                         </button>
                         <button
@@ -233,8 +229,7 @@ export default function MenuBar() {
                             onClick={() => themeToggle()}
                         >
                             <img
-                                srcSet={`${mode30w} 30w, ${mode60w} 60w`}
-                                src={mode60w}
+                                src="/dark/mode-60w.webp"
                                 alt="dark mode/light mode toggle"
                             />
                         </button>
@@ -253,23 +248,40 @@ export default function MenuBar() {
                     <div className="logoTitle">
                         <video
                             className="logo"
-                            src={
-                                window.Screen.width < 1450
-                                    ? theme === 'dark'
-                                        ? logoDark75w
-                                        : logoLight75w
-                                    : theme === 'dark'
-                                      ? logoDark95w
-                                      : logoLight95w
-                            }
                             alt="logo"
                             autoPlay
                             muted
                             playsInline
-                        ></video>
+                            onClick={() => {
+                                handleScreenChange('home')
+                                navigate('/')
+                            }}
+                        >
+                            <source
+                                src={
+                                    theme === 'dark'
+                                        ? '/dark/logo-dark-75w.webm'
+                                        : '/light/logo-light-75w.webm'
+                                }
+                                media="(max-width: 1450px)"
+                                type="video/webm"
+                            />
+                            <source
+                                src={
+                                    theme === 'dark'
+                                        ? '/dark/logo-dark-95w.webm'
+                                        : '/light/logo-light-95w.webm'
+                                }
+                                media="(min-width: 1450px)"
+                                type="video/webm"
+                            />
+                        </video>
                         <div
                             className="title"
-                            onClick={() => handleScreenChange('home')}
+                            onClick={() => {
+                                handleScreenChange('home')
+                                navigate('/')
+                            }}
                             aria-label="return to home"
                         >
                             <h1>Password</h1>
@@ -283,11 +295,7 @@ export default function MenuBar() {
                             aria-label="home"
                             onClick={inputHandler}
                         >
-                            <img
-                                srcSet={`${home30w} 30w, ${home60w} 60w`}
-                                src={home60w}
-                                alt="home"
-                            />
+                            <img src="/dark/home-60w.webp" alt="home" />
                         </button>
                     )}
                     {signedIn && screen != 'vault' ? (
@@ -297,11 +305,7 @@ export default function MenuBar() {
                             aria-label="vault"
                             onClick={inputHandler}
                         >
-                            <img
-                                srcSet={`${vault30w} 30w, ${vault60w} 60w`}
-                                src={vault60w}
-                                alt="vault"
-                            />
+                            <img src="/dark/vault-60w.webp" alt="vault" />
                         </button>
                     ) : null}
                     {screen != 'about' ? (
@@ -311,11 +315,7 @@ export default function MenuBar() {
                             aria-label="about"
                             onClick={inputHandler}
                         >
-                            <img
-                                srcSet={`${info30w} 30w, ${info60w} 60w`}
-                                src={info60w}
-                                alt="about"
-                            />
+                            <img src="/dark/info-60w.webp" alt="about" />
                         </button>
                     ) : null}
                     {signedIn && screen != 'account' ? (
@@ -325,11 +325,7 @@ export default function MenuBar() {
                             aria-label="account"
                             onClick={inputHandler}
                         >
-                            <img
-                                srcSet={`${user30w} 30w, ${user60w} 60w`}
-                                src={user60w}
-                                alt="account"
-                            />
+                            <img src="/dark/info-60w.webp" alt="about" />
                         </button>
                     ) : null}
                     <button
@@ -340,28 +336,33 @@ export default function MenuBar() {
                         onClick={inputHandler}
                     >
                         {signedIn ? (
-                            <img
-                                srcSet={`${logout30w} 30w, ${logout60w} 60w`}
-                                src={logout60w}
-                                alt={signedIn ? 'sign out' : 'sign in'}
-                            />
+                            <img src="/dark/logout-60w.webp" alt="sign out" />
                         ) : (
                             <video
-                                srcSet={
-                                    theme === 'dark'
-                                        ? `${loginDark30w} 30w, ${loginDark60w} 60w`
-                                        : `${loginLight30w} 30w, ${loginLight60w} 60w`
-                                }
-                                src={
-                                    theme === 'dark'
-                                        ? loginDark60w
-                                        : loginLight60w
-                                }
                                 alt={signedIn ? 'sign out' : 'sign in'}
                                 autoPlay
                                 muted
                                 playsInline
-                            />
+                            >
+                                <source
+                                    src={
+                                        theme === 'dark'
+                                            ? '/dark/login-dark-60w.webm'
+                                            : '/light/login-light-60w.webm'
+                                    }
+                                    media="(max-width: 1275px)"
+                                    type="video/webm"
+                                />
+                                <source
+                                    src={
+                                        theme === 'dark'
+                                            ? '/dark/login-dark-80w.webm'
+                                            : '/light/login-light-80w.webm'
+                                    }
+                                    media="(min-width: 1275px)"
+                                    type="video/webm"
+                                />
+                            </video>
                         )}
                     </button>
                     <button
@@ -369,8 +370,7 @@ export default function MenuBar() {
                         onClick={() => themeToggle()}
                     >
                         <img
-                            srcSet={`${mode30w} 30w, ${mode60w} 60w`}
-                            src={mode60w}
+                            src="/dark/mode-60w.webp"
                             alt="dark mode/light mode toggle"
                         />
                     </button>

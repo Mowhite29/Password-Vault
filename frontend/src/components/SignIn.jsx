@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { QRCodeSVG } from 'qrcode.react'
 import { primaryInput } from 'detect-it'
+import { useNavigate } from 'react-router'
 import {
     signIn,
     setScreen,
@@ -16,10 +17,6 @@ import copyDark20w from '../assets/images/dark/copy-dark-20w.webp'
 import copyDark40w from '../assets/images/dark/copy-dark-40w.webp'
 import copyLight20w from '../assets/images/light/copy-light-20w.webp'
 import copyLight40w from '../assets/images/light/copy-light-40w.webp'
-import closeDark20w from '../assets/images/dark/close-dark-20w.webp'
-import closeDark40w from '../assets/images/dark/close-dark-40w.webp'
-import closeLight20w from '../assets/images/light/close-light-20w.webp'
-import closeLight40w from '../assets/images/light/close-light-40w.webp'
 import loadingDark95w from '../assets/images/dark/auth-dark-95w.webm'
 import loadingDark125w from '../assets/images/dark/auth-dark-125w.webm'
 import loadingDark245w from '../assets/images/dark/auth-dark-245w.webm'
@@ -45,6 +42,7 @@ export default function SignIn() {
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
+    let navigate = useNavigate()
 
     const handleScreenChange = (newScreen) => {
         dispatch(setScreen(newScreen))
@@ -97,6 +95,7 @@ export default function SignIn() {
             userDetails(username)
             setLoading(false)
             handleScreenChange('vault')
+            navigate('/vault')
         } else {
             setLoading(false)
             setTOTPMessage('Cannot sign in, check code')
@@ -326,13 +325,14 @@ export default function SignIn() {
                                 <img
                                     srcSet={
                                         theme === 'dark'
-                                            ? `${closeDark20w} 20w, ${closeDark40w} 40w`
-                                            : `${closeLight20w} 20w, ${closeLight40w} 40w`
+                                            ? 'dark/close-dark-20w.webp 20w, dark/close-dark-40w.webp 40w'
+                                            : 'light/close-light-20w.webp 20w, light/close-light-40w.webp 40w'
                                     }
+                                    size="(pointer: fine) 20w, (pointer: coarse) and (max-width: 450px) 20w, 40w"
                                     src={
                                         theme === 'dark'
-                                            ? closeDark40w
-                                            : closeLight40w
+                                            ? 'dark/close-dark-40w.webp'
+                                            : 'light/close-light-40w.webp'
                                     }
                                 />
                             </button>

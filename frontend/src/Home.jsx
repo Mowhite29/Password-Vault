@@ -8,20 +8,13 @@ import { primaryInput } from 'detect-it'
 import SplashScreen from './components/SplashScreen'
 import HeaderBar from './components/HeaderBar'
 import MenuBar from './components/MenuBar'
-import SignIn from './components/SignIn'
-import Vault from './components/Vault'
-import Account from './components/Account'
-import About from './components/About'
 import useKeepBackendAwake from './hooks/useKeepBackendAwake'
 import useInactivityLogout from './hooks/useInactivityLogout'
 import useTokenTimeout from './hooks/useTokenTimeout'
 import './assets/styles/Home.scss'
-import githubDark50w from './assets/images/dark/github-dark-50w.webp'
-import githubDark100w from './assets/images/dark/github-dark-100w.webp'
-import githubDark140w from './assets/images/dark/github-dark-140w.webp'
-import githubLight50w from './assets/images/light/github-light-50w.webp'
-import githubLight100w from './assets/images/light/github-light-100w.webp'
-import githubLight140w from './assets/images/light/github-light-140w.webp'
+
+const About = React.lazy(() => import('./components/About'))
+const SignIn = React.lazy(() => import('./components/SignIn'))
 
 export default function Home() {
     const screen = useSelector((state) => state.auth.screen)
@@ -65,11 +58,16 @@ export default function Home() {
     }, [theme])
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        const hasLoaded = sessionStorage.getItem('splash-shown')
+        if (!hasLoaded) {
+            setIsLoading(true)
+            setTimeout(() => {
+                setIsLoading(false)
+                sessionStorage.setItem('splash-shown', 'true')
+            }, 4000)
+        } else {
             setIsLoading(false)
-        }, 4000)
-
-        return () => clearTimeout(timer)
+        }
     }, [])
 
     const now = new Date()
@@ -117,13 +115,14 @@ export default function Home() {
                             <img
                                 srcSet={
                                     theme === 'dark'
-                                        ? `${githubDark50w} 50w, ${githubDark100w} 100w, ${githubDark140w} 140w`
-                                        : `${githubLight50w} 50w, ${githubLight100w} 100w, ${githubLight140w} 140w`
+                                        ? '/dark/github-dark-50w.webp 50w, /dark/github-dark-100w.webp 100w, /dark/github-dark-140w.webp 140w'
+                                        : '/dark/github-light-50w.webp 50w, /dark/github-light-100w.webp 100w, /dark/github-light-140w.webp 140w'
                                 }
+                                sizes="(pointer: coarse) and (max-width: 1024) 140w, (pointer: coarse) and (max-width: 700) 100w, (pointer: fine) 100w,"
                                 src={
                                     theme === 'dark'
-                                        ? githubDark140w
-                                        : githubLight140w
+                                        ? '/dark/github-dark-140w.webp 140w'
+                                        : '/dark/github-light-140w.webp 140w'
                                 }
                             />
                         </a>
@@ -231,8 +230,6 @@ export default function Home() {
                     </>
                 )
             ) : null}
-            {screen === 'vault' && <Vault />}
-            {screen === 'account' && <Account />}
             {screen === 'about' && <About />}
         </>
     )

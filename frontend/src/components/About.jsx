@@ -2,12 +2,6 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../assets/styles/About.scss'
-import githubDark50w from '../assets/images/dark/github-dark-50w.webp'
-import githubDark100w from '../assets/images/dark/github-dark-100w.webp'
-import githubDark140w from '../assets/images/dark/github-dark-140w.webp'
-import githubLight50w from '../assets/images/light/github-light-50w.webp'
-import githubLight100w from '../assets/images/light/github-light-100w.webp'
-import githubLight140w from '../assets/images/light/github-light-140w.webp'
 
 export default function About() {
     const theme = useSelector((state) => state.appearance.theme)
@@ -55,13 +49,14 @@ export default function About() {
                         <img
                             srcSet={
                                 theme === 'dark'
-                                    ? `${githubDark50w} 50w, ${githubDark100w} 100w, ${githubDark140w} 140w`
-                                    : `${githubLight50w} 50w, ${githubLight100w} 100w, ${githubLight140w} 140w`
+                                    ? '/dark/github-dark-50w.webp 50w, /dark/github-dark-100w.webp 100w, /dark/github-dark-140w.webp 140w'
+                                    : '/dark/github-light-50w.webp 50w, /dark/github-light-100w.webp 100w, /dark/github-light-140w.webp 140w'
                             }
+                            sizes="(pointer: coarse) and (max-width: 1024) 140w, (pointer: coarse) and (max-width: 700) 100w, (pointer: fine) 100w,"
                             src={
                                 theme === 'dark'
-                                    ? githubDark140w
-                                    : githubLight140w
+                                    ? '/dark/github-dark-140w.webp 140w'
+                                    : '/dark/github-light-140w.webp 140w'
                             }
                         />
                     </a>
