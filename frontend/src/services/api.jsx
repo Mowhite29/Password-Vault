@@ -336,7 +336,6 @@ export async function VaultDelete(
     try {
         const url = backEndURL + '/vault/'
         const authToken = 'Bearer ' + accessToken
-        console.log(salt, nonce)
         const response = await axios.delete(url, {
             headers: { AUTHORIZATION: authToken },
             data: {
