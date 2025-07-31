@@ -1,5 +1,12 @@
 @use './abstracts/mixins' as *;
 
+:root {
+    --theme: light;
+    color-scheme: var(--theme);
+    overflow: hidden;
+    @include background;
+}
+
 // Mobile in portrait
 @media (min-width: 0px) {
     .vaultView {
