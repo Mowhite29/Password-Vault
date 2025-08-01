@@ -49,7 +49,7 @@ This roadmap outlines planned features and enhancements for the Password Vault p
 - [x] Responsive design with a mobile-first approach
 - [x] Dark mode/Light mode
 - [x] Accessibility
-- [ ] Site performance optimisation
+- [x] Site performance optimisation
 
 ---
 

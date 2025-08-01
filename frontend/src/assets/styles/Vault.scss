@@ -41,6 +41,7 @@
                 margin: clamp(0.313rem, 0.692vw + 0.183rem, 0.625rem) 0;
                 font-size: clamp(0.938rem, 3.453vw + 0.29rem, 2.5rem);
                 height: clamp(1.563rem, 8.299vw + 0.006rem, 5.313rem);
+                width: clamp(11.25rem, 37.293vw + 4.258rem, 28.125rem);
             }
             button {
                 align-self: center
@@ -330,6 +331,7 @@
                     .checkBoxes {
                         display: flex;
                         flex-direction: row;
+                        flex-wrap: wrap;
                         .checkBox {
                             height: auto;
                             width: clamp(0.625rem, 2.072vw + 0.237rem, 1.563rem);
@@ -400,6 +402,7 @@
                 margin: clamp(0.625rem, 1.117vw - 0.091rem, 1.25rem) 0;
                 font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
                 height: clamp(2.5rem, 2.232vw + 1.071rem, 3.75rem);
+                width: clamp(15.625rem, 16.76vw + 4.888rem, 25rem);
             }
         }
         .vaultDisplay {

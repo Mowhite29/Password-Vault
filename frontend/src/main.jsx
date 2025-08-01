@@ -5,6 +5,13 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <App />
+        <App
+            style={{
+                paddingTop: 'env(safe-area-inset-top)',
+                paddingBottom: 'env(safe-area-inset-bottom)',
+                paddingLeft: 'env(safe-area-inset-left)',
+                paddingRight: 'env(safe-area-inset-right)',
+            }}
+        />
     </StrictMode>
 )

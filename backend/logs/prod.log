@@ -1,0 +1,114 @@
+INFO 2025-08-01 11:53:46,600 views Register endpoint accessed.
+INFO 2025-08-01 11:53:48,085 views Confirmation email sent to test@test.com by 127.0.0.1. Message ID: d29b4dce-1054-419e-873d-924dd78a01f2
+INFO 2025-08-01 13:38:07,923 views User login accessed
+INFO 2025-08-01 13:38:08,486 views TOTP not set up for user mowhite29@hotmail.co.uk
+INFO 2025-08-01 13:38:24,813 views User login accessed
+INFO 2025-08-01 13:38:24,858 views Successful authentication for mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:38:25,188 views Get user key accessed.
+ERROR 2025-08-01 13:38:25,208 views User mowhite29@hotmail.co.uk attempted to access user key prior to it being set from 127.0.0.1
+INFO 2025-08-01 13:38:25,209 views Get vault accessed
+INFO 2025-08-01 13:38:25,210 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:38:25,237 views Get user key accessed.
+ERROR 2025-08-01 13:38:25,262 views User mowhite29@hotmail.co.uk attempted to access user key prior to it being set from 127.0.0.1
+INFO 2025-08-01 13:38:25,286 views Get user key accessed.
+ERROR 2025-08-01 13:38:25,307 views User mowhite29@hotmail.co.uk attempted to access user key prior to it being set from 127.0.0.1
+INFO 2025-08-01 13:38:25,452 views Get vault accessed
+INFO 2025-08-01 13:38:25,454 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:38:29,466 views Set user key accessed.
+INFO 2025-08-01 13:38:29,492 views User mowhite29@hotmail.co.uk set new user key.
+INFO 2025-08-01 13:38:47,349 views User login accessed
+INFO 2025-08-01 13:38:47,712 views Credentials verified for mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:01,125 views User login accessed
+INFO 2025-08-01 13:39:01,173 views Invalid TOTP token provided for mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:13,887 views User login accessed
+INFO 2025-08-01 13:39:13,937 views Successful authentication for mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:14,197 views Get user key accessed.
+INFO 2025-08-01 13:39:14,197 views Get vault accessed
+INFO 2025-08-01 13:39:14,197 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:39:14,238 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:14,263 views Get user key accessed.
+INFO 2025-08-01 13:39:14,306 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:14,397 views Get vault accessed
+INFO 2025-08-01 13:39:14,397 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:39:17,775 views Get user key accessed.
+INFO 2025-08-01 13:39:17,818 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:57,511 views Get user key accessed.
+INFO 2025-08-01 13:39:57,511 views Get vault accessed
+INFO 2025-08-01 13:39:57,512 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:39:57,554 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:39:57,556 views Get vault accessed
+INFO 2025-08-01 13:39:57,557 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:39:57,578 views Get user key accessed.
+INFO 2025-08-01 13:39:57,620 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:40:00,714 views Get user key accessed.
+INFO 2025-08-01 13:40:00,758 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:42:14,452 views Get vault accessed
+INFO 2025-08-01 13:42:14,457 views Get user key accessed.
+INFO 2025-08-01 13:42:14,457 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:42:14,499 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:42:17,574 views Get user key accessed.
+INFO 2025-08-01 13:42:17,616 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:42:58,383 views Get user key accessed.
+INFO 2025-08-01 13:42:58,383 views Get vault accessed
+INFO 2025-08-01 13:42:58,383 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:42:58,425 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:09,568 views Get user key accessed.
+INFO 2025-08-01 13:43:09,572 views Get vault accessed
+INFO 2025-08-01 13:43:09,573 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:09,613 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:09,636 views Get user key accessed.
+INFO 2025-08-01 13:43:09,677 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:09,817 views Get vault accessed
+INFO 2025-08-01 13:43:09,818 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:13,124 views Get user key accessed.
+INFO 2025-08-01 13:43:13,172 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:20,656 views Get user key accessed.
+INFO 2025-08-01 13:43:20,656 views Get vault accessed
+INFO 2025-08-01 13:43:20,656 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:20,698 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:20,703 views Get vault accessed
+INFO 2025-08-01 13:43:20,703 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:20,722 views Get user key accessed.
+INFO 2025-08-01 13:43:20,767 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:22,735 views Get user key accessed.
+INFO 2025-08-01 13:43:22,778 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:46,045 views Get vault accessed
+INFO 2025-08-01 13:43:46,046 views Get user key accessed.
+INFO 2025-08-01 13:43:46,046 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:46,090 views Get vault accessed
+INFO 2025-08-01 13:43:46,091 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:46,092 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:46,114 views Get user key accessed.
+INFO 2025-08-01 13:43:46,152 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:48,280 views Get user key accessed.
+INFO 2025-08-01 13:43:48,280 views Get vault accessed
+INFO 2025-08-01 13:43:48,281 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:48,320 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:48,325 views Get vault accessed
+INFO 2025-08-01 13:43:48,326 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:43:48,344 views Get user key accessed.
+INFO 2025-08-01 13:43:48,384 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:51,236 views Get user key accessed.
+INFO 2025-08-01 13:43:51,278 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:43:53,379 views Get user key accessed.
+INFO 2025-08-01 13:43:53,422 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:44:51,295 views Get user key accessed.
+INFO 2025-08-01 13:44:51,297 views Get vault accessed
+INFO 2025-08-01 13:44:51,298 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:44:51,334 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:44:51,341 views Get vault accessed
+INFO 2025-08-01 13:44:51,341 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:44:51,355 views Get user key accessed.
+INFO 2025-08-01 13:44:51,395 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:44:57,734 views Get user key accessed.
+INFO 2025-08-01 13:44:57,772 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:45:01,321 views Get user key accessed.
+INFO 2025-08-01 13:45:01,322 views Get vault accessed
+INFO 2025-08-01 13:45:01,323 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:45:01,359 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:45:01,365 views Get vault accessed
+INFO 2025-08-01 13:45:01,365 views User mowhite29@hotmail.co.uk retrieved vault at 127.0.0.1
+INFO 2025-08-01 13:45:01,382 views Get user key accessed.
+INFO 2025-08-01 13:45:01,423 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
+INFO 2025-08-01 13:45:03,594 views Get user key accessed.
+INFO 2025-08-01 13:45:03,637 views User key accessed by mowhite29@hotmail.co.uk at 127.0.0.1
