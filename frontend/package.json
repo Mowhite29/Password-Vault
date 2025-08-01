@@ -34,7 +34,6 @@
     "vite-plugin-wasm": "^3.4.1"
   },
   "devDependencies": {
-    "-": "^0.0.1",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-react": "^7.27.1",
     "@eslint/js": "^9.25.0",
@@ -55,7 +54,6 @@
     "prettier": "3.5.3",
     "sass-embedded": "^1.89.2",
     "vite": "^6.3.5",
-    "vite-plugin-csp-guard": "^2.1.1",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.0"
   },
