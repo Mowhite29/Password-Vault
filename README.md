@@ -2,6 +2,8 @@
 
 A full-stack, secure password management application built with React.js (frontend) and Django REST Framework (backend). This project is designed to showcase client-side encryption, RESTful API integration, authentication, and a clean, responsive UI.
 
+[Live demo of project](https://passwordvault.info)
+
 ## Important Notice
 
 This project is not intended for production use. It is provided as a demonstration of software development abilities only.

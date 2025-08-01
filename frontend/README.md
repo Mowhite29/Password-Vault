@@ -87,10 +87,9 @@ yarn test
 ```bash
 src/
 ┣  assets/           # Static assets like images and fonts
-┣  components/       # Reusable UI components
+┣  components/       # UI components
 ┣  hooks/            # Custom React hooks
-┣  pages/            # Route-based pages
-┣  services/         # API and encryption logic
+┣  services/         # API
 ┣  styles/           # Global styles and themes
 ┣  utils/            # Utility functions
 ```
