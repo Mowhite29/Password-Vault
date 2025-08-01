@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { signOut, setScreen } from '../redux/authSlice'
 import { setTheme } from '../redux/appearanceSlice'
@@ -12,8 +11,21 @@ export default function MenuBar() {
     const signedIn = useSelector((state) => state.auth.signedIn)
     const screen = useSelector((state) => state.auth.screen)
     const theme = useSelector((state) => state.appearance.theme)
+
     const dispatch = useDispatch()
     let navigate = useNavigate()
+
+    const logoRef = useRef(null)
+    const loginRef = useRef(null)
+
+    useEffect(() => {
+        if (logoRef.current) {
+            logoRef.current.load()
+        }
+        if (loginRef.current) {
+            loginRef.current.load()
+        }
+    }, [theme])
 
     const OpenMenu = () => {
         setOpen(() => !open)
@@ -78,6 +90,7 @@ export default function MenuBar() {
                     <video
                         className="logo"
                         alt="logo"
+                        ref={logoRef}
                         autoPlay
                         muted
                         playsInline
@@ -110,7 +123,6 @@ export default function MenuBar() {
                                     ? '/dark/logo-dark-115w.webm'
                                     : '/light/logo-light-115w.webm'
                             }
-                            media="(min-width: 800px)"
                             type="video/webm"
                         />
                     </video>
@@ -199,6 +211,7 @@ export default function MenuBar() {
                             ) : (
                                 <video
                                     alt={signedIn ? 'sign out' : 'sign in'}
+                                    ref={loginRef}
                                     autoPlay
                                     muted
                                     playsInline
@@ -249,6 +262,7 @@ export default function MenuBar() {
                         <video
                             className="logo"
                             alt="logo"
+                            ref={logoRef}
                             autoPlay
                             muted
                             playsInline
@@ -272,7 +286,6 @@ export default function MenuBar() {
                                         ? '/dark/logo-dark-95w.webm'
                                         : '/light/logo-light-95w.webm'
                                 }
-                                media="(min-width: 1450px)"
                                 type="video/webm"
                             />
                         </video>
@@ -340,6 +353,7 @@ export default function MenuBar() {
                         ) : (
                             <video
                                 alt={signedIn ? 'sign out' : 'sign in'}
+                                ref={loginRef}
                                 autoPlay
                                 muted
                                 playsInline
@@ -359,7 +373,6 @@ export default function MenuBar() {
                                             ? '/dark/login-dark-80w.webm'
                                             : '/light/login-light-80w.webm'
                                     }
-                                    media="(min-width: 1275px)"
                                     type="video/webm"
                                 />
                             </video>

@@ -124,6 +124,7 @@ export default function Home() {
                                         ? '/dark/github-dark-140w.webp 140w'
                                         : '/dark/github-light-140w.webp 140w'
                                 }
+                                alt="github link"
                             />
                         </a>
                         <h3>

@@ -1111,7 +1111,13 @@ export default function Vault() {
                     {loading && (
                         <div className="loading">
                             <div className="badge">
-                                <video alt="loading" autoPlay muted playsInline>
+                                <video
+                                    alt="loading"
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                    loop
+                                >
                                     <source
                                         src={
                                             theme === 'dark'
@@ -1119,6 +1125,7 @@ export default function Vault() {
                                                 : '/light/loading-light-95w.webm'
                                         }
                                         media="(max-width: 400px)"
+                                        type="video/webm"
                                     />
                                     <source
                                         src={
@@ -1127,6 +1134,7 @@ export default function Vault() {
                                                 : '/light/loading-light-125w.webm'
                                         }
                                         media="(max-width: 520px)"
+                                        type="video/webm"
                                     />
                                     <source
                                         src={
@@ -1134,7 +1142,7 @@ export default function Vault() {
                                                 ? '/dark/loading-dark-95w.webm'
                                                 : '/light/loading-light-95w.webm'
                                         }
-                                        media="(max-width: 400px)"
+                                        type="video/webm"
                                     />
                                 </video>
                             </div>

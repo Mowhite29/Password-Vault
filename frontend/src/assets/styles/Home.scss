@@ -5,6 +5,10 @@
     color-scheme: var(--theme);
     overflow: hidden;
     @include background;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 // Mobile in portrait
 @media (min-width: 0px) {
@@ -15,7 +19,6 @@
         z-index: 10000000;
         display: flex;
         justify-content: center;
-
         .warningBanner {
             @include container;
             @include border;
@@ -29,7 +32,6 @@
             scroll-behavior: smooth;
             padding: 10px;
             border-radius: clamp(1.25rem, 2.766vw + 0.731rem, 2.5rem);
-
             h1 {
                 font-size: clamp(1.875rem, 4.149vw + 1.097rem, 3.75rem);
                 text-align: center;
@@ -71,7 +73,6 @@
         justify-content: center;
         position: absolute;
         top: clamp(6.875rem, 27.663vw + 1.688rem, 19.375rem);
-    
         .homeContainer {
             @include container;
             @include text;
@@ -85,7 +86,6 @@
             text-align: center;
             align-self: center;
             justify-content: space-around;
-
             h1 {
                 font-size: clamp(1.875rem, 8.299vw + 0.319rem, 5.625rem);
                 text-align: center;
@@ -125,8 +125,6 @@
     .warningContainer {
         .warningBanner {
             width: 40vw;
-            border-radius: clamp(1.25rem, 2.766vw + 0.731rem, 2.5rem);
-
             h1 {
                 font-size: clamp(1.875rem, 2.232vw + 0.446rem, 3.125rem);
                 font-weight: 600;
@@ -150,14 +148,10 @@
     }
     .home {
         height: 75%;
-        position: absolute;
         top: clamp(7.813rem, 10.045vw + 1.384rem, 13.438rem);
-
         .homeContainer {
             justify-self: center;
-            align-self: center;
             height: 80%;
-            justify-content: space-around;
             h1 {
                 font-size: clamp(2.5rem, 3.348vw + 0.357rem, 4.375rem);
                 margin: 0;
@@ -184,7 +178,6 @@
     .home {
         height: 65vh;
         top: clamp(5.625rem, 11.547vw + 2.016rem, 11.875rem);
-    
         .homeContainer {
             h1 {
                 font-size: calc(clamp(1.25rem, 3.464vw + 0.167rem, 3.125rem));
@@ -200,17 +193,7 @@
                 font-weight: 500;
             }
             button {
-                @include text;
-                @include container;
-                @include logo;
-                font-size: clamp(1.25rem, 3.464vw + 0.167rem, 3.125rem);
-                text-align: center;
                 margin: 0 clamp(0.313rem, 2.072vw - 0.076rem, 1.25rem);
-                font-weight: 600;
-                width: auto;
-                align-self: center;
-                border: none;
-                background: none;
             }
         }
     }

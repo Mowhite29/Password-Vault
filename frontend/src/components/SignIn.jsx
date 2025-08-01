@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { QRCodeSVG } from 'qrcode.react'
 import { useNavigate } from 'react-router'
@@ -32,6 +31,14 @@ export default function SignIn() {
 
     const dispatch = useDispatch()
     let navigate = useNavigate()
+
+    const loadingRef = useRef(null)
+
+    useEffect(() => {
+        if (loadingRef.current) {
+            loadingRef.current.load()
+        }
+    }, [theme])
 
     const handleScreenChange = (newScreen) => {
         dispatch(setScreen(newScreen))
@@ -133,6 +140,7 @@ export default function SignIn() {
                 setPopUpMessage(
                     'Account creation unsuccessful, please check entered details, or if you already have an account please sign in '
                 )
+                setMessageVisible(true)
                 setLoading(false)
                 setTimeout(() => setMessageVisible(false), 3000)
             }
@@ -428,7 +436,14 @@ export default function SignIn() {
             {loading && (
                 <div className="loading">
                     <div className="badge">
-                        <video alt="loading" autoPlay muted playsInline>
+                        <video
+                            alt="loading"
+                            ref={loadingRef}
+                            autoPlay
+                            muted
+                            playsInline
+                            loop
+                        >
                             <source
                                 src={
                                     theme === 'dark'
@@ -436,6 +451,7 @@ export default function SignIn() {
                                         : '/light/loading-light-95w.webm'
                                 }
                                 media="(max-width: 400px)"
+                                type="video/webm"
                             />
                             <source
                                 src={
@@ -444,14 +460,15 @@ export default function SignIn() {
                                         : '/light/loading-light-125w.webm'
                                 }
                                 media="(max-width: 520px)"
+                                type="video/webm"
                             />
                             <source
                                 src={
                                     theme === 'dark'
-                                        ? '/dark/loading-dark-95w.webm'
-                                        : '/light/loading-light-95w.webm'
+                                        ? '/dark/loading-dark-245w.webm'
+                                        : '/light/loading-light-245w.webm'
                                 }
-                                media="(max-width: 400px)"
+                                type="video/webm"
                             />
                         </video>
                     </div>

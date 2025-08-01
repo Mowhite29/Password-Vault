@@ -29,13 +29,11 @@
                 justify-content: center;
                 height: 50%;
                 margin: 0 0 clamp(0.438rem, 4.564vw - 0.418rem, 2.5rem);
-            
                 .forms {
                     width: 70%;
                     display: flex;
                     flex-direction: column;
                     align-self: center;
-
                     h1 {
                         text-align: center;
                         font-size: clamp(1.563rem, 6.224vw + 0.395rem, 4.375rem);
@@ -45,7 +43,6 @@
                         margin: clamp(0.25rem, 1.521vw - 0.035rem, 0.938rem) 0;
                         font-size: clamp(0.938rem, 2.766vw + 0.419rem, 2.188rem);
                     }
-
                     button {
                         width: auto;
                         align-self: center;
@@ -56,7 +53,6 @@
                         padding: clamp(0.125rem, 0.415vw + 0.047rem, 0.313rem) clamp(0.313rem, 1.383vw + 0.053rem, 0.938rem);
                     }
                 }
-
                 .forgottenButton {
                     width: auto;
                     align-self: center;
@@ -166,12 +162,10 @@
 @media (min-width: 1025px) {
     .signIn {
         height: 0;
-        position: absolute;
         top: clamp(6.563rem, 7.813vw + 1.563rem, 10.938rem);
         .signInContainer {
             justify-self: center;
             align-self: start;
-            height: auto;
             justify-content: space-between;
             flex-direction: row;
             width: clamp(32.188rem, 29.018vw + 13.616rem, 48.438rem);
@@ -194,17 +188,12 @@
                     }
                 }
                 .forgottenButton {
-                    width: auto;
                     justify-self: center;
                     font-size: clamp(0.938rem, 0.558vw + 0.58rem, 1.25rem);
                     margin: 10px 0 0;
                 }
             }
             .totpContainer {
-                @include container;
-                @include text;
-                @include border;
-                position: absolute;
                 top: 0;
                 width: clamp(32.188rem, 29.018vw + 13.616rem, 48.438rem);
                 h2 {
@@ -221,7 +210,6 @@
                         margin: 10px;
                     }
                     .string {
-                        width: 100%;
                         h3 {
                             font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
                             margin: 10px;
@@ -282,8 +270,6 @@
                     }
                 }
                 .forgottenButton {
-                    width: auto;
-                    justify-self: center;
                     font-size: clamp(0.938rem, 1.732vw + 0.396rem, 1.875rem);
                     margin: 10px 0 0;
                 }
@@ -308,7 +294,6 @@
                     }
                     .string {
                         width: 100%;
-                        justify-content: center;
                         h3 {
                             font-size: clamp(0.938rem, 2.309vw + 0.216rem, 2.188rem);
                             margin: clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) clamp(0.625rem, 1.155vw + 0.264rem, 1.25rem) clamp(0.125rem, 0.346vw + 0.017rem, 0.313rem) 0;
