@@ -187,6 +187,7 @@ jobs:
         - name: Build frontend
           env:
             VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL}}
+            VITE_GA_ID: ${{ secrets.VITE_GA_ID }}
           run: |
             cd frontend
             mkdir -p /home/runner/work/_temp/_github_home/build
