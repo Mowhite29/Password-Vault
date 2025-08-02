@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { persistor, store } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import Home from './Home'
+import Analytics from './components/Analytics'
 
 const Vault = React.lazy(() => import('./components/Vault'))
 const PasswordChange = React.lazy(() => import('./components/PasswordChange'))
@@ -14,6 +15,7 @@ function App() {
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <Router>
+                    <Analytics />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/vault" element={<Vault />} />
