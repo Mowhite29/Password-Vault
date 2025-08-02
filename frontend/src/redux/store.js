@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import storageSession from 'redux-persist/lib/storage/session'
 import authReducer from './authSlice'
 import connectReducer from './connectionSlice'
 import waiverReducer from './waiverSlice'
@@ -8,16 +9,16 @@ import appearanceReducer from './appearanceSlice'
 
 const persistAuthConfig = {
     key: 'auth',
-    storage,
+    storage: storageSession,
 }
 const persistWaiverConfig = {
     key: 'waiver',
-    storage,
+    storage: storageSession,
 }
 
 const persistAppearanceConfig = {
     key: 'appearance',
-    storage,
+    storage: storage,
 }
 
 const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer)
