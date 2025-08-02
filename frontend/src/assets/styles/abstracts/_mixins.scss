@@ -44,7 +44,8 @@ $border-dark: #2A3C43;
     color: light-dark($logo-light, $logo-dark);
 }
 @mixin highlight {
-    text-decoration: light-dark($highlight-light, $highlight-dark);
+    color: light-dark($highlight-light, $highlight-dark);
+    text-decoration: none;
 }
 @mixin text {
     color: light-dark($text-light, $text-dark);

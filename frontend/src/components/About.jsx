@@ -41,7 +41,13 @@ export default function About() {
                         skills. It is not a production-ready system and is not
                         intended for real-world use.
                     </p>
-
+                    <a
+                        className="webLink"
+                        href="https://moseswhite.info"
+                        target="_blank"
+                    >
+                        moseswhite.info
+                    </a>
                     <a
                         href="https://github.com/Mowhite29/Password-Vault"
                         target="_blank"

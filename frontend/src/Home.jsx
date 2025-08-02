@@ -109,6 +109,13 @@ export default function Home() {
                         <h1>Password Vault</h1>
                         <h2>by Moses White</h2>
                         <a
+                            className="webLink"
+                            href="https://moseswhite.info"
+                            target="_blank"
+                        >
+                            moseswhite.info
+                        </a>
+                        <a
                             href="https://github.com/Mowhite29/Password-Vault"
                             target="_blank"
                         >
@@ -127,6 +134,7 @@ export default function Home() {
                                 alt="github link"
                             />
                         </a>
+
                         <h3>
                             This application has been created as part of a
                             personal software development portfolio. It is

@@ -73,7 +73,13 @@ password-vault/
 
 ## Documentation
 
-- [Skill Showcase](./docs/SKILLS.md)
-- [Security Considerations](./docs/SECURITY_CONSIDERATIONS.md)
-- [Testing](./docs/TESTING.md)
+- [API](./docs/API.md)
+- [Case Study](./docs/CASE_STUDY.md)
+- [Legal](./docs/LEGAL.md)
+- [Liability Considerations](./docs/LIABILITY-CONSIDERATIONS.MD)
+- [MVP](./docs/MVP.md)
 - [Original Project](./docs/ORIGINAL_PROJECT.md)
+- [Roadmap](./docs/ROADMAP.md)
+- [Security Considerations](./docs/SECURITY_CONSIDERATIONS.md)
+- [Skill Showcase](./docs/SKILLS.md)
+- [Testing](./docs/TESTING.md)

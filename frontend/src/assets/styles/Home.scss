@@ -44,6 +44,13 @@
                 margin: 0;
                 font-weight: 600;
             }
+            .webLink {
+                @include highlight;
+                font-size: clamp(0.938rem, 2.766vw + 0.419rem, 2.188rem);
+                text-align: end;
+                margin: 0;
+                font-weight: 500;
+            }
             a {
                 text-align: end;
                 img {
@@ -133,6 +140,9 @@
                 font-size: clamp(1.25rem, 1.674vw + 0.179rem, 2.188rem);
                 font-weight: 500;
             }
+            .webLink {
+                font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+            }
             a {
                 img {
                     width: clamp(3.125rem, 5.58vw - 0.446rem, 6.25rem);
@@ -186,6 +196,9 @@
             h2 {
                 font-size: clamp(0.938rem, 2.887vw + 0.035rem, 2.5rem);
                 margin: 0 clamp(0.313rem, 2.072vw - 0.076rem, 1.25rem);
+            }
+            .webLink {
+                font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
             }
             h3 {
                 font-size: clamp(0.625rem, 2.309vw - 0.097rem, 1.875rem);
