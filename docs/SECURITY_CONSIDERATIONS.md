@@ -249,8 +249,6 @@ When user adds a new password or wishes to decrypt one:
 
 ## User Password Handling
 
-### Password Generation
-
 
 ### Password Checking
 
@@ -263,10 +261,6 @@ The following checks will be run as per [OWASP guideleines](https://cheatsheetse
 
 - Password strength. zxcvbn-ts library will be implemented to notify users of weak passwords
 - Password leak check. zxcvbn-ts/matcher-pwned will be implemented to check whether users passwords have been involved in any data leaks
-
-## Multifactor Authentication
-
-
 
 ## Testing
 
