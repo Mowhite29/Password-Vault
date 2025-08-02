@@ -116,13 +116,13 @@ export default function Home() {
                                 srcSet={
                                     theme === 'dark'
                                         ? '/dark/github-dark-50w.webp 50w, /dark/github-dark-100w.webp 100w, /dark/github-dark-140w.webp 140w'
-                                        : '/dark/github-light-50w.webp 50w, /dark/github-light-100w.webp 100w, /dark/github-light-140w.webp 140w'
+                                        : '/light/github-light-50w.webp 50w, /light/github-light-100w.webp 100w, /light/github-light-140w.webp 140w'
                                 }
                                 sizes="(pointer: coarse) and (max-width: 1024) 140w, (pointer: coarse) and (max-width: 700) 100w, (pointer: fine) 100w,"
                                 src={
                                     theme === 'dark'
                                         ? '/dark/github-dark-140w.webp 140w'
-                                        : '/dark/github-light-140w.webp 140w'
+                                        : '/light/github-light-140w.webp 140w'
                                 }
                                 alt="github link"
                             />
