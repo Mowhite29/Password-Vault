@@ -12,7 +12,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path('amdin/cleanup-users/', trigger_user_cleanup, name='CleanUp'),
+    path('admin/cleanup-users/', trigger_user_cleanup, name='CleanUp'),
     path('ping/', ping_view, name='ping'),
     path('login/', Login.as_view(), name='Login'),
     path('authenticate/', Authenticate.as_view(), name='Authenticate'),
