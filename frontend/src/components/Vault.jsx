@@ -264,6 +264,7 @@ export default function Vault() {
                         const response = await VaultFetch(token)
                         setVault(response)
                         setShownVault(response)
+                        setLoading(false)
                         setTimeout(() => {
                             setMessageVisible(false)
                         }, 3000)
