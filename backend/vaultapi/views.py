@@ -17,6 +17,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from botocore.exceptions import ClientError
 import logging
 import jwt
@@ -33,6 +34,7 @@ logger = logging.getLogger(__name__)
 resend.api_key = settings.RESEND_KEY
 
 
+@csrf_exempt
 def trigger_user_cleanup(request):
     logger.info("User cleanup accessed")
     token = request.headers.get('X_ADMIN_TOKEN')
