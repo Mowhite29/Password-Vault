@@ -19,7 +19,7 @@ jobs:
         steps:
             - name: Trigger cleanup endpoint
               run: |
-                RESPONSE=$(curl -X POST http://127.0.0.1:8000/cleanup-users/ \
+                RESPONSE=$(curl -X POST ${{ secrets.CLEANUP_ENDPOINT }} \
                     -H "X-ADMIN-TOKEN: JrVCKs8kjkXdehsILI5Xz7LbDT1ywGVvKjWiiojdt3zrhGpyxBt7mCaRwFEsMuwl")
                 echo "$RESPONSE"
 
