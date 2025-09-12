@@ -14,11 +14,14 @@ on:
 jobs:
     cleanup:
         runs-on: ubuntu-latest
+        env:
+            ADMIN_CLEANUP_TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}
         steps:
             - name: Trigger cleanup endpoint
               run: |
-                curl -X POST ${{ secrets.CLEANUP_ENDPOINT }} \
-                -H "X-ADMIN-TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}"
+                RESPONSE=$(curl -X POST ${{ secrets.CLEANUP_ENDPOINT }} \
+                    -H "X-ADMIN-TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}")
+                echo "$RESPONSE"
+
         
-        env:
-            ADMIN_CLEANUP_TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}
+        
