@@ -23,5 +23,26 @@ jobs:
                     -H "X-ADMIN-TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}")
                 echo "$RESPONSE"
 
+                COUNT=$(echo "$RESPONSE" | jq '."deleted_users"[0]')
+                DETAILS=$(echo "$RESPONSE" | jq -c '."deleted_users"[1]')
+
+                echo "count=$COUNT" >> $GITHUB_ENV
+                echo "details=$DETAILS" >> $GITHUB_ENV
+
+                echo "Deleted users count: $COUNT"
+                echo "Details: $DETAILS"
+
+            - name: Notify if deleted users found
+              if: ${{ env.count != '0' }}
+              run: |
+                curl -H "Content-Type: application/json" \
+                     -X POST \
+                     -d "{\"content\": \"${COUNT} deleted users\nDetails: ${DETAILS}"}" \
+                     ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+              env:
+                COUNT: ${{ env.count}}
+                DETAILS: ${{ env.details }}
+
         
         

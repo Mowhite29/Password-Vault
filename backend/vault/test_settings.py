@@ -29,8 +29,7 @@ DATABASES = {
         'TEST': {
             'NAME': 'test_db'
         }
-     },
-     
+    },
 }
 
 if os.getenv("GITHUB_WORKFLOW"):

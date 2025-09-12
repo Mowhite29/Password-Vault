@@ -14,7 +14,6 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
-from urllib.parse import urlparse, parse_qsl
 import dj_database_url
 
 load_dotenv()
@@ -27,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 ADMIN_CLEANUP_TOKEN = os.environ.get('ADMIN_CLEANUP_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -182,6 +181,8 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 FRONTEND_URL = os.getenv('FRONTEND_URL')
 RESEND_KEY = os.getenv('RESEND_KEY')
 
+DISCORD_WEBHOOK_URL = os.environ.get('DISCORD_WEBHOOK_URL')
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -206,9 +207,14 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'discord': {
+            'level': 'INFO',
+            'class': 'discord_logging_handler.handler.DiscordWebHookHandler',
+            'webhook_url': DISCORD_WEBHOOK_URL
+        }
     },
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': ['console', 'file', 'discord'],
         'level': 'INFO',
     },
     'loggers': {
@@ -218,8 +224,8 @@ LOGGING = {
             'propagate': True,
         },
         'vaultapi': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file', 'discord'],
+            'level': 'INFO',
             'propagate': False,
         },
     },
