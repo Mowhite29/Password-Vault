@@ -373,11 +373,48 @@ export default function SignIn() {
                         ) : (
                             <div className="totpContainer">
                                 <h2>
-                                    Use QR or text code with an authenticator
-                                    application to set up multi factor
-                                    authentication, then enter the code
-                                    generated
+                                    Set Up Multi-Factor Authentication (MFA)
                                 </h2>
+                                <h3>
+                                    To enable MFA for your account, follow these
+                                    steps:
+                                </h3>
+                                <ul>
+                                    <li>
+                                        <h4>Install an Authenticator App</h4>
+                                        <h4>
+                                            Use an app like Google Authenticator
+                                            or Microsoft Authenticator.
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4>Add a New Account</h4>
+                                        <h4>
+                                            Open the app and choose to add a new
+                                            account.
+                                        </h4>
+                                        <h4>
+                                            {' '}
+                                            - Scan the QR Code provided, or
+                                        </h4>
+                                        <h4>
+                                            {' '}
+                                            - Enter the setup code manually
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4>Enter the Verification Code</h4>
+                                        <h4>
+                                            The app will generate a 6-digit
+                                            code. Enter it to complete the
+                                            setup.
+                                        </h4>
+                                    </li>
+                                </ul>
+                                <h4>
+                                    Need help? Contact support or refer to your
+                                    authenticator app's help guide.
+                                </h4>
                                 <form
                                     className="code"
                                     name="totp"
@@ -420,6 +457,7 @@ export default function SignIn() {
                                         alt="totp input"
                                         autoFocus
                                     ></input>
+                                    <h4>{TOTPMessage}</h4>
                                     <button
                                         type="submit"
                                         alt="totp enter button"
@@ -427,7 +465,6 @@ export default function SignIn() {
                                     >
                                         Enter
                                     </button>
-                                    <h4>{TOTPMessage}</h4>
                                 </form>
                             </div>
                         ))}

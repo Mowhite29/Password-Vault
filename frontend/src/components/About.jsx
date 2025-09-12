@@ -89,8 +89,8 @@ export default function About() {
                         a production hardened system***
                     </p>
                     <p>
-                        The authior accepts no liability for any loss, damage,
-                        or misuse resulting from the use of this project. By
+                        The author accepts no liability for any loss, damage, or
+                        misuse resulting from the use of this project. By
                         accessing or interacting with this demo, you agree to
                         these terms.
                     </p>

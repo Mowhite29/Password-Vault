@@ -76,15 +76,48 @@
                 position: absolute;
                 top: clamp(1.125rem, 4.85vw - 0.391rem, 3.75rem);
                 width: 90%;
-                height: auto;
+                height: 95%;
                 flex-direction: column;
                 display: flex;
-                justify-content: center;
+                overflow-y: scroll;
+                scroll-behavior: smooth;
                 h2 {
                     text-align: center;
                     align-self: center;
                     font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                    margin: clamp(0.625rem, 1.381vw + 0.366rem, 1.25rem) clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem) clamp(0.313rem, 0.691vw + 0.183rem, 0.625rem);
+                }
+                h3 {
+                    text-align: left;
+                    align-self: center;
+                    font-size: clamp(0.75rem, 3.177vw + 0.154rem, 2.188rem);
+                    font-weight: 500;
                     margin: clamp(0rem, 2.766vw - 0.519rem, 1.25rem) clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem);
+                }
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0;
+                    padding-left: clamp(1.125rem, 6.492vw - 0.092rem, 4.063rem);
+                    list-style-type: decimal;
+                    font-size: clamp(0.688rem, 2.624vw + 0.195rem, 1.875rem);
+                    li {
+                        margin: 3px 0;
+                        h4 {
+                            text-align: left;
+                            align-self: center;
+                            font-size: clamp(0.688rem, 2.624vw + 0.195rem, 1.875rem);
+                            font-weight: 300;
+                            margin: 0 clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem);
+                        }
+                    }
+                }
+                h4 {
+                    text-align: center;
+                    align-self: center;
+                    font-size: clamp(0.75rem, 2.901vw + 0.206rem, 2.063rem);
+                    font-weight: 500;
+                    margin: clamp(0.313rem, 0.691vw + 0.183rem, 0.625rem) clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem) clamp(0.625rem, 1.381vw + 0.366rem, 1.25rem);
                 }
                 .code {
                     svg {
@@ -196,40 +229,60 @@
             .totpContainer {
                 top: 0;
                 width: clamp(32.188rem, 29.018vw + 13.616rem, 48.438rem);
-                h2 {
-                    font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
-                    margin: 10px;
-                }
-                .code {
-                    svg {
-                        width: 10vw;
-                        height: 10vw;
-                    }
-                    h3 {
-                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                height: clamp(26.25rem, 36.872vw + 2.629rem, 46.875rem);
+                overflow-y: scroll;
+                    h2 {
+                        font-size: clamp(1.25rem, 1.117vw + 0.534rem, 1.875rem);
                         margin: 10px;
                     }
-                    .string {
+                    h3 {
+                        font-size: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem);
+                        font-weight: 600;
+                        margin: clamp(0.313rem, 0.559vw - 0.045rem, 0.625rem);
+                    }
+                    ul {
+                        font-size: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem);
+                        padding-left: clamp(1.25rem, 2.235vw - 0.182rem, 2.5rem);
+                        li {
+                            h4 {
+                                font-size: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem);
+                            }
+                        }
+                    }
+                    h4 {
+                        font-size: clamp(0.938rem, 1.117vw + 0.222rem, 1.563rem);
+                        font-weight: 600;
+                    }
+                    .code {
+                        svg {
+                            width: 10vw;
+                            height: 10vw;
+                        }
                         h3 {
                             font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
                             margin: 10px;
                         }
+                        .string {
+                            h3 {
+                                font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                                margin: 10px;
+                            }
+                        }
+                        input {
+                            width: 15%;
+                            margin: 0;
+                            font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                        }
+                        button {
+                            width: 15%;
+                            margin: 10px;
+                            font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                        }
+                        h4 {
+                            font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
+                            margin: 5px;
+                        }
                     }
-                    input {
-                        width: 15%;
-                        margin: 0;
-                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
-                    }
-                    button {
-                        width: 15%;
-                        margin: 10px;
-                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
-                    }
-                    h4 {
-                        font-size: clamp(0.938rem, 1.116vw + 0.223rem, 1.563rem);
-                        margin: 5px;
-                    }
-                }
             }
         }
     }
@@ -277,12 +330,29 @@
             .totpContainer {
                 top: calc(clamp(1.25rem, -2.309vw + 1.972rem, 0rem));
                 width: clamp(28.125rem, 51.963vw + 11.887rem, 56.25rem);
-                flex-direction: row;
                 height: clamp(11.938rem, 41.455vw - 1.017rem, 34.375rem);
-                h2 {
-                    font-size: clamp(0.938rem, 2.309vw + 0.216rem, 2.188rem);
-                    width: 50%;
-                }
+                    h2 {
+                        font-size: clamp(0.938rem, 4.149vw + 0.159rem, 2.813rem);
+                        margin: 10px;
+                    }
+                    h3 {
+                        font-size: clamp(0.75rem, 3.177vw + 0.154rem, 2.188rem);
+                        font-weight: 500;
+                        margin: clamp(0rem, 2.766vw - 0.519rem, 1.25rem) clamp(0.313rem, 2.075vw - 0.077rem, 1.25rem);
+                    }
+                    ul {
+                        font-size: clamp(0.688rem, 2.624vw + 0.195rem, 1.875rem);
+                        padding-left: clamp(1.125rem, 6.492vw - 0.092rem, 4.063rem);
+                        li {
+                            h4 {
+                                font-size: clamp(0.688rem, 2.624vw + 0.195rem, 1.875rem);
+                            }
+                        }
+                    }
+                    h4 {
+                        font-size: clamp(0.75rem, 3.177vw + 0.154rem, 2.188rem);
+                        font-weight: 500;
+                    }
                 .code {
                     display: flex;
                     flex-direction: column;
