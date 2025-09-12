@@ -18,7 +18,7 @@ jobs:
             - name: Trigger cleanup endpoint
               run: |
                 curl -X POST ${{ secrets.CLEANUP_ENDPOINT }} \
-                -H "X_ADMIN_TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}"
+                -H "X-ADMIN-TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}"
         
         env:
             ADMIN_CLEANUP_TOKEN: ${{ secrets.ADMIN_CLEANUP_TOKEN }}

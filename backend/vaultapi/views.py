@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.authentication import BaseAuthentication
+from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -34,10 +35,12 @@ logger = logging.getLogger(__name__)
 resend.api_key = settings.RESEND_KEY
 
 
+@api_view(['POST'])
 @csrf_exempt
 def trigger_user_cleanup(request):
     logger.info("User cleanup accessed")
     token = request.headers.get('X_ADMIN_TOKEN')
+    print(request.headers)
     if token != settings.ADMIN_CLEANUP_TOKEN:
         logger.error("Unauthorised access attempt to user cleanup")
         return Response({"error": "Unauthorized"},

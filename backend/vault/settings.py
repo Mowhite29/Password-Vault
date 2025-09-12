@@ -174,7 +174,8 @@ SIMPLE_JWT = {
 }
 
 CRSF_TRUSTED_ORIGINS = {
-    'http://localhost'
+    'http://localhost',
+    os.environ.get('FRONTEND_URL')
 }
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
