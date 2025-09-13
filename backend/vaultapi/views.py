@@ -38,16 +38,19 @@ resend.api_key = settings.RESEND_KEY
 @api_view(['POST'])
 @csrf_exempt
 def trigger_user_cleanup(request):
-    logger.info("User cleanup accessed")
+    logger.debug("User cleanup accessed")
     token = request.headers.get('X_ADMIN_TOKEN')
-    print(request.headers)
     if token != settings.ADMIN_CLEANUP_TOKEN:
         logger.error("Unauthorised access attempt to user cleanup")
-        return Response({"error": "Unauthorized"},
+        return Response({"error": "Unauthorized access to user cleanup"},
                         status=status.HTTP_403_FORBIDDEN)
 
     count = User.objects.filter(is_staff=False).delete()
-    logger.info(f"{count} users deleted")
+    print(count[0])
+    if count[0] > 0:
+        logger.debug("0 users deleted")
+    else:
+        logger.info(f"User cleanup accessed.\n{count[0]} users deleted. Details: {count[1]}")
     return Response({"deleted_users": count}, status=status.HTTP_200_OK)
 
 
@@ -80,7 +83,7 @@ def verify_totp(user, token):
         totp = pyotp.TOTP(profile.totp_secret)
         return totp.verify(token)
     except UserProfile.DoesNotExist:
-        logger.info(f"TOTP not set up for user {user.username}")
+        logger.info(f"{user.username} attempted to use TOTP prior to setup")
         return False
 
 
@@ -181,7 +184,7 @@ class Login(APIView):
         try:
             UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
-            logger.info(f"TOTP not set up for user {user.username}")
+            logger.info(f"TOTP setup initiated for {user.username} at {get_client_ip(request)}")
             token_secret = generate_totp_secret(user)
             return Response({"message": "TOTP unset",
                                 "token_secret": token_secret},
@@ -262,7 +265,7 @@ class RegisterView(APIView):
                 return Response({"error": error_message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             else:
-                logger.info(f'Confirmation email sent to {user.username} by {get_client_ip(request)}. Message ID: {response['id']}')
+                logger.info(f'Confirmation email sent to {user.username} at {get_client_ip(request)}. Message ID: {response['id']}')
                 return Response({"message":
                                 ("A confirmation email has been sent "
                                     "to your email address.")},
