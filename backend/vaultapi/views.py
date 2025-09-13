@@ -46,8 +46,7 @@ def trigger_user_cleanup(request):
                         status=status.HTTP_403_FORBIDDEN)
 
     count = User.objects.filter(is_staff=False).delete()
-    print(count[0])
-    if count[0] > 0:
+    if count[0] == 0:
         logger.debug("0 users deleted")
     else:
         logger.info(f"User cleanup accessed.\n{count[0]} users deleted. Details: {count[1]}")
