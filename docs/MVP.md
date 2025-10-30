@@ -45,34 +45,34 @@ This application is a **portfolio project only** and should **not be used to sto
 ## Screenshots
 
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTGMfUz7kL_Tr0EolQOhE0zATeuJlumqe_UqshrRQUki1k?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRxBGn9Va3dToPTPizQAaK7AVL0e6Z2-34C99QZA0oBwB0?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQi-osFCaXiR6nz4fc8GuvdAU8yD50s63eGRh6f_Tc3RVM?height=660" width=300>
+  <img src="./images/1. MVP-Disclaimer.png">
+  <img src="./images/2. MVP-Home.png">
+  <img src="./images/3. MVP-Mobile menu.png">
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQT6H8ncfyWPR5TCcb_uP3d-ASCwZ-RAAVT-5_EzrOGE2TQ?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTRbJZoB494ToK_tdEVMSbXAXM-cSR1aPaGDc1oUvImIFU?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQ1PMOi-xmFSITHqSCNxMrgAeR2mlNl3__MeBeuYPF-yYc?height=660" width=300>
+  <img src="./images/4. MVP-About.png">
+  <img src="./images/5. MVP-Legal.png">
+  <img src="./images/6. MVP-Signin.png">
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSkcKKz0UCaTJZKvbbhWlk7AWEr6iBuBn_tqMqCGpViML4?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQi7U1epBnJS68OOgvd1r-JAfNkU-BfW8aiVQWsi4rfCAw?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTbUrsXUyMfTbecZeCE2PmTAVGAqSocOVlHhnohjWsS4LU?height=660" width=300>
+  <img src="./images/7. MVP-Signin-invalid entry.png">
+  <img src="./images/8. MVP-Verification email.png">
+  <img src="./images/9. MVP-Email verified.png">
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQ_tDW3CKyMRoeAHyklmi41Af5-9feTgKgFqTGWLJDQ8fg?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSHKuvmrY2GQJsQy9HmV-cSAcKjxu1M3v4BOmfZHRKR1ew?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQT_NXNIh9KXQI-6Vh-BynuaAVmQpy1D9TIxcRcV5AWvJtk?height=660" width=300>
+  <img src="./images/10. MVP-MFA setup.png">
+  <img src="./images/11. MVP-Masterkey set.png">
+  <img src="./images/12. MVP-Entry creation.png">
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQv1oFFyJa4QZCjx15aaqrlAcmW3Vj06_0Hcxi3Z142EIs?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTf4hoyjS_8T6yZmehShmVNAcvO2Z4X1ZLafSJDMDbsDWU?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRmOovvFyEkSotCLDWw-KhmARD8WH2amTkGYS-z60kPIq8?height=660" width=300>
+  <img src="./images/13. MVP-Entry creation- password generation.png">
+  <img src="./images/14. MVP-Entry creation- invalid password.png">
+  <img src="./images/15. MVP-Vault view.png">
 </p>
 <p float="left">
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSTjlO197SKRZGYBhODEwznARxInzSjj9nTVhjBL4-uAAQ?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTTG4JjoT9BRY6Fjjd-KXlcAe8B_gmQT7Mdhb8rEgD5VE8?height=660" width=300>
-  <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRbQw1rjB1ISaYw6Mk_JFlvAbXohyvZ53dU95S62nx-GUg?height=660" width=300>
+  <img src="./images/16. MVP-Entry edit.png">
+  <img src="./images/17. MVP-Search.png">
+  <img src="./images/18. MVP-Entry delete.png">
 </p>
 
 ---

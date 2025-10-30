@@ -25,20 +25,20 @@ Relicance on a randomly generated key is another weak point, as this relies on t
 ## Images
 
 <p float="left">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTcYt9-MJI1S7SwPBD3zugyAfBN6f6-XiCVZFjPY1dofns?width=330" alt="GUI" width="330">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTdh3a7NDO4QoWuVZBwx3XNAU-DNYlDvhThI8fsWXQmP-0?width=330" alt="Vault creation" width="330">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQcH8BbvCuoSYxRva-s497SAQfCIuoOg5ShN63rDvjFadw?width=330" alt="Vault creation successsful" width="330">
+    <img src="./images/step-1.png" alt="GUI">
+    <img src="./images/step-2.png" alt="Vault creation" width="330">
+    <img src="./images/step-3.png" alt="Vault creation successsful" width="330">
 </p>
 <p float="left">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQC49mg-6veQ7y4DyJ5EZSFAUB2xvlGD0Qc2yLZIckyyEc?width=330" alt="Password generation" width="330">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQRV9WdrBPiBR7ovgef8N3BDAW3ZL0_36IWRFvFvJh1NlC8?width=330" alt="Password generation successful" width="330">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQTxICP227TqQoJmMKRRuhIxAdKGS0B4TPB7uB4GKaBaM9c?width=330" alt="Password saved and key refreshed" width="330">
+    <img src="./images/step-4.png" alt="Password generation" width="330">
+    <img src="./images/step-5.png" alt="Password generation successful" width="330">
+    <img src="./images/step-6.png" alt="Password saved and key refreshed" width="330">
 </p>
 <p float="left">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQR_1nRwCtfsTqaiBpzqDwi8ASWL4o8S-OoaKDY0jlJYulQ?width=330" alt="Viewing saved passwords" width="330">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQQcZWzhymHhTqG9NzsWRzFCAQu0N9-nlcG8WcIIKoOyuDQ?width=330" alt="Vault access" width="330">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQS_sNz2Sgt0S7lGYYiU22l3ASkR6YWZ_nXlKvnq1TLytaI?width=330" alt="Expired password" width="330">
+    <img src="./images/step-7.png" alt="Viewing saved passwords" width="330">
+    <img src="./images/step-8.png" alt="Vault access" width="330">
+    <img src="./images/step-9.png" alt="Expired password" width="330">
 </p>
 <p float="left">
-    <img src="https://1drv.ms/i/c/b04739826e84fd08/IQSioQJ6AFmFTr-Yg0PpBb6_AV_wSoVSwsXDosmjcVT_a88?width=330" alt="Vault file" width="330">
+    <img src="./images/step-10.png" alt="Vault file" width="330">
 </p>
