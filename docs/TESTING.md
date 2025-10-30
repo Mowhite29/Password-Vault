@@ -86,5 +86,3 @@ I have built the following tests for my api endpoints:
 - **Prettier** - Code formatting
 - **nmp audit** - Dependancy vulnerability scanning
 - **Retire.js** - JS library vulnerability detection
-
-
