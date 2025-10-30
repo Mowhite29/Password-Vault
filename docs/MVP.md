@@ -45,34 +45,34 @@ This application is a **portfolio project only** and should **not be used to sto
 ## Screenshots
 
 <p float="left">
-  <img src="./images/1. MVP-Disclaimer.png">
-  <img src="./images/2. MVP-Home.png">
-  <img src="./images/3. MVP-Mobile menu.png">
+  <img src="./images/1. MVP-Disclaimer.png" alt="Legal disclaimer">
+  <img src="./images/2. MVP-Home.png" alt="Home screen">
+  <img src="./images/3. MVP-Mobile menu.png"alt="Mobile menu">
 </p>
 <p float="left">
-  <img src="./images/4. MVP-About.png">
-  <img src="./images/5. MVP-Legal.png">
-  <img src="./images/6. MVP-Signin.png">
+  <img src="./images/4. MVP-About.png" alt="About screen">
+  <img src="./images/5. MVP-Legal.png" alt="Legal screen">
+  <img src="./images/6. MVP-Signin.png" alt="Signin screen">
 </p>
 <p float="left">
-  <img src="./images/7. MVP-Signin-invalid entry.png">
-  <img src="./images/8. MVP-Verification email.png">
-  <img src="./images/9. MVP-Email verified.png">
+  <img src="./images/7. MVP-Signin-invalid entry.png" alt="Invalid signin attempt">
+  <img src="./images/8. MVP-Verification email.png" alt="Verification email">
+  <img src="./images/9. MVP-Email verified.png" alt="Email verified">
 </p>
 <p float="left">
-  <img src="./images/10. MVP-MFA setup.png">
-  <img src="./images/11. MVP-Masterkey set.png">
-  <img src="./images/12. MVP-Entry creation.png">
+  <img src="./images/10. MVP-MFA setup.png" alt="MFA setup">
+  <img src="./images/11. MVP-Masterkey set.png" alt="Master key setup">
+  <img src="./images/12. MVP-Entry creation.png" alt="Entry creation">
 </p>
 <p float="left">
-  <img src="./images/13. MVP-Entry creation- password generation.png">
-  <img src="./images/14. MVP-Entry creation- invalid password.png">
-  <img src="./images/15. MVP-Vault view.png">
+  <img src="./images/13. MVP-Entry creation- password generation.png" alt="Password generation">
+  <img src="./images/14. MVP-Entry creation- invalid password.png" alt="Invalid password">
+  <img src="./images/15. MVP-Vault view.png" alt="Vault view">
 </p>
 <p float="left">
-  <img src="./images/16. MVP-Entry edit.png">
-  <img src="./images/17. MVP-Search.png">
-  <img src="./images/18. MVP-Entry delete.png">
+  <img src="./images/16. MVP-Entry edit.png" alt="Entry edit">
+  <img src="./images/17. MVP-Search.png" alt="Search">
+  <img src="./images/18. MVP-Entry delete.png" alt="Entry deletion">
 </p>
 
 ---
