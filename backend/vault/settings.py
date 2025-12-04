@@ -31,7 +31,7 @@ ADMIN_CLEANUP_TOKEN = os.environ.get('ADMIN_CLEANUP_TOKEN')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('FRONTEND_URL'), os.environ.get('BACKEND_URL'), 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('FRONTEND_URL'), os.environ.get('BACKEND_URL'), 'localhost', '.vercel.app']
 
 X_FRAME_OPTIONS = 'DENY'
 SESSION_COOKIE_SECURE = True
@@ -138,9 +138,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 STATIC_URL = 'static/'
 
-STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
