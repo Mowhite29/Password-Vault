@@ -89,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'vault.wsgi.application'
+WSGI_APPLICATION = 'vault.wsgi.app'
 
 
 # Database
