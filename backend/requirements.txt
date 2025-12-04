@@ -14,7 +14,7 @@ Deprecated==1.2.18
 dill==0.4.0
 discord-logging-handler==0.2.0
 dj-database-url==3.0.0
-Django==5.2.3
+Django==5.2.9
 django-cors-headers==4.7.0
 django-rest-framework==0.1.0
 djangorestframework==3.16.0
@@ -46,7 +46,7 @@ opentelemetry-util-http==0.46b0
 packaging==25.0
 pathspec==0.12.1
 pbr==6.1.1
-peewee==3.18.1
+peewee==3.18.3
 platformdirs==4.3.8
 protobuf==4.25.8
 psycopg==3.2.9
@@ -70,7 +70,7 @@ ruamel.yaml.clib==0.2.12
 s3transfer==0.13.0
 setuptools==80.9.0
 six==1.17.0
-sqlparse==0.5.3
+sqlparse==0.5.4
 stevedore==5.4.1
 tomli==2.0.2
 tomlkit==0.13.3
