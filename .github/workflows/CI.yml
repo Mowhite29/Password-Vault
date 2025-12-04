@@ -148,8 +148,6 @@ jobs:
             source venv/bin/activate
             pip install -r requirements.txt
 
-                
-
         - name: Deploy backend to Render
           uses: JorgeLNJunior/render-deploy@v1.4.5
           with:

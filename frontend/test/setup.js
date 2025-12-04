@@ -46,3 +46,13 @@ vi.mock('@/assets/images/dark/copy-dark-20w.webp', () => ({ default: '' }))
 vi.mock('@/assets/images/dark/copy-dark-40w.webp', () => ({ default: '' }))
 vi.mock('@/assets/images/light/copy-light-20w.webp', () => ({ default: '' }))
 vi.mock('@/assets/images/light/copy-light-40w.webp', () => ({ default: '' }))
+
+const mockedUseNavigate = vi.fn()
+
+vi.mock('react-router', () => {
+    const mod = vi.importActual('react-router');
+    return {
+        ...mod,
+        useNavigate: () => mockedUseNavigate,
+    };
+})
