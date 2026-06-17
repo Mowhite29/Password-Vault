@@ -14,7 +14,7 @@ Deprecated==1.2.18
 dill==0.4.0
 discord-logging-handler==0.2.0
 dj-database-url==3.0.0
-Django==5.2.11
+Django==5.2.14
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.1
@@ -23,7 +23,8 @@ exceptiongroup==1.2.2
 face==24.0.0
 glom==22.1.0
 googleapis-common-protos==1.70.0
-idna==3.10
+gunicorn==23.0.0
+idna==3.15
 importlib_metadata==7.1.0
 isort==6.0.1
 jmespath==1.0.1
@@ -42,11 +43,11 @@ psycopg-binary==3.2.9
 psycopg-pool==3.2.6
 pycodestyle==2.13.0
 pyflakes==3.3.2
-Pygments==2.19.1
-PyJWT==2.12.1
+Pygments==2.20.0
+PyJWT==2.13.0
 pyotp==2.9.0
 python-dateutil==2.9.0.post0
-python-dotenv==1.1.0
+python-dotenv==1.2.2
 PyYAML==6.0.2
 referencing==0.36.2
 requests==2.33.1
@@ -64,7 +65,7 @@ tomli==2.0.2
 tomlkit==0.13.3
 typing_extensions==4.14.0
 tzdata==2025.2
-urllib3==2.6.3
+urllib3==2.7.0
 wcmatch==8.5.2
 wrapt==1.17.2
 zipp==3.23.0
