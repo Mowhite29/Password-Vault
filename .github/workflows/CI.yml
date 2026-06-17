@@ -121,8 +121,7 @@ jobs:
           https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64 \
           -o osv-scanner
           chmod +x osv-scanner
-          cd frontend
-          ./osv-scanner --lockfile=package-lock.json --config=.osv-scanner.toml
+          ./osv-scanner --lockfile=frontend/package-lock.json --config=frontend/.osv-scanner.toml
 
   deployBackend:
       name: Backend CD (Django)
