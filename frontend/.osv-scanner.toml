@@ -1,0 +1,27 @@
+[[IgnoredVulns]]
+id = "GHSA-73rr-hh4g-fpgx"
+reason = "diff used only by Mocha in dev" 
+
+[[IgnoredVulns]]
+id = "GHSA-5c6j-r48x-rmvq"
+reason = "serialize-javascript used only by Mocha in dev" 
+
+[[IgnoredVulns]]
+id = "GHSA-qj8w-gfj5-8c6v"
+reason = "serialize-javascript used only by Mocha in dev" 
+
+[[IgnoredVulns]]
+id = "GHSA-h67p-54hq-rp68"
+reason = "js-yaml used only by jest in dev" 
+
+[[IgnoredVulns]]
+id = "GHSA-gv7w-rqvm-qjhr"
+reason = "esbuild vulnerability present in dev only"
+
+[[IgnoredVulns]]
+id = "GHSA-w5hq-g745-h8pq"
+reason = "uuid vulnerability not expoitable in browser"
+
+[[IgnoredVulns]]
+id = "GHSA-5xrq-8626-4rwp"
+reason = "vitest used only in dev"

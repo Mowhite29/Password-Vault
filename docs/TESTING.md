@@ -84,5 +84,6 @@ I have built the following tests for my api endpoints:
 - **ESLint** - Linting, code quality, style
 - **ESLint Security Plugin** - Adds security rules
 - **Prettier** - Code formatting
-- **nmp audit** - Dependancy vulnerability scanning
-- **Retire.js** - JS library vulnerability detection
+- ~~**nmp audit** - Dependancy vulnerability scanning~~
+- ~~**Retire.js** - JS library vulnerability detection~~
+- **osv-scanner** - Dependancy and library vulnerability scanning

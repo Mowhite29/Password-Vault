@@ -115,21 +115,13 @@ jobs:
           cd frontend
           npx prettier . --check
 
-      - name: Run npm audit (Dependancy vulnerability Scanning)
+      - name: Run OSV Scan
         run: |
-          cd frontend
-          npm audit --audit-level=high
-
-      - name: Run Retire.js (JS library vulnerability detection)
-        run: |
-          npm install -g retire
-          cd frontend
-          retire --exitwith 13
-
-      # - name: Run Vitest (Unit testing)
-      #   run: |
-      #     cd frontend
-      #     npm run test
+          curl -sSfL \
+          https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64 \
+          -o osv-scanner
+          chmod +x osv-scanner
+          ./osv-scanner --lockfile=package-lock.json --config=.osv-scanner.toml
 
   deployBackend:
       name: Backend CD (Django)
