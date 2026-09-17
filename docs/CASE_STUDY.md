@@ -3,7 +3,7 @@
 ## Project Overview
 
 Password vault is a full stack application designed to securely manage and store user credentials.
-Developed as a potrfolio project, it showcases my skills in authentication, encryption, responsive design and frontend/backend integration.
+Developed as a portfolio project, it showcases my skills in authentication, encryption, responsive design and frontend/backend integration.
 The app is publicly available at [passwordvault.info](https://passwordvault.info).
 
 ## Problem
